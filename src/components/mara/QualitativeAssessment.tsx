@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -16,10 +17,11 @@ import {
   Circle,
 } from 'lucide-react';
 import { QUALITATIVE_AXES, RISK_LEVELS } from './data';
-import type { RiskLevel } from './data';
+import type { RiskLevel, QualitativeQuestion } from './data';
 import type { QualitativeAnswer } from './utils';
 import { countRiskAnswersAxis, getAxisRiskLevel } from './utils';
 import StepIndicator from './StepIndicator';
+import HelpPanel from './HelpPanel';
 import {
   Tooltip,
   TooltipContent,
@@ -56,6 +58,7 @@ export default function QualitativeAssessment({
   onBack,
 }: QualitativeAssessmentProps) {
   const [currentAxis, setCurrentAxis] = useState(0);
+  const [helpQuestion, setHelpQuestion] = useState<QualitativeQuestion | null>(null);
   const axis = QUALITATIVE_AXES[currentAxis];
 
   const riskCount = countRiskAnswersAxis(axis, answers);
@@ -163,6 +166,14 @@ export default function QualitativeAssessment({
         </div>
 
         {/* Current axis */}
+        <AnimatePresence mode="wait">
+        <motion.div
+          key={axis.id}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.2 }}
+        >
         <Card className="border-2 border-teal-200 mb-6">
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between flex-wrap gap-2">
@@ -217,7 +228,14 @@ export default function QualitativeAssessment({
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-0.5" />
+                                <button
+                                  type="button"
+                                  onClick={() => setHelpQuestion(q)}
+                                  className="shrink-0 mt-0.5"
+                                  aria-label={`Ajuda sobre ${q.id}`}
+                                >
+                                  <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                </button>
                               </TooltipTrigger>
                               <TooltipContent className="max-w-sm">
                                 <p className="text-xs">{q.dica}</p>
@@ -227,6 +245,7 @@ export default function QualitativeAssessment({
                         </div>
                         <div className="flex items-center gap-2 flex-wrap">
                           <div className="flex gap-2">
+                            <motion.div whileTap={{ scale: 0.97 }}>
                             <Button
                               size="sm"
                               variant={currentAnswer === 'sim' ? 'default' : 'outline'}
@@ -241,6 +260,8 @@ export default function QualitativeAssessment({
                             >
                               Sim
                             </Button>
+                            </motion.div>
+                            <motion.div whileTap={{ scale: 0.97 }}>
                             <Button
                               size="sm"
                               variant={currentAnswer === 'nao' ? 'default' : 'outline'}
@@ -255,6 +276,7 @@ export default function QualitativeAssessment({
                             >
                               Não
                             </Button>
+                            </motion.div>
                           </div>
                           <span className="text-xs text-muted-foreground">
                             Resposta de risco: <span className="font-semibold text-red-600">{riskLabel}</span>
@@ -268,6 +290,8 @@ export default function QualitativeAssessment({
             </div>
           </CardContent>
         </Card>
+        </motion.div>
+        </AnimatePresence>
 
         {/* Navigation */}
         <div className="flex justify-between">
@@ -292,6 +316,18 @@ export default function QualitativeAssessment({
           </p>
         </div>
       </footer>
+
+      {helpQuestion && (
+        <HelpPanel
+          open={!!helpQuestion}
+          onClose={() => setHelpQuestion(null)}
+          questionId={helpQuestion.id}
+          questionText={helpQuestion.pergunta}
+          dica={helpQuestion.dica}
+          referencia={helpQuestion.referencia}
+          riskAnswer={helpQuestion.riskAnswer}
+        />
+      )}
     </div>
   );
 }

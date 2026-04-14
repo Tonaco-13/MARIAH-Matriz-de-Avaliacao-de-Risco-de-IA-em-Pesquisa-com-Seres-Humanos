@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import {
   Shield,
   Printer,
+  Download,
   RotateCcw,
   AlertTriangle,
   CheckCircle2,
@@ -22,6 +23,7 @@ import {
   getQuantitativeFinalResult,
   getRequirementsForLevel,
   generateReportHTML,
+  generatePDF,
 } from './utils';
 import StepIndicator from './StepIndicator';
 
@@ -125,6 +127,10 @@ export default function Results({
     }
   };
 
+  const handleDownloadPDF = () => {
+    generatePDF(version, contextAnswers, qualitativeAnswers, quantitativeAnswers);
+  };
+
   // Check if triagem mode, still on Version A, and level is III or IV → suggest Version B
   const showContinueToB = useAAsTriagem && version === 'A' && qualResult && 
     (qualResult.level === 'III' || qualResult.level === 'IV');
@@ -161,6 +167,21 @@ export default function Results({
           </CardHeader>
           <CardContent>
             <div className="space-y-3 text-sm">
+              <div>
+                <span className="font-medium text-muted-foreground">Título do Projeto:</span>
+                <p className="mt-1 font-semibold">{contextAnswers['titulo'] || 'Não informado'}</p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <span className="font-medium text-muted-foreground">Instituição:</span>
+                  <p className="mt-1">{contextAnswers['instituicao'] || 'Não informado'}</p>
+                </div>
+                <div>
+                  <span className="font-medium text-muted-foreground">Nome do CEP:</span>
+                  <p className="mt-1">{contextAnswers['cep_nome'] || 'Não informado'}</p>
+                </div>
+              </div>
+              <Separator />
               <div>
                 <span className="font-medium text-muted-foreground">Pergunta do sistema:</span>
                 <p className="mt-1">{contextAnswers['contexto1'] || 'Não informado'}</p>
@@ -403,9 +424,13 @@ export default function Results({
 
         {/* Actions */}
         <div className="flex flex-wrap gap-3">
+          <Button className="bg-teal-600 hover:bg-teal-700" onClick={handleDownloadPDF}>
+            <Download className="mr-2 h-4 w-4" />
+            Baixar PDF
+          </Button>
           <Button variant="outline" onClick={handlePrint}>
             <Printer className="mr-2 h-4 w-4" />
-            Imprimir / Salvar PDF
+            Imprimir
           </Button>
           <Button variant="outline" onClick={onRestart}>
             <RotateCcw className="mr-2 h-4 w-4" />

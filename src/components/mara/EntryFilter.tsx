@@ -2,11 +2,12 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  Shield, 
-  AlertTriangle, 
-  CheckCircle2, 
-  XCircle, 
+import {
+  Shield,
+  AlertTriangle,
+  ArrowLeft,
+  CheckCircle2,
+  XCircle,
   RotateCcw,
   Info
 } from 'lucide-react';
@@ -16,6 +17,7 @@ type EntryFilterProps = {
   onPass: () => void;
   onFail: () => void;
   onRestart: () => void;
+  onBack: () => void;
   filterResult: 'sim' | 'nao' | null;
 };
 
@@ -37,7 +39,7 @@ const ENTRY_TYPES = [
   },
 ];
 
-export default function EntryFilter({ onPass, onFail, onRestart, filterResult }: EntryFilterProps) {
+export default function EntryFilter({ onPass, onFail, onRestart, onBack, filterResult }: EntryFilterProps) {
   if (filterResult === 'nao') {
     return (
       <div className="min-h-screen flex flex-col">
@@ -67,14 +69,20 @@ export default function EntryFilter({ onPass, onFail, onRestart, filterResult }:
                 geração de conteúdo ou intervenção no protocolo ou na condução do estudo.
                 Portanto, a MARA não se aplica a este protocolo.
               </p>
-              <Button 
-                variant="outline" 
-                onClick={onRestart}
-                className="border-green-300 text-green-700 hover:bg-green-100"
-              >
-                <RotateCcw className="mr-2 h-4 w-4" />
-                Iniciar nova avaliação
-              </Button>
+              <div className="flex gap-3 justify-center">
+                <Button variant="outline" onClick={onBack}>
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Voltar
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={onRestart}
+                  className="border-green-300 text-green-700 hover:bg-green-100"
+                >
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  Iniciar nova avaliação
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </main>
@@ -161,6 +169,14 @@ export default function EntryFilter({ onPass, onFail, onRestart, filterResult }:
               </Card>
             ))}
           </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="mt-8">
+          <Button variant="outline" onClick={onBack}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Voltar
+          </Button>
         </div>
       </main>
 

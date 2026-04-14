@@ -7,6 +7,7 @@ import ContextForm from '@/components/mara/ContextForm';
 import QualitativeAssessment from '@/components/mara/QualitativeAssessment';
 import QuantitativeAssessment from '@/components/mara/QuantitativeAssessment';
 import Results from '@/components/mara/Results';
+import PageTransition from '@/components/mara/PageTransition';
 import type { MarcaVersion } from '@/components/mara/data';
 
 // ----- State Types -----
@@ -182,41 +183,57 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  switch (state.step) {
-    case 'version':
-      return (
-        <VersionSelector
-          onSelect={handleSelectVersion}
-          onSelectTriagem={handleSelectTriagem}
-        />
-      );
+  const stepKey = `${state.step}-${state.version ?? ''}`;
 
-    case 'filter':
-      return (
-        <EntryFilter
-          onPass={handleFilterPass}
-          onFail={handleFilterFail}
-          onRestart={handleRestart}
-          filterResult={state.filterResult}
-        />
-      );
-
-    case 'context':
-      return (
-        <ContextForm
-          answers={state.contextAnswers}
-          onAnswer={handleContextAnswer}
-          onNext={() => dispatch({ type: 'GO_TO_STEP', step: 'assessment' })}
-          onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'filter' })}
-        />
-      );
-
-    case 'assessment':
-      if (state.version === 'A') {
+  const renderStep = () => {
+    switch (state.step) {
+      case 'version':
         return (
-          <QualitativeAssessment
-            answers={state.qualitativeAnswers}
-            onAnswer={handleQualitativeAnswer}
+          <VersionSelector
+            onSelect={handleSelectVersion}
+            onSelectTriagem={handleSelectTriagem}
+          />
+        );
+
+      case 'filter':
+        return (
+          <EntryFilter
+            onPass={handleFilterPass}
+            onFail={handleFilterFail}
+            onRestart={handleRestart}
+            onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'version' })}
+            filterResult={state.filterResult}
+          />
+        );
+
+      case 'context':
+        return (
+          <ContextForm
+            answers={state.contextAnswers}
+            onAnswer={handleContextAnswer}
+            onNext={() => dispatch({ type: 'GO_TO_STEP', step: 'assessment' })}
+            onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'filter' })}
+          />
+        );
+
+      case 'assessment':
+        if (state.version === 'A') {
+          return (
+            <QualitativeAssessment
+              answers={state.qualitativeAnswers}
+              onAnswer={handleQualitativeAnswer}
+              onComplete={() => {
+                dispatch({ type: 'GO_TO_STEP', step: 'results' });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
+            />
+          );
+        }
+        return (
+          <QuantitativeAssessment
+            answers={state.quantitativeAnswers}
+            onAnswer={handleQuantitativeAnswer}
             onComplete={() => {
               dispatch({ type: 'GO_TO_STEP', step: 'results' });
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -224,33 +241,28 @@ export default function Home() {
             onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
           />
         );
-      }
-      return (
-        <QuantitativeAssessment
-          answers={state.quantitativeAnswers}
-          onAnswer={handleQuantitativeAnswer}
-          onComplete={() => {
-            dispatch({ type: 'GO_TO_STEP', step: 'results' });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
-        />
-      );
 
-    case 'results':
-      return (
-        <Results
-          version={state.version!}
-          useAAsTriagem={state.useAAsTriagem}
-          contextAnswers={state.contextAnswers}
-          qualitativeAnswers={state.qualitativeAnswers}
-          quantitativeAnswers={state.quantitativeAnswers}
-          onRestart={handleRestart}
-          onContinueToB={handleContinueToB}
-        />
-      );
+      case 'results':
+        return (
+          <Results
+            version={state.version!}
+            useAAsTriagem={state.useAAsTriagem}
+            contextAnswers={state.contextAnswers}
+            qualitativeAnswers={state.qualitativeAnswers}
+            quantitativeAnswers={state.quantitativeAnswers}
+            onRestart={handleRestart}
+            onContinueToB={handleContinueToB}
+          />
+        );
 
-    default:
-      return null;
-  }
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <PageTransition stepKey={stepKey}>
+      {renderStep()}
+    </PageTransition>
+  );
 }

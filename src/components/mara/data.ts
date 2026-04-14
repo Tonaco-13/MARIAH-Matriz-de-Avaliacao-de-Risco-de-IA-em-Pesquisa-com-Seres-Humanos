@@ -24,6 +24,7 @@ export type QualitativeQuestion = {
   pergunta: string;
   riskAnswer: 'sim' | 'nao';
   dica: string;
+  referencia?: string;
 };
 
 export type QualitativeAxis = {
@@ -40,6 +41,7 @@ export type QuantitativeQuestion = {
   pontos: number;
   dica: string;
   efeito?: 'risco' | 'mitigacao';
+  referencia?: string;
 };
 
 export type QuantitativeBlock = {
@@ -111,6 +113,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O sistema toma decisões ou emite recomendações sem intervenção humana obrigatória antes da execução?',
         riskAnswer: 'sim',
         dica: 'Sistemas que operam sem revisão humana obrigatória antes da execução aumentam o risco, pois não há barreira de segurança entre a recomendação algorítmica e a ação sobre o participante.',
+        referencia: 'Resolução CNS 466/12, item III.1',
       },
       {
         id: '1.2',
@@ -166,6 +169,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O sistema influencia diretamente decisões clínicas ou terapêuticas sobre o participante?',
         riskAnswer: 'sim',
         dica: 'Influência direta em decisões clínicas implica maior potencial de dano em caso de erro do sistema.',
+        referencia: 'Resolução CNS 466/12, item V',
       },
       {
         id: '2.2',
@@ -184,6 +188,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O protocolo envolve populações vulneráveis: crianças, gestantes, idosos, pessoas com deficiência, povos indígenas ou comunidades em situação de vulnerabilidade socioeconômica?',
         riskAnswer: 'sim',
         dica: 'Populações vulneráveis exigem proteção adicional, pois podem ter menor capacidade de contestar decisões ou compreender os riscos.',
+        referencia: 'Resolução CNS 466/12, item III.2.i; Resolução CNS 510/16',
       },
       {
         id: '2.5',
@@ -227,6 +232,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?',
         riskAnswer: 'sim',
         dica: 'Dados sensíveis exigem proteção reforçada e base legal específica conforme a LGPD.',
+        referencia: 'LGPD, Art. 11',
       },
       {
         id: '3.2',
@@ -245,6 +251,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O protocolo demonstra conformidade com a LGPD: base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?',
         riskAnswer: 'nao',
         dica: 'A não conformidade com a LGPD expõe participantes e instituição a riscos legais e éticos.',
+        referencia: 'LGPD, Arts. 7, 11 e 41',
       },
       {
         id: '3.5',
@@ -337,12 +344,14 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O protocolo garante que um profissional habilitado revisa e pode contestar toda decisão gerada pelo sistema antes de sua execução?',
         riskAnswer: 'nao',
         dica: 'A ausência de revisão humana obrigatória (human-in-the-loop) deixa o participante exposto a erros sem barreira de segurança.',
+        referencia: 'EU AI Act, Art. 14; Resolução CNS 466/12',
       },
       {
         id: '5.2',
         pergunta: 'O sistema opera como único determinante de uma decisão — sem revisão humana obrigatória?',
         riskAnswer: 'sim',
         dica: 'Sistemas que operam como único determinante representam o maior nível de risco para o participante.',
+        referencia: 'Cláusula de Prevalência Ética — Capítulo 7 do Guia',
       },
       {
         id: '5.3',
@@ -438,8 +447,8 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     descricao: 'Avalia se o sistema é o único determinante de decisões e a irreversibilidade dos danos potenciais. Este é um bloco CRÍTICO.',
     subtitulo: '⚠️ BLOCO CRÍTICO — Cláusula de Prevalência Ética',
     questoes: [
-      { id: 'P4.1', pergunta: 'O sistema é o único determinante de uma decisão que afeta diretamente o participante — sem revisão humana obrigatória?', riskAnswer: 'sim', pontos: 3, dica: 'Se o sistema é o único determinante, o participante fica sem barreira de segurança humana. Isso aciona a Cláusula de Prevalência Ética.' },
-      { id: 'P4.2', pergunta: 'Em caso de erro do sistema, o dano ao participante seria irreversível ou de difícil reparação?', riskAnswer: 'sim', pontos: 3, dica: 'Danos irreversíveis representam o nível mais alto de risco. Isso aciona a Cláusula de Prevalência Ética.' },
+      { id: 'P4.1', pergunta: 'O sistema é o único determinante de uma decisão que afeta diretamente o participante — sem revisão humana obrigatória?', riskAnswer: 'sim', pontos: 3, dica: 'Se o sistema é o único determinante, o participante fica sem barreira de segurança humana. Isso aciona a Cláusula de Prevalência Ética.', referencia: 'Cláusula de Prevalência Ética — Capítulo 7 do Guia' },
+      { id: 'P4.2', pergunta: 'Em caso de erro do sistema, o dano ao participante seria irreversível ou de difícil reparação?', riskAnswer: 'sim', pontos: 3, dica: 'Danos irreversíveis representam o nível mais alto de risco. Isso aciona a Cláusula de Prevalência Ética.', referencia: 'Cláusula de Prevalência Ética — Capítulo 7 do Guia' },
       { id: 'P4.3', pergunta: 'O profissional responsável tem acesso às informações necessárias para contestar a recomendação do sistema antes de sua execução?', riskAnswer: 'nao', pontos: 2, dica: 'Sem acesso às informações, a supervisão humana é apenas simbólica.' },
     ],
     maxPontos: 8,
@@ -466,11 +475,11 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     nome: 'Bloco 6: Dados',
     descricao: 'Avalia a sensibilidade dos dados, a conformidade com a LGPD e os mecanismos de proteção e governança.',
     questoes: [
-      { id: 'P6.1', pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?', riskAnswer: 'sim', pontos: 7, dica: 'Dados sensíveis exigem proteção reforçada e base legal específica.' },
+      { id: 'P6.1', pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?', riskAnswer: 'sim', pontos: 7, dica: 'Dados sensíveis exigem proteção reforçada e base legal específica.', referencia: 'LGPD, Art. 11' },
       { id: 'P6.2', pergunta: 'Os dados são transferidos ou processados em servidores fora do Brasil?', riskAnswer: 'sim', pontos: 7, dica: 'Transferência internacional exige avaliação de adequação e salvaguardas adicionais.' },
       { id: 'P6.3', pergunta: 'Existe risco real de reidentificação dos participantes a partir dos dados utilizados ou gerados pelo sistema?', riskAnswer: 'sim', pontos: 7, dica: 'A reidentificação pode causar danos significativos à privacidade e segurança.' },
       { id: 'P6.4', pergunta: 'O consentimento obtido cobre explicitamente o uso dos dados para treinamento ou retreinamento de modelos de IA?', riskAnswer: 'nao', pontos: 6, dica: 'Consentimento genérico não é suficiente para uso de dados em IA.' },
-      { id: 'P6.5', pergunta: 'O protocolo demonstra conformidade com a LGPD — base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?', riskAnswer: 'nao', pontos: 7, dica: 'A não conformidade com a LGPD expõe a riscos legais e éticos.' },
+      { id: 'P6.5', pergunta: 'O protocolo demonstra conformidade com a LGPD — base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?', riskAnswer: 'nao', pontos: 7, dica: 'A não conformidade com a LGPD expõe a riscos legais e éticos.', referencia: 'LGPD, Arts. 7, 11 e 41' },
       { id: 'P6.6', pergunta: 'O protocolo prevê plano de resposta a incidentes de segurança envolvendo os dados processados pela IA?', riskAnswer: 'nao', pontos: 5, dica: 'Sem plano de resposta, incidentes podem não ser tratados adequadamente.' },
       { id: 'P6.7', pergunta: 'Os dados de treinamento do modelo foram coletados com consentimento compatível com o uso previsto neste protocolo?', riskAnswer: 'nao', pontos: 6, dica: 'Dados coletados para outra finalidade podem não ter base legal para uso em IA.' },
       { id: 'P6.8', pergunta: 'O protocolo descreve como os dados serão armazenados, por quanto tempo e como serão descartados ao final do estudo?', riskAnswer: 'nao', pontos: 5, dica: 'A ausência de política de retenção pode levar ao uso indevido dos dados.' },
@@ -485,7 +494,7 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     questoes: [
       { id: 'P7.1', pergunta: 'O protocolo foi submetido a consulta prévia com a ANVISA sobre o enquadramento do sistema como SaMD?', riskAnswer: 'nao', pontos: 5, dica: 'A consulta à ANVISA é importante quando o sistema pode se enquadrar como Software como Dispositivo Médico.', efeito: 'risco' },
       { id: 'P7.2', pergunta: 'O protocolo prevê engajamento com o fabricante ou desenvolvedor do sistema para esclarecimento de dúvidas técnicas durante o estudo?', riskAnswer: 'nao', pontos: 5, dica: 'O engajamento com o fabricante permite acesso a informações técnicas relevantes.', efeito: 'risco' },
-      { id: 'P7.3', pergunta: 'O protocolo garante que um profissional habilitado revisa toda decisão gerada pelo sistema antes de sua execução?', riskAnswer: 'sim', pontos: -10, dica: 'A revisão humana obrigatória é a medida de mitigação mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
+      { id: 'P7.3', pergunta: 'O protocolo garante que um profissional habilitado revisa toda decisão gerada pelo sistema antes de sua execução?', riskAnswer: 'sim', pontos: -10, dica: 'A revisão humana obrigatória é a medida de mitigação mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao', referencia: 'EU AI Act, Art. 14' },
       { id: 'P7.4', pergunta: 'O sistema fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que influenciaram aquele resultado?', riskAnswer: 'sim', pontos: -8, dica: 'A explicabilidade permite supervisão mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
       { id: 'P7.5', pergunta: 'O protocolo prevê monitoramento contínuo do desempenho do sistema após o início do uso, com critérios definidos para interrupção?', riskAnswer: 'sim', pontos: -10, dica: 'Monitoramento contínuo com critérios de interrupção é essencial. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
       { id: 'P7.6', pergunta: 'Existe procedimento documentado para falha, indisponibilidade ou resultado inconsistente do sistema durante o estudo?', riskAnswer: 'sim', pontos: -8, dica: 'Procedimento de contingência é fundamental para a segurança. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },

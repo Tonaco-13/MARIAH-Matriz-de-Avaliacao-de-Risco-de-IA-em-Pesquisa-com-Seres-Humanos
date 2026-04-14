@@ -303,10 +303,13 @@ export function generateReportHTML(
   <div style="border-bottom:3px solid #0f766e;padding-bottom:16px;margin-bottom:24px">
     <h1 style="margin:0;font-size:24px;color:#0f766e">MARA</h1>
     <p style="margin:4px 0 0;font-size:14px;color:#6b7280">Matriz de Avaliação de Risco Algorítmico</p>
+    ${contextAnswers['titulo'] ? `<p style="margin:12px 0 0;font-size:16px;font-weight:600;color:#1f2937">${contextAnswers['titulo']}</p>` : ''}
   </div>
 
-  <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:20px">
+  <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:#6b7280;margin-bottom:20px">
     <span><strong>Versão:</strong> ${versionLabel}</span>
+    <span><strong>Instituição:</strong> ${contextAnswers['instituicao'] || 'Não informado'}</span>
+    <span><strong>CEP:</strong> ${contextAnswers['cep_nome'] || 'Não informado'}</span>
     <span><strong>Data:</strong> ${date}</span>
   </div>
 
@@ -348,6 +351,13 @@ export function generateReportText(
   lines.push(`Data: ${new Date().toLocaleDateString('pt-BR')}`);
   lines.push('');
 
+  // Identification
+  lines.push('── IDENTIFICAÇÃO DO PROTOCOLO ──');
+  lines.push(`Título do Projeto: ${contextAnswers['titulo'] || 'Não informado'}`);
+  lines.push(`Instituição: ${contextAnswers['instituicao'] || 'Não informado'}`);
+  lines.push(`Nome do CEP: ${contextAnswers['cep_nome'] || 'Não informado'}`);
+  lines.push('');
+
   // Context
   lines.push('── CARACTERIZAÇÃO DO CONTEXTO ──');
   lines.push(`Sistema de IA: ${contextAnswers['contexto1'] || 'Não informado'}`);
@@ -383,4 +393,417 @@ export function generateReportText(
   lines.push('═══════════════════════════════════════════════════════════');
 
   return lines.join('\n');
+}
+
+// ----- PDF Generation -----
+
+const LEVEL_HEX: Record<RiskLevel, string> = {
+  I: '#15803d',
+  II: '#b45309',
+  III: '#c2410c',
+  IV: '#dc2626',
+};
+
+export async function generatePDF(
+  version: 'A' | 'B',
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer
+): Promise<void> {
+  const { jsPDF } = await import('jspdf');
+
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 20;
+  const contentW = pageW - margin * 2;
+  let y = margin;
+
+  const date = new Date().toLocaleDateString('pt-BR', {
+    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
+  });
+  const versionLabel = version === 'A' ? 'A — Qualitativa' : 'B — Quantitativa';
+
+  // --- Helpers ---
+
+  function checkPage(needed: number) {
+    if (y + needed > pageH - margin) {
+      doc.addPage();
+      y = margin;
+    }
+  }
+
+  function addFooter() {
+    const pages = doc.getNumberOfPages();
+    for (let i = 1; i <= pages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.setTextColor(160);
+      doc.text('MARA — Matriz de Avaliação de Risco Algorítmico', pageW / 2, pageH - 10, { align: 'center' });
+      doc.text(`Gerado em ${date}`, pageW / 2, pageH - 6, { align: 'center' });
+      doc.text(`Página ${i} de ${pages}`, pageW - margin, pageH - 10, { align: 'right' });
+    }
+  }
+
+  function sectionTitle(text: string) {
+    checkPage(14);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(15, 118, 110); // teal-700
+    doc.text(text, margin, y);
+    y += 4;
+    doc.setDrawColor(15, 118, 110);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, pageW - margin, y);
+    y += 6;
+    doc.setTextColor(50);
+  }
+
+  function bodyText(text: string, opts?: { bold?: boolean; color?: string; fontSize?: number }) {
+    const size = opts?.fontSize ?? 10;
+    doc.setFontSize(size);
+    doc.setFont('helvetica', opts?.bold ? 'bold' : 'normal');
+    if (opts?.color) {
+      const c = hexToRgb(opts.color);
+      doc.setTextColor(c.r, c.g, c.b);
+    } else {
+      doc.setTextColor(50);
+    }
+    const lines = doc.splitTextToSize(text, contentW);
+    for (const line of lines) {
+      checkPage(size * 0.5);
+      doc.text(line, margin, y);
+      y += size * 0.45;
+    }
+  }
+
+  function hexToRgb(hex: string) {
+    const h = hex.replace('#', '');
+    return {
+      r: parseInt(h.substring(0, 2), 16),
+      g: parseInt(h.substring(2, 4), 16),
+      b: parseInt(h.substring(4, 6), 16),
+    };
+  }
+
+  // --- CABEÇALHO ---
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 118, 110);
+  doc.text('MARA', margin, y);
+  y += 6;
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(120);
+  doc.text('Matriz de Avaliação de Risco Algorítmico', margin, y);
+  y += 8;
+
+  if (contextAnswers['titulo']) {
+    doc.setFontSize(13);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(30);
+    const titleLines = doc.splitTextToSize(contextAnswers['titulo'], contentW);
+    for (const line of titleLines) {
+      doc.text(line, margin, y);
+      y += 5.5;
+    }
+    y += 2;
+  }
+
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100);
+  doc.text(`Instituição: ${contextAnswers['instituicao'] || 'Não informado'}`, margin, y);
+  doc.text(`CEP: ${contextAnswers['cep_nome'] || 'Não informado'}`, margin + contentW / 2, y);
+  y += 4;
+  doc.text(`Versão: ${versionLabel}`, margin, y);
+  doc.text(`Data: ${date}`, margin + contentW / 2, y);
+  y += 4;
+  doc.setDrawColor(200);
+  doc.setLineWidth(0.3);
+  doc.line(margin, y, pageW - margin, y);
+  y += 8;
+
+  // --- CONTEXTO DE USO ---
+  sectionTitle('Contexto de Uso');
+  bodyText('C1 — Pergunta do sistema:', { bold: true });
+  y += 1;
+  bodyText(contextAnswers['contexto1'] || 'Não informado');
+  y += 4;
+  bodyText('C2 — Autonomia do sistema:', { bold: true });
+  y += 1;
+  bodyText(contextAnswers['contexto2'] || 'Não informado');
+  y += 6;
+
+  // --- RESULTADO PRINCIPAL ---
+  sectionTitle('Resultado Principal');
+
+  let finalLevel: RiskLevel;
+  let clausulaPrevalencia = false;
+
+  if (version === 'A') {
+    const result = getQualitativeFinalLevel(qualitativeAnswers);
+    finalLevel = result.level;
+  } else {
+    const result = getQuantitativeFinalResult(quantitativeAnswers);
+    finalLevel = result.level;
+    clausulaPrevalencia = result.clausulaPrevalencia;
+  }
+
+  const levelInfo = RISK_LEVELS[finalLevel];
+  const levelColor = LEVEL_HEX[finalLevel];
+  const lc = hexToRgb(levelColor);
+
+  checkPage(20);
+  doc.setFontSize(22);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(lc.r, lc.g, lc.b);
+  doc.text(`Nível ${finalLevel} — ${levelInfo.label}`, pageW / 2, y, { align: 'center' });
+  y += 7;
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100);
+  const descLines = doc.splitTextToSize(levelInfo.description, contentW - 20);
+  for (const line of descLines) {
+    doc.text(line, pageW / 2, y, { align: 'center' });
+    y += 4;
+  }
+  y += 4;
+
+  if (clausulaPrevalencia) {
+    checkPage(12);
+    doc.setFillColor(254, 242, 242);
+    doc.roundedRect(margin, y - 2, contentW, 12, 2, 2, 'F');
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(220, 38, 38);
+    doc.text('⚠ CLÁUSULA DE PREVALÊNCIA ÉTICA ATIVADA — Protocolo elevado a Nível IV (P4.1 ou P4.2 = Sim)', margin + 4, y + 5);
+    y += 16;
+  }
+
+  // --- DETALHAMENTO ---
+  if (version === 'A') {
+    sectionTitle('Detalhamento por Eixo — Versão A');
+    const result = getQualitativeFinalLevel(qualitativeAnswers);
+
+    for (const axis of result.axisResults) {
+      checkPage(14);
+      const alc = hexToRgb(LEVEL_HEX[axis.level]);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(50);
+      doc.text(axis.axisName, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Respostas de risco: ${axis.riskCount}/${axis.totalQuestions}`, margin + contentW * 0.65, y);
+      doc.setTextColor(alc.r, alc.g, alc.b);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`Nível ${axis.level}`, margin + contentW - 15, y);
+      y += 6;
+    }
+
+    y += 2;
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'italic');
+    doc.setTextColor(100);
+    doc.text('Consolidação: o nível final é o mais alto entre todos os eixos.', margin, y);
+    y += 8;
+  } else {
+    sectionTitle('Detalhamento por Bloco — Versão B');
+    const result = getQuantitativeFinalResult(quantitativeAnswers);
+
+    for (const block of result.blockResults) {
+      checkPage(10);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(50);
+      doc.text(block.blockName, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`${block.score}${block.isBlock7 ? ' (bidirecional)' : ''} / ${block.maxPontos} pts`, margin + contentW - 40, y);
+      y += 6;
+    }
+
+    y += 2;
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(50);
+    doc.text(`Pontuação Total: ${result.totalScore} / 238`, margin, y);
+    y += 4;
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100);
+    doc.text('Faixas: I (0-50) · II (51-110) · III (111-180) · IV (181-238)', margin, y);
+    y += 8;
+  }
+
+  // --- REGISTRO COMPLETO DE RESPOSTAS ---
+  sectionTitle('Registro Completo de Respostas');
+
+  // Table header
+  const colX = [margin, margin + 14, margin + contentW * 0.7, margin + contentW * 0.82];
+  const hasPoints = version === 'B';
+
+  checkPage(10);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(100);
+  doc.text('Questão', colX[0], y);
+  doc.text('Pergunta', colX[1], y);
+  doc.text('Resposta', colX[2], y);
+  if (hasPoints) doc.text('Pontos', colX[3], y);
+  y += 2;
+  doc.setDrawColor(200);
+  doc.line(margin, y, pageW - margin, y);
+  y += 4;
+
+  if (version === 'A') {
+    for (const axis of QUALITATIVE_AXES) {
+      for (const q of axis.questoes) {
+        const answer = qualitativeAnswers[q.id];
+        const answerLabel = answer === 'sim' ? 'Sim' : answer === 'nao' ? 'Não' : '—';
+        const isRisk = answer === q.riskAnswer;
+
+        checkPage(8);
+        doc.setFontSize(7.5);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(80);
+        doc.text(q.id, colX[0], y);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(60);
+        const pLines = doc.splitTextToSize(q.pergunta, contentW * 0.53);
+        doc.text(pLines[0], colX[1], y);
+
+        if (isRisk) {
+          doc.setTextColor(220, 38, 38);
+          doc.setFont('helvetica', 'bold');
+        } else {
+          doc.setTextColor(60);
+        }
+        doc.text(`${answerLabel}${isRisk ? ' ⬆' : ''}`, colX[2], y);
+
+        const lineH = Math.max(pLines.length * 3.5, 5);
+        if (pLines.length > 1) {
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(60);
+          for (let i = 1; i < pLines.length; i++) {
+            y += 3.5;
+            checkPage(5);
+            doc.text(pLines[i], colX[1], y);
+          }
+        }
+        y += lineH > 5 ? 3 : 5;
+      }
+    }
+  } else {
+    for (const block of QUANTITATIVE_BLOCKS) {
+      for (const q of block.questoes) {
+        const answer = quantitativeAnswers[q.id];
+        const answerLabel = answer === 'sim' ? 'Sim' : answer === 'nao' ? 'Não' : '—';
+        const isMitigation = q.efeito === 'mitigacao';
+        let isRisk = false;
+        if (isMitigation) {
+          isRisk = answer === 'nao';
+        } else {
+          isRisk = answer === q.riskAnswer;
+        }
+
+        let pts = '';
+        if (answer) {
+          if (isMitigation && answer === 'sim') {
+            pts = `${q.pontos}`;
+          } else if (!isMitigation && answer === q.riskAnswer) {
+            pts = `+${Math.abs(q.pontos)}`;
+          } else {
+            pts = '0';
+          }
+        }
+
+        checkPage(8);
+        doc.setFontSize(7.5);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(80);
+        doc.text(q.id, colX[0], y);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(60);
+        const pLines = doc.splitTextToSize(q.pergunta, contentW * 0.53);
+        doc.text(pLines[0], colX[1], y);
+
+        if (isRisk) {
+          doc.setTextColor(220, 38, 38);
+          doc.setFont('helvetica', 'bold');
+        } else if (isMitigation && answer === 'sim') {
+          doc.setTextColor(15, 118, 110);
+          doc.setFont('helvetica', 'bold');
+        } else {
+          doc.setTextColor(60);
+        }
+        doc.text(answerLabel, colX[2], y);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(80);
+        doc.text(pts, colX[3], y);
+
+        if (pLines.length > 1) {
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(60);
+          for (let i = 1; i < pLines.length; i++) {
+            y += 3.5;
+            checkPage(5);
+            doc.text(pLines[i], colX[1], y);
+          }
+        }
+        y += pLines.length > 1 ? 3 : 5;
+      }
+    }
+  }
+  y += 4;
+
+  // --- REQUISITOS CUMULATIVOS ---
+  sectionTitle('Requisitos Cumulativos');
+  const requirements = getRequirementsForLevel(finalLevel);
+  for (const req of requirements) {
+    checkPage(8);
+    const rlc = hexToRgb(LEVEL_HEX[req.nivel]);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(rlc.r, rlc.g, rlc.b);
+    doc.text(`[Nível ${req.nivel}]`, margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(60);
+    const rLines = doc.splitTextToSize(req.texto, contentW - 25);
+    doc.text(rLines[0], margin + 22, y);
+    for (let i = 1; i < rLines.length; i++) {
+      y += 3.5;
+      checkPage(5);
+      doc.text(rLines[i], margin + 22, y);
+    }
+    y += 5;
+  }
+  y += 4;
+
+  // --- DISCLAIMER ---
+  checkPage(16);
+  doc.setDrawColor(200);
+  doc.setLineWidth(0.3);
+  doc.line(margin, y, pageW - margin, y);
+  y += 6;
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'italic');
+  doc.setTextColor(120);
+  const disclaimer = 'A MARA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. Não dispensa a deliberação colegiada.';
+  const dLines = doc.splitTextToSize(disclaimer, contentW);
+  for (const line of dLines) {
+    doc.text(line, pageW / 2, y, { align: 'center' });
+    y += 3.5;
+  }
+
+  // --- Footer on all pages ---
+  addFooter();
+
+  // --- Download ---
+  const titulo = contextAnswers['titulo']?.trim() || 'Sem título';
+  const sanitized = titulo.replace(/[^a-zA-Z0-9À-ÿ\s]/g, '').replace(/\s+/g, '_').substring(0, 60);
+  const dateStr = new Date().toISOString().slice(0, 10);
+  doc.save(`MARA_${sanitized}_${dateStr}.pdf`);
 }
