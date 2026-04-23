@@ -8,28 +8,27 @@ import { Separator } from '@/components/ui/separator';
 import {
   Shield,
   Printer,
-  Download,
   RotateCcw,
   AlertTriangle,
   CheckCircle2,
   FileText,
   ChevronRight,
 } from 'lucide-react';
-import { RISK_LEVELS, REQUIREMENTS } from './data';
+import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738 } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer, QuantitativeAnswer } from './utils';
 import {
   getQualitativeFinalLevel,
   getQuantitativeFinalResult,
-  getRequirementsForLevel,
   generateReportHTML,
-  generatePDF,
 } from './utils';
 import StepIndicator from './StepIndicator';
 
 type ResultsProps = {
   version: 'A' | 'B';
   useAAsTriagem: boolean;
+  /** Quando true, inclui Eixo 3.b / Bloco 6.b (Res. CNS n.º 738/2024). */
+  usesDatabase: boolean;
   contextAnswers: Record<string, string>;
   qualitativeAnswers: QualitativeAnswer;
   quantitativeAnswers: QuantitativeAnswer;
@@ -92,6 +91,7 @@ function LevelCard({ level }: { level: RiskLevel }) {
 export default function Results({
   version,
   useAAsTriagem,
+  usesDatabase,
   contextAnswers,
   qualitativeAnswers,
   quantitativeAnswers,
@@ -99,25 +99,31 @@ export default function Results({
   onContinueToB,
 }: ResultsProps) {
   const qualResult = version === 'A' || useAAsTriagem
-    ? getQualitativeFinalLevel(qualitativeAnswers)
+    ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase)
     : null;
-  
+
   const quantResult = version === 'B'
-    ? getQuantitativeFinalResult(quantitativeAnswers)
+    ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase)
     : null;
 
   const finalLevel = version === 'A'
     ? qualResult!.level
     : quantResult!.level;
 
-  const requirements = getRequirementsForLevel(finalLevel);
+  const protocoloNaoAvaliavel = version === 'A'
+    ? qualResult?.protocoloNaoAvaliavel === true
+    : quantResult?.protocoloNaoAvaliavel === true;
+  const eliminatoryQuestionId = version === 'A'
+    ? qualResult?.eliminatoryQuestionId ?? null
+    : quantResult?.eliminatoryQuestionId ?? null;
 
   const handlePrint = () => {
     const html = generateReportHTML(
       version,
       contextAnswers,
       qualitativeAnswers,
-      quantitativeAnswers
+      quantitativeAnswers,
+      usesDatabase
     );
     const printWindow = window.open('', '_blank');
     if (printWindow) {
@@ -125,10 +131,6 @@ export default function Results({
       printWindow.document.close();
       setTimeout(() => printWindow.print(), 300);
     }
-  };
-
-  const handleDownloadPDF = () => {
-    generatePDF(version, contextAnswers, qualitativeAnswers, quantitativeAnswers);
   };
 
   // Check if triagem mode, still on Version A, and level is III or IV → suggest Version B
@@ -163,25 +165,15 @@ export default function Results({
             <CardTitle className="text-base flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Caracterização do Contexto
+              {usesDatabase && (
+                <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
+                  Res 738/2024 — banco de dados
+                </Badge>
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 text-sm">
-              <div>
-                <span className="font-medium text-muted-foreground">Título do Projeto:</span>
-                <p className="mt-1 font-semibold">{contextAnswers['titulo'] || 'Não informado'}</p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <span className="font-medium text-muted-foreground">Instituição:</span>
-                  <p className="mt-1">{contextAnswers['instituicao'] || 'Não informado'}</p>
-                </div>
-                <div>
-                  <span className="font-medium text-muted-foreground">Nome do CEP:</span>
-                  <p className="mt-1">{contextAnswers['cep_nome'] || 'Não informado'}</p>
-                </div>
-              </div>
-              <Separator />
               <div>
                 <span className="font-medium text-muted-foreground">Pergunta do sistema:</span>
                 <p className="mt-1">{contextAnswers['contexto1'] || 'Não informado'}</p>
@@ -191,9 +183,43 @@ export default function Results({
                 <span className="font-medium text-muted-foreground">Autonomia do sistema:</span>
                 <p className="mt-1">{contextAnswers['contexto2'] || 'Não informado'}</p>
               </div>
+              <Separator />
+              <div>
+                <span className="font-medium text-muted-foreground">Utiliza banco de dados:</span>
+                <p className="mt-1">
+                  {usesDatabase
+                    ? 'Sim — Eixo 3.b / Bloco 6.b ativados (Resolução CNS n.º 738/2024)'
+                    : 'Não'}
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Protocolo não avaliável (eliminatório) */}
+        {protocoloNaoAvaliavel && (
+          <Card className="border-2 border-red-400 bg-red-50 mb-6">
+            <CardContent className="py-4">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="h-6 w-6 text-red-700 shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-semibold text-red-900 mb-1">
+                    ⛔ Protocolo NÃO AVALIÁVEL no mérito
+                  </h3>
+                  <p className="text-sm text-red-800">
+                    Hipótese eliminatória acionada em <strong>{eliminatoryQuestionId}</strong>
+                    {' — '}ausência de cadeia de custódia formalizada (Res. CNS n.º 738/2024 — Art. 27, VI).
+                  </p>
+                  <p className="text-sm text-red-800 mt-2">
+                    O dossiê deve ser devolvido ao pesquisador para <strong>diligência obrigatória</strong> antes
+                    de qualquer análise de mérito, conforme <strong>§7.3.6 do Capítulo 7</strong>.
+                    Isto não é agravamento de nível de risco — é bloqueio de avaliação.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Main result */}
         <LevelCard level={finalLevel} />
@@ -255,15 +281,31 @@ export default function Results({
               <div className="space-y-4">
                 {qualResult.axisResults.map((ar) => {
                   const pct = (ar.riskCount / ar.totalQuestions) * 100;
-                  
+                  const isRes738 = ar.condicionalBancoDados;
+
                   return (
-                    <div key={ar.axisId} className="border rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium">{ar.axisName}</span>
+                    <div
+                      key={ar.axisId}
+                      className={`border rounded-lg p-4 ${isRes738 ? 'bg-blue-50/30 border-blue-200' : ''}`}
+                    >
+                      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-medium">{ar.axisName}</span>
+                          {isRes738 && (
+                            <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
+                              Res 738
+                            </Badge>
+                          )}
+                        </div>
                         <LevelBadge level={ar.level} />
                       </div>
                       <div className="flex items-center gap-3 text-xs text-muted-foreground mb-2">
                         <span>Respostas de risco: {ar.riskCount}/{ar.totalQuestions}</span>
+                        {isRes738 && (
+                          <span className="text-blue-700">
+                            (elevação especial: 1-2 → III · 3+ → IV)
+                          </span>
+                        )}
                       </div>
                       <div className="w-full bg-muted rounded-full h-2">
                         <div
@@ -301,11 +343,22 @@ export default function Results({
               <div className="space-y-3">
                 {quantResult.blockResults.map((br) => {
                   const pct = br.maxPontos > 0 ? Math.min((Math.max(br.score, 0) / br.maxPontos) * 100, 100) : 0;
+                  const isRes738 = br.condicionalBancoDados;
 
                   return (
-                    <div key={br.blockId} className="border rounded-lg p-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium">{br.blockName}</span>
+                    <div
+                      key={br.blockId}
+                      className={`border rounded-lg p-3 ${isRes738 ? 'bg-blue-50/30 border-blue-200' : ''}`}
+                    >
+                      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-medium">{br.blockName}</span>
+                          {isRes738 && (
+                            <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
+                              Res 738
+                            </Badge>
+                          )}
+                        </div>
                         <span className="text-sm font-mono font-semibold">
                           {br.score}{br.isBlock7 && ' (bidirecional)'} / {br.maxPontos} pts
                         </span>
@@ -326,25 +379,35 @@ export default function Results({
               </div>
               <Separator className="my-4" />
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium">Pontuação Total</span>
-                <span className="text-xl font-bold">{quantResult.totalScore}<span className="text-sm font-normal text-muted-foreground">/238</span></span>
+                <span className="text-sm font-medium">
+                  Pontuação Total
+                  {usesDatabase && (
+                    <span className="text-xs text-blue-700 ml-2">(inclui Bloco 6.b — Res 738)</span>
+                  )}
+                </span>
+                <span className="text-xl font-bold">
+                  {quantResult.totalScore}
+                  <span className="text-sm font-normal text-muted-foreground">
+                    /{quantResult.maxScore}
+                  </span>
+                </span>
               </div>
               <div className="mt-2">
                 <div className="w-full bg-muted rounded-full h-3">
                   <div
                     className={`h-3 rounded-full transition-all ${
-                      quantResult.totalScore <= 50 ? 'bg-green-500' :
-                      quantResult.totalScore <= 110 ? 'bg-amber-500' :
-                      quantResult.totalScore <= 180 ? 'bg-orange-500' : 'bg-red-500'
+                      quantResult.totalScore <= quantResult.thresholds.levelI ? 'bg-green-500' :
+                      quantResult.totalScore <= quantResult.thresholds.levelII ? 'bg-amber-500' :
+                      quantResult.totalScore <= quantResult.thresholds.levelIII ? 'bg-orange-500' : 'bg-red-500'
                     }`}
-                    style={{ width: `${(quantResult.totalScore / 238) * 100}%` }}
+                    style={{ width: `${(quantResult.totalScore / quantResult.maxScore) * 100}%` }}
                   />
                 </div>
                 <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                  <span>I (0-50)</span>
-                  <span>II (51-110)</span>
-                  <span>III (111-180)</span>
-                  <span>IV (181-238)</span>
+                  <span>I (0-{quantResult.thresholds.levelI})</span>
+                  <span>II ({quantResult.thresholds.levelI + 1}-{quantResult.thresholds.levelII})</span>
+                  <span>III ({quantResult.thresholds.levelII + 1}-{quantResult.thresholds.levelIII})</span>
+                  <span>IV ({quantResult.thresholds.levelIII + 1}-{quantResult.maxScore})</span>
                 </div>
               </div>
             </CardContent>
@@ -357,15 +420,25 @@ export default function Results({
             <CardTitle className="text-base flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4" />
               Requisitos por Nível (cumulativos)
+              {usesDatabase && (
+                <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
+                  + Res 738/2024
+                </Badge>
+              )}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {(['I', 'II', 'III', 'IV'] as RiskLevel[]).map((lvl) => {
-                const lvlReqs = REQUIREMENTS.filter((r) => r.nivel === lvl);
+                const levelOrder: RiskLevel[] = ['I', 'II', 'III', 'IV'];
+                const lvlReqsBase = REQUIREMENTS.filter((r) => r.nivel === lvl);
+                const lvlReqs738 = usesDatabase
+                  ? REQUIREMENTS_RES738.filter((r) => r.nivel === lvl)
+                  : [];
+                const lvlReqs = [...lvlReqsBase, ...lvlReqs738];
                 const isActive = lvl === finalLevel;
-                const isBelow = REQUIREMENTS.findIndex((r) => r.nivel === lvl) <= 
-                  REQUIREMENTS.findIndex((r) => r.nivel === finalLevel);
+                const isBelowOrEqual =
+                  levelOrder.indexOf(lvl) <= levelOrder.indexOf(finalLevel);
 
                 const borderClass = isActive
                   ? lvl === 'I' ? 'border-2 border-green-300 ring-2 ring-green-100' :
@@ -380,7 +453,7 @@ export default function Results({
                     className={`
                       rounded-lg p-4 transition-all
                       ${borderClass}
-                      ${isBelow ? '' : 'opacity-40'}
+                      ${isBelowOrEqual ? '' : 'opacity-40'}
                     `}
                   >
                     <div className="flex items-center gap-2 mb-2">
@@ -388,16 +461,24 @@ export default function Results({
                       {isActive && <span className="text-xs font-semibold text-muted-foreground">← Nível atual</span>}
                     </div>
                     <ul className="space-y-1.5 ml-2">
-                      {lvlReqs.map((req) => (
-                        <li key={req.id} className="flex items-start gap-2 text-sm">
-                          <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${
-                            isBelow ? 'text-green-500' : 'text-muted-foreground/40'
-                          }`} />
-                          <span className={isBelow ? '' : 'line-through text-muted-foreground'}>
-                            {req.texto}
-                          </span>
-                        </li>
-                      ))}
+                      {lvlReqs.map((req) => {
+                        const isRes738 = req.id.startsWith('req-738');
+                        return (
+                          <li key={req.id} className="flex items-start gap-2 text-sm">
+                            <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${
+                              isBelowOrEqual ? 'text-green-500' : 'text-muted-foreground/40'
+                            }`} />
+                            <span className={isBelowOrEqual ? '' : 'line-through text-muted-foreground'}>
+                              {isRes738 && (
+                                <Badge className="mr-1 bg-blue-50 text-blue-700 border border-blue-200 text-[9px] px-1 py-0">
+                                  Res 738
+                                </Badge>
+                              )}
+                              {req.texto}
+                            </span>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 );
@@ -424,13 +505,9 @@ export default function Results({
 
         {/* Actions */}
         <div className="flex flex-wrap gap-3">
-          <Button className="bg-teal-600 hover:bg-teal-700" onClick={handleDownloadPDF}>
-            <Download className="mr-2 h-4 w-4" />
-            Baixar PDF
-          </Button>
           <Button variant="outline" onClick={handlePrint}>
             <Printer className="mr-2 h-4 w-4" />
-            Imprimir
+            Imprimir / Salvar PDF
           </Button>
           <Button variant="outline" onClick={onRestart}>
             <RotateCcw className="mr-2 h-4 w-4" />

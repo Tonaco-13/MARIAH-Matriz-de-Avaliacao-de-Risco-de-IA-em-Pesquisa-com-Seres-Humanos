@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -18,17 +17,17 @@ import {
   Circle,
   AlertTriangle,
 } from 'lucide-react';
-import { QUANTITATIVE_BLOCKS, RISK_LEVELS } from './data';
-import type { QuantitativeQuestion } from './data';
+import { RISK_LEVELS, getThresholds } from './data';
 import type { QuantitativeAnswer } from './utils';
 import {
   calculateBlockScore,
   getQuantitativeTotalScore,
   getQuantitativeRiskLevel,
   checkClausulaPrevalencia,
+  getApplicableBlocks,
+  getEliminatoryQuestionTriggered,
 } from './utils';
 import StepIndicator from './StepIndicator';
-import HelpPanel from './HelpPanel';
 import {
   Tooltip,
   TooltipContent,
@@ -39,6 +38,8 @@ import {
 type QuantitativeAssessmentProps = {
   answers: QuantitativeAnswer;
   onAnswer: (questionId: string, answer: 'sim' | 'nao') => void;
+  /** Quando true, inclui Bloco 6.b (Res. CNS n.º 738/2024). */
+  usesDatabase: boolean;
   onComplete: () => void;
   onBack: () => void;
 };
@@ -46,35 +47,38 @@ type QuantitativeAssessmentProps = {
 export default function QuantitativeAssessment({
   answers,
   onAnswer,
+  usesDatabase,
   onComplete,
   onBack,
 }: QuantitativeAssessmentProps) {
+  const blocksList = getApplicableBlocks(usesDatabase);
+  const thresholds = getThresholds(usesDatabase);
   const [currentBlock, setCurrentBlock] = useState(0);
-  const [helpQuestion, setHelpQuestion] = useState<QuantitativeQuestion | null>(null);
-  const block = QUANTITATIVE_BLOCKS[currentBlock];
+  const block = blocksList[Math.min(currentBlock, blocksList.length - 1)];
 
   const blockScore = calculateBlockScore(block, answers);
-  const totalScore = getQuantitativeTotalScore(answers);
+  const totalScore = getQuantitativeTotalScore(answers, usesDatabase);
   const clausulaPrevalencia = checkClausulaPrevalencia(answers);
-  const currentLevel = clausulaPrevalencia ? 'IV' : getQuantitativeRiskLevel(totalScore);
+  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'B', usesDatabase);
+  const currentLevel = clausulaPrevalencia ? 'IV' : getQuantitativeRiskLevel(totalScore, usesDatabase);
   const levelInfo = RISK_LEVELS[currentLevel];
 
   const answeredCount = block.questoes.filter((q) => answers[q.id] !== undefined).length;
 
-  const totalQuestions = QUANTITATIVE_BLOCKS.reduce((sum, b) => sum + b.questoes.length, 0);
-  const totalAnswered = QUANTITATIVE_BLOCKS.reduce(
+  const totalQuestions = blocksList.reduce((sum, b) => sum + b.questoes.length, 0);
+  const totalAnswered = blocksList.reduce(
     (sum, b) => sum + b.questoes.filter((q) => answers[q.id] !== undefined).length,
     0
   );
 
   const handleNext = useCallback(() => {
-    if (currentBlock < QUANTITATIVE_BLOCKS.length - 1) {
+    if (currentBlock < blocksList.length - 1) {
       setCurrentBlock((prev) => prev + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       onComplete();
     }
-  }, [currentBlock, onComplete]);
+  }, [currentBlock, blocksList.length, onComplete]);
 
   const handlePrev = useCallback(() => {
     if (currentBlock > 0) {
@@ -86,7 +90,7 @@ export default function QuantitativeAssessment({
   }, [currentBlock, onBack]);
 
   // Block summaries for navigation
-  const blockSummaries = QUANTITATIVE_BLOCKS.map((b, idx) => {
+  const blockSummaries = blocksList.map((b, idx) => {
     const score = calculateBlockScore(b, answers);
     const done = b.questoes.every((q) => answers[q.id] !== undefined);
     return { block: b, index: idx, score, done };
@@ -137,7 +141,7 @@ export default function QuantitativeAssessment({
               <div className="flex items-center gap-4">
                 <div>
                   <p className="text-xs text-muted-foreground">Pontuação Total</p>
-                  <p className="text-2xl font-bold">{totalScore}<span className="text-sm font-normal text-muted-foreground">/238</span></p>
+                  <p className="text-2xl font-bold">{totalScore}<span className="text-sm font-normal text-muted-foreground">/{thresholds.maxScore}</span></p>
                 </div>
                 <Separator orientation="vertical" className="h-10" />
                 <div>
@@ -146,6 +150,14 @@ export default function QuantitativeAssessment({
                     Nível {currentLevel} — {levelInfo.label}
                   </Badge>
                 </div>
+                {usesDatabase && (
+                  <>
+                    <Separator orientation="vertical" className="h-10" />
+                    <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
+                      Bloco 6.b — Res 738
+                    </Badge>
+                  </>
+                )}
               </div>
               {clausulaPrevalencia && (
                 <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
@@ -155,20 +167,37 @@ export default function QuantitativeAssessment({
                   </span>
                 </div>
               )}
+              {eliminatoryQuestionId && (
+                <div className="flex items-center gap-2 bg-red-50 border-2 border-red-400 rounded-lg px-3 py-2">
+                  <AlertTriangle className="h-4 w-4 text-red-700" />
+                  <span className="text-xs font-semibold text-red-700">
+                    ⛔ Protocolo não avaliável ({eliminatoryQuestionId}) — §7.3.6
+                  </span>
+                </div>
+              )}
             </div>
             <div className="mt-3">
               <div className="relative">
-                <Progress value={(totalScore / 238) * 100} className="h-3" />
-                {/* Level threshold markers */}
-                <div className="absolute top-0 left-[21%] h-3 w-px bg-amber-400/60" />
-                <div className="absolute top-0 left-[46%] h-3 w-px bg-orange-400/60" />
-                <div className="absolute top-0 left-[76%] h-3 w-px bg-red-400/60" />
+                <Progress value={(totalScore / thresholds.maxScore) * 100} className="h-3" />
+                {/* Level threshold markers (dynamic) */}
+                <div
+                  className="absolute top-0 h-3 w-px bg-amber-400/60"
+                  style={{ left: `${(thresholds.levelI / thresholds.maxScore) * 100}%` }}
+                />
+                <div
+                  className="absolute top-0 h-3 w-px bg-orange-400/60"
+                  style={{ left: `${(thresholds.levelII / thresholds.maxScore) * 100}%` }}
+                />
+                <div
+                  className="absolute top-0 h-3 w-px bg-red-400/60"
+                  style={{ left: `${(thresholds.levelIII / thresholds.maxScore) * 100}%` }}
+                />
               </div>
               <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                <span>I (0-50)</span>
-                <span>II (51-110)</span>
-                <span>III (111-180)</span>
-                <span>IV (181-238)</span>
+                <span>I (0-{thresholds.levelI})</span>
+                <span>II ({thresholds.levelI + 1}-{thresholds.levelII})</span>
+                <span>III ({thresholds.levelII + 1}-{thresholds.levelIII})</span>
+                <span>IV ({thresholds.levelIII + 1}-{thresholds.maxScore})</span>
               </div>
             </div>
           </CardContent>
@@ -176,49 +205,72 @@ export default function QuantitativeAssessment({
 
         {/* Block navigation tabs */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {blockSummaries.map((s) => (
-            <button
-              key={s.block.id}
-              onClick={() => setCurrentBlock(s.index)}
-              className={`
-                flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
-                ${s.index === currentBlock
-                  ? 'bg-amber-600 text-white shadow-sm'
-                  : s.done
-                    ? 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }
-              `}
-            >
-              {s.done ? (
-                <CheckCircle2 className="h-3.5 w-3.5" />
-              ) : (
-                <Circle className="h-3.5 w-3.5" />
-              )}
-              Bloco {s.index + 1}
-              <span className="font-mono ml-1">{s.score}pts</span>
-            </button>
-          ))}
+          {blockSummaries.map((s) => {
+            const isRes738 = s.block.condicionalBancoDados;
+            // Label from block id: 'bloco6b' → 'Bloco 6.b'; 'bloco4' → 'Bloco 4'
+            const idMatch = s.block.id.match(/^bloco(\d+b?)$/);
+            const label = idMatch
+              ? idMatch[1].includes('b')
+                ? 'Bloco 6.b'
+                : `Bloco ${idMatch[1]}`
+              : `Bloco ${s.index + 1}`;
+            return (
+              <button
+                key={s.block.id}
+                onClick={() => setCurrentBlock(s.index)}
+                className={`
+                  flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
+                  ${s.index === currentBlock
+                    ? isRes738 ? 'bg-blue-600 text-white shadow-sm' : 'bg-amber-600 text-white shadow-sm'
+                    : s.done
+                      ? isRes738
+                        ? 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
+                        : 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }
+                `}
+              >
+                {s.done ? (
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                ) : (
+                  <Circle className="h-3.5 w-3.5" />
+                )}
+                {label}
+                {isRes738 && <span className="text-[9px] bg-white/30 px-1 rounded">738</span>}
+                <span className="font-mono ml-1">{s.score}pts</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Current block */}
-        <AnimatePresence mode="wait">
-        <motion.div
-          key={block.id}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.2 }}
+        <Card
+          className={`border-2 mb-6 ${
+            block.condicionalBancoDados
+              ? 'border-blue-300'
+              : block.id === 'bloco4'
+                ? 'border-red-300'
+                : 'border-amber-200'
+          }`}
         >
-        <Card className={`border-2 mb-6 ${block.id === 'bloco4' ? 'border-red-300' : 'border-amber-200'}`}>
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between flex-wrap gap-2">
               <div>
-                <CardTitle className="text-lg flex items-center gap-2">
+                <CardTitle className="text-lg flex items-center gap-2 flex-wrap">
                   {block.nome}
-                  {block.subtitulo && (
+                  {block.condicionalBancoDados && (
+                    <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-xs">
+                      Res 738/2024
+                    </Badge>
+                  )}
+                  {block.subtitulo && !block.condicionalBancoDados && (
                     <Badge className="bg-red-100 text-red-700 border border-red-200 text-xs">
                       <AlertTriangle className="h-3 w-3 mr-1" />
+                      {block.subtitulo}
+                    </Badge>
+                  )}
+                  {block.subtitulo && block.condicionalBancoDados && (
+                    <Badge className="bg-blue-50 text-blue-700 border border-blue-200 text-xs">
                       {block.subtitulo}
                     </Badge>
                   )}
@@ -259,31 +311,30 @@ export default function QuantitativeAssessment({
                 const currentAnswer = answers[q.id];
                 const isMitigation = q.efeito === 'mitigacao';
                 const isRiskQ = q.efeito === 'risco';
-                
-                // Determine if current answer is a risk/mitigation answer
+
+                // Determine if current answer is a risk answer
                 let isHighlight = false;
                 if (isMitigation) {
-                  // For mitigation questions, "Não" means no mitigation = risk
+                  // Mitigação bidirecional: "Não" = sem mitigação = soma risco
                   isHighlight = currentAnswer === 'nao';
-                } else if (isRiskQ) {
-                  // For risk questions in block 7, risk answer adds points
-                  isHighlight = currentAnswer === q.riskAnswer;
                 } else {
-                  // Regular questions: risk answer adds points
+                  // Questões normais e de risco: risk answer adds points
                   isHighlight = currentAnswer === q.riskAnswer;
                 }
 
                 const isMitigated = isMitigation && currentAnswer === 'sim';
                 const riskLabel = isMitigation
-                  ? `"Não" ⬆ risco`
+                  ? `"Não" ⬆ risco / "Sim" ⬇ mitiga`
                   : q.riskAnswer === 'sim' ? 'Sim ⬆' : 'Não ⬆';
+                const eliminatorioAtivado = q.eliminatorio && currentAnswer === q.riskAnswer;
 
                 return (
                   <div
                     key={q.id}
                     className={`
                       rounded-lg border p-4 transition-all
-                      ${isMitigated ? 'border-teal-200 bg-teal-50/30' :
+                      ${eliminatorioAtivado ? 'border-red-400 bg-red-50 ring-2 ring-red-200' :
+                        isMitigated ? 'border-teal-200 bg-teal-50/30' :
                         isHighlight ? 'border-red-200 bg-red-50/50' :
                         currentAnswer ? 'border-green-200 bg-green-50/30' :
                         isMitigation ? 'border-amber-100' : 'border-border'}
@@ -299,18 +350,18 @@ export default function QuantitativeAssessment({
                       </span>
                       <div className="flex-1">
                         <div className="flex items-start justify-between gap-2 mb-2">
-                          <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
+                          <div className="flex-1">
+                            <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
+                            {q.eliminatorio && (
+                              <Badge className="mt-1 bg-red-100 text-red-700 border border-red-300 text-[10px]">
+                                ⛔ ELIMINATÓRIO
+                              </Badge>
+                            )}
+                          </div>
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <button
-                                  type="button"
-                                  onClick={() => setHelpQuestion(q)}
-                                  className="shrink-0 mt-0.5"
-                                  aria-label={`Ajuda sobre ${q.id}`}
-                                >
-                                  <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                                </button>
+                                <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-0.5" />
                               </TooltipTrigger>
                               <TooltipContent className="max-w-sm">
                                 <p className="text-xs">{q.dica}</p>
@@ -320,7 +371,6 @@ export default function QuantitativeAssessment({
                         </div>
                         <div className="flex items-center gap-2 flex-wrap">
                           <div className="flex gap-2">
-                            <motion.div whileTap={{ scale: 0.97 }}>
                             <Button
                               size="sm"
                               variant={currentAnswer === 'sim' ? 'default' : 'outline'}
@@ -337,8 +387,6 @@ export default function QuantitativeAssessment({
                             >
                               Sim
                             </Button>
-                            </motion.div>
-                            <motion.div whileTap={{ scale: 0.97 }}>
                             <Button
                               size="sm"
                               variant={currentAnswer === 'nao' ? 'default' : 'outline'}
@@ -355,7 +403,6 @@ export default function QuantitativeAssessment({
                             >
                               Não
                             </Button>
-                            </motion.div>
                           </div>
                           <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
                             {isMitigation ? (
@@ -365,7 +412,7 @@ export default function QuantitativeAssessment({
                             )}
                             <span>
                               {isMitigation ? (
-                                <><span className="text-teal-600 font-semibold">"Sim" = mitigação ({q.pontos} pts)</span></>
+                                <><span className="text-teal-600 font-semibold">{riskLabel}</span> (±{Math.abs(q.pontos)} pts)</>
                               ) : (
                                 <><span className="font-semibold text-red-600">{riskLabel}</span> ({Math.abs(q.pontos)} pts)</>
                               )}
@@ -378,6 +425,11 @@ export default function QuantitativeAssessment({
                               Cláusula de Prevalência Ética
                             </Badge>
                           )}
+                          {eliminatorioAtivado && (
+                            <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
+                              ⛔ Protocolo não avaliável — §7.3.6
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -387,8 +439,6 @@ export default function QuantitativeAssessment({
             </div>
           </CardContent>
         </Card>
-        </motion.div>
-        </AnimatePresence>
 
         {/* Navigation */}
         <div className="flex justify-between">
@@ -400,7 +450,7 @@ export default function QuantitativeAssessment({
             className="bg-amber-600 hover:bg-amber-700"
             onClick={handleNext}
           >
-            {currentBlock < QUANTITATIVE_BLOCKS.length - 1 ? 'Próximo Bloco' : 'Ver Resultado'}
+            {currentBlock < blocksList.length - 1 ? 'Próximo Bloco' : 'Ver Resultado'}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -413,20 +463,6 @@ export default function QuantitativeAssessment({
           </p>
         </div>
       </footer>
-
-      {helpQuestion && (
-        <HelpPanel
-          open={!!helpQuestion}
-          onClose={() => setHelpQuestion(null)}
-          questionId={helpQuestion.id}
-          questionText={helpQuestion.pergunta}
-          dica={helpQuestion.dica}
-          referencia={helpQuestion.referencia}
-          efeito={helpQuestion.efeito}
-          pontos={helpQuestion.pontos}
-          riskAnswer={helpQuestion.riskAnswer}
-        />
-      )}
     </div>
   );
 }

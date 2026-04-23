@@ -7,7 +7,6 @@ import ContextForm from '@/components/mara/ContextForm';
 import QualitativeAssessment from '@/components/mara/QualitativeAssessment';
 import QuantitativeAssessment from '@/components/mara/QuantitativeAssessment';
 import Results from '@/components/mara/Results';
-import PageTransition from '@/components/mara/PageTransition';
 import type { MarcaVersion } from '@/components/mara/data';
 
 // ----- State Types -----
@@ -19,6 +18,11 @@ type AppState = {
   version: MarcaVersion | null;
   useAAsTriagem: boolean;
   filterResult: 'sim' | 'nao' | null;
+  /**
+   * Indica se o protocolo utiliza banco de dados (filtro Passo 0, Res. CNS n.º 738/2024).
+   * null = ainda não respondido; true = ativa Eixo 3.b / Bloco 6.b.
+   */
+  usesDatabase: boolean | null;
   contextAnswers: Record<string, string>;
   qualitativeAnswers: Record<string, 'sim' | 'nao'>;
   quantitativeAnswers: Record<string, 'sim' | 'nao'>;
@@ -28,7 +32,8 @@ type AppState = {
 
 type Action =
   | { type: 'SELECT_VERSION'; version: MarcaVersion; useAAsTriagem: boolean }
-  | { type: 'SET_FILTER_RESULT'; result: 'sim' | 'nao' }
+  | { type: 'SET_FILTER_RESULT'; result: 'sim' | 'nao'; usesDatabase?: boolean }
+  | { type: 'SET_USES_DATABASE'; usesDatabase: boolean }
   | { type: 'SET_CONTEXT_ANSWER'; id: string; value: string }
   | { type: 'SET_QUALITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' }
   | { type: 'SET_QUANTITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' }
@@ -52,7 +57,16 @@ function reducer(state: AppState, action: Action): AppState {
       return {
         ...state,
         filterResult: action.result,
+        usesDatabase:
+          action.result === 'sim' && action.usesDatabase !== undefined
+            ? action.usesDatabase
+            : state.usesDatabase,
         step: action.result === 'sim' ? 'context' : state.step,
+      };
+    case 'SET_USES_DATABASE':
+      return {
+        ...state,
+        usesDatabase: action.usesDatabase,
       };
     case 'SET_CONTEXT_ANSWER':
       return {
@@ -91,6 +105,7 @@ const initialState: AppState = {
   version: null,
   useAAsTriagem: false,
   filterResult: null,
+  usesDatabase: null,
   contextAnswers: {},
   qualitativeAnswers: {},
   quantitativeAnswers: {},
@@ -148,12 +163,16 @@ export default function Home() {
     dispatch({ type: 'SELECT_VERSION', version: 'A', useAAsTriagem: true });
   }, []);
 
-  const handleFilterPass = useCallback(() => {
-    dispatch({ type: 'SET_FILTER_RESULT', result: 'sim' });
+  const handleFilterPass = useCallback((usesDatabase: boolean) => {
+    dispatch({ type: 'SET_FILTER_RESULT', result: 'sim', usesDatabase });
   }, []);
 
   const handleFilterFail = useCallback(() => {
     dispatch({ type: 'SET_FILTER_RESULT', result: 'nao' });
+  }, []);
+
+  const handleUsesDatabaseChange = useCallback((usesDatabase: boolean) => {
+    dispatch({ type: 'SET_USES_DATABASE', usesDatabase });
   }, []);
 
   const handleContextAnswer = useCallback((id: string, value: string) => {
@@ -183,57 +202,44 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const stepKey = `${state.step}-${state.version ?? ''}`;
+  switch (state.step) {
+    case 'version':
+      return (
+        <VersionSelector
+          onSelect={handleSelectVersion}
+          onSelectTriagem={handleSelectTriagem}
+        />
+      );
 
-  const renderStep = () => {
-    switch (state.step) {
-      case 'version':
-        return (
-          <VersionSelector
-            onSelect={handleSelectVersion}
-            onSelectTriagem={handleSelectTriagem}
-          />
-        );
+    case 'filter':
+      return (
+        <EntryFilter
+          onPass={handleFilterPass}
+          onFail={handleFilterFail}
+          onRestart={handleRestart}
+          filterResult={state.filterResult}
+          usesDatabase={state.usesDatabase}
+          onUsesDatabaseChange={handleUsesDatabaseChange}
+        />
+      );
 
-      case 'filter':
-        return (
-          <EntryFilter
-            onPass={handleFilterPass}
-            onFail={handleFilterFail}
-            onRestart={handleRestart}
-            onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'version' })}
-            filterResult={state.filterResult}
-          />
-        );
+    case 'context':
+      return (
+        <ContextForm
+          answers={state.contextAnswers}
+          onAnswer={handleContextAnswer}
+          onNext={() => dispatch({ type: 'GO_TO_STEP', step: 'assessment' })}
+          onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'filter' })}
+        />
+      );
 
-      case 'context':
+    case 'assessment':
+      if (state.version === 'A') {
         return (
-          <ContextForm
-            answers={state.contextAnswers}
-            onAnswer={handleContextAnswer}
-            onNext={() => dispatch({ type: 'GO_TO_STEP', step: 'assessment' })}
-            onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'filter' })}
-          />
-        );
-
-      case 'assessment':
-        if (state.version === 'A') {
-          return (
-            <QualitativeAssessment
-              answers={state.qualitativeAnswers}
-              onAnswer={handleQualitativeAnswer}
-              onComplete={() => {
-                dispatch({ type: 'GO_TO_STEP', step: 'results' });
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
-            />
-          );
-        }
-        return (
-          <QuantitativeAssessment
-            answers={state.quantitativeAnswers}
-            onAnswer={handleQuantitativeAnswer}
+          <QualitativeAssessment
+            answers={state.qualitativeAnswers}
+            onAnswer={handleQualitativeAnswer}
+            usesDatabase={state.usesDatabase === true}
             onComplete={() => {
               dispatch({ type: 'GO_TO_STEP', step: 'results' });
               window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -241,28 +247,35 @@ export default function Home() {
             onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
           />
         );
+      }
+      return (
+        <QuantitativeAssessment
+          answers={state.quantitativeAnswers}
+          onAnswer={handleQuantitativeAnswer}
+          usesDatabase={state.usesDatabase === true}
+          onComplete={() => {
+            dispatch({ type: 'GO_TO_STEP', step: 'results' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
+        />
+      );
 
-      case 'results':
-        return (
-          <Results
-            version={state.version!}
-            useAAsTriagem={state.useAAsTriagem}
-            contextAnswers={state.contextAnswers}
-            qualitativeAnswers={state.qualitativeAnswers}
-            quantitativeAnswers={state.quantitativeAnswers}
-            onRestart={handleRestart}
-            onContinueToB={handleContinueToB}
-          />
-        );
+    case 'results':
+      return (
+        <Results
+          version={state.version!}
+          useAAsTriagem={state.useAAsTriagem}
+          usesDatabase={state.usesDatabase === true}
+          contextAnswers={state.contextAnswers}
+          qualitativeAnswers={state.qualitativeAnswers}
+          quantitativeAnswers={state.quantitativeAnswers}
+          onRestart={handleRestart}
+          onContinueToB={handleContinueToB}
+        />
+      );
 
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <PageTransition stepKey={stepKey}>
-      {renderStep()}
-    </PageTransition>
-  );
+    default:
+      return null;
+  }
 }

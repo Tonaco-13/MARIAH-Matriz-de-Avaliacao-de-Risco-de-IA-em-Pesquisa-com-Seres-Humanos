@@ -5,41 +5,61 @@ import { Button } from '@/components/ui/button';
 import {
   Shield,
   AlertTriangle,
-  ArrowLeft,
   CheckCircle2,
   XCircle,
   RotateCcw,
-  Info
+  Info,
+  Database,
+  HelpCircle,
 } from 'lucide-react';
 import StepIndicator from './StepIndicator';
+import { DATABASE_FILTER_QUESTION } from './data';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 type EntryFilterProps = {
-  onPass: () => void;
+  onPass: (usesDatabase: boolean) => void;
   onFail: () => void;
   onRestart: () => void;
-  onBack: () => void;
   filterResult: 'sim' | 'nao' | null;
+  /** Estado local (persistido no reducer pai) para a escolha de banco de dados enquanto o usuário navega. */
+  usesDatabase: boolean | null;
+  onUsesDatabaseChange: (value: boolean) => void;
 };
 
 const ENTRY_TYPES = [
   {
     title: 'Automação de decisão',
-    description: 'Qualquer sistema que produza classificações, escores, recomendações ou alertas que influenciem decisões.',
+    description:
+      'Qualquer sistema que produza classificações, escores, recomendações ou alertas que influenciem decisões.',
     icon: '⚙️',
   },
   {
     title: 'Geração de conteúdo',
-    description: 'Sistemas que produzem texto, dados sintéticos, imagens ou qualquer conteúdo que integre o protocolo.',
+    description:
+      'Sistemas que produzem texto, dados sintéticos, imagens ou qualquer conteúdo que integre o protocolo.',
     icon: '📝',
   },
   {
     title: 'Intervenção',
-    description: 'Sistemas cuja saída orienta, modifica ou substitui etapas do protocolo.',
+    description:
+      'Sistemas cuja saída orienta, modifica ou substitui etapas do protocolo.',
     icon: '🔬',
   },
 ];
 
-export default function EntryFilter({ onPass, onFail, onRestart, onBack, filterResult }: EntryFilterProps) {
+export default function EntryFilter({
+  onPass,
+  onFail,
+  onRestart,
+  filterResult,
+  usesDatabase,
+  onUsesDatabaseChange,
+}: EntryFilterProps) {
   if (filterResult === 'nao') {
     return (
       <div className="min-h-screen flex flex-col">
@@ -65,30 +85,26 @@ export default function EntryFilter({ onPass, onFail, onRestart, onBack, filterR
               </div>
               <h2 className="text-xl font-semibold text-green-800 mb-2">A MARA não se aplica</h2>
               <p className="text-green-700 mb-6">
-                O sistema de IA não realiza automação de decisão, 
-                geração de conteúdo ou intervenção no protocolo ou na condução do estudo.
-                Portanto, a MARA não se aplica a este protocolo.
+                O sistema de IA não realiza automação de decisão, geração de conteúdo ou
+                intervenção no protocolo ou na condução do estudo. Portanto, a MARA não se aplica
+                a este protocolo.
               </p>
-              <div className="flex gap-3 justify-center">
-                <Button variant="outline" onClick={onBack}>
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Voltar
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={onRestart}
-                  className="border-green-300 text-green-700 hover:bg-green-100"
-                >
-                  <RotateCcw className="mr-2 h-4 w-4" />
-                  Iniciar nova avaliação
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                onClick={onRestart}
+                className="border-green-300 text-green-700 hover:bg-green-100"
+              >
+                <RotateCcw className="mr-2 h-4 w-4" />
+                Iniciar nova avaliação
+              </Button>
             </CardContent>
           </Card>
         </main>
       </div>
     );
   }
+
+  const canProceed = usesDatabase !== null;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -114,31 +130,28 @@ export default function EntryFilter({ onPass, onFail, onRestart, onBack, filterR
 
         <h2 className="text-xl font-semibold mb-2">Passo 0 — Filtro de Entrada</h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          Verifique se o sistema de IA se enquadra no escopo da MARA.
+          Verifique se o sistema de IA se enquadra no escopo da MARA e se o protocolo utiliza banco
+          de dados (ativa subseção da Res. CNS n.º 738/2024).
         </p>
 
-        {/* Main question */}
-        <Card className="border-2 mb-8">
+        {/* Question 1: MARA applies? */}
+        <Card className="border-2 mb-6">
           <CardContent className="py-6">
-            <div className="flex items-start gap-3 mb-6">
+            <div className="flex items-start gap-3 mb-2">
               <div className="p-2 bg-amber-50 rounded-lg shrink-0">
                 <AlertTriangle className="h-5 w-5 text-amber-600" />
               </div>
-              <p className="text-base font-medium leading-relaxed">
-                O sistema de IA realiza automação de decisão, geração de conteúdo ou intervenção 
-                no protocolo ou na condução do estudo?
-              </p>
+              <div className="flex-1">
+                <p className="text-xs font-semibold text-muted-foreground mb-1">
+                  PERGUNTA 1 — Aplicabilidade
+                </p>
+                <p className="text-base font-medium leading-relaxed">
+                  O sistema de IA realiza automação de decisão, geração de conteúdo ou intervenção
+                  no protocolo ou na condução do estudo?
+                </p>
+              </div>
             </div>
-
-            <div className="flex gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-teal-600 hover:bg-teal-700 min-w-[120px]"
-                onClick={onPass}
-              >
-                <CheckCircle2 className="mr-2 h-5 w-5" />
-                Sim
-              </Button>
+            <div className="flex gap-3 justify-center mt-4 flex-wrap">
               <Button
                 size="lg"
                 variant="outline"
@@ -146,11 +159,100 @@ export default function EntryFilter({ onPass, onFail, onRestart, onBack, filterR
                 onClick={onFail}
               >
                 <XCircle className="mr-2 h-5 w-5" />
-                Não
+                Não — MARA não se aplica
               </Button>
             </div>
           </CardContent>
         </Card>
+
+        {/* Question 2: Database filter (Res 738) */}
+        <Card
+          className={`border-2 mb-8 ${
+            usesDatabase === true
+              ? 'border-blue-300 bg-blue-50/30'
+              : usesDatabase === false
+                ? 'border-green-200 bg-green-50/30'
+                : ''
+          }`}
+        >
+          <CardContent className="py-6">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="p-2 bg-blue-50 rounded-lg shrink-0">
+                <Database className="h-5 w-5 text-blue-600" />
+              </div>
+              <div className="flex-1">
+                <p className="text-xs font-semibold text-muted-foreground mb-1 flex items-center gap-2">
+                  PERGUNTA 2 — Filtro de Banco de Dados
+                  <span className="bg-blue-50 text-blue-700 border border-blue-200 px-1.5 py-0 rounded text-[10px]">
+                    Res. CNS n.º 738/2024
+                  </span>
+                </p>
+                <div className="flex items-start gap-2">
+                  <p className="text-base font-medium leading-relaxed flex-1">
+                    {DATABASE_FILTER_QUESTION.pergunta}
+                  </p>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-1" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-sm">
+                        <p className="text-xs">{DATABASE_FILTER_QUESTION.dica}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3 justify-center flex-wrap">
+              <Button
+                size="lg"
+                variant={usesDatabase === true ? 'default' : 'outline'}
+                className={
+                  usesDatabase === true
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]'
+                    : 'hover:bg-blue-50 min-w-[140px]'
+                }
+                onClick={() => onUsesDatabaseChange(true)}
+              >
+                <CheckCircle2 className="mr-2 h-5 w-5" />
+                Sim — ativa 3.b/6.b
+              </Button>
+              <Button
+                size="lg"
+                variant={usesDatabase === false ? 'default' : 'outline'}
+                className={
+                  usesDatabase === false
+                    ? 'bg-teal-600 hover:bg-teal-700 text-white min-w-[140px]'
+                    : 'hover:bg-muted min-w-[140px]'
+                }
+                onClick={() => onUsesDatabaseChange(false)}
+              >
+                Não
+              </Button>
+            </div>
+            {usesDatabase === true && (
+              <p className="text-xs text-blue-700 mt-4 text-center">
+                ✓ Subseção ativada: Eixo 3.b (Versão A) ou Bloco 6.b (Versão B) serão incluídos na
+                avaliação.
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Proceed */}
+        <div className="flex justify-end mb-8">
+          <Button
+            size="lg"
+            className="bg-teal-600 hover:bg-teal-700 min-w-[180px]"
+            disabled={!canProceed}
+            onClick={() => onPass(usesDatabase === true)}
+          >
+            <CheckCircle2 className="mr-2 h-5 w-5" />
+            Prosseguir para a avaliação
+          </Button>
+        </div>
 
         {/* Explanation */}
         <div className="mb-6">
@@ -169,14 +271,6 @@ export default function EntryFilter({ onPass, onFail, onRestart, onBack, filterR
               </Card>
             ))}
           </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="mt-8">
-          <Button variant="outline" onClick={onBack}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar
-          </Button>
         </div>
       </main>
 

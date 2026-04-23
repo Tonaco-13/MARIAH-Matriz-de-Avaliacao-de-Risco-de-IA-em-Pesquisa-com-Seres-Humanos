@@ -24,7 +24,8 @@ export type QualitativeQuestion = {
   pergunta: string;
   riskAnswer: 'sim' | 'nao';
   dica: string;
-  referencia?: string;
+  /** Quando true, a resposta de risco torna o protocolo NÃO AVALIÁVEL no mérito (§7.3.6 / Res 738). */
+  eliminatorio?: boolean;
 };
 
 export type QualitativeAxis = {
@@ -32,6 +33,18 @@ export type QualitativeAxis = {
   nome: string;
   descricao: string;
   questoes: QualitativeQuestion[];
+  /**
+   * Quando true, este eixo só é aplicado se o protocolo usa banco de dados
+   * (filtro do Passo 0, conforme Res. CNS n.º 738/2024).
+   */
+  condicionalBancoDados?: boolean;
+  /**
+   * Regra de elevação específica (Eixo 3.b não segue a regra geral 0→I / 1-2→II / 3-4→III / 5+→IV;
+   * usa 0→não eleva / 1-2→III / 3+→IV).
+   */
+  elevacaoEspecial?: 'banco-dados';
+  /** Referência normativa (Res 738, LGPD, etc.) exibida no cabeçalho do eixo. */
+  referenciaNormativa?: string;
 };
 
 export type QuantitativeQuestion = {
@@ -41,7 +54,8 @@ export type QuantitativeQuestion = {
   pontos: number;
   dica: string;
   efeito?: 'risco' | 'mitigacao';
-  referencia?: string;
+  /** Quando true, a resposta de risco torna o protocolo NÃO AVALIÁVEL no mérito (§7.3.6 / Res 738). */
+  eliminatorio?: boolean;
 };
 
 export type QuantitativeBlock = {
@@ -51,6 +65,13 @@ export type QuantitativeBlock = {
   subtitulo?: string;
   questoes: QuantitativeQuestion[];
   maxPontos: number;
+  /**
+   * Quando true, este bloco só é aplicado se o protocolo usa banco de dados
+   * (filtro do Passo 0, conforme Res. CNS n.º 738/2024). Seus pontos SOMAM ao bloco base.
+   */
+  condicionalBancoDados?: boolean;
+  /** Referência normativa (Res 738, LGPD, etc.) exibida no cabeçalho do bloco. */
+  referenciaNormativa?: string;
 };
 
 export type Requirement = {
@@ -113,7 +134,6 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O sistema toma decisões ou emite recomendações sem intervenção humana obrigatória antes da execução?',
         riskAnswer: 'sim',
         dica: 'Sistemas que operam sem revisão humana obrigatória antes da execução aumentam o risco, pois não há barreira de segurança entre a recomendação algorítmica e a ação sobre o participante.',
-        referencia: 'Resolução CNS 466/12, item III.1',
       },
       {
         id: '1.2',
@@ -169,7 +189,6 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O sistema influencia diretamente decisões clínicas ou terapêuticas sobre o participante?',
         riskAnswer: 'sim',
         dica: 'Influência direta em decisões clínicas implica maior potencial de dano em caso de erro do sistema.',
-        referencia: 'Resolução CNS 466/12, item V',
       },
       {
         id: '2.2',
@@ -188,7 +207,6 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O protocolo envolve populações vulneráveis: crianças, gestantes, idosos, pessoas com deficiência, povos indígenas ou comunidades em situação de vulnerabilidade socioeconômica?',
         riskAnswer: 'sim',
         dica: 'Populações vulneráveis exigem proteção adicional, pois podem ter menor capacidade de contestar decisões ou compreender os riscos.',
-        referencia: 'Resolução CNS 466/12, item III.2.i; Resolução CNS 510/16',
       },
       {
         id: '2.5',
@@ -232,7 +250,6 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?',
         riskAnswer: 'sim',
         dica: 'Dados sensíveis exigem proteção reforçada e base legal específica conforme a LGPD.',
-        referencia: 'LGPD, Art. 11',
       },
       {
         id: '3.2',
@@ -251,7 +268,6 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O protocolo demonstra conformidade com a LGPD: base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?',
         riskAnswer: 'nao',
         dica: 'A não conformidade com a LGPD expõe participantes e instituição a riscos legais e éticos.',
-        referencia: 'LGPD, Arts. 7, 11 e 41',
       },
       {
         id: '3.5',
@@ -276,6 +292,50 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O protocolo descreve como os dados serão armazenados, por quanto tempo e como serão descartados ao final do estudo?',
         riskAnswer: 'nao',
         dica: 'A ausência de política de retenção e descarte pode levar ao uso indevido dos dados após o estudo.',
+      },
+    ],
+  },
+  // ----- Eixo 3.b: BANCOS DE DADOS (Res. CNS n.º 738/2024) -----
+  // Condicional: só aplicado quando o protocolo usa banco de dados (filtro Passo 0).
+  // Regra de elevação: 0 → não eleva; 1-2 → III; 3+ → IV. Eliminatório em 3.b.2.
+  {
+    id: 'eixo3b',
+    nome: 'Eixo 3.b: Bancos de Dados de Pesquisa (Res. CNS n.º 738/2024)',
+    descricao: 'Subseção aplicável quando o protocolo utiliza bancos de dados (próprios, de outra pesquisa ou de instituição externa). Deriva da Resolução CNS n.º 738/2024 e complementa o Eixo 3. Pode elevar o nível consolidado do protocolo.',
+    condicionalBancoDados: true,
+    elevacaoEspecial: 'banco-dados',
+    referenciaNormativa: 'Resolução CNS n.º 738/2024',
+    questoes: [
+      {
+        id: '3.b.1',
+        pergunta: 'O protocolo identifica o Controlador do banco de dados (Art. 3.º, IV da Res. CNS n.º 738/2024), com cargo, função e instituição vinculada?',
+        riskAnswer: 'nao',
+        dica: 'Sem identificação do Controlador (Arts. 3.º IV e 9.º), não há cadeia de custódia formalizada sobre os dados. Cargo, função e instituição devem estar explícitos.',
+      },
+      {
+        id: '3.b.2',
+        pergunta: 'Se o banco é constituído fora do âmbito da pesquisa: há Termo de Anuência Institucional (Art. 27, VI) assinado pelo dirigente da instituição detentora dos dados?',
+        riskAnswer: 'nao',
+        eliminatorio: true,
+        dica: 'ELIMINATÓRIO. A ausência do Termo de Anuência Institucional em banco externo configura ausência de cadeia de custódia formalizada — o protocolo não é avaliável no mérito e segue para diligência obrigatória (§7.3.6).',
+      },
+      {
+        id: '3.b.3',
+        pergunta: 'O Termo de Compromisso de Uso de Dados (Arts. 24, V e 27, V), assinado pelos pesquisadores, consta do dossiê do protocolo?',
+        riskAnswer: 'nao',
+        dica: 'Os pesquisadores devem assinar Termo de Compromisso de Uso de Dados, assumindo responsabilidade sobre finalidade, confidencialidade e descarte.',
+      },
+      {
+        id: '3.b.4',
+        pergunta: 'Se há pedido de dispensa de TCLE para uso futuro de dados: o enquadramento é fundamentado em uma das cinco situações do Art. 20 da Res. CNS n.º 738/2024?',
+        riskAnswer: 'nao',
+        dica: 'A dispensa de TCLE para uso futuro só é legítima quando enquadrada em uma das cinco hipóteses taxativas do Art. 20 da Res. 738/2024. Enquadramento genérico não é suficiente.',
+      },
+      {
+        id: '3.b.5',
+        pergunta: 'Se o protocolo é multicêntrico ou envolve mais de uma instituição: a controladoria conjunta está formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12)?',
+        riskAnswer: 'nao',
+        dica: 'Pesquisas multicêntricas exigem Termo de Acordo Institucional formalizando a controladoria conjunta dos dados, conforme Art. 3.º XVI.',
       },
     ],
   },
@@ -344,14 +404,12 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'O protocolo garante que um profissional habilitado revisa e pode contestar toda decisão gerada pelo sistema antes de sua execução?',
         riskAnswer: 'nao',
         dica: 'A ausência de revisão humana obrigatória (human-in-the-loop) deixa o participante exposto a erros sem barreira de segurança.',
-        referencia: 'EU AI Act, Art. 14; Resolução CNS 466/12',
       },
       {
         id: '5.2',
         pergunta: 'O sistema opera como único determinante de uma decisão — sem revisão humana obrigatória?',
         riskAnswer: 'sim',
         dica: 'Sistemas que operam como único determinante representam o maior nível de risco para o participante.',
-        referencia: 'Cláusula de Prevalência Ética — Capítulo 7 do Guia',
       },
       {
         id: '5.3',
@@ -447,8 +505,8 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     descricao: 'Avalia se o sistema é o único determinante de decisões e a irreversibilidade dos danos potenciais. Este é um bloco CRÍTICO.',
     subtitulo: '⚠️ BLOCO CRÍTICO — Cláusula de Prevalência Ética',
     questoes: [
-      { id: 'P4.1', pergunta: 'O sistema é o único determinante de uma decisão que afeta diretamente o participante — sem revisão humana obrigatória?', riskAnswer: 'sim', pontos: 3, dica: 'Se o sistema é o único determinante, o participante fica sem barreira de segurança humana. Isso aciona a Cláusula de Prevalência Ética.', referencia: 'Cláusula de Prevalência Ética — Capítulo 7 do Guia' },
-      { id: 'P4.2', pergunta: 'Em caso de erro do sistema, o dano ao participante seria irreversível ou de difícil reparação?', riskAnswer: 'sim', pontos: 3, dica: 'Danos irreversíveis representam o nível mais alto de risco. Isso aciona a Cláusula de Prevalência Ética.', referencia: 'Cláusula de Prevalência Ética — Capítulo 7 do Guia' },
+      { id: 'P4.1', pergunta: 'O sistema é o único determinante de uma decisão que afeta diretamente o participante — sem revisão humana obrigatória?', riskAnswer: 'sim', pontos: 3, dica: 'Se o sistema é o único determinante, o participante fica sem barreira de segurança humana. Isso aciona a Cláusula de Prevalência Ética.' },
+      { id: 'P4.2', pergunta: 'Em caso de erro do sistema, o dano ao participante seria irreversível ou de difícil reparação?', riskAnswer: 'sim', pontos: 3, dica: 'Danos irreversíveis representam o nível mais alto de risco. Isso aciona a Cláusula de Prevalência Ética.' },
       { id: 'P4.3', pergunta: 'O profissional responsável tem acesso às informações necessárias para contestar a recomendação do sistema antes de sua execução?', riskAnswer: 'nao', pontos: 2, dica: 'Sem acesso às informações, a supervisão humana é apenas simbólica.' },
     ],
     maxPontos: 8,
@@ -475,16 +533,35 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     nome: 'Bloco 6: Dados',
     descricao: 'Avalia a sensibilidade dos dados, a conformidade com a LGPD e os mecanismos de proteção e governança.',
     questoes: [
-      { id: 'P6.1', pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?', riskAnswer: 'sim', pontos: 7, dica: 'Dados sensíveis exigem proteção reforçada e base legal específica.', referencia: 'LGPD, Art. 11' },
+      { id: 'P6.1', pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?', riskAnswer: 'sim', pontos: 7, dica: 'Dados sensíveis exigem proteção reforçada e base legal específica.' },
       { id: 'P6.2', pergunta: 'Os dados são transferidos ou processados em servidores fora do Brasil?', riskAnswer: 'sim', pontos: 7, dica: 'Transferência internacional exige avaliação de adequação e salvaguardas adicionais.' },
       { id: 'P6.3', pergunta: 'Existe risco real de reidentificação dos participantes a partir dos dados utilizados ou gerados pelo sistema?', riskAnswer: 'sim', pontos: 7, dica: 'A reidentificação pode causar danos significativos à privacidade e segurança.' },
       { id: 'P6.4', pergunta: 'O consentimento obtido cobre explicitamente o uso dos dados para treinamento ou retreinamento de modelos de IA?', riskAnswer: 'nao', pontos: 6, dica: 'Consentimento genérico não é suficiente para uso de dados em IA.' },
-      { id: 'P6.5', pergunta: 'O protocolo demonstra conformidade com a LGPD — base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?', riskAnswer: 'nao', pontos: 7, dica: 'A não conformidade com a LGPD expõe a riscos legais e éticos.', referencia: 'LGPD, Arts. 7, 11 e 41' },
+      { id: 'P6.5', pergunta: 'O protocolo demonstra conformidade com a LGPD — base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?', riskAnswer: 'nao', pontos: 7, dica: 'A não conformidade com a LGPD expõe a riscos legais e éticos.' },
       { id: 'P6.6', pergunta: 'O protocolo prevê plano de resposta a incidentes de segurança envolvendo os dados processados pela IA?', riskAnswer: 'nao', pontos: 5, dica: 'Sem plano de resposta, incidentes podem não ser tratados adequadamente.' },
       { id: 'P6.7', pergunta: 'Os dados de treinamento do modelo foram coletados com consentimento compatível com o uso previsto neste protocolo?', riskAnswer: 'nao', pontos: 6, dica: 'Dados coletados para outra finalidade podem não ter base legal para uso em IA.' },
       { id: 'P6.8', pergunta: 'O protocolo descreve como os dados serão armazenados, por quanto tempo e como serão descartados ao final do estudo?', riskAnswer: 'nao', pontos: 5, dica: 'A ausência de política de retenção pode levar ao uso indevido dos dados.' },
     ],
     maxPontos: 50,
+  },
+  // ----- Bloco 6.b: BANCOS DE DADOS (Res. CNS n.º 738/2024) -----
+  // Condicional: só aplicado quando o protocolo usa banco de dados (filtro Passo 0).
+  // Soma-se ao Bloco 6 no cálculo final. Eliminatório em P6.b.2.
+  {
+    id: 'bloco6b',
+    nome: 'Bloco 6.b: Bancos de Dados de Pesquisa (Res. CNS n.º 738/2024)',
+    descricao: 'Subseção aplicável quando o protocolo utiliza banco de dados. Deriva da Resolução CNS n.º 738/2024 e complementa o Bloco 6. A pontuação soma-se ao Bloco 6 para o cálculo final.',
+    subtitulo: 'Condicional — ativada pelo filtro de banco de dados no Passo 0',
+    condicionalBancoDados: true,
+    referenciaNormativa: 'Resolução CNS n.º 738/2024',
+    questoes: [
+      { id: 'P6.b.1', pergunta: 'O protocolo identifica o Controlador do banco de dados (Art. 3.º, IV da Res. CNS n.º 738/2024) com cargo, função e instituição vinculada?', riskAnswer: 'nao', pontos: 7, dica: 'Sem identificação do Controlador (Arts. 3.º IV e 9.º), não há cadeia de custódia formalizada sobre os dados.' },
+      { id: 'P6.b.2', pergunta: 'Se o banco é constituído fora do âmbito da pesquisa: o Termo de Anuência Institucional (Art. 27, VI) está presente?', riskAnswer: 'nao', pontos: 7, dica: 'ELIMINATÓRIO. A ausência do Termo de Anuência Institucional em banco externo torna o protocolo não avaliável no mérito (§7.3.6), independentemente da pontuação total.', eliminatorio: true },
+      { id: 'P6.b.3', pergunta: 'O Termo de Compromisso de Uso de Dados (Arts. 24, V e 27, V) está assinado pelos pesquisadores e anexado ao dossiê?', riskAnswer: 'nao', pontos: 5, dica: 'Os pesquisadores devem assinar Termo de Compromisso de Uso de Dados assumindo responsabilidade sobre finalidade, confidencialidade e descarte.' },
+      { id: 'P6.b.4', pergunta: 'Se há pedido de dispensa de TCLE para uso futuro: o enquadramento em uma das cinco hipóteses do Art. 20 da Res. CNS n.º 738/2024 é fundamentado?', riskAnswer: 'nao', pontos: 5, dica: 'A dispensa de TCLE para uso futuro só é legítima quando enquadrada em uma das cinco hipóteses taxativas do Art. 20. Enquadramento genérico não é suficiente.' },
+      { id: 'P6.b.5', pergunta: 'Se o protocolo é multicêntrico: a controladoria conjunta está formalizada em Termo de Acordo Institucional (Art. 3.º, XVI)?', riskAnswer: 'nao', pontos: 5, dica: 'Pesquisas multicêntricas exigem Termo de Acordo Institucional formalizando a controladoria conjunta dos dados.' },
+    ],
+    maxPontos: 29,
   },
   {
     id: 'bloco7',
@@ -494,7 +571,7 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     questoes: [
       { id: 'P7.1', pergunta: 'O protocolo foi submetido a consulta prévia com a ANVISA sobre o enquadramento do sistema como SaMD?', riskAnswer: 'nao', pontos: 5, dica: 'A consulta à ANVISA é importante quando o sistema pode se enquadrar como Software como Dispositivo Médico.', efeito: 'risco' },
       { id: 'P7.2', pergunta: 'O protocolo prevê engajamento com o fabricante ou desenvolvedor do sistema para esclarecimento de dúvidas técnicas durante o estudo?', riskAnswer: 'nao', pontos: 5, dica: 'O engajamento com o fabricante permite acesso a informações técnicas relevantes.', efeito: 'risco' },
-      { id: 'P7.3', pergunta: 'O protocolo garante que um profissional habilitado revisa toda decisão gerada pelo sistema antes de sua execução?', riskAnswer: 'sim', pontos: -10, dica: 'A revisão humana obrigatória é a medida de mitigação mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao', referencia: 'EU AI Act, Art. 14' },
+      { id: 'P7.3', pergunta: 'O protocolo garante que um profissional habilitado revisa toda decisão gerada pelo sistema antes de sua execução?', riskAnswer: 'sim', pontos: -10, dica: 'A revisão humana obrigatória é a medida de mitigação mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
       { id: 'P7.4', pergunta: 'O sistema fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que influenciaram aquele resultado?', riskAnswer: 'sim', pontos: -8, dica: 'A explicabilidade permite supervisão mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
       { id: 'P7.5', pergunta: 'O protocolo prevê monitoramento contínuo do desempenho do sistema após o início do uso, com critérios definidos para interrupção?', riskAnswer: 'sim', pontos: -10, dica: 'Monitoramento contínuo com critérios de interrupção é essencial. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
       { id: 'P7.6', pergunta: 'Existe procedimento documentado para falha, indisponibilidade ou resultado inconsistente do sistema durante o estudo?', riskAnswer: 'sim', pontos: -8, dica: 'Procedimento de contingência é fundamental para a segurança. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
@@ -506,6 +583,41 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     maxPontos: 75,
   },
 ];
+
+// ----- Quantitative thresholds (base and with Res 738 Bloco 6.b) -----
+
+export type NivelThresholds = {
+  maxScore: number;
+  /** Limite superior (inclusivo) do Nível I; score <= este limite → Nível I. */
+  levelI: number;
+  /** Limite superior (inclusivo) do Nível II. */
+  levelII: number;
+  /** Limite superior (inclusivo) do Nível III. Acima → Nível IV. */
+  levelIII: number;
+};
+
+/** Faixas base (protocolos SEM banco de dados). Conforme matriz original (238 pts). */
+export const THRESHOLDS_BASE: NivelThresholds = {
+  maxScore: 238,
+  levelI: 50,
+  levelII: 110,
+  levelIII: 180,
+};
+
+/**
+ * Faixas recalibradas para protocolos COM banco de dados (Bloco 6.b ativo, máx 267 pts).
+ * Proporcionais à matriz base: 50/238 ≈ 21%; 110/238 ≈ 46%; 180/238 ≈ 76%.
+ */
+export const THRESHOLDS_COM_BANCO: NivelThresholds = {
+  maxScore: 267,
+  levelI: 56, // 50 * 267/238 ≈ 56,1
+  levelII: 123, // 110 * 267/238 ≈ 123,4
+  levelIII: 202, // 180 * 267/238 ≈ 201,9
+};
+
+export function getThresholds(usesDatabase: boolean): NivelThresholds {
+  return usesDatabase ? THRESHOLDS_COM_BANCO : THRESHOLDS_BASE;
+}
 
 // ----- Requirements by Level (Cumulative) -----
 
@@ -531,6 +643,26 @@ export const REQUIREMENTS: Requirement[] = [
   { id: 'req-IV-3', texto: 'Notificação à ANVISA quando o sistema se enquadrar como SaMD', nivel: 'IV' },
   { id: 'req-IV-4', texto: 'Submissão do protocolo à apreciação em instância superior do CEP, quando prevista no regimento institucional', nivel: 'IV' },
 ];
+
+// ----- Requisitos adicionais Res. CNS n.º 738/2024 (aplicáveis apenas quando usesDatabase) -----
+
+export const REQUIREMENTS_RES738: Requirement[] = [
+  { id: 'req-738-I-1', texto: 'Identificação do Controlador do banco de dados (Art. 3.º, IV)', nivel: 'I' },
+  { id: 'req-738-II-1', texto: 'Termo de Compromisso de Uso de Dados assinado pelos pesquisadores (Arts. 24, V e 27, V)', nivel: 'II' },
+  { id: 'req-738-II-2', texto: 'Termo de Anuência Institucional para bancos externos à pesquisa (Art. 27, VI) — obrigatório/eliminatório', nivel: 'II' },
+  { id: 'req-738-III-1', texto: 'Fundamentação do enquadramento de dispensa de TCLE nas cinco hipóteses do Art. 20', nivel: 'III' },
+  { id: 'req-738-III-2', texto: 'Termo de Acordo Institucional para controladoria conjunta em protocolos multicêntricos (Art. 3.º, XVI e §2.º do Art. 12)', nivel: 'III' },
+  { id: 'req-738-IV-1', texto: 'Diligência obrigatória (§7.3.6) sempre que configurada ausência de cadeia de custódia formalizada', nivel: 'IV' },
+];
+
+// ----- Passo 0: Filtro de Banco de Dados (Res. CNS n.º 738/2024) -----
+
+export const DATABASE_FILTER_QUESTION = {
+  id: 'db-filter',
+  pergunta: 'O protocolo utiliza banco de dados — próprio, de outra pesquisa ou de instituição externa?',
+  dica: 'Este filtro ativa a subseção Res. CNS n.º 738/2024 (Eixo 3.b na Versão A e Bloco 6.b na Versão B). Bancos abrangem dados coletados fora do escopo direto de cada participante desta pesquisa. Não marque "Sim" quando o protocolo coleta dados exclusivamente no escopo da pesquisa com cada participante.',
+  referenciaNormativa: 'Res. CNS n.º 738/2024 — Arts. 3.º, 9.º, 12, 20, 24, 27',
+};
 
 // ----- Context Characterization Questions -----
 

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -16,12 +15,11 @@ import {
   CheckCircle2,
   Circle,
 } from 'lucide-react';
-import { QUALITATIVE_AXES, RISK_LEVELS } from './data';
-import type { RiskLevel, QualitativeQuestion } from './data';
+import { RISK_LEVELS } from './data';
+import type { RiskLevel } from './data';
 import type { QualitativeAnswer } from './utils';
-import { countRiskAnswersAxis, getAxisRiskLevel } from './utils';
+import { countRiskAnswersAxis, getAxisRiskLevel, getApplicableAxes } from './utils';
 import StepIndicator from './StepIndicator';
-import HelpPanel from './HelpPanel';
 import {
   Tooltip,
   TooltipContent,
@@ -32,6 +30,8 @@ import {
 type QualitativeAssessmentProps = {
   answers: QualitativeAnswer;
   onAnswer: (questionId: string, answer: 'sim' | 'nao') => void;
+  /** Quando true, inclui Eixo 3.b (Res. CNS n.º 738/2024). */
+  usesDatabase: boolean;
   onComplete: () => void;
   onBack: () => void;
 };
@@ -54,32 +54,33 @@ function getRiskLevelBadge(level: RiskLevel) {
 export default function QualitativeAssessment({
   answers,
   onAnswer,
+  usesDatabase,
   onComplete,
   onBack,
 }: QualitativeAssessmentProps) {
+  const axesList = getApplicableAxes(usesDatabase);
   const [currentAxis, setCurrentAxis] = useState(0);
-  const [helpQuestion, setHelpQuestion] = useState<QualitativeQuestion | null>(null);
-  const axis = QUALITATIVE_AXES[currentAxis];
+  const axis = axesList[Math.min(currentAxis, axesList.length - 1)];
 
   const riskCount = countRiskAnswersAxis(axis, answers);
-  const level = getAxisRiskLevel(riskCount);
+  const level = getAxisRiskLevel(riskCount, axis);
   const answeredCount = axis.questoes.filter((q) => answers[q.id] !== undefined).length;
   const allAnswered = axis.questoes.every((q) => answers[q.id] !== undefined);
 
-  const totalQuestions = QUALITATIVE_AXES.reduce((sum, a) => sum + a.questoes.length, 0);
-  const totalAnswered = QUALITATIVE_AXES.reduce(
+  const totalQuestions = axesList.reduce((sum, a) => sum + a.questoes.length, 0);
+  const totalAnswered = axesList.reduce(
     (sum, a) => sum + a.questoes.filter((q) => answers[q.id] !== undefined).length,
     0
   );
 
   const handleNext = useCallback(() => {
-    if (currentAxis < QUALITATIVE_AXES.length - 1) {
+    if (currentAxis < axesList.length - 1) {
       setCurrentAxis((prev) => prev + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       onComplete();
     }
-  }, [currentAxis, onComplete]);
+  }, [currentAxis, axesList.length, onComplete]);
 
   const handlePrev = useCallback(() => {
     if (currentAxis > 0) {
@@ -91,9 +92,9 @@ export default function QualitativeAssessment({
   }, [currentAxis, onBack]);
 
   // Get axis-level summary for all axes
-  const axisSummaries = QUALITATIVE_AXES.map((a, idx) => {
+  const axisSummaries = axesList.map((a, idx) => {
     const rc = countRiskAnswersAxis(a, answers);
-    const lvl = getAxisRiskLevel(rc);
+    const lvl = getAxisRiskLevel(rc, a);
     const done = a.questoes.every((q) => answers[q.id] !== undefined);
     return { axis: a, index: idx, riskCount: rc, level: lvl, done };
   });
@@ -131,55 +132,74 @@ export default function QualitativeAssessment({
 
         {/* Axis navigation tabs */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {axisSummaries.map((s) => (
-            <button
-              key={s.axis.id}
-              onClick={() => setCurrentAxis(s.index)}
-              className={`
-                flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
-                ${s.index === currentAxis
-                  ? 'bg-teal-600 text-white shadow-sm'
-                  : s.done
-                    ? 'bg-teal-50 text-teal-700 border border-teal-200 hover:bg-teal-100'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                }
-              `}
-            >
-              {s.done ? (
-                <CheckCircle2 className="h-3.5 w-3.5" />
-              ) : (
-                <Circle className="h-3.5 w-3.5" />
-              )}
-              Eixo {s.index + 1}
-              {s.done && (
-                <Badge className={`ml-1 text-[10px] px-1 py-0 ${
-                  s.level === 'I' ? 'bg-green-100 text-green-700' :
-                  s.level === 'II' ? 'bg-amber-100 text-amber-700' :
-                  s.level === 'III' ? 'bg-orange-100 text-orange-700' :
-                  'bg-red-100 text-red-700'
-                }`}>
-                  {s.level}
-                </Badge>
-              )}
-            </button>
-          ))}
+          {axisSummaries.map((s) => {
+            const isRes738 = s.axis.condicionalBancoDados;
+            // Label uses the axis ID suffix (1, 2, 3, 3.b, 4, 5) to stay in sync with the matrix.
+            const idMatch = s.axis.id.match(/^eixo(\d+b?)$/);
+            const label = idMatch
+              ? idMatch[1].includes('b')
+                ? `Eixo 3.b`
+                : `Eixo ${idMatch[1]}`
+              : `Eixo ${s.index + 1}`;
+            return (
+              <button
+                key={s.axis.id}
+                onClick={() => setCurrentAxis(s.index)}
+                className={`
+                  flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
+                  ${s.index === currentAxis
+                    ? isRes738 ? 'bg-blue-600 text-white shadow-sm' : 'bg-teal-600 text-white shadow-sm'
+                    : s.done
+                      ? isRes738
+                        ? 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
+                        : 'bg-teal-50 text-teal-700 border border-teal-200 hover:bg-teal-100'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }
+                `}
+              >
+                {s.done ? (
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                ) : (
+                  <Circle className="h-3.5 w-3.5" />
+                )}
+                {label}
+                {isRes738 && (
+                  <span className="text-[9px] bg-white/30 px-1 rounded">738</span>
+                )}
+                {s.done && (
+                  <Badge className={`ml-1 text-[10px] px-1 py-0 ${
+                    s.level === 'I' ? 'bg-green-100 text-green-700' :
+                    s.level === 'II' ? 'bg-amber-100 text-amber-700' :
+                    s.level === 'III' ? 'bg-orange-100 text-orange-700' :
+                    'bg-red-100 text-red-700'
+                  }`}>
+                    {s.level}
+                  </Badge>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Current axis */}
-        <AnimatePresence mode="wait">
-        <motion.div
-          key={axis.id}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.2 }}
-        >
-        <Card className="border-2 border-teal-200 mb-6">
+        <Card className={`border-2 mb-6 ${axis.condicionalBancoDados ? 'border-blue-300' : 'border-teal-200'}`}>
           <CardHeader className="pb-3">
             <div className="flex items-start justify-between flex-wrap gap-2">
               <div>
-                <CardTitle className="text-lg">{axis.nome}</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2 flex-wrap">
+                  {axis.nome}
+                  {axis.condicionalBancoDados && (
+                    <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-xs">
+                      Res 738/2024
+                    </Badge>
+                  )}
+                </CardTitle>
                 <CardDescription className="text-sm mt-1">{axis.descricao}</CardDescription>
+                {axis.elevacaoEspecial === 'banco-dados' && (
+                  <p className="text-xs mt-2 text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-100 inline-block">
+                    ⚠ Elevação especial: 0 → não eleva · 1-2 risco → Nível III · 3+ → Nível IV
+                  </p>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 {allAnswered && getRiskLevelBadge(level)}
@@ -208,13 +228,15 @@ export default function QualitativeAssessment({
                 const currentAnswer = answers[q.id];
                 const isRisk = currentAnswer === q.riskAnswer;
                 const riskLabel = q.riskAnswer === 'sim' ? 'Sim ⬆' : 'Não ⬆';
+                const eliminatorioAtivado = q.eliminatorio && isRisk;
 
                 return (
                   <div
                     key={q.id}
                     className={`
                       rounded-lg border p-4 transition-all
-                      ${isRisk ? 'border-red-200 bg-red-50/50' : 
+                      ${eliminatorioAtivado ? 'border-red-400 bg-red-50 ring-2 ring-red-200' :
+                        isRisk ? 'border-red-200 bg-red-50/50' :
                         currentAnswer ? 'border-green-200 bg-green-50/30' : 'border-border'}
                     `}
                   >
@@ -224,18 +246,18 @@ export default function QualitativeAssessment({
                       </span>
                       <div className="flex-1">
                         <div className="flex items-start justify-between gap-2 mb-2">
-                          <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
+                          <div className="flex-1">
+                            <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
+                            {q.eliminatorio && (
+                              <Badge className="mt-1 bg-red-100 text-red-700 border border-red-300 text-[10px]">
+                                ⛔ ELIMINATÓRIO
+                              </Badge>
+                            )}
+                          </div>
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <button
-                                  type="button"
-                                  onClick={() => setHelpQuestion(q)}
-                                  className="shrink-0 mt-0.5"
-                                  aria-label={`Ajuda sobre ${q.id}`}
-                                >
-                                  <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                                </button>
+                                <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-0.5" />
                               </TooltipTrigger>
                               <TooltipContent className="max-w-sm">
                                 <p className="text-xs">{q.dica}</p>
@@ -245,7 +267,6 @@ export default function QualitativeAssessment({
                         </div>
                         <div className="flex items-center gap-2 flex-wrap">
                           <div className="flex gap-2">
-                            <motion.div whileTap={{ scale: 0.97 }}>
                             <Button
                               size="sm"
                               variant={currentAnswer === 'sim' ? 'default' : 'outline'}
@@ -260,8 +281,6 @@ export default function QualitativeAssessment({
                             >
                               Sim
                             </Button>
-                            </motion.div>
-                            <motion.div whileTap={{ scale: 0.97 }}>
                             <Button
                               size="sm"
                               variant={currentAnswer === 'nao' ? 'default' : 'outline'}
@@ -276,11 +295,15 @@ export default function QualitativeAssessment({
                             >
                               Não
                             </Button>
-                            </motion.div>
                           </div>
                           <span className="text-xs text-muted-foreground">
                             Resposta de risco: <span className="font-semibold text-red-600">{riskLabel}</span>
                           </span>
+                          {eliminatorioAtivado && (
+                            <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
+                              ⛔ Protocolo não avaliável — §7.3.6
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -290,8 +313,6 @@ export default function QualitativeAssessment({
             </div>
           </CardContent>
         </Card>
-        </motion.div>
-        </AnimatePresence>
 
         {/* Navigation */}
         <div className="flex justify-between">
@@ -303,7 +324,7 @@ export default function QualitativeAssessment({
             className="bg-teal-600 hover:bg-teal-700"
             onClick={handleNext}
           >
-            {currentAxis < QUALITATIVE_AXES.length - 1 ? 'Próximo Eixo' : 'Ver Resultado'}
+            {currentAxis < axesList.length - 1 ? 'Próximo Eixo' : 'Ver Resultado'}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -316,18 +337,6 @@ export default function QualitativeAssessment({
           </p>
         </div>
       </footer>
-
-      {helpQuestion && (
-        <HelpPanel
-          open={!!helpQuestion}
-          onClose={() => setHelpQuestion(null)}
-          questionId={helpQuestion.id}
-          questionText={helpQuestion.pergunta}
-          dica={helpQuestion.dica}
-          referencia={helpQuestion.referencia}
-          riskAnswer={helpQuestion.riskAnswer}
-        />
-      )}
     </div>
   );
 }
