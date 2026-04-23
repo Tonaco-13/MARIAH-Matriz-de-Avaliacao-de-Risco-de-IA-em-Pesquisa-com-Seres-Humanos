@@ -216,6 +216,7 @@ export default function Home() {
         <EntryFilter
           onPass={handleFilterPass}
           onFail={handleFilterFail}
+          onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'version' })}
           onRestart={handleRestart}
           filterResult={state.filterResult}
           usesDatabase={state.usesDatabase}
