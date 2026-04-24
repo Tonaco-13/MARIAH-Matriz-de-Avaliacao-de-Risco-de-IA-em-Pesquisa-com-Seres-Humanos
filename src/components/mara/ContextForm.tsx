@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Shield, ArrowRight, ArrowLeft, HelpCircle } from 'lucide-react';
@@ -15,25 +14,17 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-const IDENTIFICATION_FIELDS = [
-  { id: 'titulo', label: 'Título do Projeto' },
-  { id: 'instituicao', label: 'Instituição' },
-  { id: 'cep_nome', label: 'Nome do CEP' },
-] as const;
-
 type ContextFormProps = {
   answers: Record<string, string>;
   onAnswer: (id: string, value: string) => void;
   onNext: () => void;
   onBack: () => void;
+  onRestart: () => void;
 };
 
-export default function ContextForm({ answers, onAnswer, onNext, onBack }: ContextFormProps) {
-  const identificationFilled = IDENTIFICATION_FIELDS.every(
-    (f) => answers[f.id]?.trim().length > 0
-  );
-  const contextFilled = CONTEXT_QUESTIONS.every((q) => answers[q.id]?.trim().length > 0);
-  const allFilled = identificationFilled && contextFilled;
+export default function ContextForm({ answers, onAnswer, onNext, onBack, onRestart }: ContextFormProps) {
+  const allFilled = CONTEXT_QUESTIONS.every((q) => answers[q.id]?.trim().length > 0);
+  const answeredCount = CONTEXT_QUESTIONS.filter((q) => answers[q.id]?.trim().length > 0).length;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -54,55 +45,9 @@ export default function ContextForm({ answers, onAnswer, onNext, onBack }: Conte
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-8">
-          <StepIndicator currentStep="context" />
+          <StepIndicator currentStep="context" onRestart={onRestart} answeredCount={answeredCount} />
         </div>
 
-        {/* Identification section */}
-        <h2 className="text-xl font-semibold mb-2">Identificação do Protocolo</h2>
-        <p className="text-muted-foreground mb-6 text-sm">
-          Campos obrigatórios para identificar o protocolo avaliado.
-        </p>
-
-        <Card className="border mb-8">
-          <CardContent className="pt-6">
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="titulo">Título do Projeto *</Label>
-                <Input
-                  id="titulo"
-                  value={answers['titulo'] || ''}
-                  onChange={(e) => onAnswer('titulo', e.target.value)}
-                  placeholder="Ex: Sistema de triagem por IA para emergências"
-                  className="mt-1"
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="instituicao">Instituição *</Label>
-                  <Input
-                    id="instituicao"
-                    value={answers['instituicao'] || ''}
-                    onChange={(e) => onAnswer('instituicao', e.target.value)}
-                    placeholder="Ex: Hospital Universitário XYZ"
-                    className="mt-1"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="cep_nome">Nome do CEP *</Label>
-                  <Input
-                    id="cep_nome"
-                    value={answers['cep_nome'] || ''}
-                    onChange={(e) => onAnswer('cep_nome', e.target.value)}
-                    placeholder="Ex: CEP/CONEP"
-                    className="mt-1"
-                  />
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Context questions section */}
         <h2 className="text-xl font-semibold mb-2">Caracterização do Contexto de Uso</h2>
         <p className="text-muted-foreground mb-6 text-sm">
           Estas questões são descritivas e obrigatórias. Elas não geram pontuação, mas contextualizam a avaliação.

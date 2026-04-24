@@ -25,7 +25,7 @@ type AppState = {
   usesDatabase: boolean | null;
   contextAnswers: Record<string, string>;
   qualitativeAnswers: Record<string, 'sim' | 'nao'>;
-  quantitativeAnswers: Record<string, 'sim' | 'nao'>;
+  quantitativeAnswers: Record<string, 'sim' | 'nao' | 'na'>;
 };
 
 // ----- Actions -----
@@ -36,7 +36,7 @@ type Action =
   | { type: 'SET_USES_DATABASE'; usesDatabase: boolean }
   | { type: 'SET_CONTEXT_ANSWER'; id: string; value: string }
   | { type: 'SET_QUALITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' }
-  | { type: 'SET_QUANTITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' }
+  | { type: 'SET_QUANTITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' | 'na' }
   | { type: 'GO_TO_STEP'; step: Step }
   | { type: 'CONTINUE_TO_B' }
   | { type: 'RESTART' }
@@ -183,7 +183,7 @@ export default function Home() {
     dispatch({ type: 'SET_QUALITATIVE_ANSWER', id, value });
   }, []);
 
-  const handleQuantitativeAnswer = useCallback((id: string, value: 'sim' | 'nao') => {
+  const handleQuantitativeAnswer = useCallback((id: string, value: 'sim' | 'nao' | 'na') => {
     dispatch({ type: 'SET_QUANTITATIVE_ANSWER', id, value });
   }, []);
 
@@ -231,6 +231,7 @@ export default function Home() {
           onAnswer={handleContextAnswer}
           onNext={() => dispatch({ type: 'GO_TO_STEP', step: 'assessment' })}
           onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'filter' })}
+          onRestart={handleRestart}
         />
       );
 
@@ -246,6 +247,7 @@ export default function Home() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
+            onRestart={handleRestart}
           />
         );
       }
@@ -259,6 +261,7 @@ export default function Home() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
+          onRestart={handleRestart}
         />
       );
 

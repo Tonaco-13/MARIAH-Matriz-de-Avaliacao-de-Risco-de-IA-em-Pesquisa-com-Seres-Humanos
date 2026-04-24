@@ -34,6 +34,7 @@ type QualitativeAssessmentProps = {
   usesDatabase: boolean;
   onComplete: () => void;
   onBack: () => void;
+  onRestart: () => void;
 };
 
 function getRiskLevelBadge(level: RiskLevel) {
@@ -57,6 +58,7 @@ export default function QualitativeAssessment({
   usesDatabase,
   onComplete,
   onBack,
+  onRestart,
 }: QualitativeAssessmentProps) {
   const axesList = getApplicableAxes(usesDatabase);
   const [currentAxis, setCurrentAxis] = useState(0);
@@ -118,7 +120,7 @@ export default function QualitativeAssessment({
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-6">
-          <StepIndicator currentStep="assessment" version="A" />
+          <StepIndicator currentStep="assessment" version="A" onRestart={onRestart} answeredCount={totalAnswered} />
         </div>
 
         {/* Global progress */}

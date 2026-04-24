@@ -83,7 +83,7 @@ export function getQualitativeAxisResults(
  * Retorna o ID da primeira questão eliminatória acionada, ou null.
  */
 export function getEliminatoryQuestionTriggered(
-  answers: Record<string, 'sim' | 'nao' | undefined>,
+  answers: Record<string, 'sim' | 'nao' | 'na' | undefined>,
   version: 'A' | 'B',
   usesDatabase: boolean
 ): string | null {
@@ -146,7 +146,12 @@ export function getQualitativeFinalLevel(
 
 // ----- Quantitative (Version B) Calculations -----
 
-export type QuantitativeAnswer = Record<string, 'sim' | 'nao' | undefined>;
+/**
+ * 'na' = "Não se aplica" — disponível apenas em questões condicionais
+ * marcadas com `hasNaOption` em data.ts (atualmente P6.b.2, Res 738).
+ * Tratado como resposta não-de-risco e não-eliminatória nos cálculos.
+ */
+export type QuantitativeAnswer = Record<string, 'sim' | 'nao' | 'na' | undefined>;
 
 /**
  * Calcula a pontuação do bloco.

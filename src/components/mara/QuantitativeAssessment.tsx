@@ -37,11 +37,12 @@ import {
 
 type QuantitativeAssessmentProps = {
   answers: QuantitativeAnswer;
-  onAnswer: (questionId: string, answer: 'sim' | 'nao') => void;
+  onAnswer: (questionId: string, answer: 'sim' | 'nao' | 'na') => void;
   /** Quando true, inclui Bloco 6.b (Res. CNS n.º 738/2024). */
   usesDatabase: boolean;
   onComplete: () => void;
   onBack: () => void;
+  onRestart: () => void;
 };
 
 export default function QuantitativeAssessment({
@@ -50,6 +51,7 @@ export default function QuantitativeAssessment({
   usesDatabase,
   onComplete,
   onBack,
+  onRestart,
 }: QuantitativeAssessmentProps) {
   const blocksList = getApplicableBlocks(usesDatabase);
   const thresholds = getThresholds(usesDatabase);
@@ -122,7 +124,7 @@ export default function QuantitativeAssessment({
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-6 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-6">
-          <StepIndicator currentStep="assessment" version="B" />
+          <StepIndicator currentStep="assessment" version="B" onRestart={onRestart} answeredCount={totalAnswered} />
         </div>
 
         {/* Global progress */}
@@ -323,6 +325,7 @@ export default function QuantitativeAssessment({
                 }
 
                 const isMitigated = isMitigation && currentAnswer === 'sim';
+                const isNa = currentAnswer === 'na';
                 const riskLabel = isMitigation
                   ? `"Não" ⬆ risco / "Sim" ⬇ mitiga`
                   : q.riskAnswer === 'sim' ? 'Sim ⬆' : 'Não ⬆';
@@ -334,6 +337,7 @@ export default function QuantitativeAssessment({
                     className={`
                       rounded-lg border p-4 transition-all
                       ${eliminatorioAtivado ? 'border-red-400 bg-red-50 ring-2 ring-red-200' :
+                        isNa ? 'border-slate-200 bg-slate-50/50' :
                         isMitigated ? 'border-teal-200 bg-teal-50/30' :
                         isHighlight ? 'border-red-200 bg-red-50/50' :
                         currentAnswer ? 'border-green-200 bg-green-50/30' :
@@ -381,7 +385,9 @@ export default function QuantitativeAssessment({
                                     : q.riskAnswer === 'sim'
                                       ? 'bg-red-500 hover:bg-red-600 text-white'
                                       : 'bg-amber-600 hover:bg-amber-700 text-white'
-                                  : 'hover:bg-muted'
+                                  : isMitigation
+                                    ? 'border-teal-300 text-teal-700 hover:bg-teal-50 hover:text-teal-800 hover:border-teal-400'
+                                    : 'hover:bg-muted'
                               }
                               onClick={() => onAnswer(q.id, 'sim')}
                             >
@@ -397,12 +403,28 @@ export default function QuantitativeAssessment({
                                     : q.riskAnswer === 'nao'
                                       ? 'bg-red-500 hover:bg-red-600 text-white'
                                       : 'bg-amber-600 hover:bg-amber-700 text-white'
-                                  : 'hover:bg-muted'
+                                  : isMitigation
+                                    ? 'border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 hover:border-red-400'
+                                    : 'hover:bg-muted'
                               }
                               onClick={() => onAnswer(q.id, 'nao')}
                             >
                               Não
                             </Button>
+                            {q.hasNaOption && (
+                              <Button
+                                size="sm"
+                                variant={currentAnswer === 'na' ? 'default' : 'outline'}
+                                className={
+                                  currentAnswer === 'na'
+                                    ? 'bg-slate-500 hover:bg-slate-600 text-white'
+                                    : 'border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-slate-800'
+                                }
+                                onClick={() => onAnswer(q.id, 'na')}
+                              >
+                                Não se aplica
+                              </Button>
+                            )}
                           </div>
                           <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
                             {isMitigation ? (
@@ -428,6 +450,11 @@ export default function QuantitativeAssessment({
                           {eliminatorioAtivado && (
                             <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
                               ⛔ Protocolo não avaliável — §7.3.6
+                            </Badge>
+                          )}
+                          {isNa && (
+                            <Badge className="bg-slate-100 text-slate-600 border border-slate-300 text-[10px]">
+                              Não aplicável — não conta como risco
                             </Badge>
                           )}
                         </div>

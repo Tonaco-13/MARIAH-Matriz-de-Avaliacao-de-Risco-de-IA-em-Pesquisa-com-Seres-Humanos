@@ -156,7 +156,7 @@ export default function Results({
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-8">
-          <StepIndicator currentStep="results" version={version} />
+          <StepIndicator currentStep="results" version={version} onRestart={onRestart} />
         </div>
 
         {/* Context */}

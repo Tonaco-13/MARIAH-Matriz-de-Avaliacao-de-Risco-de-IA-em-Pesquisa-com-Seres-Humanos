@@ -56,6 +56,13 @@ export type QuantitativeQuestion = {
   efeito?: 'risco' | 'mitigacao';
   /** Quando true, a resposta de risco torna o protocolo NÃO AVALIÁVEL no mérito (§7.3.6 / Res 738). */
   eliminatorio?: boolean;
+  /**
+   * Quando true, a questão aceita uma terceira resposta "Não se aplica" (N/A),
+   * tratada como não-risco e não-eliminatória. Usado em questões condicionais
+   * onde a pergunta só faz sentido se certa premissa estiver presente
+   * (ex.: P6.b.2 — só se aplica se o banco é constituído fora do âmbito da pesquisa).
+   */
+  hasNaOption?: boolean;
 };
 
 export type QuantitativeBlock = {
@@ -556,7 +563,7 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     referenciaNormativa: 'Resolução CNS n.º 738/2024',
     questoes: [
       { id: 'P6.b.1', pergunta: 'O protocolo identifica o Controlador do banco de dados (Art. 3.º, IV da Res. CNS n.º 738/2024) com cargo, função e instituição vinculada?', riskAnswer: 'nao', pontos: 7, dica: 'Sem identificação do Controlador (Arts. 3.º IV e 9.º), não há cadeia de custódia formalizada sobre os dados.' },
-      { id: 'P6.b.2', pergunta: 'Se o banco é constituído fora do âmbito da pesquisa: o Termo de Anuência Institucional (Art. 27, VI) está presente?', riskAnswer: 'nao', pontos: 7, dica: 'ELIMINATÓRIO. A ausência do Termo de Anuência Institucional em banco externo torna o protocolo não avaliável no mérito (§7.3.6), independentemente da pontuação total.', eliminatorio: true },
+      { id: 'P6.b.2', pergunta: 'Se o banco é constituído fora do âmbito da pesquisa: o Termo de Anuência Institucional (Art. 27, VI) está presente?', riskAnswer: 'nao', pontos: 7, dica: 'ELIMINATÓRIO. A ausência do Termo de Anuência Institucional em banco externo torna o protocolo não avaliável no mérito (§7.3.6), independentemente da pontuação total. Selecione "Não se aplica" quando o banco é constituído no âmbito da própria pesquisa (não é externo).', eliminatorio: true, hasNaOption: true },
       { id: 'P6.b.3', pergunta: 'O Termo de Compromisso de Uso de Dados (Arts. 24, V e 27, V) está assinado pelos pesquisadores e anexado ao dossiê?', riskAnswer: 'nao', pontos: 5, dica: 'Os pesquisadores devem assinar Termo de Compromisso de Uso de Dados assumindo responsabilidade sobre finalidade, confidencialidade e descarte.' },
       { id: 'P6.b.4', pergunta: 'Se há pedido de dispensa de TCLE para uso futuro: o enquadramento em uma das cinco hipóteses do Art. 20 da Res. CNS n.º 738/2024 é fundamentado?', riskAnswer: 'nao', pontos: 5, dica: 'A dispensa de TCLE para uso futuro só é legítima quando enquadrada em uma das cinco hipóteses taxativas do Art. 20. Enquadramento genérico não é suficiente.' },
       { id: 'P6.b.5', pergunta: 'Se o protocolo é multicêntrico: a controladoria conjunta está formalizada em Termo de Acordo Institucional (Art. 3.º, XVI)?', riskAnswer: 'nao', pontos: 5, dica: 'Pesquisas multicêntricas exigem Termo de Acordo Institucional formalizando a controladoria conjunta dos dados.' },

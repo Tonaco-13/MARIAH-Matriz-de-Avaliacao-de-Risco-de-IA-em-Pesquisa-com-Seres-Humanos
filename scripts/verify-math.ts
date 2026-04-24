@@ -162,6 +162,28 @@ const axis3b3 = qual3.axisResults.find((a) => a.axisId === 'eixo3b');
 assert('3 risks on 3.b → axis Level IV', axis3b3.level, 'IV');
 assert('Final level IV due to 3.b', qual3.level, 'IV');
 
+console.log('\n=== 9b. P6.b.2 "Não se aplica" (hasNaOption) ===');
+// P6.b.2 com 'na' NÃO deve somar pontos no Bloco 6.b
+const block6b = QUANTITATIVE_BLOCKS.find((b) => b.id === 'bloco6b');
+const score6bNa = calculateBlockScore(block6b, { 'P6.b.2': 'na' });
+assert('P6.b.2=na → Bloco 6.b score = 0', score6bNa, 0);
+
+// P6.b.2 com 'na' NÃO deve acionar eliminatório
+const elim6bNa = getEliminatoryQuestionTriggered({ 'P6.b.2': 'na' }, 'B', true);
+assert('P6.b.2=na → sem eliminatório', elim6bNa, null);
+
+// Sanity check: P6.b.2=nao CONTINUA acionando eliminatório
+const elim6bNao = getEliminatoryQuestionTriggered({ 'P6.b.2': 'nao' }, 'B', true);
+assert('P6.b.2=nao → eliminatório acionado', elim6bNao, 'P6.b.2');
+
+// Sanity check: P6.b.2=sim não soma e não elimina
+const score6bSim = calculateBlockScore(block6b, { 'P6.b.2': 'sim' });
+assert('P6.b.2=sim → Bloco 6.b score = 0', score6bSim, 0);
+
+// hasNaOption flag está presente no data
+const p6b2 = block6b.questoes.find((q) => q.id === 'P6.b.2');
+assert('P6.b.2.hasNaOption === true', p6b2.hasNaOption, true);
+
 console.log('\n=== 10. Questions count ===');
 const totalQuantQuestionsDb = blocksDb.reduce((s, b) => s + b.questoes.length, 0);
 const totalQuantQuestionsBase = blocksBase.reduce((s, b) => s + b.questoes.length, 0);

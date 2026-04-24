@@ -141,7 +141,7 @@ export default function EntryFilter({
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-8">
-          <StepIndicator currentStep="filter" />
+          <StepIndicator currentStep="filter" onRestart={onRestart} />
         </div>
 
         <h2 className="text-xl font-semibold mb-2">Passo 0 — Filtro de Entrada</h2>
