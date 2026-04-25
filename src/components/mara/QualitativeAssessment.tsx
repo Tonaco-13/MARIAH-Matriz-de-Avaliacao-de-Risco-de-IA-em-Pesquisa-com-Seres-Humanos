@@ -20,6 +20,9 @@ import type { RiskLevel } from './data';
 import type { QualitativeAnswer } from './utils';
 import { countRiskAnswersAxis, getAxisRiskLevel, getApplicableAxes } from './utils';
 import StepIndicator from './StepIndicator';
+import type { WizardStep } from './StepIndicator';
+import RestartButton from './RestartButton';
+import ClearScopeButton from './ClearScopeButton';
 import {
   Tooltip,
   TooltipContent,
@@ -35,6 +38,10 @@ type QualitativeAssessmentProps = {
   onComplete: () => void;
   onBack: () => void;
   onRestart: () => void;
+  /** Limpa só as respostas de um conjunto de IDs (eixo atual), preservando o resto. */
+  onClearScopeIds: (ids: string[]) => void;
+  /** Navegação direta por clique nos passos do StepIndicator. */
+  onStepClick: (step: WizardStep) => void;
 };
 
 function getRiskLevelBadge(level: RiskLevel) {
@@ -59,6 +66,8 @@ export default function QualitativeAssessment({
   onComplete,
   onBack,
   onRestart,
+  onClearScopeIds,
+  onStepClick,
 }: QualitativeAssessmentProps) {
   const axesList = getApplicableAxes(usesDatabase);
   const [currentAxis, setCurrentAxis] = useState(0);
@@ -120,7 +129,7 @@ export default function QualitativeAssessment({
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-6">
-          <StepIndicator currentStep="assessment" version="A" onRestart={onRestart} answeredCount={totalAnswered} />
+          <StepIndicator currentStep="assessment" version="A" onStepClick={onStepClick} />
         </div>
 
         {/* Global progress */}
@@ -316,12 +325,20 @@ export default function QualitativeAssessment({
           </CardContent>
         </Card>
 
-        {/* Navigation */}
-        <div className="flex justify-between">
+        {/* Navigation — Voltar | Limpar este eixo | Nova avaliação | Próximo Eixo */}
+        <div className="flex justify-between items-center flex-wrap gap-3">
           <Button variant="outline" onClick={handlePrev}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             {currentAxis === 0 ? 'Voltar' : 'Eixo Anterior'}
           </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <ClearScopeButton
+              scopeLabel="este eixo"
+              affectedCount={answeredCount}
+              onClear={() => onClearScopeIds(axis.questoes.map((q) => q.id))}
+            />
+            <RestartButton onRestart={onRestart} answeredCount={totalAnswered} />
+          </div>
           <Button
             className="bg-teal-600 hover:bg-teal-700"
             onClick={handleNext}

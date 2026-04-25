@@ -7,7 +7,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Shield, ArrowRight, ArrowLeft, HelpCircle } from 'lucide-react';
 import { CONTEXT_QUESTIONS } from './data';
+import type { MarcaVersion } from './data';
 import StepIndicator from './StepIndicator';
+import type { WizardStep } from './StepIndicator';
+import RestartButton from './RestartButton';
+import ClearScopeButton from './ClearScopeButton';
 import {
   Tooltip,
   TooltipContent,
@@ -27,9 +31,24 @@ type ContextFormProps = {
   onNext: () => void;
   onBack: () => void;
   onRestart: () => void;
+  /** Limpa só os campos desta página (identificação + contexto), preservando demais respostas. */
+  onClearScope: () => void;
+  /** Navegação direta por clique nos passos do StepIndicator. */
+  onStepClick: (step: WizardStep) => void;
+  /** Versão selecionada (A ou B), exibida no badge do StepIndicator. */
+  version: MarcaVersion | null;
 };
 
-export default function ContextForm({ answers, onAnswer, onNext, onBack, onRestart }: ContextFormProps) {
+export default function ContextForm({
+  answers,
+  onAnswer,
+  onNext,
+  onBack,
+  onRestart,
+  onClearScope,
+  onStepClick,
+  version,
+}: ContextFormProps) {
   const identificationFilled = IDENTIFICATION_FIELDS.every(
     (f) => answers[f.id]?.trim().length > 0
   );
@@ -63,7 +82,7 @@ export default function ContextForm({ answers, onAnswer, onNext, onBack, onResta
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-8">
-          <StepIndicator currentStep="context" onRestart={onRestart} answeredCount={answeredCount} />
+          <StepIndicator currentStep="context" version={version} onStepClick={onStepClick} />
         </div>
 
         {/* Identification section */}
@@ -155,12 +174,20 @@ export default function ContextForm({ answers, onAnswer, onNext, onBack, onResta
           ))}
         </div>
 
-        {/* Navigation */}
-        <div className="flex justify-between mt-8">
+        {/* Navigation — Voltar | Limpar página | Nova avaliação | Continuar */}
+        <div className="flex justify-between items-center mt-8 flex-wrap gap-3">
           <Button variant="outline" onClick={onBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Voltar
           </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <ClearScopeButton
+              scopeLabel="esta página"
+              affectedCount={answeredCount}
+              onClear={onClearScope}
+            />
+            <RestartButton onRestart={onRestart} answeredCount={answeredCount} />
+          </div>
           <Button
             className="bg-teal-600 hover:bg-teal-700"
             disabled={!allFilled}

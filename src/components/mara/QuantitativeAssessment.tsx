@@ -28,6 +28,9 @@ import {
   getEliminatoryQuestionTriggered,
 } from './utils';
 import StepIndicator from './StepIndicator';
+import type { WizardStep } from './StepIndicator';
+import RestartButton from './RestartButton';
+import ClearScopeButton from './ClearScopeButton';
 import {
   Tooltip,
   TooltipContent,
@@ -43,6 +46,10 @@ type QuantitativeAssessmentProps = {
   onComplete: () => void;
   onBack: () => void;
   onRestart: () => void;
+  /** Limpa só as respostas de um conjunto de IDs (bloco atual), preservando o resto. */
+  onClearScopeIds: (ids: string[]) => void;
+  /** Navegação direta por clique nos passos do StepIndicator. */
+  onStepClick: (step: WizardStep) => void;
 };
 
 export default function QuantitativeAssessment({
@@ -52,6 +59,8 @@ export default function QuantitativeAssessment({
   onComplete,
   onBack,
   onRestart,
+  onClearScopeIds,
+  onStepClick,
 }: QuantitativeAssessmentProps) {
   const blocksList = getApplicableBlocks(usesDatabase);
   const thresholds = getThresholds(usesDatabase);
@@ -124,7 +133,7 @@ export default function QuantitativeAssessment({
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-6 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-6">
-          <StepIndicator currentStep="assessment" version="B" onRestart={onRestart} answeredCount={totalAnswered} />
+          <StepIndicator currentStep="assessment" version="B" onStepClick={onStepClick} />
         </div>
 
         {/* Global progress */}
@@ -467,12 +476,20 @@ export default function QuantitativeAssessment({
           </CardContent>
         </Card>
 
-        {/* Navigation */}
-        <div className="flex justify-between">
+        {/* Navigation — Voltar | Limpar este bloco | Nova avaliação | Próximo Bloco */}
+        <div className="flex justify-between items-center flex-wrap gap-3">
           <Button variant="outline" onClick={handlePrev}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             {currentBlock === 0 ? 'Voltar' : 'Bloco Anterior'}
           </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <ClearScopeButton
+              scopeLabel="este bloco"
+              affectedCount={answeredCount}
+              onClear={() => onClearScopeIds(block.questoes.map((q) => q.id))}
+            />
+            <RestartButton onRestart={onRestart} answeredCount={totalAnswered} />
+          </div>
           <Button
             className="bg-amber-600 hover:bg-amber-700"
             onClick={handleNext}

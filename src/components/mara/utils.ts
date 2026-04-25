@@ -300,6 +300,92 @@ export function calculateAnsweredCount(
   return questionIds.filter((id) => answers[id] !== undefined).length;
 }
 
+// ----- Audit: itens não avaliados -----
+
+/**
+ * Item de auditoria — pergunta apresentada na avaliação que ficou sem resposta.
+ * Usado no relatório (tela + impressão) para que o CEP saiba exatamente o que
+ * deixou em branco e possa justificar / pedir diligência sobre.
+ */
+export type UnansweredItem = {
+  /** Identificador interno (ex.: "P3.b.2", "titulo", "contexto1"). */
+  id: string;
+  /** Categoria — campo de contexto, pergunta de eixo (A) ou pergunta de bloco (B). */
+  scope: 'contexto' | 'eixo' | 'bloco';
+  /** Nome do eixo/bloco/seção a que o item pertence — ajuda a localizar no protocolo. */
+  scopeName: string;
+  /** Texto da pergunta ou rótulo do campo. */
+  label: string;
+};
+
+const CONTEXT_FIELD_LABELS: { id: string; label: string }[] = [
+  { id: 'titulo', label: 'Título do Projeto' },
+  { id: 'instituicao', label: 'Instituição' },
+  { id: 'cep_nome', label: 'Nome do CEP' },
+  { id: 'contexto1', label: 'Pergunta do sistema (C1)' },
+  { id: 'contexto2', label: 'Autonomia do sistema (C2)' },
+];
+
+/**
+ * Retorna a lista de itens (campos de contexto + perguntas da matriz) que ficaram
+ * sem resposta nesta avaliação. Em Versão B, "na" (não se aplica) **conta como
+ * resposta** — só `undefined` é considerado "não avaliado".
+ */
+export function getUnansweredItems(
+  version: 'A' | 'B',
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false
+): UnansweredItem[] {
+  const items: UnansweredItem[] = [];
+
+  // 1) Campos de contexto (sempre obrigatórios, mas auditamos se algum ficou vazio
+  //    — pode acontecer em fluxos restaurados de localStorage parcial).
+  for (const f of CONTEXT_FIELD_LABELS) {
+    const value = contextAnswers[f.id];
+    if (!value || value.trim().length === 0) {
+      items.push({
+        id: f.id,
+        scope: 'contexto',
+        scopeName: 'Identificação e Contexto',
+        label: f.label,
+      });
+    }
+  }
+
+  // 2) Perguntas da matriz, só as aplicáveis ao recorte (Res 738 ativada ou não).
+  if (version === 'A') {
+    for (const axis of getApplicableAxes(usesDatabase)) {
+      for (const q of axis.questoes) {
+        if (qualitativeAnswers[q.id] === undefined) {
+          items.push({
+            id: q.id,
+            scope: 'eixo',
+            scopeName: axis.nome,
+            label: q.pergunta,
+          });
+        }
+      }
+    }
+  } else {
+    for (const block of getApplicableBlocks(usesDatabase)) {
+      for (const q of block.questoes) {
+        if (quantitativeAnswers[q.id] === undefined) {
+          items.push({
+            id: q.id,
+            scope: 'bloco',
+            scopeName: block.nome,
+            label: q.pergunta,
+          });
+        }
+      }
+    }
+  }
+
+  return items;
+}
+
 // ----- Print/Export Helpers -----
 
 const LEVEL_COLORS: Record<RiskLevel, { bg: string; text: string; border: string }> = {
@@ -451,6 +537,51 @@ export function generateReportHTML(
       </li>`;
   }
 
+  // ----- Audit: itens não avaliados -----
+  const unanswered = getUnansweredItems(
+    version,
+    contextAnswers,
+    qualitativeAnswers,
+    quantitativeAnswers,
+    usesDatabase
+  );
+
+  let unansweredSection = '';
+  if (unanswered.length === 0) {
+    unansweredSection = `
+      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Itens não avaliados (auditoria)</h3>
+      <div style="padding:12px;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;font-size:12px;color:#15803d">
+        ✓ Todas as perguntas aplicáveis e campos de contexto foram preenchidos.
+      </div>`;
+  } else {
+    // Agrupa por scopeName para o relatório ficar legível.
+    const byScope = new Map<string, UnansweredItem[]>();
+    for (const item of unanswered) {
+      const arr = byScope.get(item.scopeName) ?? [];
+      arr.push(item);
+      byScope.set(item.scopeName, arr);
+    }
+    let groupsHtml = '';
+    for (const [scopeName, list] of byScope) {
+      let rows = '';
+      for (const it of list) {
+        rows += `<li style="margin:3px 0;font-size:12px"><strong style="font-family:monospace;color:#7f1d1d">${it.id}</strong> — ${it.label}</li>`;
+      }
+      groupsHtml += `
+        <div style="margin-top:8px">
+          <p style="margin:0 0 4px;font-size:12px;font-weight:600;color:#374151">${scopeName}</p>
+          <ul style="padding-left:18px;margin:0">${rows}</ul>
+        </div>`;
+    }
+    unansweredSection = `
+      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Itens não avaliados (auditoria)</h3>
+      <div style="padding:14px;background:#fffbeb;border:1px solid #fbbf24;border-radius:6px;font-size:12px;color:#78350f">
+        <p style="margin:0 0 8px;font-weight:600">⚠️ ${unanswered.length} ite${unanswered.length === 1 ? 'm' : 'ns'} sem avaliação registrada.</p>
+        <p style="margin:0 0 8px">Para fins de auditoria, listamos abaixo cada pergunta apresentada que ficou sem resposta. O cálculo do nível de risco trata <strong>ausência de resposta como "não risco" por padrão</strong>; recomenda-se que o CEP justifique cada item ou solicite diligência ao pesquisador antes de deliberar.</p>
+        ${groupsHtml}
+      </div>`;
+  }
+
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -483,6 +614,8 @@ export function generateReportHTML(
 
   <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Requisitos (cumulativos)</h3>
   <ul style="padding-left:20px">${reqItems}</ul>
+
+  ${unansweredSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
     <strong>Aviso:</strong> A MARA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. Não dispensa a deliberação colegiada.
@@ -553,6 +686,31 @@ export function generateReportText(
     lines.push('');
     for (const block of result.blockResults) {
       lines.push(`${block.blockName}: ${block.score} pts`);
+    }
+  }
+
+  // Itens não avaliados — auditoria
+  const unanswered = getUnansweredItems(
+    version,
+    contextAnswers,
+    qualitativeAnswers,
+    quantitativeAnswers,
+    usesDatabase
+  );
+  lines.push('');
+  lines.push('── ITENS NÃO AVALIADOS (AUDITORIA) ──');
+  if (unanswered.length === 0) {
+    lines.push('✓ Todas as perguntas aplicáveis e campos foram preenchidos.');
+  } else {
+    lines.push(`⚠️ ${unanswered.length} item(ns) sem resposta. Ausência tratada como "não risco" no cálculo.`);
+    let lastScope = '';
+    for (const it of unanswered) {
+      if (it.scopeName !== lastScope) {
+        lines.push('');
+        lines.push(`[${it.scopeName}]`);
+        lastScope = it.scopeName;
+      }
+      lines.push(`  • ${it.id} — ${it.label}`);
     }
   }
 

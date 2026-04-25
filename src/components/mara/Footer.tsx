@@ -11,7 +11,7 @@ export function Footer() {
           <span className="font-medium text-foreground">
             Ministério da Saúde
           </span>{' '}
-          — DECIT/SCTIE
+          para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
         </p>
         <p className="text-xs">
           Licenciado sob a Licença Pública Geral do Software Público Brasileiro

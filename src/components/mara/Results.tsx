@@ -21,8 +21,10 @@ import {
   getQualitativeFinalLevel,
   getQuantitativeFinalResult,
   generateReportHTML,
+  getUnansweredItems,
 } from './utils';
 import StepIndicator from './StepIndicator';
+import type { WizardStep } from './StepIndicator';
 
 type ResultsProps = {
   version: 'A' | 'B';
@@ -34,6 +36,8 @@ type ResultsProps = {
   quantitativeAnswers: QuantitativeAnswer;
   onRestart: () => void;
   onContinueToB?: () => void;
+  /** Navegação direta por clique nos passos do StepIndicator. */
+  onStepClick: (step: WizardStep) => void;
 };
 
 function LevelBadge({ level }: { level: RiskLevel }) {
@@ -97,6 +101,7 @@ export default function Results({
   quantitativeAnswers,
   onRestart,
   onContinueToB,
+  onStepClick,
 }: ResultsProps) {
   const qualResult = version === 'A' || useAAsTriagem
     ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase)
@@ -134,8 +139,25 @@ export default function Results({
   };
 
   // Check if triagem mode, still on Version A, and level is III or IV → suggest Version B
-  const showContinueToB = useAAsTriagem && version === 'A' && qualResult && 
+  const showContinueToB = useAAsTriagem && version === 'A' && qualResult &&
     (qualResult.level === 'III' || qualResult.level === 'IV');
+
+  // Itens não avaliados — auditoria. Agrupados por seção (eixo/bloco/contexto)
+  // para facilitar a leitura no card.
+  const unansweredItems = getUnansweredItems(
+    version,
+    contextAnswers,
+    qualitativeAnswers,
+    quantitativeAnswers,
+    usesDatabase
+  );
+  const unansweredByScope = unansweredItems.reduce<Record<string, typeof unansweredItems>>(
+    (acc, item) => {
+      (acc[item.scopeName] ??= []).push(item);
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -156,7 +178,7 @@ export default function Results({
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-8">
-          <StepIndicator currentStep="results" version={version} onRestart={onRestart} />
+          <StepIndicator currentStep="results" version={version} onStepClick={onStepClick} />
         </div>
 
         {/* Context */}
@@ -487,6 +509,60 @@ export default function Results({
           </CardContent>
         </Card>
 
+        {/* Itens não avaliados — auditoria */}
+        <Card className={`mb-6 ${unansweredItems.length > 0 ? 'border-amber-300 bg-amber-50/40' : 'border-green-200 bg-green-50/40'}`}>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              {unansweredItems.length > 0 ? (
+                <>
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                  <span>Itens não avaliados (auditoria)</span>
+                  <Badge className="bg-amber-100 text-amber-800 border border-amber-300 text-[10px]">
+                    {unansweredItems.length} ite{unansweredItems.length === 1 ? 'm' : 'ns'}
+                  </Badge>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="h-4 w-4 text-green-600" />
+                  <span>Itens não avaliados (auditoria)</span>
+                </>
+              )}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {unansweredItems.length === 0 ? (
+              <p className="text-sm text-green-700">
+                Todas as perguntas aplicáveis e campos de contexto foram preenchidos. Nenhum item ficou em aberto.
+              </p>
+            ) : (
+              <>
+                <p className="text-sm text-amber-900 mb-3">
+                  Para fins de auditoria, listamos abaixo cada pergunta apresentada que ficou sem resposta. O cálculo do
+                  nível de risco trata <strong>ausência de resposta como &ldquo;não risco&rdquo; por padrão</strong>;
+                  recomenda-se que o CEP justifique cada item ou solicite diligência ao pesquisador antes de deliberar.
+                </p>
+                <div className="space-y-3">
+                  {Object.entries(unansweredByScope).map(([scopeName, items]) => (
+                    <div key={scopeName} className="border-l-2 border-amber-300 pl-3">
+                      <p className="text-xs font-semibold text-amber-900 mb-1">{scopeName}</p>
+                      <ul className="space-y-1">
+                        {items.map((it) => (
+                          <li key={it.id} className="text-xs text-amber-900 flex gap-2">
+                            <span className="font-mono text-[11px] bg-amber-100 text-amber-900 border border-amber-200 px-1 rounded shrink-0 self-start">
+                              {it.id}
+                            </span>
+                            <span className="leading-relaxed">{it.label}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Disclaimer */}
         <Card className="border-dashed bg-muted/30 mb-6">
           <CardContent className="py-4">
@@ -495,7 +571,7 @@ export default function Results({
               <div className="text-sm text-muted-foreground">
                 <p className="font-medium mb-1">Aviso importante</p>
                 <p>
-                  A MARA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. 
+                  A MARA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
                   Não dispensa a deliberação colegiada.
                 </p>
               </div>

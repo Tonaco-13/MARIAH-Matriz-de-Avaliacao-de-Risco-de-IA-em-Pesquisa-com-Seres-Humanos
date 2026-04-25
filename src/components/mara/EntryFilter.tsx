@@ -7,7 +7,6 @@ import {
   Shield,
   AlertTriangle,
   CheckCircle2,
-  XCircle,
   RotateCcw,
   Info,
   Database,
@@ -16,7 +15,11 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import StepIndicator from './StepIndicator';
+import type { WizardStep } from './StepIndicator';
+import RestartButton from './RestartButton';
+import ClearScopeButton from './ClearScopeButton';
 import { DATABASE_FILTER_QUESTION } from './data';
+import type { MarcaVersion } from './data';
 import {
   Tooltip,
   TooltipContent,
@@ -29,10 +32,16 @@ type EntryFilterProps = {
   onFail: () => void;
   onBack: () => void;
   onRestart: () => void;
+  /** Limpa só as respostas desta página (filtro), preservando versão e respostas posteriores. */
+  onClearScope: () => void;
+  /** Navegação direta por clique nos passos do StepIndicator. */
+  onStepClick: (step: WizardStep) => void;
   filterResult: 'sim' | 'nao' | null;
   /** Estado local (persistido no reducer pai) para a escolha de banco de dados enquanto o usuário navega. */
   usesDatabase: boolean | null;
   onUsesDatabaseChange: (value: boolean) => void;
+  /** Versão selecionada (A ou B), usada para exibir o badge confirmando ao usuário em qual ramo está. */
+  version: MarcaVersion | null;
 };
 
 const ENTRY_TYPES = [
@@ -61,13 +70,31 @@ export default function EntryFilter({
   onFail,
   onBack,
   onRestart,
+  onClearScope,
+  onStepClick,
   filterResult,
   usesDatabase,
   onUsesDatabaseChange,
+  version,
 }: EntryFilterProps) {
-  // Local state: Pergunta 1 (aplicabilidade). Só vira 'sim'/'nao' ao clicar no botão.
-  // 'sim' revela a Pergunta 2; 'nao' aciona onFail imediatamente.
-  const [applies, setApplies] = useState<'sim' | 'nao' | null>(null);
+  // Local state: Pergunta 1 (aplicabilidade). Inicializa a partir do filterResult
+  // do reducer para sobreviver a navegação (clique no step "Filtro" por outras telas).
+  // Usa o padrão "Storing information from previous renders" (React docs) para
+  // re-sincronizar com props sem useEffect — evita render extra e satisfaz o lint.
+  const [applies, setApplies] = useState<'sim' | 'nao' | null>(filterResult);
+  const [lastSeenFilterResult, setLastSeenFilterResult] = useState(filterResult);
+  if (filterResult !== lastSeenFilterResult) {
+    setLastSeenFilterResult(filterResult);
+    setApplies(filterResult);
+  }
+  // Quantos itens já foram respondidos (Pergunta 1 + Pergunta 2). Usado pelos botões
+  // de confirmação (Limpar página / Nova avaliação) para deixar o aviso mais explícito.
+  const answeredCount = (applies !== null ? 1 : 0) + (usesDatabase !== null ? 1 : 0);
+
+  const handleClearPage = () => {
+    setApplies(null);
+    onClearScope();
+  };
 
   // Tela de "MARA não se aplica" (quando o reducer pai já marcou filterResult='nao').
   if (filterResult === 'nao') {
@@ -141,7 +168,7 @@ export default function EntryFilter({
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8">
         {/* Step indicator */}
         <div className="mb-8">
-          <StepIndicator currentStep="filter" onRestart={onRestart} />
+          <StepIndicator currentStep="filter" version={version} onStepClick={onStepClick} />
         </div>
 
         <h2 className="text-xl font-semibold mb-2">Passo 0 — Filtro de Entrada</h2>
@@ -181,21 +208,19 @@ export default function EntryFilter({
                 className={
                   applies === 'sim'
                     ? 'bg-teal-600 hover:bg-teal-700 text-white min-w-[140px]'
-                    : 'hover:bg-teal-50 min-w-[140px]'
+                    : 'hover:bg-muted min-w-[140px]'
                 }
                 onClick={handleAppliesSim}
               >
-                <CheckCircle2 className="mr-2 h-5 w-5" />
                 Sim
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-red-200 text-red-700 hover:bg-red-50 min-w-[140px]"
+                className="hover:bg-muted min-w-[140px]"
                 onClick={handleAppliesNao}
               >
-                <XCircle className="mr-2 h-5 w-5" />
-                Não — MARA não se aplica
+                Não
               </Button>
             </div>
 
@@ -294,12 +319,20 @@ export default function EntryFilter({
           </CardContent>
         </Card>
 
-        {/* Navegação */}
+        {/* Navegação — Voltar | Limpar página | Nova avaliação | Prosseguir */}
         <div className="flex justify-between items-center mb-8 flex-wrap gap-3">
           <Button variant="outline" onClick={onBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Voltar
           </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <ClearScopeButton
+              scopeLabel="esta página"
+              affectedCount={answeredCount}
+              onClear={handleClearPage}
+            />
+            <RestartButton onRestart={onRestart} answeredCount={answeredCount} />
+          </div>
           <Button
             size="lg"
             className="bg-teal-600 hover:bg-teal-700 min-w-[200px]"

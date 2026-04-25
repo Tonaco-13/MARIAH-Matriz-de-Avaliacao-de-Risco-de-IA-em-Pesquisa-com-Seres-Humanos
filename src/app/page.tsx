@@ -37,6 +37,10 @@ type Action =
   | { type: 'SET_CONTEXT_ANSWER'; id: string; value: string }
   | { type: 'SET_QUALITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' }
   | { type: 'SET_QUANTITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' | 'na' }
+  | { type: 'CLEAR_FILTER' }
+  | { type: 'CLEAR_CONTEXT' }
+  | { type: 'CLEAR_QUALITATIVE_IDS'; ids: string[] }
+  | { type: 'CLEAR_QUANTITATIVE_IDS'; ids: string[] }
   | { type: 'GO_TO_STEP'; step: Step }
   | { type: 'CONTINUE_TO_B' }
   | { type: 'RESTART' }
@@ -83,6 +87,31 @@ function reducer(state: AppState, action: Action): AppState {
         ...state,
         quantitativeAnswers: { ...state.quantitativeAnswers, [action.id]: action.value },
       };
+    case 'CLEAR_FILTER':
+      // Limpa só as respostas do passo Filtro, preservando versão escolhida e respostas posteriores.
+      return {
+        ...state,
+        filterResult: null,
+        usesDatabase: null,
+      };
+    case 'CLEAR_CONTEXT':
+      // Limpa todos os campos de identificação e caracterização do contexto.
+      return {
+        ...state,
+        contextAnswers: {},
+      };
+    case 'CLEAR_QUALITATIVE_IDS': {
+      // Limpa respostas do escopo dado (eixo atual). Demais respostas preservadas.
+      const next = { ...state.qualitativeAnswers };
+      for (const id of action.ids) delete next[id];
+      return { ...state, qualitativeAnswers: next };
+    }
+    case 'CLEAR_QUANTITATIVE_IDS': {
+      // Idem para o bloco atual da Versão B.
+      const next = { ...state.quantitativeAnswers };
+      for (const id of action.ids) delete next[id];
+      return { ...state, quantitativeAnswers: next };
+    }
     case 'GO_TO_STEP':
       return { ...state, step: action.step };
     case 'CONTINUE_TO_B':
@@ -202,6 +231,40 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  const handleClearFilter = useCallback(() => {
+    dispatch({ type: 'CLEAR_FILTER' });
+  }, []);
+
+  const handleClearContext = useCallback(() => {
+    dispatch({ type: 'CLEAR_CONTEXT' });
+  }, []);
+
+  const handleClearQualitativeIds = useCallback((ids: string[]) => {
+    dispatch({ type: 'CLEAR_QUALITATIVE_IDS', ids });
+  }, []);
+
+  const handleClearQuantitativeIds = useCallback((ids: string[]) => {
+    dispatch({ type: 'CLEAR_QUANTITATIVE_IDS', ids });
+  }, []);
+
+  /**
+   * Navegação direta por clique nos passos do StepIndicator. Só permite voltar a
+   * passos anteriores (já completados ou o atual) — pular para passos futuros sem
+   * preencher os obrigatórios quebraria a auditoria.
+   */
+  const handleStepClick = useCallback(
+    (target: Step) => {
+      const order: Step[] = ['version', 'filter', 'context', 'assessment', 'results'];
+      const currentIdx = order.indexOf(state.step);
+      const targetIdx = order.indexOf(target);
+      if (targetIdx >= 0 && targetIdx <= currentIdx) {
+        dispatch({ type: 'GO_TO_STEP', step: target });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    [state.step]
+  );
+
   switch (state.step) {
     case 'version':
       return (
@@ -218,9 +281,12 @@ export default function Home() {
           onFail={handleFilterFail}
           onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'version' })}
           onRestart={handleRestart}
+          onClearScope={handleClearFilter}
+          onStepClick={handleStepClick}
           filterResult={state.filterResult}
           usesDatabase={state.usesDatabase}
           onUsesDatabaseChange={handleUsesDatabaseChange}
+          version={state.version}
         />
       );
 
@@ -232,6 +298,9 @@ export default function Home() {
           onNext={() => dispatch({ type: 'GO_TO_STEP', step: 'assessment' })}
           onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'filter' })}
           onRestart={handleRestart}
+          onClearScope={handleClearContext}
+          onStepClick={handleStepClick}
+          version={state.version}
         />
       );
 
@@ -248,6 +317,8 @@ export default function Home() {
             }}
             onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
             onRestart={handleRestart}
+            onClearScopeIds={handleClearQualitativeIds}
+            onStepClick={handleStepClick}
           />
         );
       }
@@ -262,6 +333,8 @@ export default function Home() {
           }}
           onBack={() => dispatch({ type: 'GO_TO_STEP', step: 'context' })}
           onRestart={handleRestart}
+          onClearScopeIds={handleClearQuantitativeIds}
+          onStepClick={handleStepClick}
         />
       );
 
@@ -276,6 +349,7 @@ export default function Home() {
           quantitativeAnswers={state.quantitativeAnswers}
           onRestart={handleRestart}
           onContinueToB={handleContinueToB}
+          onStepClick={handleStepClick}
         />
       );
 
