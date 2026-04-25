@@ -262,7 +262,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
     questoes: [
       {
         id: '3.1',
-        pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?',
+        pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça/cor, etnia, religião, vida sexual?',
         riskAnswer: 'sim',
         dica: 'Dados sensíveis exigem proteção reforçada e base legal específica conforme a LGPD.',
       },
@@ -362,7 +362,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
     questoes: [
       {
         id: '4.1',
-        pergunta: 'Os dados de treinamento do modelo incluem representação adequada da diversidade da população-alvo deste protocolo — raça, etnia, gênero, faixa etária, região geográfica?',
+        pergunta: 'Os dados de treinamento do modelo incluem representação adequada da diversidade da população-alvo deste protocolo — raça/cor, etnia, gênero, faixa etária, região geográfica?',
         riskAnswer: 'nao',
         dica: 'Falta de representatividade nos dados de treinamento pode levar a resultados enviesados e discriminatórios.',
       },
@@ -536,7 +536,7 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
       { id: 'P5.2', pergunta: 'O sistema pode causar dano físico ao participante em caso de erro?', riskAnswer: 'sim', pontos: 6, dica: 'Danos físicos são os mais graves e exigem mecanismos robustos de segurança.' },
       { id: 'P5.3', pergunta: 'O sistema pode causar dano psíquico, social ou econômico ao participante em caso de erro?', riskAnswer: 'sim', pontos: 6, dica: 'Danos não físicos também são relevantes, especialmente quando afetam a vida social ou econômica.' },
       { id: 'P5.4', pergunta: 'O protocolo envolve populações vulneráveis — crianças, gestantes, idosos, povos indígenas ou pessoas em situação de vulnerabilidade socioeconômica?', riskAnswer: 'sim', pontos: 6, dica: 'Populações vulneráveis exigem proteção adicional.' },
-      { id: 'P5.5', pergunta: 'O sistema infere características sensíveis do participante — raça, etnia, condição de saúde, orientação sexual — que não foram explicitamente coletadas?', riskAnswer: 'sim', pontos: 6, dica: 'Inferência de características sensíveis sem coleta explícita pode gerar discriminação.' },
+      { id: 'P5.5', pergunta: 'O sistema infere características sensíveis do participante — raça/cor, etnia, condição de saúde, orientação sexual — que não foram explicitamente coletadas?', riskAnswer: 'sim', pontos: 6, dica: 'Inferência de características sensíveis sem coleta explícita pode gerar discriminação.' },
       { id: 'P5.6', pergunta: 'Os efeitos de um erro do sistema sobre o participante são reversíveis?', riskAnswer: 'nao', pontos: 5, dica: 'Efeitos irreversíveis aumentam significativamente o risco.' },
       { id: 'P5.7', pergunta: 'O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?', riskAnswer: 'nao', pontos: 5, dica: 'A comunicação dos resultados é essencial para a transparência.' },
       { id: 'P5.8', pergunta: 'O protocolo prevê mecanismo para que o participante solicite a exclusão de seus dados do processo de treinamento ou retreinamento do modelo?', riskAnswer: 'nao', pontos: 6, dica: 'Sem mecanismo de exclusão, o participante perde o controle sobre seus dados.' },
@@ -549,7 +549,7 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     nome: 'Bloco 6: Dados',
     descricao: 'Avalia a sensibilidade dos dados, a conformidade com a LGPD e os mecanismos de proteção e governança.',
     questoes: [
-      { id: 'P6.1', pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça, etnia, religião, vida sexual?', riskAnswer: 'sim', pontos: 7, dica: 'Dados sensíveis exigem proteção reforçada e base legal específica.' },
+      { id: 'P6.1', pergunta: 'O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça/cor, etnia, religião, vida sexual?', riskAnswer: 'sim', pontos: 7, dica: 'Dados sensíveis exigem proteção reforçada e base legal específica.' },
       { id: 'P6.2', pergunta: 'Os dados são transferidos ou processados em servidores fora do Brasil?', riskAnswer: 'sim', pontos: 7, dica: 'Transferência internacional exige avaliação de adequação e salvaguardas adicionais.' },
       { id: 'P6.3', pergunta: 'Existe risco real de reidentificação dos participantes a partir dos dados utilizados ou gerados pelo sistema?', riskAnswer: 'sim', pontos: 7, dica: 'A reidentificação pode causar danos significativos à privacidade e segurança.' },
       { id: 'P6.4', pergunta: 'O consentimento obtido cobre explicitamente o uso dos dados para treinamento ou retreinamento de modelos de IA?', riskAnswer: 'nao', pontos: 6, dica: 'Consentimento genérico não é suficiente para uso de dados em IA.' },
@@ -585,7 +585,7 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     descricao: 'Avalia consultas regulatórias e medidas de mitigação de risco. Pode reduzir a pontuação total do protocolo.',
     subtitulo: 'Bidirecional — Consultas adicionam pontos; Mitigações subtraem pontos',
     questoes: [
-      { id: 'P7.1', pergunta: 'O protocolo foi submetido a consulta prévia com a ANVISA sobre o enquadramento do sistema como SaMD?', riskAnswer: 'nao', pontos: 5, dica: 'A consulta à ANVISA é importante quando o sistema pode se enquadrar como Software como Dispositivo Médico.', efeito: 'risco' },
+      { id: 'P7.1', pergunta: 'O protocolo foi submetido a consulta prévia com a ANVISA sobre o enquadramento do sistema como SaMD?', riskAnswer: 'nao', pontos: 5, dica: 'SaMD (Software as a Medical Device) é software com finalidade médica — diagnóstico, prognóstico, monitoramento ou orientação terapêutica — regulado pela RDC ANVISA n.º 657/2022 (alinhada ao framework IMDRF). A consulta prévia (de enquadramento ou pré-submissão) é o mecanismo formal pelo qual a ANVISA se manifesta sobre se o sistema é dispositivo médico e qual a classe de risco. É especialmente importante quando o sistema gera saída que orienta ou dirige decisão clínica, está integrado a equipamento médico, processa imagens/sinais com IA para gerar recomendação, ou usa IA generativa em contexto clínico. O ofício de resposta integra o dossiê do CEP, reduz risco regulatório retroativo e cria trilha de auditoria.', efeito: 'risco' },
       { id: 'P7.2', pergunta: 'O protocolo prevê engajamento com o fabricante ou desenvolvedor do sistema para esclarecimento de dúvidas técnicas durante o estudo?', riskAnswer: 'nao', pontos: 5, dica: 'O engajamento com o fabricante permite acesso a informações técnicas relevantes.', efeito: 'risco' },
       { id: 'P7.3', pergunta: 'O protocolo garante que um profissional habilitado revisa toda decisão gerada pelo sistema antes de sua execução?', riskAnswer: 'sim', pontos: -10, dica: 'A revisão humana obrigatória é a medida de mitigação mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
       { id: 'P7.4', pergunta: 'O sistema fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que influenciaram aquele resultado?', riskAnswer: 'sim', pontos: -8, dica: 'A explicabilidade permite supervisão mais eficaz. Responder "Sim" SUBTRAI pontos.', efeito: 'mitigacao' },
