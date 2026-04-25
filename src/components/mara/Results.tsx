@@ -152,6 +152,12 @@ export default function Results({
   const showContinueToB = useAAsTriagem && version === 'A' && qualResult &&
     (qualResult.level === 'III' || qualResult.level === 'IV');
 
+  // Triagem mode + Versão A + Nível I ou II → não há recomendação automática,
+  // mas oferece opt-in para o pesquisador que quer documentação mais robusta
+  // (ex.: registro do estudo, exigência de CEP local, comparação entre protocolos).
+  const showOptionalContinueToB = useAAsTriagem && version === 'A' && qualResult &&
+    (qualResult.level === 'I' || qualResult.level === 'II');
+
   // No modo triagem (A→B percorrida), o relatório é combinado e a auditoria
   // soma itens não avaliados de ambas as matrizes (sem duplicar contexto).
   const isCombinedReport = useAAsTriagem && version === 'B';
@@ -314,7 +320,7 @@ export default function Results({
           </Card>
         )}
 
-        {/* Triagem: suggest Version B */}
+        {/* Triagem: suggest Version B (Níveis III/IV — recomendação ativa) */}
         {showContinueToB && (
           <Card className="border-2 border-amber-300 bg-amber-50 mb-6 mt-6">
             <CardContent className="py-4">
@@ -323,7 +329,7 @@ export default function Results({
                 <div className="flex-1">
                   <h3 className="font-semibold text-amber-800 mb-1">Recomendação de Aprofundamento</h3>
                   <p className="text-sm text-amber-700 mb-3">
-                    O resultado da Versão A indicou Nível {qualResult!.level}. Recomenda-se aplicar a 
+                    O resultado da Versão A indicou Nível {qualResult!.level}. Recomenda-se aplicar a
                     Versão B (Quantitativa) para documentação auditável e rastreabilidade numérica.
                   </p>
                   <Button
@@ -334,6 +340,34 @@ export default function Results({
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Triagem: ponte opt-in para Versão B (Níveis I/II — sem recomendação,
+            apenas opção para quem quer documentação mais robusta) */}
+        {showOptionalContinueToB && (
+          <Card className="border border-slate-200 bg-slate-50/50 mb-6 mt-6">
+            <CardContent className="py-3">
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-start gap-2 flex-1 min-w-[200px]">
+                  <FileText className="h-4 w-4 text-slate-600 shrink-0 mt-0.5" />
+                  <p className="text-xs text-slate-700 leading-relaxed">
+                    A Versão A foi suficiente para Nível {qualResult!.level}. Se preferir, você pode aplicar
+                    a Versão B mesmo assim — útil para registro do estudo, exigência de CEP local ou
+                    comparação numérica entre protocolos.
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-300 text-slate-700 hover:bg-slate-100 shrink-0"
+                  onClick={onContinueToB}
+                >
+                  Aplicar Versão B mesmo assim
+                  <ChevronRight className="ml-1.5 h-3.5 w-3.5" />
+                </Button>
               </div>
             </CardContent>
           </Card>

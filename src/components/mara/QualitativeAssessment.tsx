@@ -32,7 +32,7 @@ import {
 
 type QualitativeAssessmentProps = {
   answers: QualitativeAnswer;
-  onAnswer: (questionId: string, answer: 'sim' | 'nao') => void;
+  onAnswer: (questionId: string, answer: 'sim' | 'nao' | 'na') => void;
   /** Quando true, inclui Eixo 3.b (Res. CNS n.º 738/2024). */
   usesDatabase: boolean;
   onComplete: () => void;
