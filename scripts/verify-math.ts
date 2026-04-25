@@ -13,6 +13,7 @@ import {
   getQuantitativeFinalResult,
   getQualitativeFinalLevel,
   getEliminatoryQuestionTriggered,
+  countRiskAnswersAxis,
 } from '../src/components/mara/utils';
 
 let passed = 0;
@@ -183,6 +184,26 @@ assert('P6.b.2=sim → Bloco 6.b score = 0', score6bSim, 0);
 // hasNaOption flag está presente no data
 const p6b2 = block6b.questoes.find((q) => q.id === 'P6.b.2');
 assert('P6.b.2.hasNaOption === true', p6b2.hasNaOption, true);
+
+console.log('\n=== 9c. Versão A — 3.b.2 "Não se aplica" (hasNaOption) ===');
+// Mesma semântica da Versão B: 3.b.2='na' não dispara eliminatório
+const eixo3b = QUALITATIVE_AXES.find((a) => a.id === 'eixo3b');
+const q3b2 = eixo3b?.questoes.find((q) => q.id === '3.b.2');
+assert('3.b.2.hasNaOption === true', q3b2?.hasNaOption, true);
+assert('3.b.2 ainda é eliminatório', q3b2?.eliminatorio, true);
+assert('3.b.2 riskAnswer = nao', q3b2?.riskAnswer, 'nao');
+
+// Eliminatório dispara só com 'nao', não com 'na'
+const elimAQual_na = getEliminatoryQuestionTriggered({ '3.b.2': 'na' }, 'A', true);
+assert('3.b.2=na → SEM eliminatório (Versão A)', elimAQual_na, null);
+const elimAQual_nao = getEliminatoryQuestionTriggered({ '3.b.2': 'nao' }, 'A', true);
+assert('3.b.2=nao → eliminatório acionado (Versão A)', elimAQual_nao, '3.b.2');
+const elimAQual_sim = getEliminatoryQuestionTriggered({ '3.b.2': 'sim' }, 'A', true);
+assert('3.b.2=sim → SEM eliminatório (Versão A)', elimAQual_sim, null);
+
+// 'na' não conta como risco no countRiskAnswersAxis
+const riskCount_na = eixo3b ? countRiskAnswersAxis(eixo3b, { '3.b.2': 'na' }) : -1;
+assert('3.b.2=na → countRiskAnswersAxis = 0', riskCount_na, 0);
 
 console.log('\n=== 10. Questions count ===');
 const totalQuantQuestionsDb = blocksDb.reduce((s, b) => s + b.questoes.length, 0);

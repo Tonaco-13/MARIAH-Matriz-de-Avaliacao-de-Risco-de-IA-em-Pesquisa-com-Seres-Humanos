@@ -24,7 +24,7 @@ type AppState = {
    */
   usesDatabase: boolean | null;
   contextAnswers: Record<string, string>;
-  qualitativeAnswers: Record<string, 'sim' | 'nao'>;
+  qualitativeAnswers: Record<string, 'sim' | 'nao' | 'na'>;
   quantitativeAnswers: Record<string, 'sim' | 'nao' | 'na'>;
 };
 
@@ -35,7 +35,7 @@ type Action =
   | { type: 'SET_FILTER_RESULT'; result: 'sim' | 'nao'; usesDatabase?: boolean }
   | { type: 'SET_USES_DATABASE'; usesDatabase: boolean }
   | { type: 'SET_CONTEXT_ANSWER'; id: string; value: string }
-  | { type: 'SET_QUALITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' }
+  | { type: 'SET_QUALITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' | 'na' }
   | { type: 'SET_QUANTITATIVE_ANSWER'; id: string; value: 'sim' | 'nao' | 'na' }
   | { type: 'CLEAR_FILTER' }
   | { type: 'CLEAR_CONTEXT' }
@@ -208,7 +208,7 @@ export default function Home() {
     dispatch({ type: 'SET_CONTEXT_ANSWER', id, value });
   }, []);
 
-  const handleQualitativeAnswer = useCallback((id: string, value: 'sim' | 'nao') => {
+  const handleQualitativeAnswer = useCallback((id: string, value: 'sim' | 'nao' | 'na') => {
     dispatch({ type: 'SET_QUALITATIVE_ANSWER', id, value });
   }, []);
 

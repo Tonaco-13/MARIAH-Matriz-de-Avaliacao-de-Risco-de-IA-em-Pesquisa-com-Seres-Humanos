@@ -26,6 +26,14 @@ export type QualitativeQuestion = {
   dica: string;
   /** Quando true, a resposta de risco torna o protocolo NÃO AVALIÁVEL no mérito (§7.3.6 / Res 738). */
   eliminatorio?: boolean;
+  /**
+   * Quando true, a questão aceita uma terceira resposta "Não se aplica" (N/A),
+   * tratada como não-risco e não-eliminatória. Usado em questões condicionais
+   * onde a pergunta só faz sentido se certa premissa estiver presente
+   * (ex.: 3.b.2 — Termo de Anuência só se aplica se o banco for constituído
+   * fora do âmbito da pesquisa).
+   */
+  hasNaOption?: boolean;
 };
 
 export type QualitativeAxis = {
@@ -324,7 +332,8 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         pergunta: 'Se o banco é constituído fora do âmbito da pesquisa: há Termo de Anuência Institucional (Art. 27, VI) assinado pelo dirigente da instituição detentora dos dados?',
         riskAnswer: 'nao',
         eliminatorio: true,
-        dica: 'ELIMINATÓRIO. A ausência do Termo de Anuência Institucional em banco externo configura ausência de cadeia de custódia formalizada — o protocolo não é avaliável no mérito e segue para diligência obrigatória (§7.3.6).',
+        hasNaOption: true,
+        dica: 'ELIMINATÓRIO. A ausência do Termo de Anuência Institucional em banco externo configura ausência de cadeia de custódia formalizada — o protocolo não é avaliável no mérito e segue para diligência obrigatória (§7.3.6). Marque "Não se aplica" se o banco é constituído dentro do âmbito desta pesquisa (não há instituição externa detentora).',
       },
       {
         id: '3.b.3',

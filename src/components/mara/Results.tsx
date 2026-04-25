@@ -111,16 +111,25 @@ export default function Results({
     ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase)
     : null;
 
-  const finalLevel = version === 'A'
-    ? qualResult!.level
-    : quantResult!.level;
+  // No modo triagem A→B, o nível consolidado é o MAIS ALTO entre as duas matrizes
+  // (critério mais conservador, alinhado ao que o relatório imprime).
+  const levelOrderArr: RiskLevel[] = ['I', 'II', 'III', 'IV'];
+  const finalLevel: RiskLevel =
+    useAAsTriagem && version === 'B' && qualResult && quantResult
+      ? levelOrderArr.indexOf(qualResult.level) >= levelOrderArr.indexOf(quantResult.level)
+        ? qualResult.level
+        : quantResult.level
+      : version === 'A'
+        ? qualResult!.level
+        : quantResult!.level;
 
-  const protocoloNaoAvaliavel = version === 'A'
-    ? qualResult?.protocoloNaoAvaliavel === true
-    : quantResult?.protocoloNaoAvaliavel === true;
-  const eliminatoryQuestionId = version === 'A'
-    ? qualResult?.eliminatoryQuestionId ?? null
-    : quantResult?.eliminatoryQuestionId ?? null;
+  // Eliminatório: se acionado em qualquer das duas matrizes (no triagem), considera.
+  const protocoloNaoAvaliavel =
+    (version === 'A' || useAAsTriagem ? qualResult?.protocoloNaoAvaliavel === true : false) ||
+    (version === 'B' ? quantResult?.protocoloNaoAvaliavel === true : false);
+  const eliminatoryQuestionId =
+    (version === 'B' ? quantResult?.eliminatoryQuestionId ?? null : null) ??
+    (version === 'A' || useAAsTriagem ? qualResult?.eliminatoryQuestionId ?? null : null);
 
   const handlePrint = () => {
     const html = generateReportHTML(
@@ -128,7 +137,8 @@ export default function Results({
       contextAnswers,
       qualitativeAnswers,
       quantitativeAnswers,
-      usesDatabase
+      usesDatabase,
+      useAAsTriagem
     );
     const printWindow = window.open('', '_blank');
     if (printWindow) {
@@ -142,15 +152,23 @@ export default function Results({
   const showContinueToB = useAAsTriagem && version === 'A' && qualResult &&
     (qualResult.level === 'III' || qualResult.level === 'IV');
 
-  // Itens não avaliados — auditoria. Agrupados por seção (eixo/bloco/contexto)
-  // para facilitar a leitura no card.
-  const unansweredItems = getUnansweredItems(
-    version,
-    contextAnswers,
-    qualitativeAnswers,
-    quantitativeAnswers,
-    usesDatabase
-  );
+  // No modo triagem (A→B percorrida), o relatório é combinado e a auditoria
+  // soma itens não avaliados de ambas as matrizes (sem duplicar contexto).
+  const isCombinedReport = useAAsTriagem && version === 'B';
+
+  const unansweredItems = isCombinedReport
+    ? [
+        ...getUnansweredItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase),
+        ...getUnansweredItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+          .filter((it) => it.scope !== 'contexto'),
+      ]
+    : getUnansweredItems(
+        version,
+        contextAnswers,
+        qualitativeAnswers,
+        quantitativeAnswers,
+        usesDatabase
+      );
   const unansweredByScope = unansweredItems.reduce<Record<string, typeof unansweredItems>>(
     (acc, item) => {
       (acc[item.scopeName] ??= []).push(item);
@@ -237,6 +255,37 @@ export default function Results({
                     de qualquer análise de mérito, conforme <strong>§7.3.6 do Capítulo 7</strong>.
                     Isto não é agravamento de nível de risco — é bloqueio de avaliação.
                   </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Banner do modo triagem (relatório combinado A+B) */}
+        {isCombinedReport && qualResult && quantResult && (
+          <Card className="border-l-4 border-slate-600 bg-slate-50 mb-4">
+            <CardContent className="py-3">
+              <div className="flex items-start gap-3 flex-wrap">
+                <FileText className="h-5 w-5 text-slate-700 shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-[200px]">
+                  <p className="text-sm font-semibold text-slate-800">
+                    Modo Triagem A → B — Relatório Combinado
+                  </p>
+                  <p className="text-xs text-slate-700 mt-1">
+                    Você percorreu as duas matrizes. O nível consolidado é o{' '}
+                    <strong>mais alto</strong> entre as duas (critério mais conservador).
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Badge className="bg-teal-100 text-teal-700 border border-teal-300 text-[10px]">
+                    A: Nível {qualResult.level}
+                  </Badge>
+                  <Badge className="bg-slate-200 text-slate-800 border border-slate-400 text-[10px]">
+                    B: Nível {quantResult.level}
+                  </Badge>
+                  <Badge className="bg-red-100 text-red-700 border border-red-300 text-[10px] font-semibold">
+                    Consolidado: Nível {finalLevel}
+                  </Badge>
                 </div>
               </div>
             </CardContent>

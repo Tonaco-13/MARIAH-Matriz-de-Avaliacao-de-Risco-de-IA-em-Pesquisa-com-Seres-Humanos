@@ -238,6 +238,7 @@ export default function QualitativeAssessment({
               {axis.questoes.map((q) => {
                 const currentAnswer = answers[q.id];
                 const isRisk = currentAnswer === q.riskAnswer;
+                const isNa = currentAnswer === 'na';
                 const riskLabel = q.riskAnswer === 'sim' ? 'Sim ⬆' : 'Não ⬆';
                 const eliminatorioAtivado = q.eliminatorio && isRisk;
 
@@ -247,6 +248,7 @@ export default function QualitativeAssessment({
                     className={`
                       rounded-lg border p-4 transition-all
                       ${eliminatorioAtivado ? 'border-red-400 bg-red-50 ring-2 ring-red-200' :
+                        isNa ? 'border-slate-200 bg-slate-50/50' :
                         isRisk ? 'border-red-200 bg-red-50/50' :
                         currentAnswer ? 'border-green-200 bg-green-50/30' : 'border-border'}
                     `}
@@ -306,10 +308,29 @@ export default function QualitativeAssessment({
                             >
                               Não
                             </Button>
+                            {q.hasNaOption && (
+                              <Button
+                                size="sm"
+                                variant={currentAnswer === 'na' ? 'default' : 'outline'}
+                                className={
+                                  currentAnswer === 'na'
+                                    ? 'bg-slate-500 hover:bg-slate-600 text-white'
+                                    : 'border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-slate-800'
+                                }
+                                onClick={() => onAnswer(q.id, 'na')}
+                              >
+                                Não se aplica
+                              </Button>
+                            )}
                           </div>
                           <span className="text-xs text-muted-foreground">
                             Resposta de risco: <span className="font-semibold text-red-600">{riskLabel}</span>
                           </span>
+                          {isNa && (
+                            <Badge className="bg-slate-100 text-slate-600 border border-slate-300 text-[10px]">
+                              Não aplicável — não conta como risco
+                            </Badge>
+                          )}
                           {eliminatorioAtivado && (
                             <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
                               ⛔ Protocolo não avaliável — §7.3.6
