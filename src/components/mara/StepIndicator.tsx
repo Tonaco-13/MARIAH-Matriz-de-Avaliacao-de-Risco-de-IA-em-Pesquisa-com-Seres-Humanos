@@ -49,7 +49,7 @@ export default function StepIndicator({ currentStep, version, onStepClick }: Ste
               text-[11px] sm:text-xs font-semibold px-3 py-1 rounded-full border
               ${version === 'A'
                 ? 'bg-teal-50 text-teal-700 border-teal-200'
-                : 'bg-amber-50 text-amber-700 border-amber-200'
+                : 'bg-slate-100 text-slate-700 border-slate-300'
               }
             `}
             aria-label={

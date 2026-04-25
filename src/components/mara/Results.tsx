@@ -278,7 +278,7 @@ export default function Results({
                     Versão B (Quantitativa) para documentação auditável e rastreabilidade numérica.
                   </p>
                   <Button
-                    className="bg-amber-600 hover:bg-amber-700"
+                    className="bg-slate-700 hover:bg-slate-800 text-white"
                     onClick={onContinueToB}
                   >
                     Continuar para Versão B

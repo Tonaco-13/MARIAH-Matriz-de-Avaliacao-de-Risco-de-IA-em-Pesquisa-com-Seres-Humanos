@@ -116,7 +116,7 @@ export default function QuantitativeAssessment({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-gradient-to-r from-amber-700 to-amber-600 text-white">
+      <header className="bg-gradient-to-r from-slate-700 to-slate-600 text-white">
         <div className="max-w-6xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/20 rounded-lg">
@@ -124,7 +124,7 @@ export default function QuantitativeAssessment({
             </div>
             <div>
               <h1 className="text-xl font-bold">MARA</h1>
-              <p className="text-amber-100 text-xs">Versão B — Quantitativa</p>
+              <p className="text-slate-200 text-xs">Versão B — Quantitativa</p>
             </div>
           </div>
         </div>
@@ -232,11 +232,11 @@ export default function QuantitativeAssessment({
                 className={`
                   flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all
                   ${s.index === currentBlock
-                    ? isRes738 ? 'bg-blue-600 text-white shadow-sm' : 'bg-amber-600 text-white shadow-sm'
+                    ? isRes738 ? 'bg-blue-600 text-white shadow-sm' : 'bg-slate-700 text-white shadow-sm'
                     : s.done
                       ? isRes738
                         ? 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
-                        : 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100'
+                        : 'bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200'
                       : 'bg-muted text-muted-foreground hover:bg-muted/80'
                   }
                 `}
@@ -261,7 +261,7 @@ export default function QuantitativeAssessment({
               ? 'border-blue-300'
               : block.id === 'bloco4'
                 ? 'border-red-300'
-                : 'border-amber-200'
+                : 'border-slate-300'
           }`}
         >
           <CardHeader className="pb-3">
@@ -335,8 +335,12 @@ export default function QuantitativeAssessment({
 
                 const isMitigated = isMitigation && currentAnswer === 'sim';
                 const isNa = currentAnswer === 'na';
+                // Para perguntas de risco padrão usamos uma string única.
+                // Para perguntas de mitigação a label é colorida em duas metades
+                // (risco em vermelho / mitiga em teal) abaixo, então essa variável
+                // só serve às perguntas normais.
                 const riskLabel = isMitigation
-                  ? `"Não" ⬆ risco / "Sim" ⬇ mitiga`
+                  ? null
                   : q.riskAnswer === 'sim' ? 'Sim ⬆' : 'Não ⬆';
                 const eliminatorioAtivado = q.eliminatorio && currentAnswer === q.riskAnswer;
 
@@ -350,7 +354,7 @@ export default function QuantitativeAssessment({
                         isMitigated ? 'border-teal-200 bg-teal-50/30' :
                         isHighlight ? 'border-red-200 bg-red-50/50' :
                         currentAnswer ? 'border-green-200 bg-green-50/30' :
-                        isMitigation ? 'border-amber-100' : 'border-border'}
+                        isMitigation ? 'border-slate-200' : 'border-border'}
                     `}
                   >
                     <div className="flex items-start gap-3">
@@ -393,7 +397,7 @@ export default function QuantitativeAssessment({
                                     ? 'bg-teal-600 hover:bg-teal-700 text-white'
                                     : q.riskAnswer === 'sim'
                                       ? 'bg-red-500 hover:bg-red-600 text-white'
-                                      : 'bg-amber-600 hover:bg-amber-700 text-white'
+                                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
                                   : isMitigation
                                     ? 'border-teal-300 text-teal-700 hover:bg-teal-50 hover:text-teal-800 hover:border-teal-400'
                                     : 'hover:bg-muted'
@@ -411,7 +415,7 @@ export default function QuantitativeAssessment({
                                     ? 'bg-red-500 hover:bg-red-600 text-white'
                                     : q.riskAnswer === 'nao'
                                       ? 'bg-red-500 hover:bg-red-600 text-white'
-                                      : 'bg-amber-600 hover:bg-amber-700 text-white'
+                                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
                                   : isMitigation
                                     ? 'border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 hover:border-red-400'
                                     : 'hover:bg-muted'
@@ -435,19 +439,25 @@ export default function QuantitativeAssessment({
                               </Button>
                             )}
                           </div>
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2 flex-wrap">
                             {isMitigation ? (
-                              <TrendingDown className="h-3 w-3 text-teal-600" />
+                              <>
+                                {/* Mitigação bidirecional: risco em vermelho, mitiga em teal,
+                                    para leitura instantânea sem depender do ícone. */}
+                                <TrendingUp className="h-3 w-3 text-red-500" />
+                                <span className="font-semibold text-red-600">&ldquo;Não&rdquo; ⬆ risco</span>
+                                <span className="text-muted-foreground">/</span>
+                                <TrendingDown className="h-3 w-3 text-teal-600" />
+                                <span className="font-semibold text-teal-600">&ldquo;Sim&rdquo; ⬇ mitiga</span>
+                                <span>(±{Math.abs(q.pontos)} pts)</span>
+                              </>
                             ) : (
-                              <TrendingUp className="h-3 w-3 text-red-500" />
+                              <>
+                                <TrendingUp className="h-3 w-3 text-red-500" />
+                                <span className="font-semibold text-red-600">{riskLabel}</span>
+                                <span>({Math.abs(q.pontos)} pts)</span>
+                              </>
                             )}
-                            <span>
-                              {isMitigation ? (
-                                <><span className="text-teal-600 font-semibold">{riskLabel}</span> (±{Math.abs(q.pontos)} pts)</>
-                              ) : (
-                                <><span className="font-semibold text-red-600">{riskLabel}</span> ({Math.abs(q.pontos)} pts)</>
-                              )}
-                            </span>
                           </div>
                           {/* Cláusula de Prevalência Ética indicator for P4.1 and P4.2 */}
                           {(q.id === 'P4.1' || q.id === 'P4.2') && currentAnswer === 'sim' && (
@@ -491,7 +501,7 @@ export default function QuantitativeAssessment({
             <RestartButton onRestart={onRestart} answeredCount={totalAnswered} />
           </div>
           <Button
-            className="bg-amber-600 hover:bg-amber-700"
+            className="bg-slate-700 hover:bg-slate-800 text-white"
             onClick={handleNext}
           >
             {currentBlock < blocksList.length - 1 ? 'Próximo Bloco' : 'Ver Resultado'}

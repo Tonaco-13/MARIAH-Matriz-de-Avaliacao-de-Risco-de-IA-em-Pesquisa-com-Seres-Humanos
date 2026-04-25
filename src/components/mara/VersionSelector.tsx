@@ -105,18 +105,18 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
           </Card>
 
           {/* Version B */}
-          <Card 
-            className="cursor-pointer border-2 hover:border-amber-400 hover:shadow-lg transition-all duration-200 group"
+          <Card
+            className="cursor-pointer border-2 hover:border-slate-500 hover:shadow-lg transition-all duration-200 group"
             onClick={() => onSelect('B')}
           >
             <CardHeader className="pb-3">
               <div className="flex items-center gap-3 mb-2">
-                <div className="p-2.5 bg-amber-50 rounded-xl group-hover:bg-amber-100 transition-colors">
-                  <BarChart3 className="h-6 w-6 text-amber-600" />
+                <div className="p-2.5 bg-slate-100 rounded-xl group-hover:bg-slate-200 transition-colors">
+                  <BarChart3 className="h-6 w-6 text-slate-700" />
                 </div>
                 <div>
                   <CardTitle className="text-lg">Versão B</CardTitle>
-                  <Badge className="bg-amber-600 text-white hover:bg-amber-700">Quantitativa</Badge>
+                  <Badge className="bg-slate-700 text-white hover:bg-slate-800">Quantitativa</Badge>
                 </div>
               </div>
               <CardDescription className="text-sm leading-relaxed">
@@ -126,24 +126,24 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
             <CardContent>
               <ul className="space-y-2.5 text-sm">
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-slate-600 mt-0.5 shrink-0" />
                   <span>Para CEPs com experiência consolidada ou protocolos de alta complexidade</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-slate-600 mt-0.5 shrink-0" />
                   <span>Pontuação ponderada em sete blocos</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-slate-600 mt-0.5 shrink-0" />
                   <span>Nível de risco por soma total com rastreabilidade numérica</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-amber-500 mt-0.5 shrink-0" />
+                  <CheckCircle2 className="h-4 w-4 text-slate-600 mt-0.5 shrink-0" />
                   <span>Documentação auditável e comparação entre protocolos</span>
                 </li>
               </ul>
-              <Button 
-                className="w-full mt-5 bg-amber-600 hover:bg-amber-700 group-hover:bg-amber-700"
+              <Button
+                className="w-full mt-5 bg-slate-700 hover:bg-slate-800 text-white group-hover:bg-slate-800"
               >
                 Usar Versão B
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -197,7 +197,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
                   </th>
                   <th className="text-left p-3 font-medium w-1/3">
                     <span className="flex items-center gap-1">
-                      <BarChart3 className="h-4 w-4 text-amber-600" />
+                      <BarChart3 className="h-4 w-4 text-slate-700" />
                       Versão B — Quantitativa
                     </span>
                   </th>
