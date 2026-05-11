@@ -33,9 +33,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
               <Shield className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                MAR<span className="text-white">.IA</span>
-              </h1>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MARIA</h1>
               <p className="text-teal-100 text-sm">Matriz de Avaliação de Risco em Inteligência Artificial</p>
             </div>
           </div>
@@ -246,7 +244,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
         <div className="flex items-start gap-2 text-xs text-muted-foreground">
           <FileText className="h-4 w-4 mt-0.5 shrink-0" />
           <p>
-            A MAR.IA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
+            A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
             Não dispensa a deliberação colegiada.
           </p>
         </div>
@@ -256,7 +254,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
       <footer className="border-t bg-muted/30 py-4">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial • Ferramenta de apoio à avaliação ética de protocolos com IA
+            MARIA — Matriz de Avaliação de Risco em Inteligência Artificial • Ferramenta de apoio à avaliação ética de protocolos com IA
           </p>
         </div>
       </footer>

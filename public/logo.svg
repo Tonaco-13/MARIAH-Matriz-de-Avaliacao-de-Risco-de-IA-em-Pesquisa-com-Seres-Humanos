@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  MAR.IA — favicon.
+  MARIA — favicon.
   Quadrado arredondado em teal (cor primária do app) com escudo branco ao centro,
   ecoando o ícone Shield (lucide) usado no header. A letra "M" interna mantém
   reconhecimento da marca em 16x16 px na aba do navegador.
 -->
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" xml:space="preserve">
-  <!-- Fundo teal-700 (#0f766e) — mesma cor do gradiente do header da MAR.IA -->
+  <!-- Fundo teal-700 (#0f766e) — mesma cor do gradiente do header da MARIA -->
   <rect x="1" y="1" width="28" height="28" rx="5" ry="5" fill="#0f766e"/>
   <!-- Escudo branco simplificado ao centro -->
   <path d="M15 6.5
@@ -17,7 +17,7 @@
            L 21.5 8.2
            C 18 8.2, 15 6.5, 15 6.5 Z"
         fill="#ffffff"/>
-  <!-- Letra "M" interna em teal, marca discreta da MAR.IA -->
+  <!-- Letra "M" interna em teal, marca discreta da MARIA -->
   <path d="M11.5 12.5
            L 11.5 18.5
            M 11.5 12.5

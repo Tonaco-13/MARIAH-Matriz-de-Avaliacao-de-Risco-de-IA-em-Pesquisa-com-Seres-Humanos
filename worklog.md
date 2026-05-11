@@ -1,4 +1,4 @@
-> **Nota (2026-05-11):** O software foi renomeado de **MARA** (Matriz de Avaliação de Risco Algorítmico) para **MAR.IA** (Matriz de Avaliação de Risco em Inteligência Artificial). As entradas históricas abaixo preservam o nome original como registro do que estava em uso à época.
+> **Nota (2026-05-11):** O software foi renomeado em duas etapas no mesmo dia: primeiro de **MARA** (Matriz de Avaliação de Risco Algorítmico) para **MAR.IA**, e logo em seguida para **MARIA** (Matriz de Avaliação de Risco em Inteligência Artificial) — sem o ponto. O acrônimo é exato: 5 letras, 5 palavras. As entradas históricas abaixo preservam o nome original como registro do que estava em uso à época.
 
 ---
 Task ID: 1

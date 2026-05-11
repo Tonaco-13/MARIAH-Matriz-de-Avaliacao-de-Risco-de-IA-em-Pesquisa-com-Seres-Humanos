@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial",
+  title: "MARIA — Matriz de Avaliação de Risco em Inteligência Artificial",
   description: "Ferramenta de avaliação de risco para sistemas de IA em protocolos de pesquisa submetidos a Comitês de Ética em Pesquisa (CEP).",
-  keywords: ["MAR.IA", "MARIA", "risco em IA", "inteligência artificial", "ética em pesquisa", "CEP", "CONEP"],
+  keywords: ["MARIA", "risco em IA", "inteligência artificial", "ética em pesquisa", "CEP", "CONEP"],
   authors: [{ name: "Ministério da Saúde" }],
   icons: {
     icon: "/logo.svg",

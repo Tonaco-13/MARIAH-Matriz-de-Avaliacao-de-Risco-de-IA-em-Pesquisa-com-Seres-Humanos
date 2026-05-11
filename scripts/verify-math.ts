@@ -1,4 +1,4 @@
-// Quick verification of MAR.IA math logic after Res 738 update.
+// Quick verification of MARIA math logic after Res 738 update.
 // Run with: node scripts/verify-math.mjs
 //
 // This imports the TS modules via tsx-compatible transpile. If you don't have

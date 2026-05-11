@@ -1,5 +1,5 @@
 // ============================================================
-// MAR.IA - Calculation Utilities
+// MARIA - Calculation Utilities
 // Versão com Res. CNS n.º 738/2024 (Eixo 3.b / Bloco 6.b)
 // ============================================================
 
@@ -654,14 +654,14 @@ export function generateReportHTML(
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>MAR.IA — Relatório de Avaliação de Risco em IA</title>
+  <title>MARIA — Relatório de Avaliação de Risco em IA</title>
   <style>
     @media print { body { padding: 20px; } }
   </style>
 </head>
 <body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:0 auto;padding:40px 20px;color:#1f2937;line-height:1.5">
   <div style="border-bottom:3px solid #0f766e;padding-bottom:16px;margin-bottom:24px">
-    <h1 style="margin:0;font-size:24px;color:#0f766e">MAR<span style="color:#14b8a6">.IA</span></h1>
+    <h1 style="margin:0;font-size:24px;color:#0f766e">MARIA</h1>
     <p style="margin:4px 0 0;font-size:14px;color:#6b7280">Matriz de Avaliação de Risco em Inteligência Artificial</p>
   </div>
 
@@ -693,11 +693,11 @@ export function generateReportHTML(
   ${unansweredSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
-    <strong>Aviso:</strong> A MAR.IA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. Não dispensa a deliberação colegiada.
+    <strong>Aviso:</strong> A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. Não dispensa a deliberação colegiada.
   </div>
 
   <div style="margin-top:24px;text-align:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:12px;line-height:1.6">
-    MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial • Gerado em ${date}
+    MARIA — Matriz de Avaliação de Risco em Inteligência Artificial • Gerado em ${date}
     <br>
     Desenvolvido pelo Ministério da Saúde para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
     <br>
@@ -720,7 +720,7 @@ export function generateReportText(
   const isCombinedReport = useAAsTriagem && version === 'B';
 
   lines.push('═══════════════════════════════════════════════════════════');
-  lines.push('MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial');
+  lines.push('MARIA — Matriz de Avaliação de Risco em Inteligência Artificial');
   lines.push('═══════════════════════════════════════════════════════════');
   lines.push('');
   lines.push(`Versão: ${

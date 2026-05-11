@@ -119,9 +119,7 @@ export default function QualitativeAssessment({
               <Shield className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">
-                MAR<span className="text-white">.IA</span>
-              </h1>
+              <h1 className="text-xl font-bold">MARIA</h1>
               <p className="text-teal-100 text-xs">Versão A — Qualitativa</p>
             </div>
           </div>
@@ -375,7 +373,7 @@ export default function QualitativeAssessment({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MAR.IA — Versão A — Qualitativa
+            MARIA — Versão A — Qualitativa
           </p>
         </div>
       </footer>

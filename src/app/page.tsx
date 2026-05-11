@@ -142,8 +142,9 @@ const initialState: AppState = {
 
 // ----- LocalStorage -----
 
-const STORAGE_KEY = 'mar-ia-assessment-state';
-const LEGACY_STORAGE_KEY = 'mara-assessment-state';
+const STORAGE_KEY = 'maria-assessment-state';
+// Chaves anteriores (rebrand MARA → MAR.IA → MARIA). Migradas no primeiro load.
+const LEGACY_KEYS = ['mar-ia-assessment-state', 'mara-assessment-state'];
 
 function saveState(state: AppState) {
   try {
@@ -159,16 +160,18 @@ function loadState(): AppState | null {
     if (stored) {
       return JSON.parse(stored) as AppState;
     }
-    // Migração: rebrand MARA → MAR.IA. Lê o draft antigo se existir e migra para a nova chave.
-    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
-    if (legacy) {
-      try {
-        localStorage.setItem(STORAGE_KEY, legacy);
-        localStorage.removeItem(LEGACY_STORAGE_KEY);
-      } catch {
-        // Ignore migration errors
+    // Migração de chaves legadas: tenta cada uma em ordem do mais recente para o mais antigo.
+    for (const legacyKey of LEGACY_KEYS) {
+      const legacy = localStorage.getItem(legacyKey);
+      if (legacy) {
+        try {
+          localStorage.setItem(STORAGE_KEY, legacy);
+          localStorage.removeItem(legacyKey);
+        } catch {
+          // Ignore migration errors
+        }
+        return JSON.parse(legacy) as AppState;
       }
-      return JSON.parse(legacy) as AppState;
     }
   } catch {
     // Ignore storage errors

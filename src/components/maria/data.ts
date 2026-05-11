@@ -1,5 +1,5 @@
 // ============================================================
-// MAR.IA - Matriz de Avaliação de Risco em Inteligência Artificial
+// MARIA - Matriz de Avaliação de Risco em Inteligência Artificial
 // Data definitions, types, and scoring rules
 // ============================================================
 

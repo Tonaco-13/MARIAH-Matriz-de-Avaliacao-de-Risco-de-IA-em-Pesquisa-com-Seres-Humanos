@@ -96,7 +96,7 @@ export default function EntryFilter({
     onClearScope();
   };
 
-  // Tela de "MAR.IA não se aplica" (quando o reducer pai já marcou filterResult='nao').
+  // Tela de "MARIA não se aplica" (quando o reducer pai já marcou filterResult='nao').
   if (filterResult === 'nao') {
     return (
       <div className="min-h-screen flex flex-col">
@@ -108,7 +108,7 @@ export default function EntryFilter({
               </div>
               <div>
                 <h1 className="text-xl font-bold">
-                  MAR<span className="text-white">.IA</span>
+                  MARIA
                 </h1>
                 <p className="text-teal-100 text-xs">Matriz de Avaliação de Risco em Inteligência Artificial</p>
               </div>
@@ -122,10 +122,10 @@ export default function EntryFilter({
               <div className="mx-auto mb-4 p-3 bg-green-100 rounded-full w-fit">
                 <CheckCircle2 className="h-10 w-10 text-green-600" />
               </div>
-              <h2 className="text-xl font-semibold text-green-800 mb-2">A MAR.IA não se aplica</h2>
+              <h2 className="text-xl font-semibold text-green-800 mb-2">A MARIA não se aplica</h2>
               <p className="text-green-700 mb-6">
                 O sistema de IA não realiza automação de decisão, geração de conteúdo ou
-                intervenção no protocolo ou na condução do estudo. Portanto, a MAR.IA não se aplica
+                intervenção no protocolo ou na condução do estudo. Portanto, a MARIA não se aplica
                 a este protocolo.
               </p>
               <Button
@@ -161,7 +161,7 @@ export default function EntryFilter({
             </div>
             <div>
               <h1 className="text-xl font-bold">
-                MAR<span className="text-white">.IA</span>
+                MARIA
               </h1>
               <p className="text-teal-100 text-xs">Matriz de Avaliação de Risco em Inteligência Artificial</p>
             </div>
@@ -177,7 +177,7 @@ export default function EntryFilter({
 
         <h2 className="text-xl font-semibold mb-2">Passo 0 — Filtro de Entrada</h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          Verifique se o sistema de IA se enquadra no escopo da MAR.IA e se o protocolo utiliza banco
+          Verifique se o sistema de IA se enquadra no escopo da MARIA e se o protocolo utiliza banco
           de dados (ativa a subseção da Res. CNS n.º 738/2024).
         </p>
 
@@ -230,7 +230,7 @@ export default function EntryFilter({
 
             {applies === 'sim' && (
               <p className="text-xs text-teal-700 mt-4 text-center">
-                ✓ MAR.IA se aplica. Responda a segunda pergunta abaixo para prosseguir.
+                ✓ MARIA se aplica. Responda a segunda pergunta abaixo para prosseguir.
               </p>
             )}
           </CardContent>
@@ -371,7 +371,7 @@ export default function EntryFilter({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial
+            MARIA — Matriz de Avaliação de Risco em Inteligência Artificial
           </p>
         </div>
       </footer>

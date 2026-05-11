@@ -123,9 +123,7 @@ export default function QuantitativeAssessment({
               <Shield className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">
-                MAR<span className="text-white">.IA</span>
-              </h1>
+              <h1 className="text-xl font-bold">MARIA</h1>
               <p className="text-slate-200 text-xs">Versão B — Quantitativa</p>
             </div>
           </div>
@@ -515,7 +513,7 @@ export default function QuantitativeAssessment({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MAR.IA — Versão B — Quantitativa
+            MARIA — Versão B — Quantitativa
           </p>
         </div>
       </footer>

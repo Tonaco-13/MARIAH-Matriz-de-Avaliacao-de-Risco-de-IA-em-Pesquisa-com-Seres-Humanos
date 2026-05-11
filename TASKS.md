@@ -1,4 +1,4 @@
-# MAR.IA — Prioridades para Apresentação ao Ministério da Saúde
+# MARIA — Prioridades para Apresentação ao Ministério da Saúde
 
 ## CRÍTICO (esta semana — demo ao MS)
 
