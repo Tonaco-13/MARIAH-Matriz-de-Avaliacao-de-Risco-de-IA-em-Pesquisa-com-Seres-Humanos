@@ -193,7 +193,7 @@ export default function Results({
             </div>
             <div>
               <h1 className="text-xl font-bold">
-                MAR<span className="text-teal-200">.IA</span>
+                MAR<span className="text-white">.IA</span>
               </h1>
               <p className="text-teal-100 text-xs">Resultado da Avaliação</p>
             </div>

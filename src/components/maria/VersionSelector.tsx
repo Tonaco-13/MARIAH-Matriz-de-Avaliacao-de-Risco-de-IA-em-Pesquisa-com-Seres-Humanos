@@ -34,7 +34,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                MAR<span className="text-teal-200">.IA</span>
+                MAR<span className="text-white">.IA</span>
               </h1>
               <p className="text-teal-100 text-sm">Matriz de Avaliação de Risco em Inteligência Artificial</p>
             </div>

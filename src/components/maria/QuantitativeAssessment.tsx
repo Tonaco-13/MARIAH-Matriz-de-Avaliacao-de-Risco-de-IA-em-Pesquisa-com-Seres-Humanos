@@ -124,7 +124,7 @@ export default function QuantitativeAssessment({
             </div>
             <div>
               <h1 className="text-xl font-bold">
-                MAR<span className="text-slate-300">.IA</span>
+                MAR<span className="text-white">.IA</span>
               </h1>
               <p className="text-slate-200 text-xs">Versão B — Quantitativa</p>
             </div>
