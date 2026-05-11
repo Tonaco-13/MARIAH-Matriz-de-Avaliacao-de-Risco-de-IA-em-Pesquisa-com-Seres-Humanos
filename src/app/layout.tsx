@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { Footer } from "@/components/mara/Footer";
+import { Footer } from "@/components/maria/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MARA — Matriz de Avaliação de Risco Algorítmico",
+  title: "MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial",
   description: "Ferramenta de avaliação de risco para sistemas de IA em protocolos de pesquisa submetidos a Comitês de Ética em Pesquisa (CEP).",
-  keywords: ["MARA", "risco algorítmico", "IA", "inteligência artificial", "ética em pesquisa", "CEP", "CONEP"],
+  keywords: ["MAR.IA", "MARIA", "risco em IA", "inteligência artificial", "ética em pesquisa", "CEP", "CONEP"],
   authors: [{ name: "Ministério da Saúde" }],
   icons: {
     icon: "/logo.svg",

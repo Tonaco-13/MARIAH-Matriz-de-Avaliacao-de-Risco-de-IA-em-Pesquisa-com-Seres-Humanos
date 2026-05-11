@@ -1,5 +1,5 @@
 // ============================================================
-// MARA - Matriz de Avaliação de Risco Algorítmico
+// MAR.IA - Matriz de Avaliação de Risco em Inteligência Artificial
 // Data definitions, types, and scoring rules
 // ============================================================
 

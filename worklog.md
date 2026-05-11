@@ -1,3 +1,5 @@
+> **Nota (2026-05-11):** O software foi renomeado de **MARA** (Matriz de Avaliação de Risco Algorítmico) para **MAR.IA** (Matriz de Avaliação de Risco em Inteligência Artificial). As entradas históricas abaixo preservam o nome original como registro do que estava em uso à época.
+
 ---
 Task ID: 1
 Agent: Main Agent

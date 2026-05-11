@@ -1,6 +1,7 @@
 {
-  "name": "nextjs_tailwind_shadcn_ts",
-  "version": "0.2.0",
+  "name": "mar-ia",
+  "version": "0.3.0",
+  "description": "MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial. Ferramenta para Comitês de Ética em Pesquisa (CEP) avaliarem riscos de sistemas de IA em protocolos de pesquisa.",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",

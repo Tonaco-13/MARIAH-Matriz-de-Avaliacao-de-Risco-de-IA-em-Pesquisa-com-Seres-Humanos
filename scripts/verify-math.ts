@@ -1,10 +1,10 @@
-// Quick verification of MARA math logic after Res 738 update.
+// Quick verification of MAR.IA math logic after Res 738 update.
 // Run with: node scripts/verify-math.mjs
 //
 // This imports the TS modules via tsx-compatible transpile. If you don't have
 // tsx installed, use `npx tsx scripts/verify-math.mjs`.
 
-import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO } from '../src/components/mara/data';
+import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO } from '../src/components/maria/data';
 import {
   getApplicableAxes,
   getApplicableBlocks,
@@ -14,7 +14,7 @@ import {
   getQualitativeFinalLevel,
   getEliminatoryQuestionTriggered,
   countRiskAnswersAxis,
-} from '../src/components/mara/utils';
+} from '../src/components/maria/utils';
 
 let passed = 0;
 let failed = 0;

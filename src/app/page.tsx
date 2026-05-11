@@ -1,13 +1,13 @@
 'use client';
 
 import { useReducer, useEffect, useCallback } from 'react';
-import VersionSelector from '@/components/mara/VersionSelector';
-import EntryFilter from '@/components/mara/EntryFilter';
-import ContextForm from '@/components/mara/ContextForm';
-import QualitativeAssessment from '@/components/mara/QualitativeAssessment';
-import QuantitativeAssessment from '@/components/mara/QuantitativeAssessment';
-import Results from '@/components/mara/Results';
-import type { MarcaVersion } from '@/components/mara/data';
+import VersionSelector from '@/components/maria/VersionSelector';
+import EntryFilter from '@/components/maria/EntryFilter';
+import ContextForm from '@/components/maria/ContextForm';
+import QualitativeAssessment from '@/components/maria/QualitativeAssessment';
+import QuantitativeAssessment from '@/components/maria/QuantitativeAssessment';
+import Results from '@/components/maria/Results';
+import type { MarcaVersion } from '@/components/maria/data';
 
 // ----- State Types -----
 
@@ -142,7 +142,8 @@ const initialState: AppState = {
 
 // ----- LocalStorage -----
 
-const STORAGE_KEY = 'mara-assessment-state';
+const STORAGE_KEY = 'mar-ia-assessment-state';
+const LEGACY_STORAGE_KEY = 'mara-assessment-state';
 
 function saveState(state: AppState) {
   try {
@@ -157,6 +158,17 @@ function loadState(): AppState | null {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       return JSON.parse(stored) as AppState;
+    }
+    // Migração: rebrand MARA → MAR.IA. Lê o draft antigo se existir e migra para a nova chave.
+    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (legacy) {
+      try {
+        localStorage.setItem(STORAGE_KEY, legacy);
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+      } catch {
+        // Ignore migration errors
+      }
+      return JSON.parse(legacy) as AppState;
     }
   } catch {
     // Ignore storage errors

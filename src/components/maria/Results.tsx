@@ -192,7 +192,9 @@ export default function Results({
               <Shield className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">MARA</h1>
+              <h1 className="text-xl font-bold">
+                MAR<span className="text-teal-200">.IA</span>
+              </h1>
               <p className="text-teal-100 text-xs">Resultado da Avaliação</p>
             </div>
           </div>
@@ -654,7 +656,7 @@ export default function Results({
               <div className="text-sm text-muted-foreground">
                 <p className="font-medium mb-1">Aviso importante</p>
                 <p>
-                  A MARA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
+                  A MAR.IA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
                   Não dispensa a deliberação colegiada.
                 </p>
               </div>
@@ -678,7 +680,7 @@ export default function Results({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARA — Matriz de Avaliação de Risco Algorítmico • {version === 'A' ? 'Versão A — Qualitativa' : 'Versão B — Quantitativa'}
+            MAR.IA — Matriz de Avaliação de Risco em Inteligência Artificial • {version === 'A' ? 'Versão A — Qualitativa' : 'Versão B — Quantitativa'}
           </p>
         </div>
       </footer>
