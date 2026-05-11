@@ -33,13 +33,18 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
               <Shield className="h-8 w-8" />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MARIA</h1>
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MARIA</h1>
+                <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
+                  Versão preliminar
+                </span>
+              </div>
               <p className="text-teal-100 text-sm">Matriz de Avaliação de Risco em Inteligência Artificial</p>
             </div>
           </div>
           <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Ferramenta de apoio à avaliação ética de protocolos de pesquisa que utilizam 
-            sistemas de inteligência artificial, destinada aos Comitês de Ética em Pesquisa (CEP).
+            Ferramenta de apoio à avaliação ética de protocolos de pesquisa que utilizam
+            sistemas de inteligência artificial destinada aos Comitês de Ética em Pesquisa (CEP).
           </p>
         </div>
       </header>
@@ -245,7 +250,8 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
           <FileText className="h-4 w-4 mt-0.5 shrink-0" />
           <p>
             A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
-            Não dispensa a deliberação colegiada.
+            Não dispensa a deliberação colegiada. Esta é uma versão preliminar; a ferramenta
+            ainda passará por validação institucional pelo Ministério da Saúde.
           </p>
         </div>
       </main>

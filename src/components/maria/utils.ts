@@ -661,7 +661,10 @@ export function generateReportHTML(
 </head>
 <body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:0 auto;padding:40px 20px;color:#1f2937;line-height:1.5">
   <div style="border-bottom:3px solid #0f766e;padding-bottom:16px;margin-bottom:24px">
-    <h1 style="margin:0;font-size:24px;color:#0f766e">MARIA</h1>
+    <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+      <h1 style="margin:0;font-size:24px;color:#0f766e">MARIA</h1>
+      <span style="font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;white-space:nowrap">Versão preliminar</span>
+    </div>
     <p style="margin:4px 0 0;font-size:14px;color:#6b7280">Matriz de Avaliação de Risco em Inteligência Artificial</p>
   </div>
 
@@ -693,7 +696,7 @@ export function generateReportHTML(
   ${unansweredSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
-    <strong>Aviso:</strong> A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. Não dispensa a deliberação colegiada.
+    <strong>Aviso:</strong> A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. Não dispensa a deliberação colegiada. Esta é uma versão preliminar; a ferramenta ainda passará por validação institucional pelo Ministério da Saúde.
   </div>
 
   <div style="margin-top:24px;text-align:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:12px;line-height:1.6">
@@ -721,6 +724,7 @@ export function generateReportText(
 
   lines.push('═══════════════════════════════════════════════════════════');
   lines.push('MARIA — Matriz de Avaliação de Risco em Inteligência Artificial');
+  lines.push('[Versão preliminar]');
   lines.push('═══════════════════════════════════════════════════════════');
   lines.push('');
   lines.push(`Versão: ${
@@ -829,6 +833,11 @@ export function generateReportText(
     }
   }
 
+  lines.push('');
+  lines.push('── AVISO ──');
+  lines.push('A MARIA não aprova nem reprova protocolos. Não substitui o julgamento');
+  lines.push('do CEP. Não dispensa a deliberação colegiada. Esta é uma versão preliminar;');
+  lines.push('a ferramenta ainda passará por validação institucional pelo Ministério da Saúde.');
   lines.push('');
   lines.push('═══════════════════════════════════════════════════════════');
 

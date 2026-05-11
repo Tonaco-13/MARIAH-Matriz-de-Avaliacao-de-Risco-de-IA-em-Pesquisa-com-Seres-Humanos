@@ -192,7 +192,12 @@ export default function Results({
               <Shield className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">MARIA</h1>
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <h1 className="text-xl font-bold">MARIA</h1>
+                <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
+                  Versão preliminar
+                </span>
+              </div>
               <p className="text-teal-100 text-xs">Resultado da Avaliação</p>
             </div>
           </div>
@@ -655,7 +660,8 @@ export default function Results({
                 <p className="font-medium mb-1">Aviso importante</p>
                 <p>
                   A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
-                  Não dispensa a deliberação colegiada.
+                  Não dispensa a deliberação colegiada. Esta é uma versão preliminar; a ferramenta
+                  ainda passará por validação institucional pelo Ministério da Saúde.
                 </p>
               </div>
             </div>

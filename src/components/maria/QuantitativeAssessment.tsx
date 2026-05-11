@@ -123,7 +123,12 @@ export default function QuantitativeAssessment({
               <Shield className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">MARIA</h1>
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <h1 className="text-xl font-bold">MARIA</h1>
+                <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
+                  Versão preliminar
+                </span>
+              </div>
               <p className="text-slate-200 text-xs">Versão B — Quantitativa</p>
             </div>
           </div>
