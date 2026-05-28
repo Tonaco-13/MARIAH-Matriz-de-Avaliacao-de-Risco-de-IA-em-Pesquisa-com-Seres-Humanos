@@ -43,8 +43,9 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
             </div>
           </div>
           <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Ferramenta de apoio à avaliação ética de protocolos de pesquisa que utilizam
-            sistemas de inteligência artificial destinada aos Comitês de Ética em Pesquisa (CEP).
+            Ferramenta de apoio aos Comitês de Ética em Pesquisa (CEP), concebida para a
+            avaliação ética de estudos de intervenção em seres humanos que utilizam sistemas
+            de inteligência artificial.
           </p>
         </div>
       </header>
@@ -249,9 +250,11 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
         <div className="flex items-start gap-2 text-xs text-muted-foreground">
           <FileText className="h-4 w-4 mt-0.5 shrink-0" />
           <p>
-            A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
-            Não dispensa a deliberação colegiada. Esta é uma versão preliminar; a ferramenta
-            ainda passará por validação institucional pelo Ministério da Saúde.
+            A MARIA foi concebida para a avaliação ética de estudos de intervenção em seres
+            humanos. Não aprova nem reprova protocolos, não substitui o julgamento do CEP
+            e não dispensa a deliberação colegiada. Versão preliminar: a matriz ainda não foi
+            submetida a validação empírica em casuística real e aguarda validação
+            institucional pelo Ministério da Saúde.
           </p>
         </div>
       </main>
@@ -260,7 +263,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
       <footer className="border-t bg-muted/30 py-4">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIA — Matriz de Avaliação de Risco em Inteligência Artificial • Ferramenta de apoio à avaliação ética de protocolos com IA
+            MARIA — Matriz de Avaliação de Risco em Inteligência Artificial • Apoio à avaliação ética de estudos de intervenção com IA
           </p>
         </div>
       </footer>

@@ -696,7 +696,7 @@ export function generateReportHTML(
   ${unansweredSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
-    <strong>Aviso:</strong> A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP. Não dispensa a deliberação colegiada. Esta é uma versão preliminar; a ferramenta ainda passará por validação institucional pelo Ministério da Saúde.
+    <strong>Aviso:</strong> A MARIA foi concebida para a avaliação ética de estudos de intervenção em seres humanos. Não aprova nem reprova protocolos, não substitui o julgamento do CEP e não dispensa a deliberação colegiada. Versão preliminar: a matriz ainda não foi submetida a validação empírica em casuística real e aguarda validação institucional pelo Ministério da Saúde.
   </div>
 
   <div style="margin-top:24px;text-align:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:12px;line-height:1.6">
@@ -835,11 +835,207 @@ export function generateReportText(
 
   lines.push('');
   lines.push('── AVISO ──');
-  lines.push('A MARIA não aprova nem reprova protocolos. Não substitui o julgamento');
-  lines.push('do CEP. Não dispensa a deliberação colegiada. Esta é uma versão preliminar;');
-  lines.push('a ferramenta ainda passará por validação institucional pelo Ministério da Saúde.');
+  lines.push('A MARIA foi concebida para a avaliação ética de estudos de intervenção em');
+  lines.push('seres humanos. Não aprova nem reprova protocolos, não substitui o julgamento');
+  lines.push('do CEP e não dispensa a deliberação colegiada. Versão preliminar: a matriz');
+  lines.push('ainda não foi submetida a validação empírica em casuística real e aguarda');
+  lines.push('validação institucional pelo Ministério da Saúde.');
   lines.push('');
   lines.push('═══════════════════════════════════════════════════════════');
 
   return lines.join('\n');
+}
+
+// ============================================================
+// Export para Validação Local (Apêndice F do Guia)
+// ------------------------------------------------------------
+// Gera um JSON estruturado, compatível com as abas da planilha-
+// modelo de Validação Local, contendo os dados da avaliação
+// corrente. O CEP pode acumular vários JSONs (um por protocolo
+// avaliado) e transcrever / colar nas abas Protocolos, Versão A
+// e Versão B da planilha.
+// ============================================================
+
+export type ValidationExport = {
+  schema: 'maria-validacao-local';
+  schemaVersion: 1;
+  exportadoEm: string; // ISO 8601
+  software: {
+    nome: 'MARIA';
+    observacao: string;
+  };
+  protocolo: {
+    idInterno: string; // placeholder — CEP deve substituir pelo seu identificador interno antes de importar
+    titulo: string;
+    instituicao: string;
+    cep: string;
+    dataAvaliacao: string; // YYYY-MM-DD
+    usaBancoDeDados: boolean;
+    modoTriagem: boolean;
+  };
+  versaoA: {
+    aplicada: boolean;
+    classificacaoConsolidada: RiskLevel | null;
+    protocoloNaoAvaliavel: boolean;
+    eixos: Array<{
+      id: string;
+      nome: string;
+      nivel: RiskLevel;
+      respostasRisco: number;
+      totalQuestoes: number;
+    }>;
+  };
+  versaoB: {
+    aplicada: boolean;
+    classificacaoFinal: RiskLevel | null;
+    pontuacaoTotal: number | null;
+    clausulaPrevalencia: boolean;
+    blocos: Array<{
+      id: string;
+      nome: string;
+      pontuacao: number;
+      maxPontos: number;
+    }>;
+  };
+  comoUsar: {
+    descricao: string;
+    abasPlanilha: {
+      protocolos: string;
+      versaoA: string;
+      versaoB: string;
+      triagemAB: string;
+    };
+  };
+};
+
+export function buildValidationExport(args: {
+  version: 'A' | 'B';
+  useAAsTriagem: boolean;
+  usesDatabase: boolean;
+  contextAnswers: Record<string, string>;
+  qualitativeAnswers: QualitativeAnswer;
+  quantitativeAnswers: QuantitativeAnswer;
+}): ValidationExport {
+  const {
+    version,
+    useAAsTriagem,
+    usesDatabase,
+    contextAnswers,
+    qualitativeAnswers,
+    quantitativeAnswers,
+  } = args;
+
+  // Versão A aplicada quando: versão A foi escolhida, OU triagem (A sempre aplica primeiro)
+  const versaoAAplicada =
+    version === 'A' || useAAsTriagem || Object.keys(qualitativeAnswers).length > 0;
+  // Versão B aplicada quando: versão B foi escolhida (com ou sem triagem)
+  const versaoBAplicada =
+    version === 'B' || Object.keys(quantitativeAnswers).length > 0;
+
+  // ----- Versão A -----
+  let versaoA: ValidationExport['versaoA'];
+  if (versaoAAplicada) {
+    const qual = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase);
+    versaoA = {
+      aplicada: true,
+      classificacaoConsolidada: qual.protocoloNaoAvaliavel ? 'IV' : qual.level,
+      protocoloNaoAvaliavel: qual.protocoloNaoAvaliavel,
+      eixos: qual.axisResults.map((r) => ({
+        id: r.axisId,
+        nome: r.axisName,
+        nivel: r.level,
+        respostasRisco: r.riskCount,
+        totalQuestoes: r.totalQuestions,
+      })),
+    };
+  } else {
+    versaoA = {
+      aplicada: false,
+      classificacaoConsolidada: null,
+      protocoloNaoAvaliavel: false,
+      eixos: [],
+    };
+  }
+
+  // ----- Versão B -----
+  let versaoB: ValidationExport['versaoB'];
+  if (versaoBAplicada) {
+    const quant = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase);
+    versaoB = {
+      aplicada: true,
+      classificacaoFinal: quant.protocoloNaoAvaliavel ? 'IV' : quant.level,
+      pontuacaoTotal: quant.totalScore,
+      clausulaPrevalencia: quant.clausulaPrevalencia,
+      blocos: quant.blockResults.map((r) => ({
+        id: r.blockId,
+        nome: r.blockName,
+        pontuacao: r.score,
+        maxPontos: r.maxPontos,
+      })),
+    };
+  } else {
+    versaoB = {
+      aplicada: false,
+      classificacaoFinal: null,
+      pontuacaoTotal: null,
+      clausulaPrevalencia: false,
+      blocos: [],
+    };
+  }
+
+  const agora = new Date();
+  const dataAvaliacao = agora.toISOString().slice(0, 10);
+  const idPlaceholder = `MARIA-${agora.toISOString().replace(/[-:T.]/g, '').slice(0, 14)}`;
+
+  return {
+    schema: 'maria-validacao-local',
+    schemaVersion: 1,
+    exportadoEm: agora.toISOString(),
+    software: {
+      nome: 'MARIA',
+      observacao:
+        'Exportação gerada para uso na planilha-modelo de Validação Local descrita em apêndice próprio do Guia de Diretrizes Éticas para Pesquisa com IA (em revisão).',
+    },
+    protocolo: {
+      idInterno: idPlaceholder,
+      titulo: contextAnswers['titulo'] || '',
+      instituicao: contextAnswers['instituicao'] || '',
+      cep: contextAnswers['cep_nome'] || '',
+      dataAvaliacao,
+      usaBancoDeDados: usesDatabase,
+      modoTriagem: useAAsTriagem,
+    },
+    versaoA,
+    versaoB,
+    comoUsar: {
+      descricao:
+        'Substitua "idInterno" pelo identificador interno do seu CEP (ex.: P-001) antes de transcrever para a planilha. Cada export corresponde a uma linha por aba da planilha-modelo.',
+      abasPlanilha: {
+        protocolos: 'Use idInterno, dataAvaliacao, modoTriagem e usaBancoDeDados.',
+        versaoA:
+          'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente.',
+        versaoB:
+          'Use idInterno, versaoB.blocos[*].pontuacao (uma coluna por bloco) e versaoB.pontuacaoTotal.',
+        triagemAB:
+          'Quando modoTriagem = true, a planilha lê automaticamente das abas Versão A e Versão B.',
+      },
+    },
+  };
+}
+
+/**
+ * Dispara o download do JSON de validação local no navegador.
+ * Nome do arquivo: validacao-maria-<idInterno>.json
+ */
+export function downloadValidationExport(exportData: ValidationExport): void {
+  const json = JSON.stringify(exportData, null, 2);
+  const blob = new Blob([json], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `validacao-maria-${exportData.protocolo.idInterno}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

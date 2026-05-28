@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 export function Footer() {
   const anoAtual = new Date().getFullYear()
 
@@ -19,6 +21,16 @@ export function Footer() {
         </p>
         <p className="text-xs">
           © {anoAtual} Ministério da Saúde — Governo Federal do Brasil
+        </p>
+        <p className="text-xs pt-1">
+          <Link
+            href="/validacao"
+            className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+          >
+            Validação Local pelos CEPs
+          </Link>
+          <span className="mx-1.5 text-muted-foreground/60">·</span>
+          <span className="text-muted-foreground/80">Apêndice do guia (em revisão)</span>
         </p>
       </div>
     </footer>

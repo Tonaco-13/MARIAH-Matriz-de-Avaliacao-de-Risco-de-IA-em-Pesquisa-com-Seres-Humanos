@@ -52,3 +52,7 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# Notas pessoais do mantenedor (prompts, anotações de fluxo de trabalho)
+MARIA_prompt_*.md
+MARA_prompt_*.md

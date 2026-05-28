@@ -13,7 +13,11 @@ import {
   CheckCircle2,
   FileText,
   ChevronRight,
+  ClipboardCheck,
+  Download,
+  ExternalLink,
 } from 'lucide-react';
+import Link from 'next/link';
 import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738 } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer, QuantitativeAnswer } from './utils';
@@ -22,6 +26,8 @@ import {
   getQuantitativeFinalResult,
   generateReportHTML,
   getUnansweredItems,
+  buildValidationExport,
+  downloadValidationExport,
 } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
@@ -146,6 +152,18 @@ export default function Results({
       printWindow.document.close();
       setTimeout(() => printWindow.print(), 300);
     }
+  };
+
+  const handleExportValidation = () => {
+    const payload = buildValidationExport({
+      version,
+      useAAsTriagem,
+      usesDatabase,
+      contextAnswers,
+      qualitativeAnswers,
+      quantitativeAnswers,
+    });
+    downloadValidationExport(payload);
   };
 
   // Check if triagem mode, still on Version A, and level is III or IV → suggest Version B
@@ -659,9 +677,91 @@ export default function Results({
               <div className="text-sm text-muted-foreground">
                 <p className="font-medium mb-1">Aviso importante</p>
                 <p>
-                  A MARIA não aprova nem reprova protocolos. Não substitui o julgamento do CEP.
-                  Não dispensa a deliberação colegiada. Esta é uma versão preliminar; a ferramenta
-                  ainda passará por validação institucional pelo Ministério da Saúde.
+                  A MARIA foi concebida para a avaliação ética de estudos de intervenção em seres
+                  humanos. Não aprova nem reprova protocolos, não substitui o julgamento do CEP
+                  e não dispensa a deliberação colegiada. Versão preliminar: a matriz ainda não foi
+                  submetida a validação empírica em casuística real e aguarda validação
+                  institucional pelo Ministério da Saúde.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Validação Local (Apêndice F do Guia — em revisão) */}
+        <Card className="border-dashed border-teal-300 bg-teal-50/30 mb-6">
+          <CardContent className="py-5">
+            <div className="flex items-start gap-3">
+              <ClipboardCheck className="h-5 w-5 text-teal-700 shrink-0 mt-0.5" />
+              <div className="flex-1 text-sm">
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <p className="font-medium text-foreground">Validação Local pelos CEPs</p>
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] font-medium px-2 py-0 border-amber-400 text-amber-700 bg-amber-50"
+                  >
+                    em revisão
+                  </Badge>
+                </div>
+                <p className="text-muted-foreground mb-3 leading-relaxed">
+                  O Grupo de Trabalho do Ministério da Saúde desenvolveu um protocolo opcional
+                  de validação local da MARIA, descrito em apêndice próprio do{' '}
+                  <em>Guia de Diretrizes Éticas para Pesquisa com IA</em> (atualmente em revisão).
+                  Seu CEP pode aplicá-lo desde já: baixe a planilha-modelo e o roteiro, e
+                  exporte os dados desta avaliação em formato compatível.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="border-teal-300 text-teal-800 hover:bg-teal-100"
+                  >
+                    <a
+                      href="/planilha-validacao-local-maria.xlsx"
+                      download
+                    >
+                      <Download className="mr-1.5 h-3.5 w-3.5" />
+                      Planilha-modelo (.xlsx)
+                    </a>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="border-teal-300 text-teal-800 hover:bg-teal-100"
+                  >
+                    <a
+                      href="/guia-validacao-local-maria.docx"
+                      download
+                    >
+                      <Download className="mr-1.5 h-3.5 w-3.5" />
+                      Roteiro completo (.docx)
+                    </a>
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleExportValidation}
+                    className="bg-teal-700 hover:bg-teal-800 text-white"
+                  >
+                    <Download className="mr-1.5 h-3.5 w-3.5" />
+                    Exportar dados desta avaliação (.json)
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    asChild
+                    className="text-teal-800 hover:bg-teal-100"
+                  >
+                    <Link href="/validacao">
+                      Saiba mais
+                      <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                    </Link>
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-3">
+                  Os arquivos serão atualizados conforme a revisão do guia for concluída.
                 </p>
               </div>
             </div>
