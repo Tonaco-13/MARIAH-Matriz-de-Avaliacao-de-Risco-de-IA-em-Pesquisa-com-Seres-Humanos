@@ -242,6 +242,27 @@ export default function EntryFilter({
           </CardContent>
         </Card>
 
+        {/* Explicação dos três tipos de uso — apoio à Pergunta 1 */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-3">
+            <Info className="h-3.5 w-3.5 text-muted-foreground/70" />
+            <h3 className="text-xs font-normal text-muted-foreground italic">
+              Antes de responder, veja o que cada termo significa
+            </h3>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-3">
+            {ENTRY_TYPES.map((type) => (
+              <Card key={type.title} className="border-dashed bg-muted/20 shadow-none">
+                <CardContent className="py-3 px-4">
+                  <div className="text-xl mb-1.5">{type.icon}</div>
+                  <h4 className="font-medium text-sm mb-1">{type.title}</h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{type.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
         {/* Pergunta 2: Filtro de Banco de Dados (Res 738) */}
         <Card
           className={`border-2 mb-8 transition-opacity ${
@@ -354,24 +375,6 @@ export default function EntryFilter({
           </Button>
         </div>
 
-        {/* Explicação dos três tipos de uso */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Info className="h-4 w-4 text-muted-foreground" />
-            <h3 className="font-medium text-sm">Entenda os três tipos de uso de IA</h3>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {ENTRY_TYPES.map((type) => (
-              <Card key={type.title} className="border">
-                <CardContent className="py-4">
-                  <div className="text-2xl mb-2">{type.icon}</div>
-                  <h4 className="font-medium text-sm mb-1">{type.title}</h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{type.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
       </main>
 
       <footer className="border-t bg-muted/30 py-4 mt-auto">
