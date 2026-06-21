@@ -56,3 +56,10 @@ server.log
 # Notas pessoais do mantenedor (prompts, anotações de fluxo de trabalho)
 MARIA_prompt_*.md
 MARA_prompt_*.md
+
+# Backups de editor (.bak, .bak2, ~, .swp, etc.)
+*.bak*
+*~
+*.swp
+*.swo
+.#*
