@@ -30,6 +30,13 @@ export function Footer() {
             Validação Local pelos CEPs
           </Link>
           <span className="mx-1.5 text-muted-foreground/60">·</span>
+          <Link
+            href="/transparencia"
+            className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+          >
+            Transparência metodológica
+          </Link>
+          <span className="mx-1.5 text-muted-foreground/60">·</span>
           <span className="text-muted-foreground/80">Apêndice do guia (em revisão)</span>
         </p>
       </div>
