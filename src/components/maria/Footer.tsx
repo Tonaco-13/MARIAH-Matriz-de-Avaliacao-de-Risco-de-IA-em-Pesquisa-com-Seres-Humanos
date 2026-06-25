@@ -37,7 +37,13 @@ export function Footer() {
             Transparência metodológica
           </Link>
           <span className="mx-1.5 text-muted-foreground/60">·</span>
-          <span className="text-muted-foreground/80">Apêndice do guia (em revisão)</span>
+          <Link
+            href="/instrucoes"
+            className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+          >
+            Apêndice do guia
+          </Link>
+          <span className="text-muted-foreground/80"> (em revisão)</span>
         </p>
       </div>
     </footer>
