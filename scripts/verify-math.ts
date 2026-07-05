@@ -37,8 +37,8 @@ const axesBase = getApplicableAxes(false);
 const axesDb = getApplicableAxes(true);
 assert('Base axes count (no database)', axesBase.length, 5);
 assert('Axes with database', axesDb.length, 6);
-assert('Base total questions', axesBase.reduce((s, a) => s + a.questoes.length, 0), 41);
-assert('With-db total questions', axesDb.reduce((s, a) => s + a.questoes.length, 0), 46);
+assert('Base total questions', axesBase.reduce((s, a) => s + a.questoes.length, 0), 42);
+assert('With-db total questions', axesDb.reduce((s, a) => s + a.questoes.length, 0), 47);
 
 console.log('\n=== 2. Quantitative structure ===');
 const blocksBase = getApplicableBlocks(false);
