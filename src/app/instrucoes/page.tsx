@@ -11,6 +11,7 @@ import {
   Info,
   FileText,
 } from 'lucide-react';
+import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
 
 export const metadata: Metadata = {
   title: 'Instruções de Preenchimento — MARIA',
@@ -91,8 +92,7 @@ export default function InstrucoesPage() {
           <p className="text-sm leading-relaxed text-muted-foreground">
             Foram elaboradas em correspondência direta com o conjunto de perguntas
             atualmente em uso no aplicativo, de modo que o avaliador encontre, no documento,
-            exatamente os itens que vê na tela. A MARIA não aprova nem reprova protocolos,
-            não substitui o julgamento do CEP e não dispensa a deliberação colegiada.
+            exatamente os itens que vê na tela. {MARIA_NAO_SUBSTITUI}
           </p>
         </section>
 

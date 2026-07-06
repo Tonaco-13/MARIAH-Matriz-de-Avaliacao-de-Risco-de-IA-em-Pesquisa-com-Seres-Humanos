@@ -31,6 +31,7 @@ import {
 } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
+import { MARIA_DISCLAIMER } from './disclaimer';
 
 type ResultsProps = {
   version: 'A' | 'B';
@@ -676,13 +677,7 @@ export default function Results({
               <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
               <div className="text-sm text-muted-foreground">
                 <p className="font-medium mb-1">Aviso importante</p>
-                <p>
-                  A MARIA foi concebida para a avaliação ética de estudos de intervenção em seres
-                  humanos. Não aprova nem reprova protocolos, não substitui o julgamento do CEP
-                  e não dispensa a deliberação colegiada. Versão preliminar: a matriz ainda não foi
-                  submetida a validação empírica em casuística real e aguarda validação
-                  institucional pelo Ministério da Saúde.
-                </p>
+                <p>{MARIA_DISCLAIMER}</p>
               </div>
             </div>
           </CardContent>
