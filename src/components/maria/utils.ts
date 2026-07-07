@@ -18,6 +18,7 @@ import type {
   QuantitativeBlock,
   Requirement,
 } from './data';
+import { MARIA_DISCLAIMER } from './disclaimer';
 
 // ----- Helpers: filter axes/blocks by database filter -----
 
@@ -696,7 +697,7 @@ export function generateReportHTML(
   ${unansweredSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
-    <strong>Aviso:</strong> A MARIA foi concebida para a avaliação ética de estudos de intervenção em seres humanos. Não aprova nem reprova protocolos, não substitui o julgamento do CEP e não dispensa a deliberação colegiada. Versão preliminar: a matriz ainda não foi submetida a validação empírica em casuística real e aguarda validação institucional pelo Ministério da Saúde.
+    <strong>Aviso:</strong> ${MARIA_DISCLAIMER}
   </div>
 
   <div style="margin-top:24px;text-align:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:12px;line-height:1.6">
@@ -835,11 +836,7 @@ export function generateReportText(
 
   lines.push('');
   lines.push('── AVISO ──');
-  lines.push('A MARIA foi concebida para a avaliação ética de estudos de intervenção em');
-  lines.push('seres humanos. Não aprova nem reprova protocolos, não substitui o julgamento');
-  lines.push('do CEP e não dispensa a deliberação colegiada. Versão preliminar: a matriz');
-  lines.push('ainda não foi submetida a validação empírica em casuística real e aguarda');
-  lines.push('validação institucional pelo Ministério da Saúde.');
+  lines.push(MARIA_DISCLAIMER);
   lines.push('');
   lines.push('═══════════════════════════════════════════════════════════');
 

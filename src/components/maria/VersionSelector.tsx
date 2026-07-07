@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import type { MarcaVersion } from './data';
 import StepIndicator from './StepIndicator';
+import { MARIA_DISCLAIMER } from './disclaimer';
 
 type VersionSelectorProps = {
   onSelect: (version: MarcaVersion) => void;
@@ -43,9 +44,9 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
             </div>
           </div>
           <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Ferramenta de apoio aos Comitês de Ética em Pesquisa (CEP), concebida para a
-            avaliação ética de estudos de intervenção em seres humanos que utilizam sistemas
-            de inteligência artificial.
+            Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na
+            avaliação ética, transparente e explicável, de pesquisas de intervenção em seres
+            humanos que utilizam inteligência artificial.
           </p>
         </div>
       </header>
@@ -249,13 +250,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
 
         <div className="flex items-start gap-2 text-xs text-muted-foreground">
           <FileText className="h-4 w-4 mt-0.5 shrink-0" />
-          <p>
-            A MARIA foi concebida para a avaliação ética de estudos de intervenção em seres
-            humanos. Não aprova nem reprova protocolos, não substitui o julgamento do CEP
-            e não dispensa a deliberação colegiada. Versão preliminar: a matriz ainda não foi
-            submetida a validação empírica em casuística real e aguarda validação
-            institucional pelo Ministério da Saúde.
-          </p>
+          <p>{MARIA_DISCLAIMER}</p>
         </div>
       </main>
 

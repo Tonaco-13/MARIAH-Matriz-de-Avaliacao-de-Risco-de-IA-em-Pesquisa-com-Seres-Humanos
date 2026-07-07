@@ -16,6 +16,7 @@ import {
   Info,
   FileText,
 } from 'lucide-react';
+import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
 
 export const metadata: Metadata = {
   title: 'Transparência Metodológica — MARIA',
@@ -95,8 +96,7 @@ export default function TransparenciaPage() {
             ainda depende de evidência empírica.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            A MARIA não aprova nem reprova protocolos, não substitui o julgamento do CEP e
-            não dispensa a deliberação colegiada. A sua validação psicométrica é{' '}
+            {MARIA_NAO_SUBSTITUI} A sua validação psicométrica é{' '}
             <strong>prospectiva</strong>: ocorrerá à medida que os CEPs adotarem o instrumento
             e conduzirem o protocolo descrito no Apêndice F do Guia.
           </p>
