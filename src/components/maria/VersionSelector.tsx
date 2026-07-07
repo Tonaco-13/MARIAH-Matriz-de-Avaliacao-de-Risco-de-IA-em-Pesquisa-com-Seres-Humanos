@@ -44,9 +44,9 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
             </div>
           </div>
           <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Ferramenta de apoio aos Comitês de Ética em Pesquisa (CEP), concebida para a
-            avaliação ética de estudos de intervenção em seres humanos que utilizam sistemas
-            de inteligência artificial.
+            Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na
+            avaliação ética, transparente e explicável, de pesquisas de intervenção em seres
+            humanos que utilizam inteligência artificial.
           </p>
         </div>
       </header>
