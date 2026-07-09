@@ -26,6 +26,7 @@ import {
   checkClausulaPrevalencia,
   getApplicableBlocks,
   getEliminatoryQuestionTriggered,
+  getEliminatoryInfo,
 } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
@@ -187,7 +188,7 @@ export default function QuantitativeAssessment({
                 <div className="flex items-center gap-2 bg-red-50 border-2 border-red-400 rounded-lg px-3 py-2">
                   <AlertTriangle className="h-4 w-4 text-red-700" />
                   <span className="text-xs font-semibold text-red-700">
-                    ⛔ Protocolo não avaliável ({eliminatoryQuestionId}) — §7.3.6
+                    ⛔ Protocolo não avaliável ({eliminatoryQuestionId}) — {getEliminatoryInfo(eliminatoryQuestionId).ref}
                   </span>
                 </div>
               )}
@@ -473,7 +474,7 @@ export default function QuantitativeAssessment({
                           )}
                           {eliminatorioAtivado && (
                             <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
-                              ⛔ Protocolo não avaliável — §7.3.6
+                              ⛔ Protocolo não avaliável — {q.refEliminatoria ?? '§7.3.6'}
                             </Badge>
                           )}
                           {isNa && (

@@ -328,9 +328,15 @@ export default function QualitativeAssessment({
                               </Button>
                             )}
                           </div>
-                          <span className="text-xs text-muted-foreground">
-                            Resposta de risco: <span className="font-semibold text-red-600">{riskLabel}</span>
-                          </span>
+                          {q.naoPontuavel ? (
+                            <span className="text-xs text-muted-foreground">
+                              <span className="font-semibold text-slate-600">Registro / diligência</span> — não altera a pontuação do eixo
+                            </span>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">
+                              Resposta de risco: <span className="font-semibold text-red-600">{riskLabel}</span>
+                            </span>
+                          )}
                           {isNa && (
                             <Badge className="bg-slate-100 text-slate-600 border border-slate-300 text-[10px]">
                               Não aplicável — não conta como risco
@@ -338,7 +344,7 @@ export default function QualitativeAssessment({
                           )}
                           {eliminatorioAtivado && (
                             <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
-                              ⛔ Protocolo não avaliável — §7.3.6
+                              ⛔ Protocolo não avaliável — {q.refEliminatoria ?? '§7.3.6'}
                             </Badge>
                           )}
                         </div>

@@ -26,6 +26,7 @@ import {
   getQuantitativeFinalResult,
   generateReportHTML,
   getUnansweredItems,
+  getEliminatoryInfo,
   buildValidationExport,
   downloadValidationExport,
 } from './utils';
@@ -277,11 +278,9 @@ export default function Results({
                   </h3>
                   <p className="text-sm text-red-800">
                     Hipótese eliminatória acionada em <strong>{eliminatoryQuestionId}</strong>
-                    {' — '}ausência de cadeia de custódia formalizada (Res. CNS n.º 738/2024 — Art. 27, VI).
+                    {' — '}{getEliminatoryInfo(eliminatoryQuestionId).motivo}
                   </p>
                   <p className="text-sm text-red-800 mt-2">
-                    O dossiê deve ser devolvido ao pesquisador para <strong>diligência obrigatória</strong> antes
-                    de qualquer análise de mérito, conforme <strong>§7.3.6 do Capítulo 7</strong>.
                     Isto não é agravamento de nível de risco — é bloqueio de avaliação.
                   </p>
                 </div>

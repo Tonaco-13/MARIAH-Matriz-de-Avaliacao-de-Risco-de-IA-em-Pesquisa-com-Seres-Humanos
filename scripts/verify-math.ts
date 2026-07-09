@@ -37,8 +37,9 @@ const axesBase = getApplicableAxes(false);
 const axesDb = getApplicableAxes(true);
 assert('Base axes count (no database)', axesBase.length, 5);
 assert('Axes with database', axesDb.length, 6);
-assert('Base total questions', axesBase.reduce((s, a) => s + a.questoes.length, 0), 41);
-assert('With-db total questions', axesDb.reduce((s, a) => s + a.questoes.length, 0), 46);
+// 42 = 41 originais + 2.10 (plano de novo consentimento, não-pontuável) — 2026-07-09
+assert('Base total questions', axesBase.reduce((s, a) => s + a.questoes.length, 0), 42);
+assert('With-db total questions', axesDb.reduce((s, a) => s + a.questoes.length, 0), 47);
 
 console.log('\n=== 2. Quantitative structure ===');
 const blocksBase = getApplicableBlocks(false);
@@ -208,8 +209,9 @@ assert('3.b.2=na → countRiskAnswersAxis = 0', riskCount_na, 0);
 console.log('\n=== 10. Questions count ===');
 const totalQuantQuestionsDb = blocksDb.reduce((s, b) => s + b.questoes.length, 0);
 const totalQuantQuestionsBase = blocksBase.reduce((s, b) => s + b.questoes.length, 0);
-assert('Quant total questions (base)', totalQuantQuestionsBase, 51);
-assert('Quant total questions (with db)', totalQuantQuestionsDb, 56);
+// 52 = 51 originais + P2.8 (plano de novo consentimento, pontos:0 eliminatório) — 2026-07-09
+assert('Quant total questions (base)', totalQuantQuestionsBase, 52);
+assert('Quant total questions (with db)', totalQuantQuestionsDb, 57);
 
 console.log(`\n=== SUMMARY ===`);
 console.log(`  Passed: ${passed}`);
