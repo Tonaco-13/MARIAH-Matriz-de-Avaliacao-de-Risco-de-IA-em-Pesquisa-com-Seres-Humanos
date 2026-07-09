@@ -68,3 +68,54 @@ Stage Summary:
 - Total de questões: Quali 41 (base) / 46 (com banco); Quanti 51 (base) / 56 (com banco)
 - Thresholds por cenário: sem banco 0-50/51-110/111-180/181-238; com banco 0-56/57-123/124-202/203-267
 - Protocolos sem banco de dados preservam 100% do comportamento original (salvo pela correção do Bloco 7 que agora permite Nível IV por pontuação)
+
+---
+
+## Changelog 2026-07-09 — v0.5.0 (consentimento e correlatos)
+
+Origem: decisões do GT de revisão do Guia (coordenação, 05–07/07/2026) e parecer
+da profa. Roseli, relatora da Res. CNS n.º 738/2024. Alimenta a atualização dos
+Apêndices A–C do Guia (tarefa N4). Teto (238 sem banco / 267 com banco) e faixas
+de nível **inalterados**. Numeração/IDs existentes **preservados**.
+
+Mudanças aplicadas:
+- **Passo 1** — 2.8 (Eixo 2) e P5.8 (Bloco 5): pergunta reformulada de "exclusão
+  de dados do treinamento" para "retirada de consentimento" (exclusão das bases +
+  não-uso em treinamentos futuros); dica nova com três compromissos verificáveis
+  (Lei n.º 14.874/2024; LGPD art. 8.º §5.º e art. 18). P5.8 mantém 6 pts.
+- **Passo 2** — 1.2 (Eixo 1) e P2.2 (Bloco 2): dica enriquecida com limiar de
+  mudança e obtenção de **novo consentimento** (terminologia fixada — nunca
+  "re-consentimento").
+- **Passo 5** — 2.9 (Eixo 2) e P5.7 (Bloco 5): dica enriquecida com o direito à
+  devolutiva de resultados (LGPD; Lei n.º 14.874/2024). Sem nova pergunta.
+- **Passo 3A** — nova **2.10** (Eixo 2), condicional a 1.2=Sim (via "Não se
+  aplica"), **não-pontuável** (novo flag `naoPontuavel`, excluída de
+  `countRiskAnswersAxis`), não-eliminatória. Serve de registro/diligência.
+- **Passo 3B** — nova **P2.8** (Bloco 2), condicional a P2.2=Sim (via N/A),
+  `pontos: 0`, **eliminatória** (diligência impeditiva, mesmo mecanismo da
+  P6.b.2). Refatoração de `getEliminatoryQuestionTriggered` (removido o guard
+  `if (!usesDatabase)`; eliminatórias da Res. 738 seguem restritas por
+  `getApplicable*`). Nova função `getEliminatoryInfo` parametriza a mensagem de
+  "não avaliável" por norma (Res. 738/§7.3.6 vs. Lei 14.874/LGPD); aplicada em
+  `generateReportHTML`, `generateReportText`, `Results.tsx` e badges das telas A/B.
+- **Passo 4** — NÃO alterado. "dispensa de TCLE" (3.b.4, P6.b.4 e req-738-III-1)
+  apenas listado para deliberação jurídica com a relatora.
+- **Passo 6** — rascunhos registrados em `PROPOSTAS_VALIDACAO_POSTERIOR.md`
+  (não aplicados).
+
+Arquivos tocados: data.ts, utils.ts, QualitativeAssessment.tsx,
+QuantitativeAssessment.tsx, Results.tsx, scripts/verify-math.ts (contagens
+42/47 quali e 52/57 quanti), package.json (0.4.0 → 0.5.0).
+
+Verificação:
+- scripts/verify-math.ts: 46/46 assertions (teto 238/267, Bloco 7 bidirecional,
+  Cláusula de Prevalência, eliminatórios Res 738, elevação especial Eixo 3.b,
+  contagens de perguntas atualizadas).
+- Teste funcional adicional das mudanças: 25/25 (2.10 não conta risco; P2.8
+  dispara eliminatória sem banco e não pontua; mensagens parametrizadas corretas;
+  regressão P6.b.2 preservada).
+
+Pendências sinalizadas (fora dos 6 passos, requerem deliberação):
+- Página de Transparência: card "Questões eliminatórias — modo Res. 738" ficou
+  incompleto com a inclusão de P2.8 (fundada em Lei 14.874/LGPD). Revisar narrativa
+  e alinhar com a expansão do Suplemento de Salvaguardas (três/quatro gatilhos).

@@ -36,6 +36,9 @@ export type QualitativeAnswer = Record<string, 'sim' | 'nao' | 'na' | undefined>
 
 export function countRiskAnswersAxis(axis: QualitativeAxis, answers: QualitativeAnswer): number {
   return axis.questoes.filter((q) => {
+    // Questões de registro/diligência (naoPontuavel) não entram na contagem de
+    // risco do eixo — ex.: 2.10 (plano de novo consentimento na Versão A).
+    if (q.naoPontuavel) return false;
     const answer = answers[q.id];
     if (!answer) return false;
     return answer === q.riskAnswer;
@@ -82,32 +85,71 @@ export function getQualitativeAxisResults(
 /**
  * Detecta se alguma questão eliminatória foi marcada com resposta de risco.
  * Retorna o ID da primeira questão eliminatória acionada, ou null.
+ *
+ * Nota (2026-07): removido o antigo guard `if (!usesDatabase) return null`.
+ * As eliminatórias da Res. 738 (3.b.2 / P6.b.2) vivem em eixos/blocos
+ * condicionais que só entram em `getApplicable*` quando usesDatabase = true,
+ * então continuam restritas ao recorte de banco de dados. A remoção do guard
+ * permite que eliminatórias NÃO ligadas a banco de dados também disparem —
+ * caso de P2.8 (plano de novo consentimento em sistema adaptativo).
  */
 export function getEliminatoryQuestionTriggered(
   answers: Record<string, 'sim' | 'nao' | 'na' | undefined>,
   version: 'A' | 'B',
   usesDatabase: boolean
 ): string | null {
-  if (!usesDatabase) return null;
+  const groups = version === 'A'
+    ? getApplicableAxes(usesDatabase)
+    : getApplicableBlocks(usesDatabase);
 
-  if (version === 'A') {
-    for (const axis of getApplicableAxes(usesDatabase)) {
-      for (const q of axis.questoes) {
-        if (q.eliminatorio && answers[q.id] === q.riskAnswer) {
-          return q.id;
-        }
-      }
-    }
-  } else {
-    for (const block of getApplicableBlocks(usesDatabase)) {
-      for (const q of block.questoes) {
-        if (q.eliminatorio && answers[q.id] === q.riskAnswer) {
-          return q.id;
-        }
+  for (const group of groups) {
+    for (const q of group.questoes) {
+      if (q.eliminatorio && answers[q.id] === q.riskAnswer) {
+        return q.id;
       }
     }
   }
   return null;
+}
+
+/**
+ * Localiza uma questão (eixo ou bloco) pelo ID e retorna seus textos de
+ * bloqueio. Usado para parametrizar a mensagem de "protocolo não avaliável"
+ * conforme a norma que fundamenta cada eliminatória (Res. 738 vs. Lei 14.874).
+ */
+export function getEliminatoryInfo(id: string | null): {
+  motivo: string;
+  ref: string;
+} {
+  // Texto padrão: eliminatórias da cadeia de custódia (Res. CNS n.º 738/2024).
+  const DEFAULT = {
+    motivo:
+      'ausência de cadeia de custódia formalizada (Res. CNS n.º 738/2024 — Art. 27, VI). O dossiê deve ser devolvido ao pesquisador para diligência obrigatória antes de qualquer análise de mérito, conforme §7.3.6 do Capítulo 7.',
+    ref: '§7.3.6',
+  };
+  if (!id) return DEFAULT;
+
+  for (const axis of QUALITATIVE_AXES) {
+    for (const q of axis.questoes) {
+      if (q.id === id) {
+        return {
+          motivo: q.motivoEliminatorio ?? DEFAULT.motivo,
+          ref: q.refEliminatoria ?? DEFAULT.ref,
+        };
+      }
+    }
+  }
+  for (const block of QUANTITATIVE_BLOCKS) {
+    for (const q of block.questoes) {
+      if (q.id === id) {
+        return {
+          motivo: q.motivoEliminatorio ?? DEFAULT.motivo,
+          ref: q.refEliminatoria ?? DEFAULT.ref,
+        };
+      }
+    }
+  }
+  return DEFAULT;
 }
 
 export function getQualitativeFinalLevel(
@@ -562,10 +604,11 @@ export function generateReportHTML(
   }
 
   if (eliminatoryIdForReport) {
+    const info = getEliminatoryInfo(eliminatoryIdForReport);
     eliminatoryWarning = `
       <div style="margin:16px 0;padding:14px;background:#fef2f2;border:2px solid #dc2626;border-radius:6px;font-size:13px;color:#7f1d1d">
         <strong>⛔ Hipótese eliminatória acionada (${eliminatoryIdForReport})</strong><br>
-        Ausência de cadeia de custódia formalizada (Res. CNS n.º 738/2024 — Art. 27, VI). O protocolo NÃO É AVALIÁVEL NO MÉRITO e segue para diligência obrigatória, conforme §7.3.6 do Capítulo 7, independentemente da pontuação total.
+        O protocolo NÃO É AVALIÁVEL NO MÉRITO — ${info.motivo}
       </div>`;
   }
 
@@ -754,7 +797,7 @@ export function generateReportText(
     if (result.protocoloNaoAvaliavel) {
       lines.push('');
       lines.push(`⛔ PROTOCOLO NÃO AVALIÁVEL NO MÉRITO (eliminatório em ${result.eliminatoryQuestionId})`);
-      lines.push('   → Diligência obrigatória (§7.3.6 / Res 738)');
+      lines.push(`   → Diligência obrigatória — ${getEliminatoryInfo(result.eliminatoryQuestionId).motivo}`);
     }
     lines.push('');
     for (const axis of result.axisResults) {
@@ -777,7 +820,7 @@ export function generateReportText(
     if (result.protocoloNaoAvaliavel) {
       lines.push('');
       lines.push(`⛔ PROTOCOLO NÃO AVALIÁVEL NO MÉRITO (eliminatório em ${result.eliminatoryQuestionId})`);
-      lines.push('   → Diligência obrigatória (§7.3.6 / Res 738)');
+      lines.push(`   → Diligência obrigatória — ${getEliminatoryInfo(result.eliminatoryQuestionId).motivo}`);
     }
     lines.push('');
     for (const block of result.blockResults) {
