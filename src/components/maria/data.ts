@@ -34,6 +34,21 @@ export type QualitativeQuestion = {
    * fora do âmbito da pesquisa).
    */
   hasNaOption?: boolean;
+  /**
+   * Quando true, a questão é apenas de registro/diligência e NÃO entra na
+   * contagem de respostas de risco do eixo (não altera o nível consolidado).
+   * Usado em 2.10 (plano de novo consentimento) na Versão A, cuja exigência
+   * legal não é graduável por contagem — a regra do máximo absorve o item.
+   */
+  naoPontuavel?: boolean;
+  /**
+   * Texto explicativo específico exibido nos relatórios e na tela de Resultados
+   * quando esta questão eliminatória é acionada. Se ausente, usa-se o texto
+   * padrão da Res. 738 (cadeia de custódia / §7.3.6).
+   */
+  motivoEliminatorio?: string;
+  /** Referência normativa curta para os badges de "não avaliável" (ex.: "§7.3.6"). */
+  refEliminatoria?: string;
 };
 
 export type QualitativeAxis = {
@@ -71,6 +86,15 @@ export type QuantitativeQuestion = {
    * (ex.: P6.b.2 — só se aplica se o banco é constituído fora do âmbito da pesquisa).
    */
   hasNaOption?: boolean;
+  /**
+   * Texto explicativo específico exibido nos relatórios e na tela de Resultados
+   * quando esta questão eliminatória é acionada. Se ausente, usa-se o texto
+   * padrão da Res. 738 (cadeia de custódia / §7.3.6). Usado em P2.8 (plano de
+   * novo consentimento), cujo bloqueio decorre da Lei n.º 14.874/2024 e da LGPD.
+   */
+  motivoEliminatorio?: string;
+  /** Referência normativa curta para os badges de "não avaliável" (ex.: "§7.3.6"). */
+  refEliminatoria?: string;
 };
 
 export type QuantitativeBlock = {
@@ -154,7 +178,7 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         id: '1.2',
         pergunta: 'O sistema é adaptativo — aprende ou se atualiza com novos dados após o início do estudo?',
         riskAnswer: 'sim',
-        dica: 'Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a renovação do consentimento (re-consentimento) e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa).',
+        dica: 'Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa).',
       },
       {
         id: '1.3',
@@ -251,14 +275,18 @@ export const QUALITATIVE_AXES: QualitativeAxis[] = [
         id: '2.9',
         pergunta: 'O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?',
         riskAnswer: 'nao',
-        dica: 'A ausência de descrição sobre como os resultados da IA serão comunicados ao participante compromete a transparência e o exercício da autonomia.',
+        dica: 'A ausência de descrição sobre como os resultados da IA serão comunicados ao participante compromete a transparência e o exercício da autonomia. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024).',
       },
       {
         id: '2.10',
-        pergunta: 'O protocolo apresenta plano de re-consentimento — com limiar definido, procedimento e responsável — para o caso de o sistema se atualizar ou mudar de comportamento durante o estudo?',
+        pergunta: 'Se o sistema é adaptativo (1.2 = Sim): o protocolo apresenta plano de novo consentimento — com limiar definido, procedimento e responsável — para o caso de o sistema se atualizar ou mudar de comportamento durante o estudo?',
         riskAnswer: 'nao',
+        naoPontuavel: true,
+        eliminatorio: true,
         hasNaOption: true,
-        dica: 'O plano de re-consentimento é a salvaguarda de validade contínua do consentimento em sistemas adaptativos (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Deve conter limiar de mudança definido, procedimento de renovação e responsável. Marque "Não se aplica" quando o sistema não é adaptativo (1.2 = Não). A ausência de plano, quando o sistema é adaptativo, enseja diligência obrigatória do CEP antes da análise de mérito — sem forçar automaticamente o nível de risco.',
+        dica: 'Item de diligência com efeito impeditivo: NÃO altera a pontuação do Eixo 2 (não eleva o nível), mas a ausência do plano bloqueia o parecer — protocolo não avaliável no mérito —, em convergência com a P2.8 da Versão B. Aplicável quando o sistema é adaptativo (1.2 = Sim); marque "Não se aplica" quando 1.2 = Não. O plano de novo consentimento — com limiar de mudança definido, procedimento e responsável — é exigência legal para sistemas que mudam de comportamento durante o estudo (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e, por isso, não é compensável por pontos. Terminologia: "novo consentimento", não "re-consentimento".',
+        motivoEliminatorio: 'ausência de plano de novo consentimento para sistema adaptativo (1.2 = Sim). A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e não é compensável por pontuação. O dossiê deve ser devolvido para complementação (diligência obrigatória); persistindo a ausência, o protocolo não recebe parecer de aprovação.',
+        refEliminatoria: 'Lei n.º 14.874/2024 · LGPD',
       },
     ],
   },
@@ -498,12 +526,13 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
     descricao: 'Avalia as características técnicas do sistema de IA, incluindo autonomia, adaptabilidade e transparência.',
     questoes: [
       { id: 'P2.1', pergunta: 'O sistema toma decisões ou emite recomendações sem intervenção humana obrigatória antes da execução?', riskAnswer: 'sim', pontos: 3, dica: 'Sistemas que decidem ou recomendam sem intervenção humana obrigatória antes da execução elevam o risco, pois removem a barreira de segurança entre recomendação e ação.', efeito: 'risco' },
-      { id: 'P2.2', pergunta: 'O sistema é adaptativo: aprende ou se atualiza com novos dados após o início do estudo?', riskAnswer: 'sim', pontos: 3, dica: 'Sistemas adaptativos podem mudar de comportamento ao aprender com novos dados durante o estudo, introduzindo incerteza sobre os resultados gerados. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a renovação do consentimento (re-consentimento) e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa).', efeito: 'risco' },
+      { id: 'P2.2', pergunta: 'O sistema é adaptativo: aprende ou se atualiza com novos dados após o início do estudo?', riskAnswer: 'sim', pontos: 3, dica: 'Sistemas adaptativos podem mudar de comportamento ao aprender com novos dados durante o estudo, introduzindo incerteza sobre os resultados gerados. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa).', efeito: 'risco' },
       { id: 'P2.3', pergunta: 'O sistema opera como caixa-preta: sem possibilidade de explicar os fatores que determinaram cada resultado?', riskAnswer: 'sim', pontos: 3, dica: 'Sistemas caixa-preta, sem explicação dos fatores de cada resultado, impedem supervisão eficaz e a identificação de vieses.', efeito: 'risco' },
       { id: 'P2.4', pergunta: 'O sistema foi submetido a testes de desempenho documentados antes do uso no protocolo?', riskAnswer: 'nao', pontos: 2, dica: 'Sem testes de desempenho documentados antes do uso, não há evidência de segurança e eficácia no contexto proposto.' },
       { id: 'P2.5', pergunta: 'O sistema é explicável: fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que o influenciaram?', riskAnswer: 'nao', pontos: 2, dica: 'A explicação compreensível junto a cada resultado é o que viabiliza uma supervisão humana eficaz; sua ausência caracteriza o risco.' },
       { id: 'P2.6', pergunta: 'O protocolo define claramente o que acontece quando a decisão do sistema diverge do julgamento humano?', riskAnswer: 'nao', pontos: 2, dica: 'Sem regra para quando a decisão do sistema diverge do julgamento humano, cria-se zona cinzenta de responsabilidade.' },
       { id: 'P2.7', pergunta: 'O protocolo descreve a arquitetura do sistema — tipo de modelo, dados de entrada e saída, método de treinamento?', riskAnswer: 'nao', pontos: 2, dica: 'A descrição da arquitetura (tipo de modelo, dados de entrada e saída, método de treinamento) é a base da avaliação técnica; sem ela, o sistema não é auditável.' },
+      { id: 'P2.8', pergunta: 'Se o sistema é adaptativo (P2.2 = Sim): o protocolo apresenta plano de novo consentimento — com limiar definido, procedimento e responsável — para o caso de o sistema se atualizar ou mudar de comportamento durante o estudo?', riskAnswer: 'nao', pontos: 0, eliminatorio: true, hasNaOption: true, dica: 'Item de diligência com efeito impeditivo (NÃO pontua — não altera o escore nem o teto). Aplicável quando o sistema é adaptativo (P2.2 = Sim); marque "Não se aplica" quando P2.2 = Não. A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e, por isso, não é compensável por pontos no modelo aditivo. Ausente o plano, o dossiê é devolvido para complementação (mesmo mecanismo do Termo de Anuência ausente, P6.b.2); persistindo a falta, o protocolo não recebe parecer de aprovação.', motivoEliminatorio: 'ausência de plano de novo consentimento para sistema adaptativo (P2.2 = Sim). A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e não é compensável por pontuação. O dossiê deve ser devolvido para complementação (diligência obrigatória); persistindo a ausência, o protocolo não recebe parecer de aprovação.', refEliminatoria: 'Lei n.º 14.874/2024 · LGPD' },
     ],
     maxPontos: 17,
   },
@@ -545,7 +574,7 @@ export const QUANTITATIVE_BLOCKS: QuantitativeBlock[] = [
       { id: 'P5.4', pergunta: 'O protocolo envolve populações vulneráveis — crianças, gestantes, idosos, povos indígenas ou pessoas em situação de vulnerabilidade socioeconômica?', riskAnswer: 'sim', pontos: 6, dica: 'Populações vulneráveis (crianças, gestantes, idosos, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pela menor capacidade de contestar decisões ou compreender riscos.' },
       { id: 'P5.5', pergunta: 'O sistema infere características sensíveis do participante — raça/cor, etnia, condição de saúde, orientação sexual — que não foram explicitamente coletadas?', riskAnswer: 'sim', pontos: 6, dica: 'Inferir características sensíveis não explicitamente coletadas (raça/cor, etnia, saúde, orientação sexual) contraria a autonomia informativa e pode gerar discriminação.' },
       { id: 'P5.6', pergunta: 'Os efeitos de um erro do sistema sobre o participante são reversíveis?', riskAnswer: 'nao', pontos: 5, dica: 'A pergunta verifica a reversibilidade: efeitos NÃO reversíveis de um erro aumentam significativamente o risco, por não admitirem reparação integral.' },
-      { id: 'P5.7', pergunta: 'O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?', riskAnswer: 'nao', pontos: 5, dica: 'A ausência de descrição sobre como os resultados serão comunicados ao participante compromete a transparência.' },
+      { id: 'P5.7', pergunta: 'O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?', riskAnswer: 'nao', pontos: 5, dica: 'A ausência de descrição sobre como os resultados serão comunicados ao participante compromete a transparência. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024).' },
       { id: 'P5.8', pergunta: 'O protocolo prevê mecanismo para que o participante retire o consentimento, com exclusão de seus dados das bases do estudo e garantia de não utilização em treinamentos ou retreinamentos futuros?', riskAnswer: 'nao', pontos: 6, dica: 'A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco.' },
       { id: 'P5.9', pergunta: 'O protocolo define responsabilidade humana clara em caso de erro ou dano decorrente do uso do sistema?', riskAnswer: 'nao', pontos: 6, dica: 'Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que fragiliza a proteção do participante.' },
     ],
