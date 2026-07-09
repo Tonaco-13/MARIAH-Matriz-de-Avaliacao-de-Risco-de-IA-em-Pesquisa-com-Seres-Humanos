@@ -330,7 +330,12 @@ export default function QualitativeAssessment({
                           </div>
                           {q.naoPontuavel ? (
                             <span className="text-xs text-muted-foreground">
-                              <span className="font-semibold text-slate-600">Registro / diligência</span> — não altera a pontuação do eixo
+                              <span className="font-semibold text-slate-600">
+                                {q.eliminatorio ? 'Diligência impeditiva' : 'Registro / diligência'}
+                              </span>
+                              {q.eliminatorio
+                                ? ' — não pontua, mas bloqueia o parecer se ausente'
+                                : ' — não altera a pontuação do eixo'}
                             </span>
                           ) : (
                             <span className="text-xs text-muted-foreground">
