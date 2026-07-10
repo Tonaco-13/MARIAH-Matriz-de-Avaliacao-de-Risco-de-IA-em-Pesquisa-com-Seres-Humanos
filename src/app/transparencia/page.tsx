@@ -189,13 +189,13 @@ export default function TransparenciaPage() {
         <section className="space-y-4">
           <h2 className="text-xl font-semibold">Mecanismos de salvaguarda automática</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Sobre a lógica de gradiente da matriz, a MARIA superpõe três mecanismos que a
+            Sobre a lógica de gradiente da matriz, a MARIA superpõe quatro mecanismos que a
             interrompem: uma vez satisfeita determinada condição categórica, a classificação
             passa a ser definida por critério deontológico — e não estatístico —, sobrescrevendo
             o que a contagem ou a soma indicariam. São assimetrias deliberadas, de precaução.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Card className="border-teal-200">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-2 mb-1">
@@ -250,15 +250,38 @@ export default function TransparenciaPage() {
                     Gatilho 3
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Questões eliminatórias</CardTitle>
+                <CardTitle className="text-base">Eliminatória — cadeia de custódia</CardTitle>
                 <CardDescription className="text-xs">
-                  Versões A e B · modo Res. 738
+                  Versões A e B · Res. CNS n.º 738/2024
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Quando acionadas, classificam o protocolo como “não avaliável pela MARIA” —
-                uma recusa de classificação que remete o caso à análise individualizada do
-                colegiado.
+                A ausência de cadeia de custódia formalizada (Art. 27, VI) classifica o
+                protocolo como “não avaliável pela MARIA” — uma recusa de classificação que
+                remete o caso à análise individualizada do colegiado.
+              </CardContent>
+            </Card>
+
+            <Card className="border-teal-200">
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="p-1.5 bg-teal-50 rounded-md">
+                    <Ban className="h-4 w-4 text-teal-600" />
+                  </div>
+                  <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
+                    Gatilho 4
+                  </Badge>
+                </div>
+                <CardTitle className="text-base">Eliminatória — novo consentimento</CardTitle>
+                <CardDescription className="text-xs">
+                  Versões A e B · Lei n.º 14.874/2024 + LGPD
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-xs text-muted-foreground leading-relaxed">
+                Em sistemas adaptativos (1.2 = Sim / P2.2 = Sim), a ausência de plano de novo
+                consentimento bloqueia o parecer — protocolo não avaliável no mérito. Não
+                altera a pontuação: é exigência legal, não compensável por pontos. Na Versão A
+                é a 2.10; na Versão B, a P2.8.
               </CardContent>
             </Card>
           </div>
@@ -301,9 +324,10 @@ export default function TransparenciaPage() {
                     <p className="font-medium text-sm">Suplemento de Salvaguardas</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Detalhamento dos três mecanismos de salvaguarda automática (Eixo 3.b,
-                    Cláusula de Prevalência Ética e questões eliminatórias): o que fazem, por
-                    que existem, como interagem com a matriz, cenários e crítica honesta.
+                    Detalhamento dos quatro mecanismos de salvaguarda automática (Eixo 3.b,
+                    Cláusula de Prevalência Ética, eliminatória de cadeia de custódia e
+                    diligência impeditiva de novo consentimento): o que fazem, por que existem,
+                    como interagem com a matriz, cenários e crítica honesta.
                   </p>
                   <Button
                     variant="outline"
