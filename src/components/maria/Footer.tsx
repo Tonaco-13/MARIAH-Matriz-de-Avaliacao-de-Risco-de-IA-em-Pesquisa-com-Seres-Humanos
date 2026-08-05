@@ -19,6 +19,11 @@ export function Footer() {
           Licenciado sob a Licença Pública Geral do Software Público Brasileiro
           (LPG-SPB)
         </p>
+        <p className="text-xs text-muted-foreground/80">
+          Os dados preenchidos ficam somente neste navegador (armazenamento local do
+          dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado,
+          use “Nova avaliação” para apagá-los.
+        </p>
         <p className="text-xs">
           © {anoAtual} Ministério da Saúde — Governo Federal do Brasil
         </p>

@@ -34,8 +34,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        <a href="#conteudo-principal" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-teal-700 focus:px-4 focus:py-2 focus:text-white">Pular para o conteúdo</a>
         <div className="min-h-screen flex flex-col">
-          <main className="flex-1">
+          <main id="conteudo-principal" tabIndex={-1} className="flex-1">
             {children}
           </main>
           <Footer />
