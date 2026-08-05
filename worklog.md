@@ -1,5 +1,7 @@
 > **Nota (2026-05-11):** O software foi renomeado em duas etapas no mesmo dia: primeiro de **MARA** (Matriz de Avaliação de Risco Algorítmico) para **MAR.IA**, e logo em seguida para **MARIA** (Matriz de Avaliação de Risco em Inteligência Artificial) — sem o ponto. O acrônimo é exato: 5 letras, 5 palavras. As entradas históricas abaixo preservam o nome original como registro do que estava em uso à época.
 
+> **Nota (2026-08-05):** Renomeado de **MARIA** para **MARIAH** — "Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos" (o "H" de "Humanos"; acrônimo exato: 6 letras). Motivo: evitar colisão com ferramenta de IA homônima lançada pelo STF. As referências internas (variáveis `MARIA_*`, rota `/maria`, pasta e imports) preservam "maria" minúsculo de propósito.
+
 ---
 Task ID: 1
 Agent: Main Agent
@@ -119,3 +121,48 @@ Pendências sinalizadas (fora dos 6 passos, requerem deliberação):
 - Página de Transparência: card "Questões eliminatórias — modo Res. 738" ficou
   incompleto com a inclusão de P2.8 (fundada em Lei 14.874/LGPD). Revisar narrativa
   e alinhar com a expansão do Suplemento de Salvaguardas (três/quatro gatilhos).
+
+---
+Data: 2026-08-05
+Agente: Fabiano + assistente
+Tarefa: Rebrand para MARIAH, unificação do disclaimer e correções de acessibilidade/LGPD
+
+Rebrand (MARIA → MARIAH):
+- Novo nome por extenso: "Matriz de Avaliação de Risco de Inteligência Artificial em
+  Pesquisa com Seres Humanos". Motivo: evitar colisão com ferramenta de IA homônima do STF.
+- Texto visível (nome curto e por extenso) trocado em 16 arquivos; identificadores internos
+  preservados (variáveis MARIA_*, rota /maria, pasta e imports).
+- Repositório GitHub renomeado para
+  MARIAH-Matriz-de-Avaliacao-de-Risco-de-IA-em-Pesquisa-com-Seres-Humanos (redirect automático).
+- Vercel: endereço público migrado para https://mariah-inaep.vercel.app (projeto "mariah");
+  domínios antigos (maria-saude, mariah-saude, mara-…) redirecionados para o novo.
+
+Disclaimer (fonte única):
+- Reescrito na voz da MARIAH: instrumento de transparência e explicabilidade; escopo alinhado
+  à Pergunta 1 (automatiza decisões / gera conteúdo / intervém); preenchimento facultativo;
+  duplo público (pesquisador e CEP); ressalvas mantidas.
+- Centralizado em src/components/maria/disclaimer.ts (MARIA_DISCLAIMER e MARIA_NAO_SUBSTITUI),
+  eliminando a duplicação em 6 pontos. Tagline do seletor de versão também alinhada.
+
+Acessibilidade e LGPD (pareceres de UX — revisor independente + Kimi3):
+Decisão de desacoplar as correções objetivas do rebrand visual (cor/logo INAEP), que segue em
+deliberação de governança. Corrigidos os achados verificados no código:
+- Contraste AA: botões/badges/step de teal-600 → teal-700 (~5:1); hover → teal-800.
+- Foco visível: --ring cinza (~2,5:1) → teal (~5:1), tema claro e escuro.
+- aria-pressed nos toggles Sim/Não/N-A (filtro de entrada e Versões A e B).
+- Skip link "Pular para o conteúdo" no layout.
+- Aviso LGPD no rodapé (persistência local em localStorage, sem envio a servidor).
+
+Arquivos tocados (a11y/LGPD): globals.css, layout.tsx, Footer.tsx, EntryFilter.tsx,
+QualitativeAssessment.tsx, QuantitativeAssessment.tsx, VersionSelector.tsx, ContextForm.tsx,
+StepIndicator.tsx.
+
+Verificação: tsc sem erros novos em src/; ESLint sem apontamentos novos (remanescentes são
+pré-existentes — React Compiler e use-mobile).
+
+Follow-ups registrados:
+- Fonte Rawline (GOV.BR DS) no lugar de Geist — exige hospedar a fonte.
+- Contraste dos botões de resposta "de risco" (red-500 ~4:1).
+- Rebrand visual INAEP (azul marinho + logo) — decisão de governança; parecer triangulado
+  (revisor + Kimi3 + assistente) recomenda desacoplar de acessibilidade.
+- Documentos para download em public/ (.docx/.xlsx) ainda com "MARIA" no nome e no conteúdo.
