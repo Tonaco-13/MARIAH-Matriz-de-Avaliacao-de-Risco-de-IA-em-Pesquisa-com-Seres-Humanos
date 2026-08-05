@@ -16,9 +16,9 @@ import {
 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Validação Local pelos CEPs — MARIA',
+  title: 'Validação Local pelos CEPs — MARIAH',
   description:
-    'Protocolo opcional de validação local da MARIA pelos Comitês de Ética em Pesquisa, descrito em apêndice próprio do Guia de Diretrizes Éticas para Pesquisa com IA (em revisão).',
+    'Protocolo opcional de validação local da MARIAH pelos Comitês de Ética em Pesquisa, descrito em apêndice próprio do Guia de Diretrizes Éticas para Pesquisa com IA (em revisão).',
 };
 
 export default function ValidacaoPage() {
@@ -35,7 +35,7 @@ export default function ValidacaoPage() {
           >
             <Link href="/">
               <ArrowLeft className="mr-1.5 h-4 w-4" />
-              Voltar à MARIA
+              Voltar à MARIAH
             </Link>
           </Button>
           <div className="flex items-center gap-3 mb-3">
@@ -60,7 +60,7 @@ export default function ValidacaoPage() {
             </div>
           </div>
           <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Protocolo opcional para que cada CEP verifique como a MARIA se comporta na
+            Protocolo opcional para que cada CEP verifique como a MARIAH se comporta na
             casuística de protocolos de pesquisa com inteligência artificial que efetivamente
             lhe são submetidos.
           </p>
@@ -85,7 +85,7 @@ export default function ValidacaoPage() {
         <section className="space-y-3">
           <h2 className="text-xl font-semibold">Por que validar localmente</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            A MARIA é instrumento de apoio à deliberação do CEP — não norma vinculante.
+            A MARIAH é instrumento de apoio à deliberação do CEP — não norma vinculante.
             A adoção da matriz é escolha institucional de cada CEP, e a validação local segue
             o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar
             decisão central para fazê-lo. Quando o colegiado entender que vale a pena
@@ -97,7 +97,7 @@ export default function ValidacaoPage() {
             <strong>aprendizado institucional</strong> (descobrir quais perguntas estão sendo
             interpretadas de forma divergente entre avaliadores),{' '}
             <strong>qualificação dos pareceres</strong> (demonstrar aplicação consistente
-            da MARIA na sua casuística) e{' '}
+            da MARIAH na sua casuística) e{' '}
             <strong>contribuição opcional à evolução do instrumento</strong> (compartilhar
             observações com o Grupo de Trabalho responsável pelo guia).
           </p>
@@ -244,11 +244,11 @@ export default function ValidacaoPage() {
 
         <Separator />
 
-        {/* Seção 4: Como usar com a MARIA */}
+        {/* Seção 4: Como usar com a MARIAH */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Como integrar à MARIA</h2>
+          <h2 className="text-xl font-semibold">Como integrar à MARIAH</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            O software MARIA oferece um botão{' '}
+            O software MARIAH oferece um botão{' '}
             <span className="font-medium text-foreground">
               &quot;Exportar dados desta avaliação&quot;
             </span>{' '}
@@ -261,7 +261,7 @@ export default function ValidacaoPage() {
               <p className="font-medium">Fluxo sugerido</p>
               <ol className="list-decimal list-inside space-y-1.5 text-muted-foreground text-xs leading-relaxed pl-1">
                 <li>
-                  Cada avaliador aplica a MARIA ao protocolo de forma independente e exporta o{' '}
+                  Cada avaliador aplica a MARIAH ao protocolo de forma independente e exporta o{' '}
                   <code className="text-xs bg-muted px-1 py-0.5 rounded">.json</code> ao final.
                 </li>
                 <li>
@@ -282,7 +282,7 @@ export default function ValidacaoPage() {
             </CardContent>
           </Card>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Versões futuras da MARIA poderão preencher a planilha diretamente. Por ora, a
+            Versões futuras da MARIAH poderão preencher a planilha diretamente. Por ora, a
             transcrição manual é deliberada: ela preserva a separação entre a ferramenta
             operacional e o instrumento de validação institucional do CEP.
           </p>

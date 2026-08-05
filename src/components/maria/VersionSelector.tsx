@@ -35,12 +35,12 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
             </div>
             <div>
               <div className="flex items-baseline gap-2 flex-wrap">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MARIA</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MARIAH</h1>
                 <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
                   Versão preliminar
                 </span>
               </div>
-              <p className="text-teal-100 text-sm">Matriz de Avaliação de Risco em Inteligência Artificial</p>
+              <p className="text-teal-100 text-sm">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
             </div>
           </div>
           <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
@@ -258,7 +258,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
       <footer className="border-t bg-muted/30 py-4">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIA — Matriz de Avaliação de Risco em Inteligência Artificial • Apoio à avaliação ética de estudos de intervenção com IA
+            MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA
           </p>
         </div>
       </footer>

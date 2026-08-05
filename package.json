@@ -1,7 +1,7 @@
 {
   "name": "maria",
   "version": "0.5.0",
-  "description": "MARIA — Matriz de Avaliação de Risco em Inteligência Artificial. Ferramenta para Comitês de Ética em Pesquisa (CEP) avaliarem riscos de sistemas de IA em protocolos de pesquisa.",
+  "description": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos. Ferramenta para Comitês de Ética em Pesquisa (CEP) avaliarem riscos de sistemas de IA em protocolos de pesquisa.",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",

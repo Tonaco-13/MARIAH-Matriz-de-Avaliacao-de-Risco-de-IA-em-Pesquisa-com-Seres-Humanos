@@ -143,7 +143,7 @@ const initialState: AppState = {
 // ----- LocalStorage -----
 
 const STORAGE_KEY = 'maria-assessment-state';
-// Chaves anteriores (rebrand MARA → MAR.IA → MARIA). Migradas no primeiro load.
+// Chaves anteriores (rebrand MARA → MAR.IA → MARIA → MARIAH). Migradas no primeiro load.
 const LEGACY_KEYS = ['mar-ia-assessment-state', 'mara-assessment-state'];
 
 function saveState(state: AppState) {

@@ -73,12 +73,12 @@ export default function ContextForm({
             </div>
             <div>
               <div className="flex items-baseline gap-2 flex-wrap">
-                <h1 className="text-xl font-bold">MARIA</h1>
+                <h1 className="text-xl font-bold">MARIAH</h1>
                 <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
                   Versão preliminar
                 </span>
               </div>
-              <p className="text-teal-100 text-xs">Matriz de Avaliação de Risco em Inteligência Artificial</p>
+              <p className="text-teal-100 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
             </div>
           </div>
         </div>
@@ -207,7 +207,7 @@ export default function ContextForm({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIA — Matriz de Avaliação de Risco em Inteligência Artificial
+            MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
           </p>
         </div>
       </footer>

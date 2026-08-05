@@ -213,7 +213,7 @@ export default function Results({
             </div>
             <div>
               <div className="flex items-baseline gap-2 flex-wrap">
-                <h1 className="text-xl font-bold">MARIA</h1>
+                <h1 className="text-xl font-bold">MARIAH</h1>
                 <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
                   Versão preliminar
                 </span>
@@ -699,7 +699,7 @@ export default function Results({
                 </div>
                 <p className="text-muted-foreground mb-3 leading-relaxed">
                   O Grupo de Trabalho do Ministério da Saúde desenvolveu um protocolo opcional
-                  de validação local da MARIA, descrito em apêndice próprio do{' '}
+                  de validação local da MARIAH, descrito em apêndice próprio do{' '}
                   <em>Guia de Diretrizes Éticas para Pesquisa com IA</em> (atualmente em revisão).
                   Seu CEP pode aplicá-lo desde já: baixe a planilha-modelo e o roteiro, e
                   exporte os dados desta avaliação em formato compatível.
@@ -778,7 +778,7 @@ export default function Results({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIA — Matriz de Avaliação de Risco em Inteligência Artificial • {version === 'A' ? 'Versão A — Qualitativa' : 'Versão B — Quantitativa'}
+            MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • {version === 'A' ? 'Versão A — Qualitativa' : 'Versão B — Quantitativa'}
           </p>
         </div>
       </footer>

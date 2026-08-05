@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  MARIA — favicon.
+  MARIAH — favicon.
   Quadrado arredondado em teal-700 (cor primária do app) com a letra "M"
   em traço branco bold, projetada para legibilidade em 16x16 px na aba
   do navegador. O ícone de escudo continua no cabeçalho da página.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Fundo teal-700 (#0f766e) — mesma cor do gradiente do header da MARIA -->
+  <!-- Fundo teal-700 (#0f766e) — mesma cor do gradiente do header da MARIAH -->
   <rect width="64" height="64" rx="12" fill="#0f766e"/>
   <!-- Letra "M" em traço branco bold, centralizada -->
   <path d="M 16 48 L 16 16 L 32 32 L 48 16 L 48 48"

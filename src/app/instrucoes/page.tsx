@@ -14,9 +14,9 @@ import {
 import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
 
 export const metadata: Metadata = {
-  title: 'Instruções de Preenchimento — MARIA',
+  title: 'Instruções de Preenchimento — MARIAH',
   description:
-    'Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIA, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Apêndice do Guia de Diretrizes Éticas para Pesquisa com IA (em revisão).',
+    'Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIAH, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Apêndice do Guia de Diretrizes Éticas para Pesquisa com IA (em revisão).',
 };
 
 export default function InstrucoesPage() {
@@ -33,7 +33,7 @@ export default function InstrucoesPage() {
           >
             <Link href="/">
               <ArrowLeft className="mr-1.5 h-4 w-4" />
-              Voltar à MARIA
+              Voltar à MARIAH
             </Link>
           </Button>
           <div className="flex items-center gap-3 mb-3">

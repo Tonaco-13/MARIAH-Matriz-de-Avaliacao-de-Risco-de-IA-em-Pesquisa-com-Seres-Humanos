@@ -19,9 +19,9 @@ import {
 import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
 
 export const metadata: Metadata = {
-  title: 'Transparência Metodológica — MARIA',
+  title: 'Transparência Metodológica — MARIAH',
   description:
-    'Premissas e mecanismos de salvaguarda que sustentam a classificação de risco da MARIA, organizados em três camadas (normativa, de elaboração e empírica pendente). Documentos técnicos para auditoria e crítica.',
+    'Premissas e mecanismos de salvaguarda que sustentam a classificação de risco da MARIAH, organizados em três camadas (normativa, de elaboração e empírica pendente). Documentos técnicos para auditoria e crítica.',
 };
 
 export default function TransparenciaPage() {
@@ -38,7 +38,7 @@ export default function TransparenciaPage() {
           >
             <Link href="/">
               <ArrowLeft className="mr-1.5 h-4 w-4" />
-              Voltar à MARIA
+              Voltar à MARIAH
             </Link>
           </Button>
           <div className="flex items-center gap-3 mb-3">
@@ -63,7 +63,7 @@ export default function TransparenciaPage() {
             </div>
           </div>
           <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Documentos técnicos que explicitam as premissas sobre as quais a MARIA classifica
+            Documentos técnicos que explicitam as premissas sobre as quais a MARIAH classifica
             o risco — para que estatísticos, metodologistas, integrantes de CEP e pesquisadores
             possam auditar, criticar e compreender as decisões do instrumento.
           </p>
@@ -88,7 +88,7 @@ export default function TransparenciaPage() {
         <section className="space-y-3">
           <h2 className="text-xl font-semibold">Por que explicitar as premissas</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            A MARIA produz uma classificação de risco a partir de regras que foram adotadas
+            A MARIAH produz uma classificação de risco a partir de regras que foram adotadas
             na elaboração da matriz, com base no referencial normativo e na literatura
             sistematizada no próprio Guia. Tornar essas regras explícitas é condição para
             que possam ser auditadas e criticadas. A documentação distingue, deliberadamente,
@@ -108,7 +108,7 @@ export default function TransparenciaPage() {
         <section className="space-y-4">
           <h2 className="text-xl font-semibold">As três camadas de premissas</h2>
           <p className="text-sm text-muted-foreground">
-            As premissas da MARIA organizam-se em três camadas, com graus distintos de
+            As premissas da MARIAH organizam-se em três camadas, com graus distintos de
             abertura à discussão.
           </p>
 
@@ -189,7 +189,7 @@ export default function TransparenciaPage() {
         <section className="space-y-4">
           <h2 className="text-xl font-semibold">Mecanismos de salvaguarda automática</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Sobre a lógica de gradiente da matriz, a MARIA superpõe quatro mecanismos que a
+            Sobre a lógica de gradiente da matriz, a MARIAH superpõe quatro mecanismos que a
             interrompem: uma vez satisfeita determinada condição categórica, a classificação
             passa a ser definida por critério deontológico — e não estatístico —, sobrescrevendo
             o que a contagem ou a soma indicariam. São assimetrias deliberadas, de precaução.
@@ -257,7 +257,7 @@ export default function TransparenciaPage() {
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
                 A ausência de cadeia de custódia formalizada (Art. 27, VI) classifica o
-                protocolo como “não avaliável pela MARIA” — uma recusa de classificação que
+                protocolo como “não avaliável pela MARIAH” — uma recusa de classificação que
                 remete o caso à análise individualizada do colegiado.
               </CardContent>
             </Card>
@@ -301,7 +301,7 @@ export default function TransparenciaPage() {
                     <p className="font-medium text-sm">Nota Técnica de Premissas</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Premissas da classificação de risco da MARIA em três camadas (normativa,
+                    Premissas da classificação de risco da MARIAH em três camadas (normativa,
                     de elaboração e empírica pendente), com as principais decisões
                     metodológicas, suas justificativas e a tabela de pontos de corte da
                     Versão B.

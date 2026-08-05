@@ -1,5 +1,5 @@
 // ============================================================
-// MARIA - Calculation Utilities
+// MARIAH - Calculation Utilities
 // Versão com Res. CNS n.º 738/2024 (Eixo 3.b / Bloco 6.b)
 // ============================================================
 
@@ -698,7 +698,7 @@ export function generateReportHTML(
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>MARIA — Relatório de Avaliação de Risco em IA</title>
+  <title>MARIAH — Relatório de Avaliação de Risco em IA</title>
   <style>
     @media print { body { padding: 20px; } }
   </style>
@@ -706,10 +706,10 @@ export function generateReportHTML(
 <body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:0 auto;padding:40px 20px;color:#1f2937;line-height:1.5">
   <div style="border-bottom:3px solid #0f766e;padding-bottom:16px;margin-bottom:24px">
     <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-      <h1 style="margin:0;font-size:24px;color:#0f766e">MARIA</h1>
+      <h1 style="margin:0;font-size:24px;color:#0f766e">MARIAH</h1>
       <span style="font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;white-space:nowrap">Versão preliminar</span>
     </div>
-    <p style="margin:4px 0 0;font-size:14px;color:#6b7280">Matriz de Avaliação de Risco em Inteligência Artificial</p>
+    <p style="margin:4px 0 0;font-size:14px;color:#6b7280">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
   </div>
 
   <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:20px;flex-wrap:wrap;gap:8px">
@@ -744,7 +744,7 @@ export function generateReportHTML(
   </div>
 
   <div style="margin-top:24px;text-align:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:12px;line-height:1.6">
-    MARIA — Matriz de Avaliação de Risco em Inteligência Artificial • Gerado em ${date}
+    MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Gerado em ${date}
     <br>
     Desenvolvido pelo Ministério da Saúde para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
     <br>
@@ -767,7 +767,7 @@ export function generateReportText(
   const isCombinedReport = useAAsTriagem && version === 'B';
 
   lines.push('═══════════════════════════════════════════════════════════');
-  lines.push('MARIA — Matriz de Avaliação de Risco em Inteligência Artificial');
+  lines.push('MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos');
   lines.push('[Versão preliminar]');
   lines.push('═══════════════════════════════════════════════════════════');
   lines.push('');
@@ -901,7 +901,7 @@ export type ValidationExport = {
   schemaVersion: 1;
   exportadoEm: string; // ISO 8601
   software: {
-    nome: 'MARIA';
+    nome: 'MARIAH';
     observacao: string;
   };
   protocolo: {
@@ -1025,14 +1025,14 @@ export function buildValidationExport(args: {
 
   const agora = new Date();
   const dataAvaliacao = agora.toISOString().slice(0, 10);
-  const idPlaceholder = `MARIA-${agora.toISOString().replace(/[-:T.]/g, '').slice(0, 14)}`;
+  const idPlaceholder = `MARIAH-${agora.toISOString().replace(/[-:T.]/g, '').slice(0, 14)}`;
 
   return {
     schema: 'maria-validacao-local',
     schemaVersion: 1,
     exportadoEm: agora.toISOString(),
     software: {
-      nome: 'MARIA',
+      nome: 'MARIAH',
       observacao:
         'Exportação gerada para uso na planilha-modelo de Validação Local descrita em apêndice próprio do Guia de Diretrizes Éticas para Pesquisa com IA (em revisão).',
     },
