@@ -71,9 +71,9 @@ export default function StepIndicator({ currentStep, version, onStepClick }: Ste
 
           // Cores comuns do círculo conforme estado.
           const circleClasses = isCompleted
-            ? 'bg-teal-600 text-white'
+            ? 'bg-teal-700 text-white'
             : isCurrent
-              ? 'bg-teal-600 text-white ring-4 ring-teal-100'
+              ? 'bg-teal-700 text-white ring-4 ring-teal-100'
               : 'bg-muted text-muted-foreground';
 
           const labelClasses = isCurrent

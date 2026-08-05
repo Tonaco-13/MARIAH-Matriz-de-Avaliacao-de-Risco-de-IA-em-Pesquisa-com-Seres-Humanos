@@ -217,10 +217,10 @@ export default function EntryFilter({
                 variant={applies === 'sim' ? 'default' : 'outline'}
                 className={
                   applies === 'sim'
-                    ? 'bg-teal-600 hover:bg-teal-700 text-white min-w-[140px]'
+                    ? 'bg-teal-700 hover:bg-teal-800 text-white min-w-[140px]'
                     : 'hover:bg-muted min-w-[140px]'
                 }
-                onClick={handleAppliesSim}
+                aria-pressed={applies === 'sim'} onClick={handleAppliesSim}
               >
                 Sim
               </Button>
@@ -228,7 +228,7 @@ export default function EntryFilter({
                 size="lg"
                 variant="outline"
                 className="hover:bg-muted min-w-[140px]"
-                onClick={handleAppliesNao}
+                aria-pressed={applies === 'nao'} onClick={handleAppliesNao}
               >
                 Não
               </Button>
@@ -316,7 +316,7 @@ export default function EntryFilter({
                     ? 'bg-blue-600 hover:bg-blue-700 text-white min-w-[140px]'
                     : 'hover:bg-blue-50 min-w-[140px]'
                 }
-                onClick={() => onUsesDatabaseChange(true)}
+                aria-pressed={usesDatabase === true} onClick={() => onUsesDatabaseChange(true)}
               >
                 <CheckCircle2 className="mr-2 h-5 w-5" />
                 Sim
@@ -327,10 +327,10 @@ export default function EntryFilter({
                 disabled={applies !== 'sim'}
                 className={
                   usesDatabase === false
-                    ? 'bg-teal-600 hover:bg-teal-700 text-white min-w-[140px]'
+                    ? 'bg-teal-700 hover:bg-teal-800 text-white min-w-[140px]'
                     : 'hover:bg-muted min-w-[140px]'
                 }
-                onClick={() => onUsesDatabaseChange(false)}
+                aria-pressed={usesDatabase === false} onClick={() => onUsesDatabaseChange(false)}
               >
                 Não
               </Button>
@@ -366,7 +366,7 @@ export default function EntryFilter({
           </div>
           <Button
             size="lg"
-            className="bg-teal-600 hover:bg-teal-700 min-w-[200px]"
+            className="bg-teal-700 hover:bg-teal-800 min-w-[200px]"
             disabled={!canProceed}
             onClick={() => onPass(usesDatabase === true)}
           >

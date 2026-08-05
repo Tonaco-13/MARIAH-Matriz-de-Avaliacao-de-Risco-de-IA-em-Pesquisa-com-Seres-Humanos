@@ -76,7 +76,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
                 </div>
                 <div>
                   <CardTitle className="text-lg">Versão A</CardTitle>
-                  <Badge className="bg-teal-600 text-white hover:bg-teal-700">Qualitativa</Badge>
+                  <Badge className="bg-teal-700 text-white hover:bg-teal-800">Qualitativa</Badge>
                 </div>
               </div>
               <CardDescription className="text-sm leading-relaxed">
@@ -103,7 +103,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
                 </li>
               </ul>
               <Button 
-                className="w-full mt-5 bg-teal-600 hover:bg-teal-700 group-hover:bg-teal-700"
+                className="w-full mt-5 bg-teal-700 hover:bg-teal-800 group-hover:bg-teal-800"
               >
                 Usar Versão A
                 <ArrowRight className="ml-2 h-4 w-4" />

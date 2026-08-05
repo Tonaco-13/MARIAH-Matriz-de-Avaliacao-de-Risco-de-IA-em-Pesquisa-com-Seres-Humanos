@@ -194,7 +194,7 @@ export default function ContextForm({
             <RestartButton onRestart={onRestart} answeredCount={answeredCount} />
           </div>
           <Button
-            className="bg-teal-600 hover:bg-teal-700"
+            className="bg-teal-700 hover:bg-teal-800"
             disabled={!allFilled}
             onClick={onNext}
           >

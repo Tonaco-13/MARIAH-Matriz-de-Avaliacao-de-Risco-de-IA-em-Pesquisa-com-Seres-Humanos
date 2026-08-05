@@ -400,7 +400,7 @@ export default function QuantitativeAssessment({
                               className={
                                 currentAnswer === 'sim'
                                   ? isMitigation
-                                    ? 'bg-teal-600 hover:bg-teal-700 text-white'
+                                    ? 'bg-teal-700 hover:bg-teal-800 text-white'
                                     : q.riskAnswer === 'sim'
                                       ? 'bg-red-500 hover:bg-red-600 text-white'
                                       : 'bg-emerald-600 hover:bg-emerald-700 text-white'
@@ -408,7 +408,7 @@ export default function QuantitativeAssessment({
                                     ? 'border-teal-300 text-teal-700 hover:bg-teal-50 hover:text-teal-800 hover:border-teal-400'
                                     : 'hover:bg-muted'
                               }
-                              onClick={() => onAnswer(q.id, 'sim')}
+                              aria-pressed={currentAnswer === 'sim'} onClick={() => onAnswer(q.id, 'sim')}
                             >
                               Sim
                             </Button>
@@ -426,7 +426,7 @@ export default function QuantitativeAssessment({
                                     ? 'border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 hover:border-red-400'
                                     : 'hover:bg-muted'
                               }
-                              onClick={() => onAnswer(q.id, 'nao')}
+                              aria-pressed={currentAnswer === 'nao'} onClick={() => onAnswer(q.id, 'nao')}
                             >
                               Não
                             </Button>
@@ -439,7 +439,7 @@ export default function QuantitativeAssessment({
                                     ? 'bg-slate-500 hover:bg-slate-600 text-white'
                                     : 'border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-slate-800'
                                 }
-                                onClick={() => onAnswer(q.id, 'na')}
+                                aria-pressed={currentAnswer === 'na'} onClick={() => onAnswer(q.id, 'na')}
                               >
                                 Não se aplica
                               </Button>
