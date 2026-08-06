@@ -43,6 +43,25 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/*
+  Paleta institucional gov.br — azul marinho (#0C2C56).
+  Redefine os tokens "teal-*" do Tailwind v4. Como TODAS as classes
+  teal-* do app consomem var(--color-teal-*), este bloco troca a cor
+  de toda a interface de uma vez, sem alterar layout, tipografia ou
+  marcação. Família única de azul marinho (um só tom de destaque).
+*/
+@theme {
+  --color-teal-50: #eef4fb;   /* tint: fundo de ícone / chip */
+  --color-teal-100: #d8e6f6;
+  --color-teal-200: #aecbe6;  /* borda de card */
+  --color-teal-300: #7ea6d4;  /* borda hover */
+  --color-teal-400: #4a7fb8;
+  --color-teal-500: #0C2C56;  /* acento -> azul marinho gov.br */
+  --color-teal-600: #0C2C56;  /* botão / badge -> marinho */
+  --color-teal-700: #0C2C56;  /* header -> marinho (único tom) */
+  --color-teal-800: #0a2347;  /* hover escuro */
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
