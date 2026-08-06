@@ -589,7 +589,7 @@ export function generateReportHTML(
         <strong>Modo Triagem A → B.</strong> Este relatório consolida as duas matrizes percorridas pelo avaliador.
         O nível final consolidado é o <strong>mais alto entre as duas</strong> (critério mais conservador).
       </div>
-      <h3 style="margin:24px 0 6px;font-size:16px;color:#0f766e;border-bottom:2px solid #0f766e;padding-bottom:4px">▌ Versão A — Qualitativa (Triagem)</h3>
+      <h3 style="margin:24px 0 6px;font-size:16px;color:#0C2C56;border-bottom:2px solid #0C2C56;padding-bottom:4px">▌ Versão A — Qualitativa (Triagem)</h3>
       ${qualSection.html}
       <h3 style="margin:32px 0 6px;font-size:16px;color:#334155;border-bottom:2px solid #334155;padding-bottom:4px">▌ Versão B — Quantitativa</h3>
       ${quantSection.html}`;
@@ -704,9 +704,9 @@ export function generateReportHTML(
   </style>
 </head>
 <body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:0 auto;padding:40px 20px;color:#1f2937;line-height:1.5">
-  <div style="border-bottom:3px solid #0f766e;padding-bottom:16px;margin-bottom:24px">
+  <div style="border-bottom:3px solid #0C2C56;padding-bottom:16px;margin-bottom:24px">
     <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
-      <h1 style="margin:0;font-size:24px;color:#0f766e">MARIAH</h1>
+      <h1 style="margin:0;font-size:24px;color:#0C2C56">MARIAH</h1>
       <span style="font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;white-space:nowrap">Versão preliminar</span>
     </div>
     <p style="margin:4px 0 0;font-size:14px;color:#6b7280">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
