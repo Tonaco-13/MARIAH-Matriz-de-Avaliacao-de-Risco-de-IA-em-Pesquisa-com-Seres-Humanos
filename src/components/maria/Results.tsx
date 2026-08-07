@@ -222,7 +222,7 @@ export default function Results({
                 <p className="text-teal-700 text-xs">Resultado da Avaliação</p>
               </div>
             </div>
-            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-8 sm:h-9 w-auto shrink-0" />
+            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-10 sm:h-11 w-auto shrink-0" />
           </div>
         </div>
       </header>
