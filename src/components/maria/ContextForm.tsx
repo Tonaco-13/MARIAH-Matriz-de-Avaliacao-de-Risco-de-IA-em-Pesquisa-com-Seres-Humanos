@@ -65,21 +65,24 @@ export default function ContextForm({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-gradient-to-r from-teal-700 to-teal-600 text-white">
+      <header className="bg-white text-teal-700">
         <div className="max-w-5xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-white/20 rounded-lg">
-              <Shield className="h-6 w-6" />
-            </div>
-            <div>
-              <div className="flex items-baseline gap-2 flex-wrap">
-                <h1 className="text-xl font-bold">MARIAH</h1>
-                <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
-                  Versão preliminar
-                </span>
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-teal-50 rounded-lg">
+                <Shield className="h-6 w-6 text-teal-700" />
               </div>
-              <p className="text-teal-100 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+              <div>
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <h1 className="text-xl font-bold">MARIAH</h1>
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
+                    Versão preliminar
+                  </span>
+                </div>
+                <p className="text-teal-700 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+              </div>
             </div>
+            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-8 sm:h-9 w-auto shrink-0" />
           </div>
         </div>
       </header>

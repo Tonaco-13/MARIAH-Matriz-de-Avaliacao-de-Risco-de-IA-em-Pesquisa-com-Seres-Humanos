@@ -28,12 +28,12 @@ export default function TransparenciaPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-br from-teal-600 to-teal-700 text-white">
+      <header className="bg-white text-teal-700">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
           <Button
             variant="ghost"
             asChild
-            className="text-teal-50 hover:bg-white/10 hover:text-white mb-4 -ml-3"
+            className="text-teal-700 hover:bg-teal-50 hover:text-teal-800 mb-4 -ml-3"
             size="sm"
           >
             <Link href="/">
@@ -41,28 +41,31 @@ export default function TransparenciaPage() {
               Voltar à MARIAH
             </Link>
           </Button>
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 bg-white/20 rounded-xl">
-              <ScrollText className="h-8 w-8" />
-            </div>
-            <div>
-              <div className="flex items-baseline gap-2 flex-wrap">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                  Transparência metodológica
-                </h1>
-                <Badge
-                  variant="outline"
-                  className="text-[10px] font-medium px-2 py-0.5 border-amber-300 text-amber-100 bg-amber-500/30 whitespace-nowrap"
-                >
-                  em revisão
-                </Badge>
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-teal-50 rounded-xl">
+                <ScrollText className="h-8 w-8 text-teal-700" />
               </div>
-              <p className="text-teal-100 text-sm mt-1">
-                Premissas e salvaguardas da classificação de risco
-              </p>
+              <div>
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                    Transparência metodológica
+                  </h1>
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] font-medium px-2 py-0.5 border-amber-300 text-amber-800 bg-amber-50 whitespace-nowrap"
+                  >
+                    em revisão
+                  </Badge>
+                </div>
+                <p className="text-teal-700 text-sm mt-1">
+                  Premissas e salvaguardas da classificação de risco
+                </p>
+              </div>
             </div>
+            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-10 sm:h-11 w-auto shrink-0" />
           </div>
-          <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
+          <p className="text-teal-600 max-w-2xl text-sm sm:text-base leading-relaxed">
             Documentos técnicos que explicitam as premissas sobre as quais a MARIAH classifica
             o risco — para que estatísticos, metodologistas, integrantes de CEP e pesquisadores
             possam auditar, criticar e compreender as decisões do instrumento.
