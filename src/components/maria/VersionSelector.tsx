@@ -27,23 +27,26 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-gradient-to-r from-teal-700 to-teal-600 text-white">
+      <header className="bg-white text-teal-700">
         <div className="max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2.5 bg-white/20 rounded-xl">
-              <Shield className="h-8 w-8" />
-            </div>
-            <div>
-              <div className="flex items-baseline gap-2 flex-wrap">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MARIAH</h1>
-                <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30 whitespace-nowrap">
-                  Versão preliminar
-                </span>
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-teal-50 rounded-xl">
+                <Shield className="h-8 w-8 text-teal-700" />
               </div>
-              <p className="text-teal-100 text-sm">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+              <div>
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">MARIAH</h1>
+                  <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
+                    Versão preliminar
+                  </span>
+                </div>
+                <p className="text-teal-700 text-sm">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+              </div>
             </div>
+            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-10 sm:h-11 w-auto shrink-0" />
           </div>
-          <p className="text-teal-50 max-w-2xl text-sm sm:text-base leading-relaxed">
+          <p className="text-teal-600 max-w-2xl text-sm sm:text-base leading-relaxed">
             Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na
             avaliação ética, transparente e explicável, de pesquisas de intervenção em seres
             humanos que utilizam inteligência artificial.
