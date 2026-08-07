@@ -117,7 +117,7 @@ export default function EntryFilter({
                   <p className="text-teal-700 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
                 </div>
               </div>
-              <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-10 sm:h-11 w-auto shrink-0" />
+              <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-11 sm:h-12 w-auto shrink-0 mt-1 -mr-2" />
             </div>
           </div>
         </header>
@@ -176,7 +176,7 @@ export default function EntryFilter({
                 <p className="text-teal-700 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
               </div>
             </div>
-            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-10 sm:h-11 w-auto shrink-0" />
+            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-11 sm:h-12 w-auto shrink-0 mt-1 -mr-2" />
           </div>
         </div>
       </header>
