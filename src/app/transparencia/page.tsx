@@ -75,8 +75,7 @@ export default function TransparenciaPage() {
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-start gap-2 text-sm text-amber-900">
           <Info className="h-4 w-4 mt-0.5 shrink-0" />
           <p>
-            <span className="font-medium">Status:</span> o <em>Guia de Diretrizes Éticas para
-            Pesquisa com IA</em> está em fase de revisão pelo Grupo de Trabalho do
+            <span className="font-medium">Status:</span> o <em>Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos</em> está em fase de revisão pelo Grupo de Trabalho do
             Ministério da Saúde. Os documentos abaixo correspondem à minuta atual e serão
             atualizados quando o guia for publicado oficialmente.
           </p>
