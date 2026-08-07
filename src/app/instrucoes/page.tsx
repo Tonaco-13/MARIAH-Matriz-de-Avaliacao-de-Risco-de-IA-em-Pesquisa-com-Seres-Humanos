@@ -58,7 +58,7 @@ export default function InstrucoesPage() {
                 </p>
               </div>
             </div>
-            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-10 sm:h-11 w-auto shrink-0" />
+            <img src="/inaep-logo-sm.png" alt="Inaep — Instância Nacional de Ética em Pesquisa" className="h-12 sm:h-14 w-auto shrink-0" />
           </div>
           <p className="text-teal-600 max-w-2xl text-sm sm:text-base leading-relaxed">
             Guia operacional para responder a matriz, questão a questão: a resposta que
