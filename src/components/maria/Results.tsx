@@ -700,7 +700,7 @@ export default function Results({
                 <p className="text-muted-foreground mb-3 leading-relaxed">
                   O Grupo de Trabalho do Ministério da Saúde desenvolveu um protocolo opcional
                   de validação local da MARIAH, descrito em apêndice próprio do{' '}
-                  <em>Guia de Diretrizes Éticas para Pesquisa com IA</em> (atualmente em revisão).
+                  <em>Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos</em> (atualmente em revisão).
                   Seu CEP pode aplicá-lo desde já: baixe a planilha-modelo e o roteiro, e
                   exporte os dados desta avaliação em formato compatível.
                 </p>

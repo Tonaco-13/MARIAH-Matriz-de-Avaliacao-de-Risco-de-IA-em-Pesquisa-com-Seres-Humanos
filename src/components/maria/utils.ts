@@ -1034,7 +1034,7 @@ export function buildValidationExport(args: {
     software: {
       nome: 'MARIAH',
       observacao:
-        'Exportação gerada para uso na planilha-modelo de Validação Local descrita em apêndice próprio do Guia de Diretrizes Éticas para Pesquisa com IA (em revisão).',
+        'Exportação gerada para uso na planilha-modelo de Validação Local descrita em apêndice próprio do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
     },
     protocolo: {
       idInterno: idPlaceholder,
