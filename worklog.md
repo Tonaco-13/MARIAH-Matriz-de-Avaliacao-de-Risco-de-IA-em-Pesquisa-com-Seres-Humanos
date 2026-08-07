@@ -166,3 +166,45 @@ Follow-ups registrados:
 - Rebrand visual INAEP (azul marinho + logo) — decisão de governança; parecer triangulado
   (revisor + Kimi3 + assistente) recomenda desacoplar de acessibilidade.
 - Documentos para download em public/ (.docx/.xlsx) ainda com "MARIA" no nome e no conteúdo.
+
+---
+Data: 2026-08-07
+Agente: Fabiano + assistente
+Tarefa: Documentos MARIAH, renome do Guia e Ticket 11 (identidade gov.br: paleta + barra + logo Inaep)
+
+Documentos para download (public/):
+- Corrigidos os 6 arquivos (.docx/.xlsx) de MARIA para MARIAH e para o nome por extenso novo
+  ("Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos"),
+  por substituição direta no XML (corpo, cabeçalhos e metadados), preservando formatação.
+  Nomes de arquivo mantidos (referenciados pelo app).
+
+Renome do Guia-pai:
+- "Guia de Diretrizes Éticas para Pesquisa com IA" -> "Guia de Uso Ético da Inteligência
+  Artificial em Pesquisa com Seres Humanos", em 5 arquivos de código (validacao, transparencia,
+  instrucoes, Results, utils) e no anexo guia-validacao-local (cabeçalho + metadados).
+  Título próprio do Apêndice F ("Guia de Validação Local") preservado.
+
+Ticket 11 — identidade institucional gov.br:
+- Parte 1 (paleta): override dos 9 tokens --color-teal-* em globals.css para azul marinho
+  gov.br #0C2C56 (tom único; hover #0a2347); 4 hex #0f766e do PDF (utils.ts) e favicon
+  (public/logo.svg) migrados. Família slate-* (Versão B) inalterada.
+- Parte 2 (barra gov.br): os 10 headers passaram de gradiente navy + texto branco para
+  bg-white + texto azul marinho (text-teal-700), sem linha divisória; ícones em bg-teal-50;
+  badges "Versão preliminar"/"em revisão" em âmbar claro; botão "Voltar" recolorido.
+- Parte 3 (logo Inaep): logo P&B (Instância Nacional de Ética em Pesquisa) no canto direito
+  de todos os headers (flex justify-between), alt acessível. Fonte: LOGO_PRETO_BRANCO_INAEP.
+  Gerada public/inaep-logo-sm.png (recortada a moldura branca, ~740x220). Máster de alta
+  resolução mantida fora do repo.
+- Refinamento: logo recortada (sem moldura) e ampliada; ajuste de tamanho/posição na home;
+  padronização por tier — hero (home + 3 páginas) h-14 sm:h-16 + mt-2 -mr-2; compactos
+  (6 telas) h-11 sm:h-12 + mt-1 -mr-2.
+
+Verificação: tsc sem erro novo em src/; ESLint só com apontamentos pré-existentes
+(React Compiler e use-mobile). Build/validação visual no preview do Vercel; produção em
+https://mariah-inaep.vercel.app.
+
+Follow-ups:
+- Logo máster (public/inaep-logo.png, ~2 MB) não usada pelo app — manter fora do repo.
+- Fonte Rawline (GOV.BR DS) no lugar de Geist — pendente (exige hospedar a fonte).
+- Contraste dos botões de resposta "de risco" (red-500 ~4:1) — candidato a ajuste.
+- Alinhar a cor interna dos documentos .docx/.xlsx ao azul marinho (hoje ainda teal).
