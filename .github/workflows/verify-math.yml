@@ -1,0 +1,34 @@
+name: verify-math
+
+# Gate matemático da matriz MARIAH.
+# Roda o scripts/verify-math.ts em qualquer PR/push que toque os dados ou a
+# lógica de cálculo. Um verify-math vermelho bloqueia o merge (paridade — plano
+# INAEP, Fase 4). NÃO substitui o gate tripartite (planilha do guia × app ×
+# revisor), mas garante que dados e verificação nunca divirjam num commit.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/maria/data.ts'
+      - 'src/components/maria/utils.ts'
+      - 'scripts/verify-math.ts'
+      - 'spec/**'
+  pull_request:
+    paths:
+      - 'src/components/maria/data.ts'
+      - 'src/components/maria/utils.ts'
+      - 'scripts/verify-math.ts'
+      - 'spec/**'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run verify
