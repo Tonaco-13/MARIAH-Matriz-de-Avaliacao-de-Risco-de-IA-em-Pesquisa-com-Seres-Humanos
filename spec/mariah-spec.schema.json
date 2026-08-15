@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mariah-inaep.vercel.app/spec/mariah-spec.schema.json",
+  "title": "MARIAH — especificação da matriz (fonte única)",
+  "description": "Contrato da spec/mariah-spec.json. Gate contra ficha/spec malformada. Prevê os efeitos da v2 (risco, mitigacao, evidencia, diligencia) e o item não-pontuável na Versão B.",
+  "type": "object",
+  "required": [
+    "matrixVersion",
+    "riskLevels",
+    "thresholdsBase",
+    "thresholdsComBanco",
+    "databaseFilterQuestion",
+    "contextQuestions",
+    "qualitativeAxes",
+    "quantitativeBlocks",
+    "requirements",
+    "requirementsRes738"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "matrixVersion": { "type": "string" },
+    "geradoEm": { "type": "string" },
+
+    "riskLevels": {
+      "type": "object",
+      "propertyNames": { "enum": ["I", "II", "III", "IV"] },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["level", "label", "color", "bgColor", "borderColor", "textColor", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "level": { "enum": ["I", "II", "III", "IV"] },
+          "label": { "type": "string" },
+          "color": { "type": "string" },
+          "bgColor": { "type": "string" },
+          "borderColor": { "type": "string" },
+          "textColor": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+
+    "thresholdsBase": { "$ref": "#/$defs/thresholds" },
+    "thresholdsComBanco": { "$ref": "#/$defs/thresholds" },
+
+    "databaseFilterQuestion": {
+      "type": "object",
+      "required": ["pergunta", "dica"],
+      "properties": {
+        "pergunta": { "type": "string" },
+        "dica": { "type": "string" }
+      }
+    },
+
+    "contextQuestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pergunta", "dica"],
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string" },
+          "pergunta": { "type": "string" },
+          "dica": { "type": "string" },
+          "tipoEntrada": { "enum": ["texto", "numero", "selecao", "radio"] },
+          "opcoes": { "type": "array", "items": { "type": "string" } },
+          "condicional": { "type": "string" }
+        }
+      }
+    },
+
+    "qualitativeAxes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "nome", "descricao", "questoes"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "nome": { "type": "string" },
+          "descricao": { "type": "string" },
+          "condicionalBancoDados": { "type": "boolean" },
+          "elevacaoEspecial": { "enum": ["banco-dados"] },
+          "referenciaNormativa": { "type": "string" },
+          "questoes": { "type": "array", "items": { "$ref": "#/$defs/qualitativeQuestion" } }
+        }
+      }
+    },
+
+    "quantitativeBlocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "nome", "descricao", "questoes", "maxPontos"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "nome": { "type": "string" },
+          "descricao": { "type": "string" },
+          "subtitulo": { "type": "string" },
+          "maxPontos": { "type": "number" },
+          "condicionalBancoDados": { "type": "boolean" },
+          "referenciaNormativa": { "type": "string" },
+          "questoes": { "type": "array", "items": { "$ref": "#/$defs/quantitativeQuestion" } }
+        }
+      }
+    },
+
+    "requirements": { "type": "array", "items": { "$ref": "#/$defs/requirement" } },
+    "requirementsRes738": { "type": "array", "items": { "$ref": "#/$defs/requirement" } }
+  },
+
+  "$defs": {
+    "thresholds": {
+      "type": "object",
+      "required": ["maxScore", "levelI", "levelII", "levelIII"],
+      "additionalProperties": false,
+      "properties": {
+        "maxScore": { "type": "number" },
+        "levelI": { "type": "number" },
+        "levelII": { "type": "number" },
+        "levelIII": { "type": "number" }
+      }
+    },
+
+    "qualitativeQuestion": {
+      "type": "object",
+      "required": ["id", "pergunta", "riskAnswer", "dica"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "pergunta": { "type": "string" },
+        "riskAnswer": { "enum": ["sim", "nao"] },
+        "dica": { "type": "string" },
+        "eliminatorio": { "type": "boolean" },
+        "hasNaOption": { "type": "boolean" },
+        "naoPontuavel": { "type": "boolean" },
+        "motivoEliminatorio": { "type": "string" },
+        "refEliminatoria": { "type": "string" }
+      }
+    },
+
+    "quantitativeQuestion": {
+      "type": "object",
+      "required": ["id", "pergunta", "riskAnswer", "pontos", "dica"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "pergunta": { "type": "string" },
+        "riskAnswer": { "enum": ["sim", "nao"] },
+        "pontos": { "type": "number" },
+        "dica": { "type": "string" },
+        "efeito": { "enum": ["risco", "mitigacao", "evidencia", "diligencia"] },
+        "subbloco": { "type": "string" },
+        "eliminatorio": { "type": "boolean" },
+        "hasNaOption": { "type": "boolean" },
+        "naoPontuavel": { "type": "boolean" },
+        "motivoEliminatorio": { "type": "string" },
+        "refEliminatoria": { "type": "string" }
+      }
+    },
+
+    "requirement": {
+      "type": "object",
+      "required": ["id", "texto", "nivel"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "texto": { "type": "string" },
+        "nivel": { "enum": ["I", "II", "III", "IV"] }
+      }
+    }
+  }
+}
