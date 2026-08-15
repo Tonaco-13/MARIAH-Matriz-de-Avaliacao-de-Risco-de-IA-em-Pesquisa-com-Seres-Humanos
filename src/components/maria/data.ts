@@ -81,7 +81,12 @@ export type QuantitativeQuestion = {
   riskAnswer: 'sim' | 'nao';
   pontos: number;
   dica: string;
-  efeito?: 'risco' | 'mitigacao';
+  efeito?: 'risco' | 'mitigacao' | 'evidencia' | 'diligencia';
+  /**
+   * Item de diligência/descritiva na Versão B que NÃO soma ao teto.
+   * (efeito 'diligencia' já implica não-pontuável; flag mantida por clareza.)
+   */
+  naoPontuavel?: boolean;
   /** Quando true, a resposta de risco torna o protocolo NÃO AVALIÁVEL no mérito (§7.3.6 / Res 738). */
   eliminatorio?: boolean;
   /**

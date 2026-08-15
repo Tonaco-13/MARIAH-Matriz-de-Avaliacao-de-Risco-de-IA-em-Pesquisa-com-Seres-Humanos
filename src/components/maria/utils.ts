@@ -212,7 +212,7 @@ export function calculateBlockScore(block: QuantitativeBlock, answers: Quantitat
     if (!answer) continue;
 
     if (q.efeito === 'mitigacao') {
-      // Mitigação bidirecional:
+      // Mitigação bidirecional (subblocos 7A/7B):
       //   "Sim" = mitigação aplicada → subtrai |pontos|
       //   "Não" = sem mitigação → adiciona |pontos| (risco preservado)
       const abs = Math.abs(q.pontos);
@@ -221,6 +221,17 @@ export function calculateBlockScore(block: QuantitativeBlock, answers: Quantitat
       } else {
         score += abs;
       }
+    } else if (q.efeito === 'evidencia') {
+      // Evidência de transparência (subbloco 7C — decisão B1, SÓ-ABATE):
+      //   "Sim" (evidência presente) subtrai |pontos|; ausente/"Não" = 0 (NÃO soma).
+      // A ausência de evidência documental não é risco acrescido, então não infla o teto.
+      if (answer === 'sim') {
+        score -= Math.abs(q.pontos);
+      }
+    } else if (q.efeito === 'diligencia' || q.naoPontuavel) {
+      // Diligência (gate cumulativo / checklist de admissibilidade): NÃO pontua no escore.
+      // O bloqueio "não avaliável" é tratado por getEliminatoryQuestionTriggered
+      // (flag `eliminatorio`), nunca pela soma.
     } else {
       // Questões de risco (e questões normais): a resposta de risco adiciona pontos
       if (answer === q.riskAnswer) {

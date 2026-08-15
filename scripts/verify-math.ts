@@ -213,6 +213,28 @@ const totalQuantQuestionsBase = blocksBase.reduce((s, b) => s + b.questoes.lengt
 assert('Quant total questions (base)', totalQuantQuestionsBase, 52);
 assert('Quant total questions (with db)', totalQuantQuestionsDb, 57);
 
+console.log('\n=== 11. Efeitos v2: 7C evidência (só-abate) e diligência (não pontua) ===');
+// Bloco sintético (não altera a matriz): valida os ramos novos do calculateBlockScore.
+const blocoEvid = {
+  id: 'bloco7',
+  nome: 'sintético',
+  descricao: 'teste',
+  maxPontos: 75,
+  questoes: [
+    { id: 'R1', pergunta: 'x', riskAnswer: 'nao', pontos: 10, efeito: 'risco', dica: 'x' },
+    { id: 'EV1', pergunta: 'x', riskAnswer: 'nao', pontos: -5, efeito: 'evidencia', dica: 'x' },
+    { id: 'DG1', pergunta: 'x', riskAnswer: 'nao', pontos: 0, efeito: 'diligencia', dica: 'x' },
+  ],
+};
+// evidência presente ("sim") subtrai |pontos|
+assert('7C presente subtrai (10 - 5)', calculateBlockScore(blocoEvid as never, { R1: 'nao', EV1: 'sim' }), 5);
+// evidência ausente ("nao") NÃO soma (não infla o teto)
+assert('7C ausente não infla (= 10)', calculateBlockScore(blocoEvid as never, { R1: 'nao', EV1: 'nao' }), 10);
+// evidência sozinha não deixa o bloco negativo (clamp 0 do Bloco 7)
+assert('7C sozinha respeita o piso 0', calculateBlockScore(blocoEvid as never, { EV1: 'sim' }), 0);
+// diligência não pontua
+assert('diligência não pontua (= 10)', calculateBlockScore(blocoEvid as never, { R1: 'nao', DG1: 'nao' }), 10);
+
 console.log(`\n=== SUMMARY ===`);
 console.log(`  Passed: ${passed}`);
 console.log(`  Failed: ${failed}`);
