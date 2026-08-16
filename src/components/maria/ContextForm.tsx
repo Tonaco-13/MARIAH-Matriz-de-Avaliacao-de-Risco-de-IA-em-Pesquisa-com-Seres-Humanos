@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +8,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Shield, ArrowRight, ArrowLeft, HelpCircle } from 'lucide-react';
 import { CONTEXT_QUESTIONS } from './data';
-import type { MarcaVersion } from './data';
+import type { MarcaVersion, ContextQuestion } from './data';
+import { isContextQuestionVisible } from './utils';
+
+/** Badge curto do cartão a partir do id (contexto1→C1, contexto2→C2, C.3→C3…). */
+function badgeLabel(id: string): string {
+  if (id === 'contexto1') return 'C1';
+  if (id === 'contexto2') return 'C2';
+  return id.replace('.', '');
+}
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
 import RestartButton from './RestartButton';
@@ -49,19 +58,104 @@ export default function ContextForm({
   onStepClick,
   version,
 }: ContextFormProps) {
+  // Só as descritivas visíveis (condicional resolvido) são obrigatórias/contabilizadas.
+  const visibleContext = CONTEXT_QUESTIONS.filter((q) => isContextQuestionVisible(q, answers));
+
+  // Limpa respostas de descritivas que ficaram ocultas (ex.: C.5 ao mudar C.3 para
+  // 'anonimizados'), para não poluírem o export de auditoria.
+  useEffect(() => {
+    for (const q of CONTEXT_QUESTIONS) {
+      if (!isContextQuestionVisible(q, answers) && (answers[q.id]?.length ?? 0) > 0) {
+        onAnswer(q.id, '');
+      }
+    }
+  }, [answers, onAnswer]);
+
   const identificationFilled = IDENTIFICATION_FIELDS.every(
     (f) => answers[f.id]?.trim().length > 0
   );
-  const contextFilled = CONTEXT_QUESTIONS.every((q) => answers[q.id]?.trim().length > 0);
+  const contextFilled = visibleContext.every((q) => answers[q.id]?.trim().length > 0);
   const allFilled = identificationFilled && contextFilled;
 
   const identificationAnswered = IDENTIFICATION_FIELDS.filter(
     (f) => answers[f.id]?.trim().length > 0
   ).length;
-  const contextAnswered = CONTEXT_QUESTIONS.filter(
+  const contextAnswered = visibleContext.filter(
     (q) => answers[q.id]?.trim().length > 0
   ).length;
   const answeredCount = identificationAnswered + contextAnswered;
+
+  // Render do campo conforme o tipo de entrada (texto/numero/selecao/radio).
+  const renderField = (q: ContextQuestion) => {
+    if (q.tipoEntrada === 'numero') {
+      return (
+        <Input
+          id={q.id}
+          type="number"
+          min={0}
+          inputMode="numeric"
+          value={answers[q.id] || ''}
+          onChange={(e) => onAnswer(q.id, e.target.value)}
+          placeholder="Ex: 1500"
+          className="mt-1 max-w-xs"
+          aria-label={q.pergunta}
+        />
+      );
+    }
+    if (q.tipoEntrada === 'selecao') {
+      return (
+        <select
+          id={q.id}
+          value={answers[q.id] || ''}
+          onChange={(e) => onAnswer(q.id, e.target.value)}
+          aria-label={q.pergunta}
+          className="mt-1 w-full max-w-md rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
+          <option value="" disabled>
+            Selecione…
+          </option>
+          {(q.opcoes ?? []).map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+      );
+    }
+    if (q.tipoEntrada === 'radio') {
+      return (
+        <fieldset className="mt-1">
+          <legend className="sr-only">{q.pergunta}</legend>
+          <div className="space-y-2">
+            {(q.opcoes ?? []).map((o) => (
+              <label key={o} className="flex items-start gap-2 text-sm cursor-pointer">
+                <input
+                  type="radio"
+                  name={q.id}
+                  value={o}
+                  checked={answers[q.id] === o}
+                  onChange={(e) => onAnswer(q.id, e.target.value)}
+                  className="mt-0.5 h-4 w-4 accent-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                />
+                <span className="leading-relaxed">{o}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      );
+    }
+    // texto livre (padrão — contexto1/contexto2)
+    return (
+      <Textarea
+        id={q.id}
+        value={answers[q.id] || ''}
+        onChange={(e) => onAnswer(q.id, e.target.value)}
+        placeholder="Sua resposta..."
+        className="min-h-[100px] resize-y"
+        aria-label={q.pergunta}
+      />
+    );
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -144,12 +238,12 @@ export default function ContextForm({
         </p>
 
         <div className="space-y-6">
-          {CONTEXT_QUESTIONS.map((q) => (
+          {visibleContext.map((q) => (
             <Card key={q.id} className="border">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium flex items-start gap-2">
                   <span className="bg-teal-100 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold shrink-0">
-                    {q.id === 'contexto1' ? 'C1' : 'C2'}
+                    {badgeLabel(q.id)}
                   </span>
                   <span className="leading-relaxed">{q.pergunta}</span>
                   <TooltipProvider>
@@ -168,14 +262,7 @@ export default function ContextForm({
                 <Label htmlFor={q.id} className="sr-only">
                   {q.pergunta}
                 </Label>
-                <Textarea
-                  id={q.id}
-                  value={answers[q.id] || ''}
-                  onChange={(e) => onAnswer(q.id, e.target.value)}
-                  placeholder="Sua resposta..."
-                  className="min-h-[100px] resize-y"
-                  aria-label={q.pergunta}
-                />
+                {renderField(q)}
               </CardContent>
             </Card>
           ))}
