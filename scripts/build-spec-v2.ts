@@ -78,16 +78,19 @@ for (const f of fichasDoc.fichas) {
 
   } else if (ef === 'diligencia') {
     const motivo = 'diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.';
+    // hasNaOption vem da ficha (fonte única). As fichas v0.3 NÃO preveem N/A para
+    // as diligências → nenhuma recebe "não se aplica" (correção do F-23 apontada
+    // pelo Kimi; vale para as três por coerência com as fichas).
     const a = axis('3.b');
     a.questoes.push(clean({
       id: f.versaoA.id_proposto, pergunta: f.pergunta, riskAnswer: 'nao', dica: f.dica,
-      eliminatorio: true, hasNaOption: true, naoPontuavel: true,
+      eliminatorio: true, hasNaOption: f.versaoA.hasNaOption, naoPontuavel: true,
       motivoEliminatorio: motivo, refEliminatoria: 'Res. CNS n.º 738/2024',
     }));
     const b = block('6.b');
     b.questoes.push(clean({
       id: f.versaoB.id_proposto, pergunta: f.pergunta, riskAnswer: 'nao', pontos: 0,
-      dica: f.dica, efeito: 'diligencia', eliminatorio: true, hasNaOption: true,
+      dica: f.dica, efeito: 'diligencia', eliminatorio: true, hasNaOption: f.versaoB.hasNaOption,
       motivoEliminatorio: motivo, refEliminatoria: 'Res. CNS n.º 738/2024',
     }));
     nDilig++;

@@ -142,9 +142,17 @@ const initialState: AppState = {
 
 // ----- LocalStorage -----
 
-const STORAGE_KEY = 'maria-assessment-state';
-// Chaves anteriores (rebrand MARA → MAR.IA → MARIA → MARIAH). Migradas no primeiro load.
-const LEGACY_KEYS = ['mar-ia-assessment-state', 'mara-assessment-state'];
+// Chave versionada pela major da matriz. A matriz v2 recalibrou pontuações e
+// alterou perguntas: um estado salvo da v1 NÃO é compatível e não deve ser
+// migrado (viraria uma avaliação v2 inconsistente).
+const STORAGE_KEY = 'maria-assessment-state-v2';
+// Estados de versões anteriores (v1 e rebrands MARA/MAR.IA/MARIA). Apenas
+// removidos no primeiro load — nunca migrados para a v2.
+const OBSOLETE_KEYS = [
+  'maria-assessment-state',
+  'mar-ia-assessment-state',
+  'mara-assessment-state',
+];
 
 function saveState(state: AppState) {
   try {
@@ -160,18 +168,9 @@ function loadState(): AppState | null {
     if (stored) {
       return JSON.parse(stored) as AppState;
     }
-    // Migração de chaves legadas: tenta cada uma em ordem do mais recente para o mais antigo.
-    for (const legacyKey of LEGACY_KEYS) {
-      const legacy = localStorage.getItem(legacyKey);
-      if (legacy) {
-        try {
-          localStorage.setItem(STORAGE_KEY, legacy);
-          localStorage.removeItem(legacyKey);
-        } catch {
-          // Ignore migration errors
-        }
-        return JSON.parse(legacy) as AppState;
-      }
+    // Higiene: remove estados de versões anteriores da matriz (não migráveis para v2).
+    for (const k of OBSOLETE_KEYS) {
+      localStorage.removeItem(k);
     }
   } catch {
     // Ignore storage errors
