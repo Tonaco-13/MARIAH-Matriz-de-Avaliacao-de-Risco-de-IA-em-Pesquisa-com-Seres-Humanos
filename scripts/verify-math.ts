@@ -4,7 +4,7 @@
 // This imports the TS modules via tsx-compatible transpile. If you don't have
 // tsx installed, use `npx tsx scripts/verify-math.mjs`.
 
-import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO, CONTEXT_QUESTIONS } from '../src/components/maria/data';
+import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO, CONTEXT_QUESTIONS, MATRIX_VERSION } from '../src/components/maria/data';
 import {
   getApplicableAxes,
   getApplicableBlocks,
@@ -15,6 +15,7 @@ import {
   getQualitativeFinalLevel,
   getEliminatoryQuestionTriggered,
   countRiskAnswersAxis,
+  buildValidationExport,
 } from '../src/components/maria/utils';
 
 let passed = 0;
@@ -256,6 +257,31 @@ assert('Diligência=nao aciona não avaliável', diligTrigger, diligReal[0].id);
 assert('Contexto tem 8 descritivas', CONTEXT_QUESTIONS.length, 8);
 const comTipo = CONTEXT_QUESTIONS.filter((q) => q.tipoEntrada).length;
 assert('Descritivas novas têm tipoEntrada', comTipo, 6);
+
+console.log('\n=== 13. Export de validação: M3 (não avaliável ≠ IV) + carimbo de versão ===');
+// Versão B com P6.b.2=nao (eliminatória, com banco) → protocolo não avaliável.
+const expNaoAval = buildValidationExport({
+  version: 'B',
+  useAAsTriagem: false,
+  usesDatabase: true,
+  contextAnswers: {},
+  qualitativeAnswers: {},
+  quantitativeAnswers: { 'P6.b.2': 'nao' },
+});
+assert('M3: classificacaoFinal = NÃO AVALIÁVEL (não IV)', expNaoAval.versaoB.classificacaoFinal, 'NÃO AVALIÁVEL');
+assert('M3: protocoloNaoAvaliavel = true', expNaoAval.versaoB.protocoloNaoAvaliavel, true);
+assert('Carimbo: software.versaoMatriz = MATRIX_VERSION', expNaoAval.software.versaoMatriz, MATRIX_VERSION);
+assert('Export schemaVersion = 2', expNaoAval.schemaVersion, 2);
+// Sanidade: protocolo avaliável mantém o nível de risco (não vira "NÃO AVALIÁVEL").
+const expOk = buildValidationExport({
+  version: 'B',
+  useAAsTriagem: false,
+  usesDatabase: false,
+  contextAnswers: {},
+  qualitativeAnswers: {},
+  quantitativeAnswers: {},
+});
+assert('Avaliável mantém nível (I) no export', expOk.versaoB.classificacaoFinal, 'I');
 
 console.log(`\n=== SUMMARY ===`);
 console.log(`  Passed: ${passed}`);
