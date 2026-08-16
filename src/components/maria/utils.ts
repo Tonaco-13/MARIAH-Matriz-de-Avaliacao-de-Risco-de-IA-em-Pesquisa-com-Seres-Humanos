@@ -9,6 +9,7 @@ import {
   RISK_LEVELS,
   REQUIREMENTS,
   REQUIREMENTS_RES738,
+  CONTEXT_QUESTIONS,
   getThresholds,
 } from './data';
 import type {
@@ -17,8 +18,27 @@ import type {
   QualitativeAxis,
   QuantitativeBlock,
   Requirement,
+  ContextQuestion,
 } from './data';
 import { MARIA_DISCLAIMER } from './disclaimer';
+
+/**
+ * Regra de exibição condicional das descritivas (fonte única, usada pelo
+ * ContextForm e pela auditoria). Padrão: "...se <ID> <op> 'valor'", op ∈ {≠, !=, =}.
+ * Questão condicional só é visível após a de referência ser respondida.
+ */
+export function isContextQuestionVisible(
+  q: ContextQuestion,
+  contextAnswers: Record<string, string>
+): boolean {
+  if (!q.condicional) return true;
+  const m = q.condicional.match(/se\s+(\S+)\s*(≠|!=|=)\s*['"]([^'"]+)['"]/);
+  if (!m) return true;
+  const [, refId, op, val] = m;
+  const ans = contextAnswers[refId];
+  if (!ans) return false;
+  return op === '=' ? ans === val : ans !== val;
+}
 
 // ----- Helpers: filter axes/blocks by database filter -----
 
@@ -372,12 +392,13 @@ export type UnansweredItem = {
   label: string;
 };
 
-const CONTEXT_FIELD_LABELS: { id: string; label: string }[] = [
+// Campos de identificação (não fazem parte de CONTEXT_QUESTIONS). As descritivas
+// (contexto1, contexto2, C.3…C.8) são auditadas a partir de CONTEXT_QUESTIONS,
+// respeitando a visibilidade condicional.
+const IDENTIFICATION_FIELD_LABELS: { id: string; label: string }[] = [
   { id: 'titulo', label: 'Título do Projeto' },
   { id: 'instituicao', label: 'Instituição' },
   { id: 'cep_nome', label: 'Nome do CEP' },
-  { id: 'contexto1', label: 'Pergunta do sistema (C1)' },
-  { id: 'contexto2', label: 'Autonomia do sistema (C2)' },
 ];
 
 /**
@@ -396,7 +417,7 @@ export function getUnansweredItems(
 
   // 1) Campos de contexto (sempre obrigatórios, mas auditamos se algum ficou vazio
   //    — pode acontecer em fluxos restaurados de localStorage parcial).
-  for (const f of CONTEXT_FIELD_LABELS) {
+  for (const f of IDENTIFICATION_FIELD_LABELS) {
     const value = contextAnswers[f.id];
     if (!value || value.trim().length === 0) {
       items.push({
@@ -404,6 +425,19 @@ export function getUnansweredItems(
         scope: 'contexto',
         scopeName: 'Identificação e Contexto',
         label: f.label,
+      });
+    }
+  }
+  // Descritivas visíveis (respeita o condicional — ex.: C.5 oculta se C.3 = 'anonimizados').
+  for (const q of CONTEXT_QUESTIONS) {
+    if (!isContextQuestionVisible(q, contextAnswers)) continue;
+    const value = contextAnswers[q.id];
+    if (!value || value.trim().length === 0) {
+      items.push({
+        id: q.id,
+        scope: 'contexto',
+        scopeName: 'Identificação e Contexto',
+        label: q.pergunta,
       });
     }
   }
