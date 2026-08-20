@@ -112,11 +112,11 @@ export default function Results({
   onStepClick,
 }: ResultsProps) {
   const qualResult = version === 'A' || useAAsTriagem
-    ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase)
+    ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers)
     : null;
 
   const quantResult = version === 'B'
-    ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase)
+    ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers)
     : null;
 
   // No modo triagem A→B, o nível consolidado é o MAIS ALTO entre as duas matrizes

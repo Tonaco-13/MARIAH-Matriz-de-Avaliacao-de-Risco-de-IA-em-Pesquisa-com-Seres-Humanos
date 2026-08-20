@@ -16,6 +16,8 @@ import {
   getEliminatoryQuestionTriggered,
   countRiskAnswersAxis,
   buildValidationExport,
+  isMatrixQuestionVisible,
+  getUnansweredItems,
 } from '../src/components/maria/utils';
 
 let passed = 0;
@@ -250,9 +252,10 @@ const diligReal = bloco6bReal.questoes.filter((q) => q.efeito === 'diligencia');
 assert('Bloco 6.b tem 3 diligências', diligReal.length, 3);
 assert('Diligências não pontuam', diligReal.every((q) => q.pontos === 0), true);
 assert('Diligências são eliminatórias (devolução)', diligReal.every((q) => q.eliminatorio === true), true);
-// Diligência acionada → "não avaliável" (gate independente da pontuação).
-const diligTrigger = getEliminatoryQuestionTriggered({ [diligReal[0].id]: 'nao' }, 'B', true);
-assert('Diligência=nao aciona não avaliável', diligTrigger, diligReal[0].id);
+// Diligência SEM exibição condicional (F-23/P6.b.7) dispara "não avaliável" direto.
+// (As condicionais F-17/F-18 são cobertas na Seção 15, respeitando o gatilho.)
+const diligSemCond = diligReal.find((q) => !q.exibicaoCondicional);
+assert('Diligência (incondicional)=nao aciona não avaliável', getEliminatoryQuestionTriggered({ [diligSemCond!.id]: 'nao' }, 'B', true), diligSemCond!.id);
 // Descritivas: 8 no contexto; as 6 novas têm tipoEntrada declarado.
 assert('Contexto tem 8 descritivas', CONTEXT_QUESTIONS.length, 8);
 const comTipo = CONTEXT_QUESTIONS.filter((q) => q.tipoEntrada).length;
@@ -302,6 +305,30 @@ assert('F-20: 1.2 cita "após o seu encerramento"', findQA('1.2')?.pergunta.incl
 assert('F-20: P2.2 usa travessão (—)', findQB('P2.2')?.pergunta.includes('—'), true);
 assert('F-21: P6.b.5 cita "acordo formal de compartilhamento"', findQB('P6.b.5')?.pergunta.includes('acordo formal de compartilhamento'), true);
 assert('7C: dica de P7.13 cita "peso maior"', findQB('P7.13')?.dica.includes('peso maior'), true);
+
+console.log('\n=== 15. Exibição condicional F-17/F-18 (gatilho P6.b.4 + âncora C.3/C.5) ===');
+// F-18a: P6.b.4 ganhou a opção N/A ("sem pedido de dispensa").
+assert('F-18a: P6.b.4 tem hasNaOption', findQB('P6.b.4')?.hasNaOption, true);
+const P6b6 = findQB('P6.b.6'); // checklist (F-18)
+const P6b41 = findQB('P6.b.4.1'); // necessidade de identificáveis (F-17)
+assert('F-18 (P6.b.6) tem exibicaoCondicional', !!P6b6?.exibicaoCondicional, true);
+assert('F-17 (P6.b.4.1) tem exibicaoCondicional', !!P6b41?.exibicaoCondicional, true);
+// F-18: oculto sem pedido de dispensa (P6.b.4 = na) e antes de responder o gatilho.
+assert('F-18 oculto quando P6.b.4 = na', isMatrixQuestionVisible(P6b6!, { 'P6.b.4': 'na' }), false);
+assert('F-18 oculto quando P6.b.4 não respondido', isMatrixQuestionVisible(P6b6!, {}), false);
+assert('F-18 visível quando P6.b.4 = sim', isMatrixQuestionVisible(P6b6!, { 'P6.b.4': 'sim' }), true);
+assert('F-18 visível quando P6.b.4 = nao', isMatrixQuestionVisible(P6b6!, { 'P6.b.4': 'nao' }), true);
+// F-17: exige pedido de dispensa E acesso a identificáveis (C.3/C.5).
+assert('F-17 oculto se C.3 = anonimizados', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'sim' }, { 'C.3': 'anonimizados' }), false);
+assert('F-17 oculto se C.5 = antes do acesso', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'sim' }, { 'C.5': 'antes do acesso, pela instituição custodiante' }), false);
+assert('F-17 visível se identificáveis + pedido', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'sim' }, { 'C.3': 'identificáveis' }), true);
+assert('F-17 oculto sem pedido (P6.b.4 = na)', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'na' }, { 'C.3': 'identificáveis' }), false);
+// Eliminatória respeita a visibilidade: checklist oculto NÃO dispara devolução.
+assert('Checklist oculto (P6.b.4=na) não elimina', getEliminatoryQuestionTriggered({ 'P6.b.6': 'nao', 'P6.b.4': 'na' }, 'B', true), null);
+assert('Checklist visível (P6.b.4=sim) + incompleto elimina', getEliminatoryQuestionTriggered({ 'P6.b.6': 'nao', 'P6.b.4': 'sim' }, 'B', true), 'P6.b.6');
+// Auditoria: item oculto não vira pendência.
+const pend = getUnansweredItems('B', {}, {}, { 'P6.b.4': 'na' }, true).map((i) => i.id);
+assert('Auditoria não lista P6.b.6 oculto', pend.includes('P6.b.6'), false);
 
 console.log(`\n=== SUMMARY ===`);
 console.log(`  Passed: ${passed}`);

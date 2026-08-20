@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -18,7 +18,7 @@ import {
 import { RISK_LEVELS } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer } from './utils';
-import { countRiskAnswersAxis, getAxisRiskLevel, getApplicableAxes } from './utils';
+import { countRiskAnswersAxis, getAxisRiskLevel, getApplicableAxes, isMatrixQuestionVisible } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
 import RestartButton from './RestartButton';
@@ -33,6 +33,8 @@ import {
 type QualitativeAssessmentProps = {
   answers: QualitativeAnswer;
   onAnswer: (questionId: string, answer: 'sim' | 'nao' | 'na') => void;
+  /** Respostas do Passo 1 (descritivas) — âncora dos condicionais de exibição (F-17). */
+  contextAnswers: Record<string, string>;
   /** Quando true, inclui Eixo 3.b (Res. CNS n.º 738/2024). */
   usesDatabase: boolean;
   onComplete: () => void;
@@ -62,6 +64,7 @@ function getRiskLevelBadge(level: RiskLevel) {
 export default function QualitativeAssessment({
   answers,
   onAnswer,
+  contextAnswers,
   usesDatabase,
   onComplete,
   onBack,
@@ -73,16 +76,31 @@ export default function QualitativeAssessment({
   const [currentAxis, setCurrentAxis] = useState(0);
   const axis = axesList[Math.min(currentAxis, axesList.length - 1)];
 
+  // Perguntas visíveis (respeita exibição condicional F-17/F-18 no Eixo 3.b).
+  const visiveisDe = (qs: typeof axis.questoes) =>
+    qs.filter((q) => isMatrixQuestionVisible(q, answers, contextAnswers));
+  const visibleQuestoes = visiveisDe(axis.questoes);
+
   const riskCount = countRiskAnswersAxis(axis, answers);
   const level = getAxisRiskLevel(riskCount, axis);
-  const answeredCount = axis.questoes.filter((q) => answers[q.id] !== undefined).length;
-  const allAnswered = axis.questoes.every((q) => answers[q.id] !== undefined);
+  const answeredCount = visibleQuestoes.filter((q) => answers[q.id] !== undefined).length;
+  const allAnswered = visibleQuestoes.every((q) => answers[q.id] !== undefined);
 
-  const totalQuestions = axesList.reduce((sum, a) => sum + a.questoes.length, 0);
+  const totalQuestions = axesList.reduce((sum, a) => sum + visiveisDe(a.questoes).length, 0);
   const totalAnswered = axesList.reduce(
-    (sum, a) => sum + a.questoes.filter((q) => answers[q.id] !== undefined).length,
+    (sum, a) => sum + visiveisDe(a.questoes).filter((q) => answers[q.id] !== undefined).length,
     0
   );
+
+  // Limpa respostas de perguntas que ficaram ocultas (F-17/F-18 no Eixo 3.b),
+  // evitando resposta obsoleta na auditoria/relatório. `delete` no reducer converge.
+  useEffect(() => {
+    const ocultasComResposta = getApplicableAxes(usesDatabase)
+      .flatMap((a) => a.questoes)
+      .filter((q) => answers[q.id] !== undefined && !isMatrixQuestionVisible(q, answers, contextAnswers))
+      .map((q) => q.id);
+    if (ocultasComResposta.length > 0) onClearScopeIds(ocultasComResposta);
+  }, [answers, contextAnswers, usesDatabase, onClearScopeIds]);
 
   const handleNext = useCallback(() => {
     if (currentAxis < axesList.length - 1) {
@@ -106,7 +124,7 @@ export default function QualitativeAssessment({
   const axisSummaries = axesList.map((a, idx) => {
     const rc = countRiskAnswersAxis(a, answers);
     const lvl = getAxisRiskLevel(rc, a);
-    const done = a.questoes.every((q) => answers[q.id] !== undefined);
+    const done = visiveisDe(a.questoes).every((q) => answers[q.id] !== undefined);
     return { axis: a, index: idx, riskCount: rc, level: lvl, done };
   });
 
@@ -222,7 +240,7 @@ export default function QualitativeAssessment({
               <div className="flex items-center gap-2">
                 {allAnswered && getRiskLevelBadge(level)}
                 <Badge variant="outline" className="text-xs">
-                  {answeredCount}/{axis.questoes.length}
+                  {answeredCount}/{visibleQuestoes.length}
                 </Badge>
               </div>
             </div>
@@ -231,7 +249,7 @@ export default function QualitativeAssessment({
                 <div className="flex items-center gap-2 text-sm">
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">
-                    Respostas de risco: <strong>{riskCount}</strong>/{axis.questoes.length}
+                    Respostas de risco: <strong>{riskCount}</strong>/{visibleQuestoes.length}
                   </span>
                 </div>
               </div>
@@ -240,9 +258,9 @@ export default function QualitativeAssessment({
           <CardContent>
             <Separator className="mb-4" />
 
-            {/* Questions */}
+            {/* Questions (só as visíveis — F-17/F-18 podem estar ocultas) */}
             <div className="space-y-3">
-              {axis.questoes.map((q) => {
+              {visibleQuestoes.map((q) => {
                 const currentAnswer = answers[q.id];
                 const isRisk = currentAnswer === q.riskAnswer;
                 const isNa = currentAnswer === 'na';

@@ -1,6 +1,6 @@
 {
   "matrixVersion": "2.0.0-draft",
-  "geradoEm": "2026-08-20T12:22:46.243Z",
+  "geradoEm": "2026-08-20T12:57:10.101Z",
   "riskLevels": {
     "I": {
       "level": "I",
@@ -393,7 +393,8 @@
           "id": "3.b.4",
           "pergunta": "Se há pedido de dispensa de TCLE para uso futuro de dados: o enquadramento é fundamentado em uma das cinco situações do Art. 20 da Res. CNS n.º 738/2024?",
           "riskAnswer": "nao",
-          "dica": "A dispensa de TCLE para uso futuro só é legítima quando enquadrada em uma das cinco hipóteses taxativas do Art. 20 da Res. CNS n.º 738/2024; justificativa genérica não basta. No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III."
+          "dica": "A dispensa de TCLE para uso futuro só é legítima quando enquadrada em uma das cinco hipóteses taxativas do Art. 20 da Res. CNS n.º 738/2024; justificativa genérica não basta. No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III.",
+          "hasNaOption": true
         },
         {
           "id": "3.b.5",
@@ -409,7 +410,34 @@
           "eliminatorio": true,
           "naoPontuavel": true,
           "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
+          "refEliminatoria": "Res. CNS n.º 738/2024",
+          "exibicaoCondicional": {
+            "descricao": "Exibir quando há pedido de dispensa (3.b.4 ≠ N/A) e acesso a dados identificáveis (C.3/C.5).",
+            "todas": [
+              {
+                "campo": "3.b.4",
+                "origem": "matriz",
+                "operador": "diferente",
+                "valor": "na"
+              },
+              {
+                "nenhuma": [
+                  {
+                    "campo": "C.3",
+                    "origem": "contexto",
+                    "operador": "igual",
+                    "valor": "anonimizados"
+                  },
+                  {
+                    "campo": "C.5",
+                    "origem": "contexto",
+                    "operador": "igual",
+                    "valor": "antes do acesso, pela instituição custodiante"
+                  }
+                ]
+              }
+            ]
+          }
         },
         {
           "id": "3.b.7",
@@ -419,7 +447,18 @@
           "eliminatorio": true,
           "naoPontuavel": true,
           "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
+          "refEliminatoria": "Res. CNS n.º 738/2024",
+          "exibicaoCondicional": {
+            "descricao": "Exibir só quando há pedido de dispensa de TCLE (3.b.4 ≠ \"não se aplica\").",
+            "todas": [
+              {
+                "campo": "3.b.4",
+                "origem": "matriz",
+                "operador": "diferente",
+                "valor": "na"
+              }
+            ]
+          }
         },
         {
           "id": "3.b.6",
@@ -989,7 +1028,8 @@
           "pergunta": "Se há pedido de dispensa de TCLE para uso futuro: o enquadramento em uma das cinco hipóteses do Art. 20 da Res. CNS n.º 738/2024 é fundamentado?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "A dispensa de TCLE para uso futuro só é legítima quando enquadrada em uma das cinco hipóteses taxativas do Art. 20 da Res. CNS n.º 738/2024; justificativa genérica não basta. Item do Bloco 6.b (Res. 738); seus pontos somam ao escore."
+          "dica": "A dispensa de TCLE para uso futuro só é legítima quando enquadrada em uma das cinco hipóteses taxativas do Art. 20 da Res. CNS n.º 738/2024; justificativa genérica não basta. Item do Bloco 6.b (Res. 738); seus pontos somam ao escore.",
+          "hasNaOption": true
         },
         {
           "id": "P6.b.5",
@@ -1007,7 +1047,34 @@
           "efeito": "diligencia",
           "eliminatorio": true,
           "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
+          "refEliminatoria": "Res. CNS n.º 738/2024",
+          "exibicaoCondicional": {
+            "descricao": "Exibir quando há pedido de dispensa (P6.b.4 ≠ N/A) e acesso a dados identificáveis (C.3/C.5).",
+            "todas": [
+              {
+                "campo": "P6.b.4",
+                "origem": "matriz",
+                "operador": "diferente",
+                "valor": "na"
+              },
+              {
+                "nenhuma": [
+                  {
+                    "campo": "C.3",
+                    "origem": "contexto",
+                    "operador": "igual",
+                    "valor": "anonimizados"
+                  },
+                  {
+                    "campo": "C.5",
+                    "origem": "contexto",
+                    "operador": "igual",
+                    "valor": "antes do acesso, pela instituição custodiante"
+                  }
+                ]
+              }
+            ]
+          }
         },
         {
           "id": "P6.b.6",
@@ -1018,7 +1085,18 @@
           "efeito": "diligencia",
           "eliminatorio": true,
           "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
+          "refEliminatoria": "Res. CNS n.º 738/2024",
+          "exibicaoCondicional": {
+            "descricao": "Exibir só quando há pedido de dispensa de TCLE (P6.b.4 ≠ \"não se aplica\").",
+            "todas": [
+              {
+                "campo": "P6.b.4",
+                "origem": "matriz",
+                "operador": "diferente",
+                "valor": "na"
+              }
+            ]
+          }
         },
         {
           "id": "P6.b.7",

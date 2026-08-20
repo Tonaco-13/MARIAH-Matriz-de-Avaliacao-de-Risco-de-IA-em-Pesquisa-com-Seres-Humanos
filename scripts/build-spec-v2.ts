@@ -36,6 +36,27 @@ const axis = (id: string) => spec.qualitativeAxes.find((a: { id: string }) => a.
 const block = (id: string) => spec.quantitativeBlocks.find((b: { id: string }) => b.id === BL[id]);
 const clean = (o: Record<string, unknown>) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== false));
 
+// Exibição condicional das diligências (gatilhos estruturados das fichas v0.3, Kimi 20/08):
+// - F-18 (checklist de dispensa): visível só quando há pedido de dispensa (P6.b.4/3.b.4 ≠ N/A).
+// - F-17 (necessidade de identificáveis): idem + acesso a identificáveis (âncora C.3/C.5).
+// `refMatriz` = 3.b.4 (Versão A) ou P6.b.4 (Versão B), conforme o lado.
+const CLAUSULA_C3_C5 = {
+  nenhuma: [
+    { campo: 'C.3', origem: 'contexto', operador: 'igual', valor: 'anonimizados' },
+    { campo: 'C.5', origem: 'contexto', operador: 'igual', valor: 'antes do acesso, pela instituição custodiante' },
+  ],
+};
+function exibicaoFor(fichaId: string, refMatriz: string): unknown {
+  const clDispensa = { campo: refMatriz, origem: 'matriz', operador: 'diferente', valor: 'na' };
+  if (fichaId === 'F-18') {
+    return { descricao: `Exibir só quando há pedido de dispensa de TCLE (${refMatriz} ≠ "não se aplica").`, todas: [clDispensa] };
+  }
+  if (fichaId === 'F-17') {
+    return { descricao: `Exibir quando há pedido de dispensa (${refMatriz} ≠ N/A) e acesso a dados identificáveis (C.3/C.5).`, todas: [clDispensa, CLAUSULA_C3_C5] };
+  }
+  return undefined; // F-23: sem condicional adicional (herda a ativação do Bloco 6.b)
+}
+
 const log: string[] = [];
 let nDescr = 0, nRisco = 0, nEvid = 0, nDilig = 0, nSkip = 0;
 
@@ -86,12 +107,14 @@ for (const f of fichasDoc.fichas) {
       id: f.versaoA.id_proposto, pergunta: f.pergunta, riskAnswer: 'nao', dica: f.dica,
       eliminatorio: true, hasNaOption: f.versaoA.hasNaOption, naoPontuavel: true,
       motivoEliminatorio: motivo, refEliminatoria: 'Res. CNS n.º 738/2024',
+      exibicaoCondicional: exibicaoFor(f.ficha_id, '3.b.4'),
     }));
     const b = block('6.b');
     b.questoes.push(clean({
       id: f.versaoB.id_proposto, pergunta: f.pergunta, riskAnswer: 'nao', pontos: 0,
       dica: f.dica, efeito: 'diligencia', eliminatorio: true, hasNaOption: f.versaoB.hasNaOption,
       motivoEliminatorio: motivo, refEliminatoria: 'Res. CNS n.º 738/2024',
+      exibicaoCondicional: exibicaoFor(f.ficha_id, 'P6.b.4'),
     }));
     nDilig++;
 
@@ -136,6 +159,15 @@ const patchRequisito = (r: { id: string; texto: string }) => {
 };
 spec.requirements.forEach(patchRequisito);
 spec.requirementsRes738.forEach(patchRequisito);
+
+// F-18a — opção N/A ("não há pedido de dispensa") em 3.b.4 / P6.b.4 (sem_impacto).
+// É o sinal-âncora que gatilha a exibição de F-17/F-18. N/A-padrão de item pontuável
+// (0 pontos, efeito risco), distinto do N/A ambíguo das diligências (removido no F-23).
+const marcaNa = (q: { id: string; hasNaOption?: boolean }) => {
+  if (q.id === '3.b.4' || q.id === 'P6.b.4') q.hasNaOption = true;
+};
+for (const ax of spec.qualitativeAxes) ax.questoes.forEach(marcaNa);
+for (const bl of spec.quantitativeBlocks) bl.questoes.forEach(marcaNa);
 
 // ----- Recalibração (frações fixas do baseline 238; arredondamento meia-unidade p/ cima) -----
 const baseBlocks = spec.quantitativeBlocks.filter((b: { condicionalBancoDados?: boolean }) => !b.condicionalBancoDados);

@@ -324,6 +324,7 @@ export default function Home() {
           <QualitativeAssessment
             answers={state.qualitativeAnswers}
             onAnswer={handleQualitativeAnswer}
+            contextAnswers={state.contextAnswers}
             usesDatabase={state.usesDatabase === true}
             onComplete={() => {
               dispatch({ type: 'GO_TO_STEP', step: 'results' });
@@ -340,6 +341,7 @@ export default function Home() {
         <QuantitativeAssessment
           answers={state.quantitativeAnswers}
           onAnswer={handleQuantitativeAnswer}
+          contextAnswers={state.contextAnswers}
           usesDatabase={state.usesDatabase === true}
           onComplete={() => {
             dispatch({ type: 'GO_TO_STEP', step: 'results' });

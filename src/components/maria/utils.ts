@@ -20,6 +20,8 @@ import type {
   QuantitativeBlock,
   Requirement,
   ContextQuestion,
+  ExibicaoCondicional,
+  ClausulaExibicao,
 } from './data';
 import { MARIA_DISCLAIMER } from './disclaimer';
 
@@ -49,6 +51,38 @@ export function getApplicableAxes(usesDatabase: boolean): QualitativeAxis[] {
 
 export function getApplicableBlocks(usesDatabase: boolean): QuantitativeBlock[] {
   return QUANTITATIVE_BLOCKS.filter((b) => !b.condicionalBancoDados || usesDatabase);
+}
+
+// ----- Exibição condicional de perguntas de matriz (F-17/F-18) -----
+
+type ContextoVisibilidade = {
+  matrixAnswers: Record<string, string | undefined>;
+  contextAnswers: Record<string, string | undefined>;
+};
+
+function avaliarClausulaExibicao(c: ClausulaExibicao, ctx: ContextoVisibilidade): boolean {
+  if ('nenhuma' in c) return c.nenhuma.every((x) => !avaliarClausulaExibicao(x, ctx));
+  const mapa = c.origem === 'contexto' ? ctx.contextAnswers : ctx.matrixAnswers;
+  const ans = mapa[c.campo];
+  if (c.operador === 'igual') return ans === c.valor;
+  // 'diferente': só verdadeiro se o gatilho estiver respondido E ≠ valor.
+  return ans != null && ans !== '' && ans !== c.valor;
+}
+
+/**
+ * Uma pergunta de matriz está visível quando não tem `exibicaoCondicional` ou
+ * quando TODAS as cláusulas são satisfeitas. `matrixAnswers` são as respostas da
+ * versão da própria pergunta (A → qualitativas; B → quantitativas); `contextAnswers`
+ * são as descritivas do Passo 1. Pergunta oculta não pontua, não elimina e não é pendência.
+ */
+export function isMatrixQuestionVisible(
+  q: { exibicaoCondicional?: ExibicaoCondicional },
+  matrixAnswers: Record<string, string | undefined>,
+  contextAnswers: Record<string, string | undefined> = {}
+): boolean {
+  const ec = q.exibicaoCondicional;
+  if (!ec) return true;
+  return ec.todas.every((c) => avaliarClausulaExibicao(c, { matrixAnswers, contextAnswers }));
 }
 
 // ----- Qualitative (Version A) Calculations -----
@@ -117,7 +151,8 @@ export function getQualitativeAxisResults(
 export function getEliminatoryQuestionTriggered(
   answers: Record<string, 'sim' | 'nao' | 'na' | undefined>,
   version: 'A' | 'B',
-  usesDatabase: boolean
+  usesDatabase: boolean,
+  contextAnswers: Record<string, string | undefined> = {}
 ): string | null {
   const groups = version === 'A'
     ? getApplicableAxes(usesDatabase)
@@ -125,6 +160,8 @@ export function getEliminatoryQuestionTriggered(
 
   for (const group of groups) {
     for (const q of group.questoes) {
+      // Pergunta oculta por exibição condicional (F-17/F-18) NÃO dispara devolução.
+      if (!isMatrixQuestionVisible(q, answers, contextAnswers)) continue;
       if (q.eliminatorio && answers[q.id] === q.riskAnswer) {
         return q.id;
       }
@@ -175,7 +212,8 @@ export function getEliminatoryInfo(id: string | null): {
 
 export function getQualitativeFinalLevel(
   answers: QualitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  contextAnswers: Record<string, string | undefined> = {}
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -196,7 +234,7 @@ export function getQualitativeFinalLevel(
     }
   }
 
-  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'A', usesDatabase);
+  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'A', usesDatabase, contextAnswers);
 
   return {
     level: highestLevel,
@@ -313,7 +351,8 @@ export function getQuantitativeTotalScore(
 
 export function getQuantitativeFinalResult(
   answers: QuantitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  contextAnswers: Record<string, string | undefined> = {}
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -335,7 +374,7 @@ export function getQuantitativeFinalResult(
   // Cláusula de Prevalência Ética overrides to Level IV
   const finalLevel: RiskLevel = clausulaPrevalencia ? 'IV' : scoreLevel;
 
-  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'B', usesDatabase);
+  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'B', usesDatabase, contextAnswers);
 
   return {
     level: finalLevel,
@@ -447,6 +486,8 @@ export function getUnansweredItems(
   if (version === 'A') {
     for (const axis of getApplicableAxes(usesDatabase)) {
       for (const q of axis.questoes) {
+        // Pergunta oculta por exibição condicional (F-17/F-18) não é pendência.
+        if (!isMatrixQuestionVisible(q, qualitativeAnswers, contextAnswers)) continue;
         if (qualitativeAnswers[q.id] === undefined) {
           items.push({
             id: q.id,
@@ -460,6 +501,7 @@ export function getUnansweredItems(
   } else {
     for (const block of getApplicableBlocks(usesDatabase)) {
       for (const q of block.questoes) {
+        if (!isMatrixQuestionVisible(q, quantitativeAnswers, contextAnswers)) continue;
         if (quantitativeAnswers[q.id] === undefined) {
           items.push({
             id: q.id,

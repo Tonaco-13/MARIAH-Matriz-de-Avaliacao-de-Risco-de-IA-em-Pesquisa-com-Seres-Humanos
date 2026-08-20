@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -27,6 +27,7 @@ import {
   getApplicableBlocks,
   getEliminatoryQuestionTriggered,
   getEliminatoryInfo,
+  isMatrixQuestionVisible,
 } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
@@ -42,6 +43,8 @@ import {
 type QuantitativeAssessmentProps = {
   answers: QuantitativeAnswer;
   onAnswer: (questionId: string, answer: 'sim' | 'nao' | 'na') => void;
+  /** Respostas do Passo 1 (descritivas) — âncora dos condicionais de exibição (F-17). */
+  contextAnswers: Record<string, string>;
   /** Quando true, inclui Bloco 6.b (Res. CNS n.º 738/2024). */
   usesDatabase: boolean;
   onComplete: () => void;
@@ -56,6 +59,7 @@ type QuantitativeAssessmentProps = {
 export default function QuantitativeAssessment({
   answers,
   onAnswer,
+  contextAnswers,
   usesDatabase,
   onComplete,
   onBack,
@@ -68,20 +72,37 @@ export default function QuantitativeAssessment({
   const [currentBlock, setCurrentBlock] = useState(0);
   const block = blocksList[Math.min(currentBlock, blocksList.length - 1)];
 
+  // Perguntas visíveis do bloco atual (respeita exibição condicional F-17/F-18).
+  const visibleQuestoes = block.questoes.filter((q) => isMatrixQuestionVisible(q, answers, contextAnswers));
+
   const blockScore = calculateBlockScore(block, answers);
   const totalScore = getQuantitativeTotalScore(answers, usesDatabase);
   const clausulaPrevalencia = checkClausulaPrevalencia(answers);
-  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'B', usesDatabase);
+  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'B', usesDatabase, contextAnswers);
   const currentLevel = clausulaPrevalencia ? 'IV' : getQuantitativeRiskLevel(totalScore, usesDatabase);
   const levelInfo = RISK_LEVELS[currentLevel];
 
-  const answeredCount = block.questoes.filter((q) => answers[q.id] !== undefined).length;
+  const answeredCount = visibleQuestoes.filter((q) => answers[q.id] !== undefined).length;
 
-  const totalQuestions = blocksList.reduce((sum, b) => sum + b.questoes.length, 0);
+  // Contagem/“feito” consideram apenas perguntas visíveis (ocultas não são exigidas).
+  const visiveisDe = (qs: typeof block.questoes) =>
+    qs.filter((q) => isMatrixQuestionVisible(q, answers, contextAnswers));
+  const totalQuestions = blocksList.reduce((sum, b) => sum + visiveisDe(b.questoes).length, 0);
   const totalAnswered = blocksList.reduce(
-    (sum, b) => sum + b.questoes.filter((q) => answers[q.id] !== undefined).length,
+    (sum, b) => sum + visiveisDe(b.questoes).filter((q) => answers[q.id] !== undefined).length,
     0
   );
+
+  // Limpa respostas de perguntas que ficaram ocultas (ex.: P6.b.4 = N/A oculta o
+  // checklist P6.b.6), para não deixar resposta obsoleta disparando devolução no
+  // relatório/export. `delete` no reducer converge (resposta some → efeito para).
+  useEffect(() => {
+    const ocultasComResposta = getApplicableBlocks(usesDatabase)
+      .flatMap((b) => b.questoes)
+      .filter((q) => answers[q.id] !== undefined && !isMatrixQuestionVisible(q, answers, contextAnswers))
+      .map((q) => q.id);
+    if (ocultasComResposta.length > 0) onClearScopeIds(ocultasComResposta);
+  }, [answers, contextAnswers, usesDatabase, onClearScopeIds]);
 
   const handleNext = useCallback(() => {
     if (currentBlock < blocksList.length - 1) {
@@ -104,7 +125,7 @@ export default function QuantitativeAssessment({
   // Block summaries for navigation
   const blockSummaries = blocksList.map((b, idx) => {
     const score = calculateBlockScore(b, answers);
-    const done = b.questoes.every((q) => answers[q.id] !== undefined);
+    const done = visiveisDe(b.questoes).every((q) => answers[q.id] !== undefined);
     return { block: b, index: idx, score, done };
   });
 
@@ -307,7 +328,7 @@ export default function QuantitativeAssessment({
                   </Badge>
                 )}
                 <Badge variant="outline" className="text-xs">
-                  {answeredCount}/{block.questoes.length}
+                  {answeredCount}/{visibleQuestoes.length}
                 </Badge>
               </div>
             </div>
@@ -324,9 +345,9 @@ export default function QuantitativeAssessment({
           <CardContent>
             <Separator className="mb-4" />
 
-            {/* Questions */}
+            {/* Questions (só as visíveis — F-17/F-18 podem estar ocultas) */}
             <div className="space-y-3">
-              {block.questoes.map((q) => {
+              {visibleQuestoes.map((q) => {
                 const currentAnswer = answers[q.id];
                 const isMitigation = q.efeito === 'mitigacao';
                 const isRiskQ = q.efeito === 'risco';
