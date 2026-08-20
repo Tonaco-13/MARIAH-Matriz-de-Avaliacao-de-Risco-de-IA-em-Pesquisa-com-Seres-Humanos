@@ -4,7 +4,7 @@
 // This imports the TS modules via tsx-compatible transpile. If you don't have
 // tsx installed, use `npx tsx scripts/verify-math.mjs`.
 
-import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO, CONTEXT_QUESTIONS, MATRIX_VERSION } from '../src/components/maria/data';
+import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO, CONTEXT_QUESTIONS, MATRIX_VERSION, REQUIREMENTS, REQUIREMENTS_RES738 } from '../src/components/maria/data';
 import {
   getApplicableAxes,
   getApplicableBlocks,
@@ -282,6 +282,26 @@ const expOk = buildValidationExport({
   quantitativeAnswers: {},
 });
 assert('Avaliável mantém nível (I) no export', expOk.versaoB.classificacaoFinal, 'I');
+
+console.log('\n=== 14. Harmonização de texto (MI6, F-19/F-20/F-21, 7C) ===');
+const allReqs = [...REQUIREMENTS, ...REQUIREMENTS_RES738];
+const reqIV4 = allReqs.find((r) => r.id === 'req-IV-4');
+assert('MI6: req-IV-4 cita "CEP acreditado"', reqIV4?.texto.includes('CEP acreditado'), true);
+assert('MI6: req-IV-4 sem "instância superior"', reqIV4?.texto.includes('instância superior'), false);
+const findQB = (id: string) => {
+  for (const b of QUANTITATIVE_BLOCKS) { const q = b.questoes.find((x) => x.id === id); if (q) return q; }
+  return undefined;
+};
+const findQA = (id: string) => {
+  for (const a of QUALITATIVE_AXES) { const q = a.questoes.find((x) => x.id === id); if (q) return q; }
+  return undefined;
+};
+assert('F-19: 3.1 cita "saúde mental"', findQA('3.1')?.pergunta.includes('saúde mental'), true);
+assert('F-19: 3.1 cita "dados de localização"', findQA('3.1')?.pergunta.includes('dados de localização'), true);
+assert('F-20: 1.2 cita "após o seu encerramento"', findQA('1.2')?.pergunta.includes('após o seu encerramento'), true);
+assert('F-20: P2.2 usa travessão (—)', findQB('P2.2')?.pergunta.includes('—'), true);
+assert('F-21: P6.b.5 cita "acordo formal de compartilhamento"', findQB('P6.b.5')?.pergunta.includes('acordo formal de compartilhamento'), true);
+assert('7C: dica de P7.13 cita "peso maior"', findQB('P7.13')?.dica.includes('peso maior'), true);
 
 console.log(`\n=== SUMMARY ===`);
 console.log(`  Passed: ${passed}`);

@@ -1,6 +1,6 @@
 {
   "matrixVersion": "2.0.0-draft",
-  "geradoEm": "2026-08-16T11:54:44.516Z",
+  "geradoEm": "2026-08-20T12:22:46.243Z",
   "riskLevels": {
     "I": {
       "level": "I",
@@ -148,7 +148,7 @@
         },
         {
           "id": "1.2",
-          "pergunta": "O sistema é adaptativo — aprende ou se atualiza com novos dados após o início do estudo?",
+          "pergunta": "O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?",
           "riskAnswer": "sim",
           "dica": "Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa)."
         },
@@ -281,7 +281,7 @@
       "questoes": [
         {
           "id": "3.1",
-          "pergunta": "O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça/cor, etnia, religião, vida sexual?",
+          "pergunta": "O sistema processa dados pessoais sensíveis: saúde (inclusive saúde mental), genética, biometria, dados de localização, raça, etnia, religião, vida sexual?",
           "riskAnswer": "sim",
           "dica": "O processamento de dados pessoais sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD; o risco à privacidade é inerentemente maior."
         },
@@ -397,7 +397,7 @@
         },
         {
           "id": "3.b.5",
-          "pergunta": "Se o protocolo é multicêntrico ou envolve mais de uma instituição: a controladoria conjunta está formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024)?",
+          "pergunta": "Se o protocolo é multicêntrico, envolve mais de uma instituição ou prevê compartilhamento do banco com terceiros: há acordo formal de compartilhamento ou controladoria conjunta formalizada em Termo de Acordo Institucional (art. 3.º, XVI e § 2.º do art. 12)?",
           "riskAnswer": "nao",
           "dica": "Em pesquisa multicêntrica, a controladoria conjunta dos dados deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III."
         },
@@ -617,7 +617,7 @@
         },
         {
           "id": "P2.2",
-          "pergunta": "O sistema é adaptativo: aprende ou se atualiza com novos dados após o início do estudo?",
+          "pergunta": "O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?",
           "riskAnswer": "sim",
           "pontos": 3,
           "dica": "Sistemas adaptativos podem mudar de comportamento ao aprender com novos dados durante o estudo, introduzindo incerteza sobre os resultados gerados. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa).",
@@ -854,7 +854,7 @@
       "questoes": [
         {
           "id": "P6.1",
-          "pergunta": "O sistema processa dados pessoais sensíveis: saúde, genética, biometria, raça/cor, etnia, religião, vida sexual?",
+          "pergunta": "O sistema processa dados pessoais sensíveis: saúde (inclusive saúde mental), genética, biometria, dados de localização, raça, etnia, religião, vida sexual?",
           "riskAnswer": "sim",
           "pontos": 7,
           "dica": "O processamento de dados sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD."
@@ -993,7 +993,7 @@
         },
         {
           "id": "P6.b.5",
-          "pergunta": "Se o protocolo é multicêntrico: a controladoria conjunta está formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024)?",
+          "pergunta": "Se o protocolo é multicêntrico, envolve mais de uma instituição ou prevê compartilhamento do banco com terceiros: há acordo formal de compartilhamento ou controladoria conjunta formalizada em Termo de Acordo Institucional (art. 3.º, XVI e § 2.º do art. 12)?",
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "Em pesquisa multicêntrica, a controladoria conjunta deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). Item do Bloco 6.b (Res. 738); seus pontos somam ao escore."
@@ -1144,7 +1144,7 @@
           "pergunta": "Foi realizada avaliação de impacto algorítmico ou Relatório de Impacto à Proteção de Dados Pessoais (RIPD) para o uso previsto neste protocolo?",
           "riskAnswer": "nao",
           "pontos": -8,
-          "dica": "RIPD do controlador ou avaliação de impacto algorítmico documentada valem como evidência.",
+          "dica": "RIPD do controlador ou avaliação de impacto algorítmico documentada valem como evidência; o peso maior (−8) reflete a abrangência da evidência.",
           "efeito": "evidencia",
           "subbloco": "7C — evidências de transparência"
         },
@@ -1224,7 +1224,7 @@
     },
     {
       "id": "req-IV-4",
-      "texto": "Submissão do protocolo à apreciação em instância superior do CEP, quando prevista no regimento institucional",
+      "texto": "Submissão do protocolo à apreciação de CEP acreditado para protocolos de risco elevado ou de CEP com habilitação específica em inteligência artificial.",
       "nivel": "IV"
     }
   ],
