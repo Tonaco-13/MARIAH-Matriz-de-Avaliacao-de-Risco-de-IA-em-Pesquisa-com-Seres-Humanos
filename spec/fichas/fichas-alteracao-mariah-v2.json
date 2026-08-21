@@ -1,6 +1,6 @@
 {
   "pacote": "MARIAH v2.0 — Alterações propostas pela coordenação INAEP",
-  "versao": "0.3",
+  "versao": "0.4",
   "data": "2026-08-14",
   "status_geral": "FICHAS CONGELADAS — base para geração de spec/mariah-spec.json (v2.0-draft) + JSON Schema pela engenharia. Decisões ratificadas pelo GT e INAEP na ata da Fase 1 (14/08/2026), comunicadas no despacho da engenharia de 14/08/2026.",
   "rev_0_3": "Decisões ratificadas: (a) checklist TCLE = diligência sem pontuação; (b) IA-ferramenta×objeto = descritiva pura (F-04); (c) pontuáveis novos só nos Blocos 5/6, aceite pela tabela de pesos; (B1) CENÁRIO A — subbloco 7C com EFEITO NOVO 'evidencia' (só-abate), texto próprio no guia, sem herdar 'somam quando ausentes'; (M1) 3.b.6 será implementada no app como diligência (nova ficha F-23) para paridade 1:1; F-18 = 3.b.7 confirmado; F-10 forma final = risco graduável (+7, N/A fora de PLN/LLM/sintéticos), redação sem 'não diluível por soma'; F-22 = descritiva.",

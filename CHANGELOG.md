@@ -92,11 +92,25 @@ e **C.2** do guia, sem reinterpretação.
 Nenhum item antigo foi removido nem teve seu identificador alterado; toda mudança de
 resultado decorre da recalibração e dos novos itens, não de reinterpretação dos existentes.
 
+### Paridade de enunciados spec × guia (B2/M1 — auditoria Z Code, Fase B)
+
+Os enunciados da spec passam a ser **overlay verbatim dos quadros do guia v46**
+(`gate/enunciados-guia-v46.json`, extraído por `scripts/extract-enunciados-guia.py`),
+garantindo paridade 1:1. Correções relevantes: substituição do meta-texto de ficha das
+diligências (3.b.4.1/3.b.7/3.b.6 e equivalentes B) pelos enunciados do guia; alinhamento
+**substantivo** de 3.b.4/P6.b.4 (dispensa de TCLE) à redação do guia — "hipótese cabível
+segundo a origem do banco" (art. 20 §5.º para banco externo; art. 25, quatro situações,
+para banco no âmbito da pesquisa), em vez de "cinco situações do Art. 20" (também na dica
+e no requisito `req-738-III-1`); "pesquisador"/"pesquisador habilitado" (1.5/5.1/P4.3/P7.3),
+"raça" (4.1/P5.5) e demais ajustes m1. A checagem `parity-check` entra na CI (M1).
+
 ### Verificação
 
 - `npm run verify` (verify-math): **98/98**.
-- Gate de paridade camada 2 (`scripts/gate-run.ts`) — 31 vetores da Versão B + 33
-  linhas do V17 pelas funções reais do app × planilha do Kimi: **64/64, Δ = 0**.
+- `npm run parity` (enunciados spec × guia v46): **0 divergências** (paridade 1:1).
+- `npm run gate` (camada 2) — 31 vetores da Versão B + 33 linhas do V17 pelas funções
+  reais do app × planilha do Kimi: **64/64, Δ = 0**.
+- CI (`gates`) roda os três a cada PR/push em `spec/**`, `gate/**` e nos scripts.
 
 ---
 

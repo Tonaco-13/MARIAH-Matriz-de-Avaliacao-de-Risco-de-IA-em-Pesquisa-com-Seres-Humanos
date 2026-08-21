@@ -1,10 +1,12 @@
-name: verify-math
+name: gates
 
-# Gate matemático da matriz MARIAH.
-# Roda o scripts/verify-math.ts em qualquer PR/push que toque os dados ou a
-# lógica de cálculo. Um verify-math vermelho bloqueia o merge (paridade — plano
-# INAEP, Fase 4). NÃO substitui o gate tripartite (planilha do guia × app ×
-# revisor), mas garante que dados e verificação nunca divirjam num commit.
+# Gates automáticos da matriz MARIAH (plano INAEP, Fase 4). Um gate vermelho
+# bloqueia o merge. NÃO substituem o gate tripartite (guia × app × revisor),
+# mas garantem que dados, verificação, paridade numérica e paridade de
+# enunciados nunca divirjam num commit.
+#   - verify : estrutura, cortes, efeitos v2, M3, condicionais (verify-math)
+#   - parity : enunciados spec × guia v46 (camada de strings — M1)
+#   - gate   : 31 vetores B + 33 V17 app × planilha camada 2 (Δ=0)
 
 on:
   push:
@@ -13,16 +15,22 @@ on:
       - 'src/components/maria/data.ts'
       - 'src/components/maria/utils.ts'
       - 'scripts/verify-math.ts'
+      - 'scripts/parity-check.ts'
+      - 'scripts/gate-run.ts'
       - 'spec/**'
+      - 'gate/**'
   pull_request:
     paths:
       - 'src/components/maria/data.ts'
       - 'src/components/maria/utils.ts'
       - 'scripts/verify-math.ts'
+      - 'scripts/parity-check.ts'
+      - 'scripts/gate-run.ts'
       - 'spec/**'
+      - 'gate/**'
 
 jobs:
-  verify:
+  gates:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,3 +40,5 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run verify
+      - run: npm run parity
+      - run: npm run gate

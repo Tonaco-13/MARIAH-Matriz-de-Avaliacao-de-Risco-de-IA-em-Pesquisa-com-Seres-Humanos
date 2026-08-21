@@ -129,22 +129,20 @@ for (const f of fichasDoc.fichas) {
 // ----- Harmonização de texto (m1, verbatim da v46 — despacho Kimi 19/08/2026) -----
 // Sem impacto em pontuação. Aplica alterar-redacao (F-19/F-20/F-21), a nota completa
 // da dica de P7.13 (7C) e a redação canônica do req-IV-4 (MI6, alinhamento app→guia aprovado).
-const PERGUNTAS_HARMONIZADAS: Record<string, string> = {
-  // F-19 (3.1 / P6.1): + "saúde mental" e "dados de localização"; "raça, etnia".
-  '3.1': 'O sistema processa dados pessoais sensíveis: saúde (inclusive saúde mental), genética, biometria, dados de localização, raça, etnia, religião, vida sexual?',
-  'P6.1': 'O sistema processa dados pessoais sensíveis: saúde (inclusive saúde mental), genética, biometria, dados de localização, raça, etnia, religião, vida sexual?',
-  // F-20 (1.2 / P2.2): travessão (forma canônica) + "após o seu encerramento".
-  '1.2': 'O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?',
-  'P2.2': 'O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?',
-  // F-21 (3.b.5 / P6.b.5): acordo formal de compartilhamento OU controladoria conjunta.
-  '3.b.5': 'Se o protocolo é multicêntrico, envolve mais de uma instituição ou prevê compartilhamento do banco com terceiros: há acordo formal de compartilhamento ou controladoria conjunta formalizada em Termo de Acordo Institucional (art. 3.º, XVI e § 2.º do art. 12)?',
-  'P6.b.5': 'Se o protocolo é multicêntrico, envolve mais de uma instituição ou prevê compartilhamento do banco com terceiros: há acordo formal de compartilhamento ou controladoria conjunta formalizada em Termo de Acordo Institucional (art. 3.º, XVI e § 2.º do art. 12)?',
-};
+// Enunciados: overlay VERBATIM dos quadros do guia v46 (paridade 1:1 total).
+// Fonte: gate/enunciados-guia-v46.json (extraído por scripts/extract-enunciados-guia.py).
+// Subsome F-19/F-20/F-21 e corrige o meta-texto de ficha das diligências (B2 — auditoria Z Code).
+const ENUNCIADOS_GUIA: Record<string, string> = JSON.parse(
+  readFileSync('gate/enunciados-guia-v46.json', 'utf-8')
+);
+// Dicas não constam dos quadros — harmonizadas à redação do guia onde necessário.
 const DICAS_HARMONIZADAS: Record<string, string> = {
   'P7.13': 'RIPD do controlador ou avaliação de impacto algorítmico documentada valem como evidência; o peso maior (−8) reflete a abrangência da evidência.',
+  '3.b.4': 'A dispensa de TCLE para uso futuro não é automática: exige enquadramento na hipótese cabível segundo a origem do banco (Res. CNS n.º 738/2024). Banco constituído fora do âmbito da pesquisa → única via é a anonimização pelo Controlador (art. 20, § 5.º). Banco constituído no âmbito da pesquisa → art. 25, quatro situações. Justificativa genérica não basta.',
+  'P6.b.4': 'A dispensa de TCLE para uso futuro não é automática: exige enquadramento na hipótese cabível segundo a origem do banco (Res. CNS n.º 738/2024). Banco constituído fora do âmbito da pesquisa → única via é a anonimização pelo Controlador (art. 20, § 5.º). Banco constituído no âmbito da pesquisa → art. 25, quatro situações. Justificativa genérica não basta.',
 };
 const patchQuestao = (q: { id: string; pergunta: string; dica: string }) => {
-  if (PERGUNTAS_HARMONIZADAS[q.id]) q.pergunta = PERGUNTAS_HARMONIZADAS[q.id];
+  if (ENUNCIADOS_GUIA[q.id]) q.pergunta = ENUNCIADOS_GUIA[q.id];
   if (DICAS_HARMONIZADAS[q.id]) q.dica = DICAS_HARMONIZADAS[q.id];
 };
 for (const ax of spec.qualitativeAxes) ax.questoes.forEach(patchQuestao);
@@ -153,6 +151,8 @@ for (const bl of spec.quantitativeBlocks) bl.questoes.forEach(patchQuestao);
 // MI6 — req-IV-4 (redação canônica v46).
 const REQUISITOS_HARMONIZADOS: Record<string, string> = {
   'req-IV-4': 'Submissão do protocolo à apreciação de CEP acreditado para protocolos de risco elevado ou de CEP com habilitação específica em inteligência artificial.',
+  // req-738-III-1: alinhado ao guia (hipótese cabível segundo a origem do banco), não "cinco hipóteses do Art. 20".
+  'req-738-III-1': 'Fundamentação do enquadramento da dispensa de TCLE na hipótese cabível segundo a origem do banco (art. 20, § 5.º, ou art. 25 da Res. CNS n.º 738/2024)',
 };
 const patchRequisito = (r: { id: string; texto: string }) => {
   if (REQUISITOS_HARMONIZADOS[r.id]) r.texto = REQUISITOS_HARMONIZADOS[r.id];
