@@ -180,22 +180,7 @@ export const DATABASE_FILTER_QUESTION = spec.databaseFilterQuestion;
 
 // ----- Context Characterization Questions -----
 
-export type ContextQuestion = {
-  id: string;
-  pergunta: string;
-  dica: string;
-  /** Tipo de entrada da descritiva. Ausente ⇒ texto livre (compat. contexto1/contexto2). */
-  tipoEntrada?: 'texto' | 'numero' | 'selecao' | 'radio';
-  /** Opções para tipoEntrada 'selecao' | 'radio'. */
-  opcoes?: string[];
-  /**
-   * Regra de exibição condicional (texto), ex.: "exibir somente se C.3 ≠ 'anonimizados'".
-   * Avaliada em ContextForm; questão oculta não é obrigatória nem exportada.
-   */
-  condicional?: string;
-};
-
-export const CONTEXT_QUESTIONS = spec.contextQuestions as unknown as ContextQuestion[];
+export const CONTEXT_QUESTIONS = spec.contextQuestions;
 
 
 /** Versão da matriz (para carimbo nos relatórios). */

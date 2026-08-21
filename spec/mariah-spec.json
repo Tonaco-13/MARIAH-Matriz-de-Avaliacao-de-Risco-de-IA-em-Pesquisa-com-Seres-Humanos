@@ -1,6 +1,6 @@
 {
-  "matrixVersion": "2.0.0-draft",
-  "geradoEm": "2026-08-16T11:54:44.516Z",
+  "matrixVersion": "1.0.0-guia-v45",
+  "geradoEm": "2026-08-15T14:14:39.477Z",
   "riskLevels": {
     "I": {
       "level": "I",
@@ -40,16 +40,16 @@
     }
   },
   "thresholdsBase": {
-    "maxScore": 275,
-    "levelI": 58,
-    "levelII": 127,
-    "levelIII": 208
+    "maxScore": 238,
+    "levelI": 50,
+    "levelII": 110,
+    "levelIII": 180
   },
   "thresholdsComBanco": {
-    "maxScore": 304,
-    "levelI": 64,
-    "levelII": 141,
-    "levelIII": 230
+    "maxScore": 267,
+    "levelI": 56,
+    "levelII": 123,
+    "levelIII": 202
   },
   "databaseFilterQuestion": {
     "id": "db-filter",
@@ -67,71 +67,6 @@
       "id": "contexto2",
       "pergunta": "O sistema responde a essa pergunta de forma autônoma ou subsidia uma decisão tomada por um ser humano?",
       "dica": "Indique se o sistema toma a decisão de forma autônoma (sem intervenção humana obrigatória) ou se fornece subsídios para que um profissional tome a decisão final."
-    },
-    {
-      "id": "C.3",
-      "pergunta": "Qual é o estado de identificação dos dados pessoais utilizados neste protocolo?",
-      "dica": "O estado de identificação modula a leitura do Eixo 3 / Bloco 6 e condiciona a pergunta C.5 (momento da anonimização).",
-      "tipoEntrada": "selecao",
-      "opcoes": [
-        "identificáveis",
-        "pseudonimizados",
-        "anonimizados",
-        "combinação por etapa do estudo"
-      ]
-    },
-    {
-      "id": "C.4",
-      "pergunta": "Qual é o volume aproximado de registros de participantes utilizados neste protocolo?",
-      "dica": "Volume informa a avaliação de reidentificação (3.5 / P6.3) e o potencial de uso em treinamento. Não há faixa 'segura' — o CEP lê o número no contexto.",
-      "tipoEntrada": "numero"
-    },
-    {
-      "id": "C.5",
-      "pergunta": "Em que momento ocorre a anonimização dos dados em relação ao acesso pelos pesquisadores?",
-      "dica": "Se a anonimização é feita pelos pesquisadores após o acesso, há etapa de tratamento de dados identificáveis que exige salvaguardas e justificativa — ler em conjunto com o Eixo 3.b / Bloco 6.b e com a ficha F-17.",
-      "tipoEntrada": "selecao",
-      "opcoes": [
-        "antes do acesso, pela instituição custodiante",
-        "após o acesso, pelos próprios pesquisadores",
-        "não haverá anonimização",
-        "não se aplica"
-      ],
-      "condicional": "exibir somente se C.3 ≠ 'anonimizados'"
-    },
-    {
-      "id": "C.6",
-      "pergunta": "Qual é o papel do sistema de IA neste protocolo?",
-      "dica": "IA como objeto de desenvolvimento eleva riscos de reutilização, inferência e governança. O CEP registra a distinção no parecer; a modulação do nível de risco, se um dia adotada, exigirá validação própria (v2.1).",
-      "tipoEntrada": "radio",
-      "opcoes": [
-        "ferramenta de análise sobre dados da pesquisa",
-        "objeto de desenvolvimento (treinamento de modelo)",
-        "ambos"
-      ]
-    },
-    {
-      "id": "C.7",
-      "pergunta": "Qual é o destino previsto do modelo de IA utilizado ou desenvolvido neste protocolo?",
-      "dica": "Se o destino é uso futuro/amplo ou compartilhamento, ler em conjunto com 3.3/P6.4 (consentimento para treinamento) e com o Eixo 3.b / Bloco 6.b.",
-      "tipoEntrada": "radio",
-      "opcoes": [
-        "uso restrito a este protocolo",
-        "aplicações futuras ou uso amplo",
-        "compartilhamento com terceiros",
-        "não se aplica (IA apenas como ferramenta)"
-      ]
-    },
-    {
-      "id": "C.8",
-      "pergunta": "Haverá compartilhamento do banco de dados, total ou parcial, com terceiros além das instituições participantes do protocolo?",
-      "dica": "Se houver compartilhamento, ler em conjunto com 3.b.5/P6.b.5 (acordo formal — F-21) e 3.2/P6.2 (transferência internacional).",
-      "tipoEntrada": "radio",
-      "opcoes": [
-        "não haverá compartilhamento",
-        "sim, sob Termo de Anuência/Acordo Institucional",
-        "sim, outra forma (descrever)"
-      ]
     }
   ],
   "qualitativeAxes": [
@@ -259,18 +194,6 @@
           "dica": "Sistema adaptativo é aquele que continua aprendendo ou muda de comportamento durante o estudo — por exemplo, um modelo que se reajusta com novos dados (aprendizado contínuo), em vez de permanecer \"congelado\" após a validação. Por que novo consentimento: o participante consentiu com um sistema que funcionava de certo modo; se ele muda de forma relevante, mudam os riscos e a própria natureza do que foi aceito — então a autonomia exige informá-lo e obter novo consentimento. Por isso se pede um plano com limiar de mudança definido, procedimento e responsável. Item de diligência com efeito impeditivo: NÃO altera a pontuação do Eixo 2 (não eleva o nível), mas a ausência do plano bloqueia o parecer — protocolo não avaliável no mérito —, em convergência com a P2.8 da Versão B. Aplicável quando o sistema é adaptativo (1.2 = Sim); marque \"Não se aplica\" quando 1.2 = Não. A obtenção de novo consentimento é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e, por isso, não é compensável por pontos.",
           "motivoEliminatorio": "ausência de plano de novo consentimento para sistema adaptativo (1.2 = Sim). A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e não é compensável por pontuação. O dossiê deve ser devolvido para complementação (diligência obrigatória); persistindo a ausência, o protocolo não recebe parecer de aprovação.",
           "refEliminatoria": "Lei n.º 14.874/2024 · LGPD"
-        },
-        {
-          "id": "2.11",
-          "pergunta": "Os resultados da pesquisa podem gerar estigmatização de grupos ou populações?",
-          "riskAnswer": "sim",
-          "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo."
-        },
-        {
-          "id": "2.12",
-          "pergunta": "Há risco de discriminação de indivíduos ou grupos como consequência do uso dos resultados produzidos pelo sistema?",
-          "riskAnswer": "sim",
-          "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso."
         }
       ]
     },
@@ -326,38 +249,6 @@
           "pergunta": "O protocolo descreve como os dados serão armazenados, por quanto tempo e como serão descartados ao final do estudo?",
           "riskAnswer": "nao",
           "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados depois de encerrado o estudo."
-        },
-        {
-          "id": "3.9",
-          "pergunta": "O protocolo restringe o acesso aos dados identificáveis ao estritamente necessário, com controle de acesso por perfil e identificação dos responsáveis?",
-          "riskAnswer": "nao",
-          "dica": "A resposta deve indicar quem acessa, com qual perfil e sob qual registro."
-        },
-        {
-          "id": "3.10",
-          "pergunta": "O protocolo prevê registro (log) auditável das operações de tratamento de dados e de inferência realizadas pelo sistema?",
-          "riskAnswer": "nao",
-          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização."
-        },
-        {
-          "id": "3.11",
-          "pergunta": "O protocolo descreve o ambiente computacional de processamento e seus controles mínimos de segurança (isolamento, criptografia e, quando houver, certificações)?",
-          "riskAnswer": "nao",
-          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição."
-        },
-        {
-          "id": "3.12",
-          "pergunta": "Os dados do protocolo serão vinculados (linkage) a outras bases de dados, próprias ou externas?",
-          "riskAnswer": "sim",
-          "dica": "Se houver linkage, a avaliação de reidentificação (3.5 / P6.3) deve considerar explicitamente o cruzamento das bases envolvidas.",
-          "hasNaOption": true
-        },
-        {
-          "id": "3.13",
-          "pergunta": "Para sistemas com processamento de linguagem natural, grandes modelos de linguagem ou geração de dados sintéticos: há testes documentados de robustez contra memorização e extração de dados de treinamento (ataques de extração ou de inferência de pertencimento)?",
-          "riskAnswer": "nao",
-          "dica": "Aplicável apenas a PLN/LLM/dados sintéticos (N/A nos demais casos).",
-          "hasNaOption": true
         }
       ]
     },
@@ -400,36 +291,6 @@
           "pergunta": "Se o protocolo é multicêntrico ou envolve mais de uma instituição: a controladoria conjunta está formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024)?",
           "riskAnswer": "nao",
           "dica": "Em pesquisa multicêntrica, a controladoria conjunta dos dados deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III."
-        },
-        {
-          "id": "3.b.4.1",
-          "pergunta": "Subpergunta de 3.b.4 / P6.b.4: o acesso a dados pessoais identificáveis é indispensável ao alcance dos objetivos científicos da pesquisa, ou a mesma finalidade poderia ser atingida mediante dados previamente anonimizados ou pseudonimizados pela instituição custodiante?",
-          "riskAnswer": "nao",
-          "dica": "Se a finalidade é atingível sem dados identificáveis e o protocolo ainda assim os requer, o CEP devolve para justificativa ou redirecionamento à anonimização pelo Controlador (art. 20, § 5º).",
-          "eliminatorio": true,
-          "naoPontuavel": true,
-          "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
-        },
-        {
-          "id": "3.b.7",
-          "pergunta": "Checklist cumulativo — dispensa de TCLE em pesquisa com IA sobre bancos de dados (todos os critérios devem estar presentes): (i) dados secundários obtidos licitamente; (ii) pesquisa retrospectiva, sem contato com participantes; (iii) impossibilidade prática de obtenção do TCLE devidamente justificada; (iv) risco mínimo aos participantes; (v) acesso a dados identificáveis limitado ao estritamente necessário, preferencialmente dados pseudonimizados/anonimizados pelo custodiante; (vi) ambiente seguro de processamento, com controles de acesso, auditoria e governança; (vii) avaliação documentada do risco de reidentificação e de inferência decorrente do uso da IA; (viii) inexistência de decisões ou intervenções individualizadas sobre os participantes com base nos resultados da IA; (ix) finalidade científica delimitada, vedado o treinamento de modelos de propósito geral sem nova apreciação ética.",
-          "riskAnswer": "nao",
-          "dica": "O checklist não gradua risco: verifica admissibilidade da dispensa. A pontuação do protocolo segue pelos demais blocos.",
-          "eliminatorio": true,
-          "naoPontuavel": true,
-          "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
-        },
-        {
-          "id": "3.b.6",
-          "pergunta": "3.b.6 — Se o protocolo utiliza banco de dados: há declaração do Controlador com o compromisso de anonimização dos dados antes da disponibilização do banco aos pesquisadores?",
-          "riskAnswer": "nao",
-          "dica": "Documento obrigatório do dossiê de submissão; a verificação é de presença e validade da declaração.",
-          "eliminatorio": true,
-          "naoPontuavel": true,
-          "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
         }
       ]
     },
@@ -827,25 +688,9 @@
           "riskAnswer": "nao",
           "pontos": 6,
           "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que fragiliza a proteção do participante."
-        },
-        {
-          "id": "P5.10",
-          "pergunta": "Os resultados da pesquisa podem gerar estigmatização de grupos ou populações?",
-          "riskAnswer": "sim",
-          "pontos": 5,
-          "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo.",
-          "efeito": "risco"
-        },
-        {
-          "id": "P5.11",
-          "pergunta": "Há risco de discriminação de indivíduos ou grupos como consequência do uso dos resultados produzidos pelo sistema?",
-          "riskAnswer": "sim",
-          "pontos": 5,
-          "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso.",
-          "efeito": "risco"
         }
       ],
-      "maxPontos": 62
+      "maxPontos": 52
     },
     {
       "id": "bloco6",
@@ -907,51 +752,9 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados após o estudo."
-        },
-        {
-          "id": "P6.9",
-          "pergunta": "O protocolo restringe o acesso aos dados identificáveis ao estritamente necessário, com controle de acesso por perfil e identificação dos responsáveis?",
-          "riskAnswer": "nao",
-          "pontos": 5,
-          "dica": "A resposta deve indicar quem acessa, com qual perfil e sob qual registro.",
-          "efeito": "risco"
-        },
-        {
-          "id": "P6.10",
-          "pergunta": "O protocolo prevê registro (log) auditável das operações de tratamento de dados e de inferência realizadas pelo sistema?",
-          "riskAnswer": "nao",
-          "pontos": 5,
-          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização.",
-          "efeito": "risco"
-        },
-        {
-          "id": "P6.11",
-          "pergunta": "O protocolo descreve o ambiente computacional de processamento e seus controles mínimos de segurança (isolamento, criptografia e, quando houver, certificações)?",
-          "riskAnswer": "nao",
-          "pontos": 5,
-          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição.",
-          "efeito": "risco"
-        },
-        {
-          "id": "P6.12",
-          "pergunta": "Os dados do protocolo serão vinculados (linkage) a outras bases de dados, próprias ou externas?",
-          "riskAnswer": "sim",
-          "pontos": 5,
-          "dica": "Se houver linkage, a avaliação de reidentificação (3.5 / P6.3) deve considerar explicitamente o cruzamento das bases envolvidas.",
-          "efeito": "risco",
-          "hasNaOption": true
-        },
-        {
-          "id": "P6.13",
-          "pergunta": "Para sistemas com processamento de linguagem natural, grandes modelos de linguagem ou geração de dados sintéticos: há testes documentados de robustez contra memorização e extração de dados de treinamento (ataques de extração ou de inferência de pertencimento)?",
-          "riskAnswer": "nao",
-          "pontos": 7,
-          "dica": "Aplicável apenas a PLN/LLM/dados sintéticos (N/A nos demais casos).",
-          "efeito": "risco",
-          "hasNaOption": true
         }
       ],
-      "maxPontos": 77
+      "maxPontos": 50
     },
     {
       "id": "bloco6b",
@@ -997,39 +800,6 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "Em pesquisa multicêntrica, a controladoria conjunta deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). Item do Bloco 6.b (Res. 738); seus pontos somam ao escore."
-        },
-        {
-          "id": "P6.b.4.1",
-          "pergunta": "Subpergunta de 3.b.4 / P6.b.4: o acesso a dados pessoais identificáveis é indispensável ao alcance dos objetivos científicos da pesquisa, ou a mesma finalidade poderia ser atingida mediante dados previamente anonimizados ou pseudonimizados pela instituição custodiante?",
-          "riskAnswer": "nao",
-          "pontos": 0,
-          "dica": "Se a finalidade é atingível sem dados identificáveis e o protocolo ainda assim os requer, o CEP devolve para justificativa ou redirecionamento à anonimização pelo Controlador (art. 20, § 5º).",
-          "efeito": "diligencia",
-          "eliminatorio": true,
-          "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
-        },
-        {
-          "id": "P6.b.6",
-          "pergunta": "Checklist cumulativo — dispensa de TCLE em pesquisa com IA sobre bancos de dados (todos os critérios devem estar presentes): (i) dados secundários obtidos licitamente; (ii) pesquisa retrospectiva, sem contato com participantes; (iii) impossibilidade prática de obtenção do TCLE devidamente justificada; (iv) risco mínimo aos participantes; (v) acesso a dados identificáveis limitado ao estritamente necessário, preferencialmente dados pseudonimizados/anonimizados pelo custodiante; (vi) ambiente seguro de processamento, com controles de acesso, auditoria e governança; (vii) avaliação documentada do risco de reidentificação e de inferência decorrente do uso da IA; (viii) inexistência de decisões ou intervenções individualizadas sobre os participantes com base nos resultados da IA; (ix) finalidade científica delimitada, vedado o treinamento de modelos de propósito geral sem nova apreciação ética.",
-          "riskAnswer": "nao",
-          "pontos": 0,
-          "dica": "O checklist não gradua risco: verifica admissibilidade da dispensa. A pontuação do protocolo segue pelos demais blocos.",
-          "efeito": "diligencia",
-          "eliminatorio": true,
-          "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
-        },
-        {
-          "id": "P6.b.7",
-          "pergunta": "3.b.6 — Se o protocolo utiliza banco de dados: há declaração do Controlador com o compromisso de anonimização dos dados antes da disponibilização do banco aos pesquisadores?",
-          "riskAnswer": "nao",
-          "pontos": 0,
-          "dica": "Documento obrigatório do dossiê de submissão; a verificação é de presença e validade da declaração.",
-          "efeito": "diligencia",
-          "eliminatorio": true,
-          "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
         }
       ],
       "maxPontos": 29
@@ -1120,42 +890,6 @@
           "pontos": -7,
           "dica": "Responsabilidade humana clara e identificada em caso de erro ou dano protege o participante e evita zona cinzenta de imputação. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
           "efeito": "mitigacao"
-        },
-        {
-          "id": "P7.11",
-          "pergunta": "O protocolo apresenta documentação padronizada do modelo (por exemplo, Model Card)?",
-          "riskAnswer": "nao",
-          "pontos": -5,
-          "dica": "Model Card ou documento equivalente com finalidade, métricas, limitações e contextos de uso.",
-          "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
-        },
-        {
-          "id": "P7.12",
-          "pergunta": "O protocolo apresenta documentação padronizada da base de dados (por exemplo, Datasheet for Datasets)?",
-          "riskAnswer": "nao",
-          "pontos": -5,
-          "dica": "Datasheet ou equivalente com origem, composição, coleta, pré-processamento e usos recomendados.",
-          "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
-        },
-        {
-          "id": "P7.13",
-          "pergunta": "Foi realizada avaliação de impacto algorítmico ou Relatório de Impacto à Proteção de Dados Pessoais (RIPD) para o uso previsto neste protocolo?",
-          "riskAnswer": "nao",
-          "pontos": -8,
-          "dica": "RIPD do controlador ou avaliação de impacto algorítmico documentada valem como evidência.",
-          "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
-        },
-        {
-          "id": "P7.14",
-          "pergunta": "O código-fonte do sistema será disponibilizado abertamente ou sob licença que permita auditoria independente?",
-          "riskAnswer": "nao",
-          "pontos": -5,
-          "dica": "Licenças de código aberto ou de auditoria (incluindo Software Público) valem; código fechado com auditoria independente contratada também pode ser considerado pelo CEP.",
-          "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
         }
       ],
       "maxPontos": 75
@@ -1259,10 +993,5 @@
       "texto": "Diligência obrigatória (§7.3.6 do Capítulo 7 da Res. CNS n.º 738/2024) sempre que configurada ausência de cadeia de custódia formalizada",
       "nivel": "IV"
     }
-  ],
-  "notasDominio": {
-    "tetoTeoricoComBanco": 304,
-    "tetoAvaliavelComBanco": 297,
-    "obs": "O teto teórico com banco só ocorre junto com a P6.b.2 eliminatória (protocolo não avaliável). O máximo pontuável com direito a classificação é o teto avaliável."
-  }
+  ]
 }

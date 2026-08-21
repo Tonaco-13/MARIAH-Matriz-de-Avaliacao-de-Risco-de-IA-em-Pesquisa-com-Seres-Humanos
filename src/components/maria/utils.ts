@@ -9,8 +9,6 @@ import {
   RISK_LEVELS,
   REQUIREMENTS,
   REQUIREMENTS_RES738,
-  CONTEXT_QUESTIONS,
-  MATRIX_VERSION,
   getThresholds,
 } from './data';
 import type {
@@ -19,27 +17,8 @@ import type {
   QualitativeAxis,
   QuantitativeBlock,
   Requirement,
-  ContextQuestion,
 } from './data';
 import { MARIA_DISCLAIMER } from './disclaimer';
-
-/**
- * Regra de exibição condicional das descritivas (fonte única, usada pelo
- * ContextForm e pela auditoria). Padrão: "...se <ID> <op> 'valor'", op ∈ {≠, !=, =}.
- * Questão condicional só é visível após a de referência ser respondida.
- */
-export function isContextQuestionVisible(
-  q: ContextQuestion,
-  contextAnswers: Record<string, string>
-): boolean {
-  if (!q.condicional) return true;
-  const m = q.condicional.match(/se\s+(\S+)\s*(≠|!=|=)\s*['"]([^'"]+)['"]/);
-  if (!m) return true;
-  const [, refId, op, val] = m;
-  const ans = contextAnswers[refId];
-  if (!ans) return false;
-  return op === '=' ? ans === val : ans !== val;
-}
 
 // ----- Helpers: filter axes/blocks by database filter -----
 
@@ -393,13 +372,12 @@ export type UnansweredItem = {
   label: string;
 };
 
-// Campos de identificação (não fazem parte de CONTEXT_QUESTIONS). As descritivas
-// (contexto1, contexto2, C.3…C.8) são auditadas a partir de CONTEXT_QUESTIONS,
-// respeitando a visibilidade condicional.
-const IDENTIFICATION_FIELD_LABELS: { id: string; label: string }[] = [
+const CONTEXT_FIELD_LABELS: { id: string; label: string }[] = [
   { id: 'titulo', label: 'Título do Projeto' },
   { id: 'instituicao', label: 'Instituição' },
   { id: 'cep_nome', label: 'Nome do CEP' },
+  { id: 'contexto1', label: 'Pergunta do sistema (C1)' },
+  { id: 'contexto2', label: 'Autonomia do sistema (C2)' },
 ];
 
 /**
@@ -418,7 +396,7 @@ export function getUnansweredItems(
 
   // 1) Campos de contexto (sempre obrigatórios, mas auditamos se algum ficou vazio
   //    — pode acontecer em fluxos restaurados de localStorage parcial).
-  for (const f of IDENTIFICATION_FIELD_LABELS) {
+  for (const f of CONTEXT_FIELD_LABELS) {
     const value = contextAnswers[f.id];
     if (!value || value.trim().length === 0) {
       items.push({
@@ -426,19 +404,6 @@ export function getUnansweredItems(
         scope: 'contexto',
         scopeName: 'Identificação e Contexto',
         label: f.label,
-      });
-    }
-  }
-  // Descritivas visíveis (respeita o condicional — ex.: C.5 oculta se C.3 = 'anonimizados').
-  for (const q of CONTEXT_QUESTIONS) {
-    if (!isContextQuestionVisible(q, contextAnswers)) continue;
-    const value = contextAnswers[q.id];
-    if (!value || value.trim().length === 0) {
-      items.push({
-        id: q.id,
-        scope: 'contexto',
-        scopeName: 'Identificação e Contexto',
-        label: q.pergunta,
       });
     }
   }
@@ -761,7 +726,6 @@ export function generateReportHTML(
   <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:20px;flex-wrap:wrap;gap:8px">
     <span><strong>Versão:</strong> ${versionLabel} ${dbBadge}</span>
     <span><strong>Data:</strong> ${date}</span>
-    <span><strong>Versão da matriz:</strong> ${MATRIX_VERSION}</span>
   </div>
 
   <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:20px">
@@ -825,7 +789,6 @@ export function generateReportText(
   }`);
   lines.push(`Data: ${new Date().toLocaleDateString('pt-BR')}`);
   lines.push(`Utiliza banco de dados: ${usesDatabase ? 'Sim (Res 738)' : 'Não'}`);
-  lines.push(`Versão da matriz: ${MATRIX_VERSION}`);
   lines.push('');
 
   // Identification + Context
@@ -944,17 +907,12 @@ export function generateReportText(
 // e Versão B da planilha.
 // ============================================================
 
-/** Classificação exportada: nível de risco, "não avaliável" (devolução) ou ausente. */
-export type ClassificacaoExport = RiskLevel | 'NÃO AVALIÁVEL' | null;
-
 export type ValidationExport = {
   schema: 'maria-validacao-local';
-  schemaVersion: 2;
+  schemaVersion: 1;
   exportadoEm: string; // ISO 8601
   software: {
     nome: 'MARIAH';
-    /** Carimbo da versão da matriz (spec) usada nesta avaliação — rastreabilidade. */
-    versaoMatriz: string;
     observacao: string;
   };
   protocolo: {
@@ -968,7 +926,7 @@ export type ValidationExport = {
   };
   versaoA: {
     aplicada: boolean;
-    classificacaoConsolidada: ClassificacaoExport;
+    classificacaoConsolidada: RiskLevel | null;
     protocoloNaoAvaliavel: boolean;
     eixos: Array<{
       id: string;
@@ -980,8 +938,7 @@ export type ValidationExport = {
   };
   versaoB: {
     aplicada: boolean;
-    classificacaoFinal: ClassificacaoExport;
-    protocoloNaoAvaliavel: boolean;
+    classificacaoFinal: RiskLevel | null;
     pontuacaoTotal: number | null;
     clausulaPrevalencia: boolean;
     blocos: Array<{
@@ -1032,7 +989,7 @@ export function buildValidationExport(args: {
     const qual = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase);
     versaoA = {
       aplicada: true,
-      classificacaoConsolidada: qual.protocoloNaoAvaliavel ? 'NÃO AVALIÁVEL' : qual.level,
+      classificacaoConsolidada: qual.protocoloNaoAvaliavel ? 'IV' : qual.level,
       protocoloNaoAvaliavel: qual.protocoloNaoAvaliavel,
       eixos: qual.axisResults.map((r) => ({
         id: r.axisId,
@@ -1057,8 +1014,7 @@ export function buildValidationExport(args: {
     const quant = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase);
     versaoB = {
       aplicada: true,
-      classificacaoFinal: quant.protocoloNaoAvaliavel ? 'NÃO AVALIÁVEL' : quant.level,
-      protocoloNaoAvaliavel: quant.protocoloNaoAvaliavel,
+      classificacaoFinal: quant.protocoloNaoAvaliavel ? 'IV' : quant.level,
       pontuacaoTotal: quant.totalScore,
       clausulaPrevalencia: quant.clausulaPrevalencia,
       blocos: quant.blockResults.map((r) => ({
@@ -1072,7 +1028,6 @@ export function buildValidationExport(args: {
     versaoB = {
       aplicada: false,
       classificacaoFinal: null,
-      protocoloNaoAvaliavel: false,
       pontuacaoTotal: null,
       clausulaPrevalencia: false,
       blocos: [],
@@ -1085,11 +1040,10 @@ export function buildValidationExport(args: {
 
   return {
     schema: 'maria-validacao-local',
-    schemaVersion: 2,
+    schemaVersion: 1,
     exportadoEm: agora.toISOString(),
     software: {
       nome: 'MARIAH',
-      versaoMatriz: MATRIX_VERSION,
       observacao:
         'Exportação gerada para uso na planilha-modelo de Validação Local descrita em apêndice próprio do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
     },
