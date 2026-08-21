@@ -270,3 +270,50 @@ Follow-ups / pendências:
   final da v46 literal em data.ts; adotar "pesquisador habilitado" e "transportabilidade".
 - #21: gate de paridade app × planilha + CHANGELOG com id-map (old→new) + publicação
   coordenada guia v46 + app v2.0.
+
+---
+Data: 2026-08-20/21
+Agente: Fabiano + assistente (conta MS)
+Tarefa: Feature-complete v2, gate tripartite, incidente B1 (rollback) e correções B2/M1
+
+Feature-complete (branch feat/mariah-v2-fixes):
+- Widgets ContextForm (C.3–C.8) + C.5 condicional; M3 (não avaliável ≠ IV) + carimbo de
+  versão + chave localStorage v2; harmonização de texto (MI6/F-19/20/21/7C); condicionais
+  de exibição F-17/F-18 + F-18a (N/A em P6.b.4). verify-math 98/98.
+- Exibição condicional: perguntas de matriz ganham exibicaoCondicional (avaliador
+  determinístico); ocultas não pontuam, não elivam devolução, não viram pendência; telas
+  limpam a resposta ao ocultar. (commit 3502da1)
+
+Gate tripartite:
+- Camada 2 (planilha do Kimi) cruzada pelas funções reais do app: scripts/extract-gate-vectors.py
+  + scripts/gate-run.ts → 31 vetores B + 33 linhas V17 = 64/64, Δ=0 (commit 6b7b973).
+- CHANGELOG v2.0 com mapa de ids V18 (old→new), compatibilidade (commit ad51ae7).
+- Feature-complete sinalizado ao Kimi → camada 2 preenchida → Z Code acionado (Fase B).
+
+Auditoria Z Code (Fase B) — 2 bloqueantes:
+- B1: produção (main) estava com v2 PARCIAL desde ~16/08 (PRs #21–#23 mescladas), sem
+  harmonização nem condicionais → diligências exibidas incondicionalmente (sobre-bloqueio),
+  fora do publish coordenado. Erro de engenharia: informação de "não mesclado" repassada sem
+  verificar origin/main. Decisão do GT: ROLLBACK. Produção revertida à v1.0.0-guia-v45 (commit
+  84496ba no main, revert não destrutivo; árvore de 12963a0). Z Code confirmou por sonda.
+- B2: 17→ (checagem automatizada: 22) divergências de enunciado spec × guia. Corrigido por
+  OVERLAY VERBATIM dos quadros do guia v46: scripts/extract-enunciados-guia.py →
+  gate/enunciados-guia-v46.json; gerador aplica pergunta=guia[id]. Inclui alinhamento
+  substantivo de 3.b.4/P6.b.4 (hipótese cabível segundo a origem do banco; art.20 §5º /
+  art.25) — na pergunta, dica e req-738-III-1. (commit 03d31dc)
+- M1: parity-check.ts (spec × guia, 128 enunciados) na CI (workflow "gates" = verify+parity+
+  gate). Fichas 0.3→0.4 (m1). DOCX do guia fora do repo (.gitignore); JSON versionado.
+
+Re-auditoria do delta (Z Code, 21/08): B1/B2/M1 RESOLVIDOS E VERIFICADOS; paridade independente
+128/128 (direto do DOCX). Branch APTO para o publish coordenado de 14/09, sem bloqueantes.
+Gates: verify 98/98 · parity 0 · gate 64/64 Δ=0 · build ok.
+
+Pendências até o publish (14/09):
+- m4: aviso de que avaliações v1 em andamento não são migradas (banner de 1ª visita ou nota
+  em /transparencia). m6: esmaecer/substituir o cabeçalho de nível quando "não avaliável".
+- m8 (novo): requirements são paráfrase deliberada — registrado no CHANGELOG (opção de incluir
+  na parity com mapa de equivalência, se o GT quiser paridade literal também nos requisitos).
+- m2/m3 (no dia): spec versão final 2.0.0 + tag v2.0.0; package.json/badge público.
+- Publicação coordenada guia v46 + app v2.0 (merge do branch no main + deploy) após termo
+  final do Z Code no PR de publish. Regenerar gate/enunciados-guia-v46.json se o DOCX mudar (F9).
+- Guia (Kimi): F9/índice + confirmação formal do alinhamento 3.b.4 (trivial — o guia não mudou).

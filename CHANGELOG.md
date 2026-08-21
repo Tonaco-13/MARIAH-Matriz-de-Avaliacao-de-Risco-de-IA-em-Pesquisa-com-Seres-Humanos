@@ -104,6 +104,15 @@ para banco no âmbito da pesquisa), em vez de "cinco situações do Art. 20" (ta
 e no requisito `req-738-III-1`); "pesquisador"/"pesquisador habilitado" (1.5/5.1/P4.3/P7.3),
 "raça" (4.1/P5.5) e demais ajustes m1. A checagem `parity-check` entra na CI (M1).
 
+**Escopo da paridade (m8).** A `parity-check` cobre os **enunciados** das perguntas
+(id ↔ enunciado), 1:1 com os quadros do guia. Os textos de `requirements` (checklists
+de salvaguardas por nível — req-I-*, req-II-*, req-IV-*, req-738-*) são **camada
+deliberada de paráfrase** da prosa/quadros do guia, não cópias verbatim: condensam para
+uso operacional pelo CEP, com semântica preservada. O `req-738-III-1` (dispensa de TCLE)
+foi alinhado em substância à redação do guia nesta versão. Caso o GT deseje paridade
+literal também nos requisitos, incluir `requirements` na `parity` com mapa de
+equivalência aceito — registrado como opção, não bloqueante (auditoria Z Code, m8).
+
 ### Verificação
 
 - `npm run verify` (verify-math): **98/98**.
