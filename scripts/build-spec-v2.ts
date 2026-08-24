@@ -188,7 +188,7 @@ spec.notasDominio = {
   obs: 'O teto teórico com banco só ocorre junto com a P6.b.2 eliminatória (protocolo não avaliável). O máximo pontuável com direito a classificação é o teto avaliável.',
 };
 
-spec.matrixVersion = '2.0.0-draft';
+spec.matrixVersion = '2.0.0';
 spec.geradoEm = new Date().toISOString();
 
 // ----- Resumo -----

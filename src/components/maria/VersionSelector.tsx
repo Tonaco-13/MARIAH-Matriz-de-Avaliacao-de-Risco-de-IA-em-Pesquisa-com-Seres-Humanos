@@ -255,6 +255,15 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
           <FileText className="h-4 w-4 mt-0.5 shrink-0" />
           <p>{MARIA_DISCLAIMER}</p>
         </div>
+
+        <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
+          <FileText className="h-4 w-4 mt-0.5 shrink-0" />
+          <p>
+            Esta é a versão 2.0 da matriz. Avaliações iniciadas em versões anteriores não são
+            recuperadas automaticamente — as respostas ficam apenas no seu navegador e não migram
+            entre versões da matriz.
+          </p>
+        </div>
       </main>
 
       {/* Footer */}

@@ -324,7 +324,20 @@ export default function Results({
         )}
 
         {/* Main result */}
-        <LevelCard level={finalLevel} />
+        {/* Precedência visual: "não avaliável" bloqueia a classificação — não exibir o nível como resultado. */}
+        {protocoloNaoAvaliavel ? (
+          <Card className="border-2 border-slate-300 bg-slate-50 mb-6">
+            <CardContent className="py-6 text-center">
+              <p className="text-2xl font-bold text-slate-700">Classificação suspensa</p>
+              <p className="text-sm text-slate-600 mt-1">
+                O protocolo é <strong>não avaliável no mérito</strong> até a diligência ser sanada (ver acima).
+                Não há nível de risco atribuído.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <LevelCard level={finalLevel} />
+        )}
 
         {/* Cláusula de Prevalência Ética warning */}
         {quantResult?.clausulaPrevalencia && (
