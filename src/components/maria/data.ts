@@ -24,11 +24,35 @@ export type RiskLevelInfo = {
   description: string;
 };
 
+/**
+ * Cláusula de uma regra de exibição condicional de pergunta da matriz.
+ * - Folha: compara o valor de `campo` (em `origem`) com `valor` via `operador`.
+ *   'diferente' só é verdadeiro se o campo estiver RESPONDIDO e ≠ valor (evita
+ *   exibir a pergunta antes de o gatilho ser respondido).
+ * - `nenhuma`: NOR — verdadeiro apenas se nenhuma subcláusula for verdadeira.
+ */
+export type ClausulaExibicao =
+  | { campo: string; origem: 'contexto' | 'matriz'; operador: 'igual' | 'diferente'; valor: string }
+  | { nenhuma: ClausulaExibicao[] };
+
+/**
+ * Regra de exibição condicional de uma pergunta de matriz (Versão A/B).
+ * A pergunta é exibida quando TODAS as cláusulas de `todas` são satisfeitas.
+ * Quando oculta: não é renderizada, não pontua, não dispara eliminatória e não
+ * consta como pendência na auditoria. Origem: gatilhos das fichas (guia).
+ */
+export type ExibicaoCondicional = {
+  descricao?: string;
+  todas: ClausulaExibicao[];
+};
+
 export type QualitativeQuestion = {
   id: string;
   pergunta: string;
   riskAnswer: 'sim' | 'nao';
   dica: string;
+  /** Regra de exibição condicional (ex.: 3.b.4.1/3.b.7, dependentes de 3.b.4 e C.3/C.5). */
+  exibicaoCondicional?: ExibicaoCondicional;
   /** Quando true, a resposta de risco torna o protocolo NÃO AVALIÁVEL no mérito (§7.3.6 / Res 738). */
   eliminatorio?: boolean;
   /**
@@ -82,6 +106,8 @@ export type QuantitativeQuestion = {
   pontos: number;
   dica: string;
   efeito?: 'risco' | 'mitigacao' | 'evidencia' | 'diligencia';
+  /** Regra de exibição condicional (ex.: P6.b.4.1/P6.b.6, dependentes de P6.b.4 e C.3/C.5). */
+  exibicaoCondicional?: ExibicaoCondicional;
   /**
    * Item de diligência/descritiva na Versão B que NÃO soma ao teto.
    * (efeito 'diligencia' já implica não-pontuável; flag mantida por clareza.)
@@ -180,7 +206,22 @@ export const DATABASE_FILTER_QUESTION = spec.databaseFilterQuestion;
 
 // ----- Context Characterization Questions -----
 
-export const CONTEXT_QUESTIONS = spec.contextQuestions;
+export type ContextQuestion = {
+  id: string;
+  pergunta: string;
+  dica: string;
+  /** Tipo de entrada da descritiva. Ausente ⇒ texto livre (compat. contexto1/contexto2). */
+  tipoEntrada?: 'texto' | 'numero' | 'selecao' | 'radio';
+  /** Opções para tipoEntrada 'selecao' | 'radio'. */
+  opcoes?: string[];
+  /**
+   * Regra de exibição condicional (texto), ex.: "exibir somente se C.3 ≠ 'anonimizados'".
+   * Avaliada em ContextForm; questão oculta não é obrigatória nem exportada.
+   */
+  condicional?: string;
+};
+
+export const CONTEXT_QUESTIONS = spec.contextQuestions as unknown as ContextQuestion[];
 
 
 /** Versão da matriz (para carimbo nos relatórios). */

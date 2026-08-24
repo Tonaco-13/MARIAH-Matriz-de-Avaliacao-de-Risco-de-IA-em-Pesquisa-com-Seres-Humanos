@@ -63,3 +63,5 @@ MARA_prompt_*.md
 *.swp
 *.swo
 .#*
+# Guia (DOCX) usado só para extrair enunciados — nao versionar (draft do lado guia)
+gate/*.docx

@@ -4,16 +4,20 @@
 // This imports the TS modules via tsx-compatible transpile. If you don't have
 // tsx installed, use `npx tsx scripts/verify-math.mjs`.
 
-import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO } from '../src/components/maria/data';
+import { QUALITATIVE_AXES, QUANTITATIVE_BLOCKS, THRESHOLDS_BASE, THRESHOLDS_COM_BANCO, CONTEXT_QUESTIONS, MATRIX_VERSION, REQUIREMENTS, REQUIREMENTS_RES738 } from '../src/components/maria/data';
 import {
   getApplicableAxes,
   getApplicableBlocks,
   calculateBlockScore,
   getQuantitativeTotalScore,
   getQuantitativeFinalResult,
+  getQuantitativeRiskLevel,
   getQualitativeFinalLevel,
   getEliminatoryQuestionTriggered,
   countRiskAnswersAxis,
+  buildValidationExport,
+  isMatrixQuestionVisible,
+  getUnansweredItems,
 } from '../src/components/maria/utils';
 
 let passed = 0;
@@ -37,36 +41,42 @@ const axesBase = getApplicableAxes(false);
 const axesDb = getApplicableAxes(true);
 assert('Base axes count (no database)', axesBase.length, 5);
 assert('Axes with database', axesDb.length, 6);
-// 42 = 41 originais + 2.10 (plano de novo consentimento) — impeditiva mas não-pontuável (MZ-05) — 2026-07-09
-assert('Base total questions', axesBase.reduce((s, a) => s + a.questoes.length, 0), 42);
-assert('With-db total questions', axesDb.reduce((s, a) => s + a.questoes.length, 0), 47);
+// v2: base 49 = 42 (v1) + 7 risco (Eixo 2 +2, Eixo 3 +5). Com banco 57 = 49 + Eixo 3.b (8 = 5 + F-17/F-18/F-23).
+assert('Base total questions', axesBase.reduce((s, a) => s + a.questoes.length, 0), 49);
+assert('With-db total questions', axesDb.reduce((s, a) => s + a.questoes.length, 0), 57);
 
 console.log('\n=== 2. Quantitative structure ===');
 const blocksBase = getApplicableBlocks(false);
 const blocksDb = getApplicableBlocks(true);
 assert('Base blocks count', blocksBase.length, 7);
 assert('Blocks with database', blocksDb.length, 8);
+// v2: base 275 (Bloco 5: 52→62, Bloco 6: 50→77). Com banco 304 (+ Bloco 6.b 29).
 assert(
   'Sum of maxPontos base',
   blocksBase.reduce((s, b) => s + b.maxPontos, 0),
-  238
+  275
 );
 assert(
   'Sum of maxPontos with db',
   blocksDb.reduce((s, b) => s + b.maxPontos, 0),
-  267
+  304
 );
 assert(
   'Block 6.b maxPontos',
   QUANTITATIVE_BLOCKS.find((b) => b.id === 'bloco6b').maxPontos,
   29
 );
+assert('Bloco 5 maxPontos (v2)', QUANTITATIVE_BLOCKS.find((b) => b.id === 'bloco5').maxPontos, 62);
+assert('Bloco 6 maxPontos (v2)', QUANTITATIVE_BLOCKS.find((b) => b.id === 'bloco6').maxPontos, 77);
+assert('Bloco 7 maxPontos (inalterado)', QUANTITATIVE_BLOCKS.find((b) => b.id === 'bloco7').maxPontos, 75);
 
-console.log('\n=== 3. Thresholds ===');
-assert('Base thresholds maxScore', THRESHOLDS_BASE.maxScore, 238);
-assert('Com-banco thresholds maxScore', THRESHOLDS_COM_BANCO.maxScore, 267);
-assert('Base Level IV min', THRESHOLDS_BASE.levelIII + 1, 181);
-assert('Com-banco Level IV min', THRESHOLDS_COM_BANCO.levelIII + 1, 203);
+console.log('\n=== 3. Thresholds (recalibração cenário A) ===');
+assert('Base thresholds maxScore', THRESHOLDS_BASE.maxScore, 275);
+assert('Com-banco thresholds maxScore', THRESHOLDS_COM_BANCO.maxScore, 304);
+assert('Base cortes I/II/III', [THRESHOLDS_BASE.levelI, THRESHOLDS_BASE.levelII, THRESHOLDS_BASE.levelIII], [58, 127, 208]);
+assert('Com-banco cortes I/II/III', [THRESHOLDS_COM_BANCO.levelI, THRESHOLDS_COM_BANCO.levelII, THRESHOLDS_COM_BANCO.levelIII], [64, 141, 230]);
+assert('Base Level IV min', THRESHOLDS_BASE.levelIII + 1, 209);
+assert('Com-banco Level IV min', THRESHOLDS_COM_BANCO.levelIII + 1, 231);
 
 console.log('\n=== 4. Bloco 7 bidirectional (bug fix) ===');
 // All risk answers, no mitigations → should reach max
@@ -101,31 +111,25 @@ function buildWorstCase(blocks) {
 }
 const worstBase = buildWorstCase(blocksBase);
 const worstDb = buildWorstCase(blocksDb);
-assert('Worst-case total (base, no db)', getQuantitativeTotalScore(worstBase, false), 238);
-assert('Worst-case total (with db)', getQuantitativeTotalScore(worstDb, true), 267);
+assert('Worst-case total (base, no db)', getQuantitativeTotalScore(worstBase, false), 275);
+assert('Worst-case total (with db)', getQuantitativeTotalScore(worstDb, true), 304);
 
-console.log('\n=== 6. Level mapping ===');
+console.log('\n=== 6. Level mapping (fronteiras v2) ===');
 assert('score=0 → I (base)', getQuantitativeFinalResult({}, false).level, 'I');
-
-// B1 (22) + 5 risks em B5 (6*5=30) = 52 → II
-const ans52 = { 'P1.1': 'nao', 'P1.2': 'nao', 'P1.3': 'nao', 'P1.4': 'nao', 'P1.5': 'nao', 'P1.6': 'nao', 'P1.7': 'nao', 'P5.1': 'sim', 'P5.2': 'sim', 'P5.3': 'sim', 'P5.4': 'sim', 'P5.5': 'sim' };
-assert('score=52 → II (base)', getQuantitativeTotalScore(ans52, false), 52);
-assert('score=52 → Level II (base)', getQuantitativeFinalResult(ans52, false).level, 'II');
-
-// Exactly 50 pts → Level I (boundary)
-const ans50 = { 'P1.1': 'nao', 'P1.2': 'nao', 'P1.3': 'nao', 'P1.4': 'nao', 'P1.5': 'nao', 'P1.6': 'nao', 'P1.7': 'nao', 'P5.1': 'sim', 'P5.2': 'sim', 'P5.3': 'sim', 'P5.4': 'sim', 'P5.6': 'nao' };
-// 22 + 6*4 + 5 = 51 → II. Let me instead do 22+4*6+3 (not possible, block5 has P5.6=5pts)
-// Try: 22 (bloco1) + 4*6 (P5.1-P5.4) + 4 (P1.7=4) ... wait P1.7 is in bloco1 max 22 already.
-// B2 worst single = 3; B1 22 + B2 P2.1 (3) + P2.2 (3) + P2.3 (3) = 22+9 = 31 ... let me just use B1 22 + P5.1-P5.4 (24) + P5.6 (5) = 51
-const s51 = getQuantitativeTotalScore(ans50, false);
-console.log(`  ℹ test ans50 real score = ${s51}`);
-assert('boundary score → Level II', getQuantitativeFinalResult(ans50, false).level, 'II');
-
-// Test exact 50 pts boundary
-const ans50exact = { 'P5.1': 'sim', 'P5.2': 'sim', 'P5.3': 'sim', 'P5.4': 'sim', 'P5.5': 'sim', 'P5.6': 'nao', 'P5.7': 'nao', 'P5.8': 'nao', 'P5.9': 'nao' };
-const s50 = getQuantitativeTotalScore(ans50exact, false);
-console.log(`  ℹ Bloco 5 all-risk real score = ${s50} (doc says 52)`);
-assert('Bloco 5 full risk = 52 pts → Level II', getQuantitativeFinalResult(ans50exact, false).level, 'II');
+// Base: cortes 58/127/208 (inclusivos). Testa cada fronteira e o degrau seguinte.
+assert('58 → I (base)', getQuantitativeRiskLevel(58, false), 'I');
+assert('59 → II (base)', getQuantitativeRiskLevel(59, false), 'II');
+assert('127 → II (base)', getQuantitativeRiskLevel(127, false), 'II');
+assert('128 → III (base)', getQuantitativeRiskLevel(128, false), 'III');
+assert('208 → III (base)', getQuantitativeRiskLevel(208, false), 'III');
+assert('209 → IV (base)', getQuantitativeRiskLevel(209, false), 'IV');
+// Com banco: cortes 64/141/230.
+assert('64 → I (com banco)', getQuantitativeRiskLevel(64, true), 'I');
+assert('65 → II (com banco)', getQuantitativeRiskLevel(65, true), 'II');
+assert('141 → II (com banco)', getQuantitativeRiskLevel(141, true), 'II');
+assert('142 → III (com banco)', getQuantitativeRiskLevel(142, true), 'III');
+assert('230 → III (com banco)', getQuantitativeRiskLevel(230, true), 'III');
+assert('231 → IV (com banco)', getQuantitativeRiskLevel(231, true), 'IV');
 
 console.log('\n=== 7. Cláusula de Prevalência Ética ===');
 const p41Result = getQuantitativeFinalResult({ 'P4.1': 'sim' }, false);
@@ -209,9 +213,10 @@ assert('3.b.2=na → countRiskAnswersAxis = 0', riskCount_na, 0);
 console.log('\n=== 10. Questions count ===');
 const totalQuantQuestionsDb = blocksDb.reduce((s, b) => s + b.questoes.length, 0);
 const totalQuantQuestionsBase = blocksBase.reduce((s, b) => s + b.questoes.length, 0);
-// 52 = 51 originais + P2.8 (plano de novo consentimento, pontos:0 eliminatório) — 2026-07-09
-assert('Quant total questions (base)', totalQuantQuestionsBase, 52);
-assert('Quant total questions (with db)', totalQuantQuestionsDb, 57);
+// v2: base 63 = 52 (v1) + 2 (F-11/F-12 Bloco 5) + 5 (F-06..F-10 Bloco 6) + 4 (F-13..F-16 7C).
+// Com banco 71 = 63 + Bloco 6.b (8 = 5 + F-17/F-18/F-23 diligências).
+assert('Quant total questions (base)', totalQuantQuestionsBase, 63);
+assert('Quant total questions (with db)', totalQuantQuestionsDb, 71);
 
 console.log('\n=== 11. Efeitos v2: 7C evidência (só-abate) e diligência (não pontua) ===');
 // Bloco sintético (não altera a matriz): valida os ramos novos do calculateBlockScore.
@@ -234,6 +239,96 @@ assert('7C ausente não infla (= 10)', calculateBlockScore(blocoEvid as never, {
 assert('7C sozinha respeita o piso 0', calculateBlockScore(blocoEvid as never, { EV1: 'sim' }), 0);
 // diligência não pontua
 assert('diligência não pontua (= 10)', calculateBlockScore(blocoEvid as never, { R1: 'nao', DG1: 'nao' }), 10);
+
+console.log('\n=== 12. Estrutura v2 na matriz real ===');
+// 7C: 4 evidências no Bloco 7, todas efeito 'evidencia' e pontos negativos (só-abate).
+const bloco7Real = QUANTITATIVE_BLOCKS.find((b) => b.id === 'bloco7');
+const evidReal = bloco7Real.questoes.filter((q) => q.efeito === 'evidencia');
+assert('Bloco 7 tem 4 evidências (7C)', evidReal.length, 4);
+assert('Evidências têm pontos negativos', evidReal.every((q) => q.pontos < 0), true);
+// Diligências: 3 no Bloco 6.b, efeito 'diligencia', pontos 0 e eliminatórias (devolução/não avaliável).
+const bloco6bReal = QUANTITATIVE_BLOCKS.find((b) => b.id === 'bloco6b');
+const diligReal = bloco6bReal.questoes.filter((q) => q.efeito === 'diligencia');
+assert('Bloco 6.b tem 3 diligências', diligReal.length, 3);
+assert('Diligências não pontuam', diligReal.every((q) => q.pontos === 0), true);
+assert('Diligências são eliminatórias (devolução)', diligReal.every((q) => q.eliminatorio === true), true);
+// Diligência SEM exibição condicional (F-23/P6.b.7) dispara "não avaliável" direto.
+// (As condicionais F-17/F-18 são cobertas na Seção 15, respeitando o gatilho.)
+const diligSemCond = diligReal.find((q) => !q.exibicaoCondicional);
+assert('Diligência (incondicional)=nao aciona não avaliável', getEliminatoryQuestionTriggered({ [diligSemCond!.id]: 'nao' }, 'B', true), diligSemCond!.id);
+// Descritivas: 8 no contexto; as 6 novas têm tipoEntrada declarado.
+assert('Contexto tem 8 descritivas', CONTEXT_QUESTIONS.length, 8);
+const comTipo = CONTEXT_QUESTIONS.filter((q) => q.tipoEntrada).length;
+assert('Descritivas novas têm tipoEntrada', comTipo, 6);
+
+console.log('\n=== 13. Export de validação: M3 (não avaliável ≠ IV) + carimbo de versão ===');
+// Versão B com P6.b.2=nao (eliminatória, com banco) → protocolo não avaliável.
+const expNaoAval = buildValidationExport({
+  version: 'B',
+  useAAsTriagem: false,
+  usesDatabase: true,
+  contextAnswers: {},
+  qualitativeAnswers: {},
+  quantitativeAnswers: { 'P6.b.2': 'nao' },
+});
+assert('M3: classificacaoFinal = NÃO AVALIÁVEL (não IV)', expNaoAval.versaoB.classificacaoFinal, 'NÃO AVALIÁVEL');
+assert('M3: protocoloNaoAvaliavel = true', expNaoAval.versaoB.protocoloNaoAvaliavel, true);
+assert('Carimbo: software.versaoMatriz = MATRIX_VERSION', expNaoAval.software.versaoMatriz, MATRIX_VERSION);
+assert('Export schemaVersion = 2', expNaoAval.schemaVersion, 2);
+// Sanidade: protocolo avaliável mantém o nível de risco (não vira "NÃO AVALIÁVEL").
+const expOk = buildValidationExport({
+  version: 'B',
+  useAAsTriagem: false,
+  usesDatabase: false,
+  contextAnswers: {},
+  qualitativeAnswers: {},
+  quantitativeAnswers: {},
+});
+assert('Avaliável mantém nível (I) no export', expOk.versaoB.classificacaoFinal, 'I');
+
+console.log('\n=== 14. Harmonização de texto (MI6, F-19/F-20/F-21, 7C) ===');
+const allReqs = [...REQUIREMENTS, ...REQUIREMENTS_RES738];
+const reqIV4 = allReqs.find((r) => r.id === 'req-IV-4');
+assert('MI6: req-IV-4 cita "CEP acreditado"', reqIV4?.texto.includes('CEP acreditado'), true);
+assert('MI6: req-IV-4 sem "instância superior"', reqIV4?.texto.includes('instância superior'), false);
+const findQB = (id: string) => {
+  for (const b of QUANTITATIVE_BLOCKS) { const q = b.questoes.find((x) => x.id === id); if (q) return q; }
+  return undefined;
+};
+const findQA = (id: string) => {
+  for (const a of QUALITATIVE_AXES) { const q = a.questoes.find((x) => x.id === id); if (q) return q; }
+  return undefined;
+};
+assert('F-19: 3.1 cita "saúde mental"', findQA('3.1')?.pergunta.includes('saúde mental'), true);
+assert('F-19: 3.1 cita "dados de localização"', findQA('3.1')?.pergunta.includes('dados de localização'), true);
+assert('F-20: 1.2 cita "após o seu encerramento"', findQA('1.2')?.pergunta.includes('após o seu encerramento'), true);
+assert('F-20: P2.2 usa travessão (—)', findQB('P2.2')?.pergunta.includes('—'), true);
+assert('F-21: P6.b.5 cita "acordo formal de compartilhamento"', findQB('P6.b.5')?.pergunta.includes('acordo formal de compartilhamento'), true);
+assert('7C: dica de P7.13 cita "peso maior"', findQB('P7.13')?.dica.includes('peso maior'), true);
+
+console.log('\n=== 15. Exibição condicional F-17/F-18 (gatilho P6.b.4 + âncora C.3/C.5) ===');
+// F-18a: P6.b.4 ganhou a opção N/A ("sem pedido de dispensa").
+assert('F-18a: P6.b.4 tem hasNaOption', findQB('P6.b.4')?.hasNaOption, true);
+const P6b6 = findQB('P6.b.6'); // checklist (F-18)
+const P6b41 = findQB('P6.b.4.1'); // necessidade de identificáveis (F-17)
+assert('F-18 (P6.b.6) tem exibicaoCondicional', !!P6b6?.exibicaoCondicional, true);
+assert('F-17 (P6.b.4.1) tem exibicaoCondicional', !!P6b41?.exibicaoCondicional, true);
+// F-18: oculto sem pedido de dispensa (P6.b.4 = na) e antes de responder o gatilho.
+assert('F-18 oculto quando P6.b.4 = na', isMatrixQuestionVisible(P6b6!, { 'P6.b.4': 'na' }), false);
+assert('F-18 oculto quando P6.b.4 não respondido', isMatrixQuestionVisible(P6b6!, {}), false);
+assert('F-18 visível quando P6.b.4 = sim', isMatrixQuestionVisible(P6b6!, { 'P6.b.4': 'sim' }), true);
+assert('F-18 visível quando P6.b.4 = nao', isMatrixQuestionVisible(P6b6!, { 'P6.b.4': 'nao' }), true);
+// F-17: exige pedido de dispensa E acesso a identificáveis (C.3/C.5).
+assert('F-17 oculto se C.3 = anonimizados', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'sim' }, { 'C.3': 'anonimizados' }), false);
+assert('F-17 oculto se C.5 = antes do acesso', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'sim' }, { 'C.5': 'antes do acesso, pela instituição custodiante' }), false);
+assert('F-17 visível se identificáveis + pedido', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'sim' }, { 'C.3': 'identificáveis' }), true);
+assert('F-17 oculto sem pedido (P6.b.4 = na)', isMatrixQuestionVisible(P6b41!, { 'P6.b.4': 'na' }, { 'C.3': 'identificáveis' }), false);
+// Eliminatória respeita a visibilidade: checklist oculto NÃO dispara devolução.
+assert('Checklist oculto (P6.b.4=na) não elimina', getEliminatoryQuestionTriggered({ 'P6.b.6': 'nao', 'P6.b.4': 'na' }, 'B', true), null);
+assert('Checklist visível (P6.b.4=sim) + incompleto elimina', getEliminatoryQuestionTriggered({ 'P6.b.6': 'nao', 'P6.b.4': 'sim' }, 'B', true), 'P6.b.6');
+// Auditoria: item oculto não vira pendência.
+const pend = getUnansweredItems('B', {}, {}, { 'P6.b.4': 'na' }, true).map((i) => i.id);
+assert('Auditoria não lista P6.b.6 oculto', pend.includes('P6.b.6'), false);
 
 console.log(`\n=== SUMMARY ===`);
 console.log(`  Passed: ${passed}`);

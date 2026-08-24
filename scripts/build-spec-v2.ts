@@ -36,6 +36,27 @@ const axis = (id: string) => spec.qualitativeAxes.find((a: { id: string }) => a.
 const block = (id: string) => spec.quantitativeBlocks.find((b: { id: string }) => b.id === BL[id]);
 const clean = (o: Record<string, unknown>) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== false));
 
+// Exibição condicional das diligências (gatilhos estruturados das fichas v0.3, Kimi 20/08):
+// - F-18 (checklist de dispensa): visível só quando há pedido de dispensa (P6.b.4/3.b.4 ≠ N/A).
+// - F-17 (necessidade de identificáveis): idem + acesso a identificáveis (âncora C.3/C.5).
+// `refMatriz` = 3.b.4 (Versão A) ou P6.b.4 (Versão B), conforme o lado.
+const CLAUSULA_C3_C5 = {
+  nenhuma: [
+    { campo: 'C.3', origem: 'contexto', operador: 'igual', valor: 'anonimizados' },
+    { campo: 'C.5', origem: 'contexto', operador: 'igual', valor: 'antes do acesso, pela instituição custodiante' },
+  ],
+};
+function exibicaoFor(fichaId: string, refMatriz: string): unknown {
+  const clDispensa = { campo: refMatriz, origem: 'matriz', operador: 'diferente', valor: 'na' };
+  if (fichaId === 'F-18') {
+    return { descricao: `Exibir só quando há pedido de dispensa de TCLE (${refMatriz} ≠ "não se aplica").`, todas: [clDispensa] };
+  }
+  if (fichaId === 'F-17') {
+    return { descricao: `Exibir quando há pedido de dispensa (${refMatriz} ≠ N/A) e acesso a dados identificáveis (C.3/C.5).`, todas: [clDispensa, CLAUSULA_C3_C5] };
+  }
+  return undefined; // F-23: sem condicional adicional (herda a ativação do Bloco 6.b)
+}
+
 const log: string[] = [];
 let nDescr = 0, nRisco = 0, nEvid = 0, nDilig = 0, nSkip = 0;
 
@@ -86,21 +107,67 @@ for (const f of fichasDoc.fichas) {
       id: f.versaoA.id_proposto, pergunta: f.pergunta, riskAnswer: 'nao', dica: f.dica,
       eliminatorio: true, hasNaOption: f.versaoA.hasNaOption, naoPontuavel: true,
       motivoEliminatorio: motivo, refEliminatoria: 'Res. CNS n.º 738/2024',
+      exibicaoCondicional: exibicaoFor(f.ficha_id, '3.b.4'),
     }));
     const b = block('6.b');
     b.questoes.push(clean({
       id: f.versaoB.id_proposto, pergunta: f.pergunta, riskAnswer: 'nao', pontos: 0,
       dica: f.dica, efeito: 'diligencia', eliminatorio: true, hasNaOption: f.versaoB.hasNaOption,
       motivoEliminatorio: motivo, refEliminatoria: 'Res. CNS n.º 738/2024',
+      exibicaoCondicional: exibicaoFor(f.ficha_id, 'P6.b.4'),
     }));
     nDilig++;
 
   } else {
-    // alterar-redacao (F-19/F-20/F-21) e evidencia:alterar-dica (Versão A) — texto, passo próprio.
-    log.push(`  (pulado, texto) ${f.ficha_id} — ${f.acao}`);
+    // alterar-redacao (F-19/F-20/F-21): texto aplicado na harmonização abaixo.
+    // evidencia:alterar-dica (Versão A): enriquece a dica de questão existente (fora do escopo do app).
+    log.push(`  (texto via harmonização) ${f.ficha_id} — ${f.acao}`);
     nSkip++;
   }
 }
+
+// ----- Harmonização de texto (m1, verbatim da v46 — despacho Kimi 19/08/2026) -----
+// Sem impacto em pontuação. Aplica alterar-redacao (F-19/F-20/F-21), a nota completa
+// da dica de P7.13 (7C) e a redação canônica do req-IV-4 (MI6, alinhamento app→guia aprovado).
+// Enunciados: overlay VERBATIM dos quadros do guia v46 (paridade 1:1 total).
+// Fonte: gate/enunciados-guia-v46.json (extraído por scripts/extract-enunciados-guia.py).
+// Subsome F-19/F-20/F-21 e corrige o meta-texto de ficha das diligências (B2 — auditoria Z Code).
+const ENUNCIADOS_GUIA: Record<string, string> = JSON.parse(
+  readFileSync('gate/enunciados-guia-v46.json', 'utf-8')
+);
+// Dicas não constam dos quadros — harmonizadas à redação do guia onde necessário.
+const DICAS_HARMONIZADAS: Record<string, string> = {
+  'P7.13': 'RIPD do controlador ou avaliação de impacto algorítmico documentada valem como evidência; o peso maior (−8) reflete a abrangência da evidência.',
+  '3.b.4': 'A dispensa de TCLE para uso futuro não é automática: exige enquadramento na hipótese cabível segundo a origem do banco (Res. CNS n.º 738/2024). Banco constituído fora do âmbito da pesquisa → única via é a anonimização pelo Controlador (art. 20, § 5.º). Banco constituído no âmbito da pesquisa → art. 25, quatro situações. Justificativa genérica não basta.',
+  'P6.b.4': 'A dispensa de TCLE para uso futuro não é automática: exige enquadramento na hipótese cabível segundo a origem do banco (Res. CNS n.º 738/2024). Banco constituído fora do âmbito da pesquisa → única via é a anonimização pelo Controlador (art. 20, § 5.º). Banco constituído no âmbito da pesquisa → art. 25, quatro situações. Justificativa genérica não basta.',
+};
+const patchQuestao = (q: { id: string; pergunta: string; dica: string }) => {
+  if (ENUNCIADOS_GUIA[q.id]) q.pergunta = ENUNCIADOS_GUIA[q.id];
+  if (DICAS_HARMONIZADAS[q.id]) q.dica = DICAS_HARMONIZADAS[q.id];
+};
+for (const ax of spec.qualitativeAxes) ax.questoes.forEach(patchQuestao);
+for (const bl of spec.quantitativeBlocks) bl.questoes.forEach(patchQuestao);
+
+// MI6 — req-IV-4 (redação canônica v46).
+const REQUISITOS_HARMONIZADOS: Record<string, string> = {
+  'req-IV-4': 'Submissão do protocolo à apreciação de CEP acreditado para protocolos de risco elevado ou de CEP com habilitação específica em inteligência artificial.',
+  // req-738-III-1: alinhado ao guia (hipótese cabível segundo a origem do banco), não "cinco hipóteses do Art. 20".
+  'req-738-III-1': 'Fundamentação do enquadramento da dispensa de TCLE na hipótese cabível segundo a origem do banco (art. 20, § 5.º, ou art. 25 da Res. CNS n.º 738/2024)',
+};
+const patchRequisito = (r: { id: string; texto: string }) => {
+  if (REQUISITOS_HARMONIZADOS[r.id]) r.texto = REQUISITOS_HARMONIZADOS[r.id];
+};
+spec.requirements.forEach(patchRequisito);
+spec.requirementsRes738.forEach(patchRequisito);
+
+// F-18a — opção N/A ("não há pedido de dispensa") em 3.b.4 / P6.b.4 (sem_impacto).
+// É o sinal-âncora que gatilha a exibição de F-17/F-18. N/A-padrão de item pontuável
+// (0 pontos, efeito risco), distinto do N/A ambíguo das diligências (removido no F-23).
+const marcaNa = (q: { id: string; hasNaOption?: boolean }) => {
+  if (q.id === '3.b.4' || q.id === 'P6.b.4') q.hasNaOption = true;
+};
+for (const ax of spec.qualitativeAxes) ax.questoes.forEach(marcaNa);
+for (const bl of spec.quantitativeBlocks) bl.questoes.forEach(marcaNa);
 
 // ----- Recalibração (frações fixas do baseline 238; arredondamento meia-unidade p/ cima) -----
 const baseBlocks = spec.quantitativeBlocks.filter((b: { condicionalBancoDados?: boolean }) => !b.condicionalBancoDados);
@@ -121,7 +188,7 @@ spec.notasDominio = {
   obs: 'O teto teórico com banco só ocorre junto com a P6.b.2 eliminatória (protocolo não avaliável). O máximo pontuável com direito a classificação é o teto avaliável.',
 };
 
-spec.matrixVersion = '2.0.0-draft';
+spec.matrixVersion = '2.0.0';
 spec.geradoEm = new Date().toISOString();
 
 // ----- Resumo -----

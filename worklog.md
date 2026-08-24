@@ -208,3 +208,112 @@ Follow-ups:
 - Fonte Rawline (GOV.BR DS) no lugar de Geist — pendente (exige hospedar a fonte).
 - Contraste dos botões de resposta "de risco" (red-500 ~4:1) — candidato a ajuste.
 - Alinhar a cor interna dos documentos .docx/.xlsx ao azul marinho (hoje ainda teal).
+
+---
+Data: 2026-08-16
+Agente: Fabiano + assistente (conta MS)
+Tarefa: Fase 2 (spec v2.0-draft), widgets do ContextForm, correção F-23 (Kimi) e #20 (M3 + carimbo de versão)
+
+Fase 2 — spec v2.0-draft (commit 8c237ea; PR mergeada):
+- Gerador reprodutível scripts/build-spec-v2.ts: lê spec v1 (baseline) + spec/fichas/
+  fichas-alteracao-mariah-v2.json (fichas v0.3 do Kimi, copiadas para o repo) e aplica
+  20 das 23 fichas — 6 descritivas (contexto C.3–C.8), 7 risco (Eixo 2 +2, Eixo 3 +5 /
+  Blocos 5 e 6), 4 evidências 7C (só-abate, pontos negativos), 3 diligências (Eixo 3.b /
+  Bloco 6.b, não pontuam). F-19/F-20/F-21 (texto) ficaram para harmonização.
+- Recalibração cenário A: teto base 275 (cortes 58/127/208), com banco 304 (64/141/230),
+  avaliável 297, fatia ética (Blocos 5+6) = 50,5%. Cortes calculados pelas frações fixas do
+  baseline 238, arredondamento meia-unidade p/ cima.
+- verify-math atualizado para os números v2; fronteiras de nível reescritas; Seção 12
+  (efeitos v2 na matriz real). Números conferidos 1:1 com a memória Rev.2 do Kimi.
+
+Widgets do ContextForm (commit 00780d9; branch feat/context-widgets):
+- Descritivas C.3–C.8 renderizadas por tipoEntrada: seleção (C.3, C.5), número (C.4),
+  radio acessível (C.6–C.8; fieldset/legend, accent teal, anel de foco).
+- Condicional: C.5 só aparece se C.3 != 'anonimizados'; ao ocultar, a resposta é limpa
+  (não vaza no export). Regra centralizada em utils.isContextQuestionVisible (fonte única),
+  reutilizada na auditoria (getUnansweredItems cobre as descritivas visíveis). Badge C1..C8.
+
+Correção F-23 — N/A das diligências (commit 7452e63):
+- Kimi apontou que a ficha da F-23 não prevê "não se aplica". O gerador forçava
+  hasNaOption:true nas três diligências; passou a LER hasNaOption da ficha (fonte única) —
+  como nenhuma das três prevê, o N/A saiu de 3.b.4.1/P6.b.4.1, 3.b.7/P6.b.6 e 3.b.6/P6.b.7.
+- Spec regenerada da baseline v1 (git show 8c237ea~1) para manter reprodutibilidade.
+
+#20 — M3 + carimbo de versão + localStorage (commit 79276b6):
+- M3 corrigido: no export JSON de validação, "não avaliável" sai como 'NÃO AVALIÁVEL'
+  (antes virava 'IV', mascarando a devolução), Versões A e B. Versão B ganhou o campo
+  protocoloNaoAvaliavel (simetria com A). schemaVersion do export subiu para 2.
+- Carimbo da versão da matriz (MATRIX_VERSION) no JSON (software.versaoMatriz), no cabeçalho
+  do TXT e do PDF.
+- Chave do localStorage versionada ('maria-assessment-state-v2'): estado da v1 NÃO é migrado
+  (matriz incompatível) e chaves obsoletas são limpas no primeiro load.
+- Teste novo no verify-math (Seção 13) travando o M3 e o carimbo.
+
+Verificação: npm run verify 76/76; npm run build compila (Turbopack "Skipping validation of
+types" — type-check completo via tsc mostra só erros pré-existentes de scaffold Z AI em
+examples/, skills/, src/lib/db.ts, e o padrão .find() do próprio verify-math; nada no app).
+Branches publicadas: feat/context-widgets e feat/mariah-v2-fixes (esta contém widgets+F-23+#20).
+
+Recebido do Kimi: guia v46 DRAFT (INAEP_GUIA_IA_PESQUISA_V46_DRAFT_15_08_26.docx), verificação
+estrutural 84/84 e OOXML limpa. Confirmou a modelagem das diligências como "devolução /
+não avaliável" (3.b.4.1, 3.b.7, 3.b.6). URL canônico do repositório repassado para o ¶1752:
+github.com/Tonaco-13/MARIAH-Matriz-de-Avaliacao-de-Risco-de-IA-em-Pesquisa-com-Seres-Humanos.
+
+Follow-ups / pendências:
+- Abrir as PRs (feat/context-widgets e feat/mariah-v2-fixes) e mergear em ordem.
+- Responder ao Kimi: aceite dos pontos + URL canônico + QUESTÃO EM ABERTO: aplicabilidade das
+  diligências F-17/F-18 sem N/A pode sobre-bloquear protocolos de banco que não reivindicam
+  dispensa de TCLE / não usam identificáveis — decidir se entra display-conditional na
+  ficha/guia (como a C.5) ou N/A. Ao sinalizar feature-complete, dispara a camada 2 do gate
+  (planilha 27 vetores + V17/V18/V19) e a auditoria final do Z Code. Meta 14/09.
+- Harmonização de texto: F-19/F-20/F-21 e as dicas 7C (alterar-dica) — replicar a redação
+  final da v46 literal em data.ts; adotar "pesquisador habilitado" e "transportabilidade".
+- #21: gate de paridade app × planilha + CHANGELOG com id-map (old→new) + publicação
+  coordenada guia v46 + app v2.0.
+
+---
+Data: 2026-08-20/21
+Agente: Fabiano + assistente (conta MS)
+Tarefa: Feature-complete v2, gate tripartite, incidente B1 (rollback) e correções B2/M1
+
+Feature-complete (branch feat/mariah-v2-fixes):
+- Widgets ContextForm (C.3–C.8) + C.5 condicional; M3 (não avaliável ≠ IV) + carimbo de
+  versão + chave localStorage v2; harmonização de texto (MI6/F-19/20/21/7C); condicionais
+  de exibição F-17/F-18 + F-18a (N/A em P6.b.4). verify-math 98/98.
+- Exibição condicional: perguntas de matriz ganham exibicaoCondicional (avaliador
+  determinístico); ocultas não pontuam, não elivam devolução, não viram pendência; telas
+  limpam a resposta ao ocultar. (commit 3502da1)
+
+Gate tripartite:
+- Camada 2 (planilha do Kimi) cruzada pelas funções reais do app: scripts/extract-gate-vectors.py
+  + scripts/gate-run.ts → 31 vetores B + 33 linhas V17 = 64/64, Δ=0 (commit 6b7b973).
+- CHANGELOG v2.0 com mapa de ids V18 (old→new), compatibilidade (commit ad51ae7).
+- Feature-complete sinalizado ao Kimi → camada 2 preenchida → Z Code acionado (Fase B).
+
+Auditoria Z Code (Fase B) — 2 bloqueantes:
+- B1: produção (main) estava com v2 PARCIAL desde ~16/08 (PRs #21–#23 mescladas), sem
+  harmonização nem condicionais → diligências exibidas incondicionalmente (sobre-bloqueio),
+  fora do publish coordenado. Erro de engenharia: informação de "não mesclado" repassada sem
+  verificar origin/main. Decisão do GT: ROLLBACK. Produção revertida à v1.0.0-guia-v45 (commit
+  84496ba no main, revert não destrutivo; árvore de 12963a0). Z Code confirmou por sonda.
+- B2: 17→ (checagem automatizada: 22) divergências de enunciado spec × guia. Corrigido por
+  OVERLAY VERBATIM dos quadros do guia v46: scripts/extract-enunciados-guia.py →
+  gate/enunciados-guia-v46.json; gerador aplica pergunta=guia[id]. Inclui alinhamento
+  substantivo de 3.b.4/P6.b.4 (hipótese cabível segundo a origem do banco; art.20 §5º /
+  art.25) — na pergunta, dica e req-738-III-1. (commit 03d31dc)
+- M1: parity-check.ts (spec × guia, 128 enunciados) na CI (workflow "gates" = verify+parity+
+  gate). Fichas 0.3→0.4 (m1). DOCX do guia fora do repo (.gitignore); JSON versionado.
+
+Re-auditoria do delta (Z Code, 21/08): B1/B2/M1 RESOLVIDOS E VERIFICADOS; paridade independente
+128/128 (direto do DOCX). Branch APTO para o publish coordenado de 14/09, sem bloqueantes.
+Gates: verify 98/98 · parity 0 · gate 64/64 Δ=0 · build ok.
+
+Pendências até o publish (14/09):
+- m4: aviso de que avaliações v1 em andamento não são migradas (banner de 1ª visita ou nota
+  em /transparencia). m6: esmaecer/substituir o cabeçalho de nível quando "não avaliável".
+- m8 (novo): requirements são paráfrase deliberada — registrado no CHANGELOG (opção de incluir
+  na parity com mapa de equivalência, se o GT quiser paridade literal também nos requisitos).
+- m2/m3 (no dia): spec versão final 2.0.0 + tag v2.0.0; package.json/badge público.
+- Publicação coordenada guia v46 + app v2.0 (merge do branch no main + deploy) após termo
+  final do Z Code no PR de publish. Regenerar gate/enunciados-guia-v46.json se o DOCX mudar (F9).
+- Guia (Kimi): F9/índice + confirmação formal do alinhamento 3.b.4 (trivial — o guia não mudou).

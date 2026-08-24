@@ -9,6 +9,8 @@ import {
   RISK_LEVELS,
   REQUIREMENTS,
   REQUIREMENTS_RES738,
+  CONTEXT_QUESTIONS,
+  MATRIX_VERSION,
   getThresholds,
 } from './data';
 import type {
@@ -17,8 +19,29 @@ import type {
   QualitativeAxis,
   QuantitativeBlock,
   Requirement,
+  ContextQuestion,
+  ExibicaoCondicional,
+  ClausulaExibicao,
 } from './data';
 import { MARIA_DISCLAIMER } from './disclaimer';
+
+/**
+ * Regra de exibição condicional das descritivas (fonte única, usada pelo
+ * ContextForm e pela auditoria). Padrão: "...se <ID> <op> 'valor'", op ∈ {≠, !=, =}.
+ * Questão condicional só é visível após a de referência ser respondida.
+ */
+export function isContextQuestionVisible(
+  q: ContextQuestion,
+  contextAnswers: Record<string, string>
+): boolean {
+  if (!q.condicional) return true;
+  const m = q.condicional.match(/se\s+(\S+)\s*(≠|!=|=)\s*['"]([^'"]+)['"]/);
+  if (!m) return true;
+  const [, refId, op, val] = m;
+  const ans = contextAnswers[refId];
+  if (!ans) return false;
+  return op === '=' ? ans === val : ans !== val;
+}
 
 // ----- Helpers: filter axes/blocks by database filter -----
 
@@ -28,6 +51,38 @@ export function getApplicableAxes(usesDatabase: boolean): QualitativeAxis[] {
 
 export function getApplicableBlocks(usesDatabase: boolean): QuantitativeBlock[] {
   return QUANTITATIVE_BLOCKS.filter((b) => !b.condicionalBancoDados || usesDatabase);
+}
+
+// ----- Exibição condicional de perguntas de matriz (F-17/F-18) -----
+
+type ContextoVisibilidade = {
+  matrixAnswers: Record<string, string | undefined>;
+  contextAnswers: Record<string, string | undefined>;
+};
+
+function avaliarClausulaExibicao(c: ClausulaExibicao, ctx: ContextoVisibilidade): boolean {
+  if ('nenhuma' in c) return c.nenhuma.every((x) => !avaliarClausulaExibicao(x, ctx));
+  const mapa = c.origem === 'contexto' ? ctx.contextAnswers : ctx.matrixAnswers;
+  const ans = mapa[c.campo];
+  if (c.operador === 'igual') return ans === c.valor;
+  // 'diferente': só verdadeiro se o gatilho estiver respondido E ≠ valor.
+  return ans != null && ans !== '' && ans !== c.valor;
+}
+
+/**
+ * Uma pergunta de matriz está visível quando não tem `exibicaoCondicional` ou
+ * quando TODAS as cláusulas são satisfeitas. `matrixAnswers` são as respostas da
+ * versão da própria pergunta (A → qualitativas; B → quantitativas); `contextAnswers`
+ * são as descritivas do Passo 1. Pergunta oculta não pontua, não elimina e não é pendência.
+ */
+export function isMatrixQuestionVisible(
+  q: { exibicaoCondicional?: ExibicaoCondicional },
+  matrixAnswers: Record<string, string | undefined>,
+  contextAnswers: Record<string, string | undefined> = {}
+): boolean {
+  const ec = q.exibicaoCondicional;
+  if (!ec) return true;
+  return ec.todas.every((c) => avaliarClausulaExibicao(c, { matrixAnswers, contextAnswers }));
 }
 
 // ----- Qualitative (Version A) Calculations -----
@@ -96,7 +151,8 @@ export function getQualitativeAxisResults(
 export function getEliminatoryQuestionTriggered(
   answers: Record<string, 'sim' | 'nao' | 'na' | undefined>,
   version: 'A' | 'B',
-  usesDatabase: boolean
+  usesDatabase: boolean,
+  contextAnswers: Record<string, string | undefined> = {}
 ): string | null {
   const groups = version === 'A'
     ? getApplicableAxes(usesDatabase)
@@ -104,6 +160,8 @@ export function getEliminatoryQuestionTriggered(
 
   for (const group of groups) {
     for (const q of group.questoes) {
+      // Pergunta oculta por exibição condicional (F-17/F-18) NÃO dispara devolução.
+      if (!isMatrixQuestionVisible(q, answers, contextAnswers)) continue;
       if (q.eliminatorio && answers[q.id] === q.riskAnswer) {
         return q.id;
       }
@@ -154,7 +212,8 @@ export function getEliminatoryInfo(id: string | null): {
 
 export function getQualitativeFinalLevel(
   answers: QualitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  contextAnswers: Record<string, string | undefined> = {}
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -175,7 +234,7 @@ export function getQualitativeFinalLevel(
     }
   }
 
-  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'A', usesDatabase);
+  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'A', usesDatabase, contextAnswers);
 
   return {
     level: highestLevel,
@@ -292,7 +351,8 @@ export function getQuantitativeTotalScore(
 
 export function getQuantitativeFinalResult(
   answers: QuantitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  contextAnswers: Record<string, string | undefined> = {}
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -314,7 +374,7 @@ export function getQuantitativeFinalResult(
   // Cláusula de Prevalência Ética overrides to Level IV
   const finalLevel: RiskLevel = clausulaPrevalencia ? 'IV' : scoreLevel;
 
-  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'B', usesDatabase);
+  const eliminatoryQuestionId = getEliminatoryQuestionTriggered(answers, 'B', usesDatabase, contextAnswers);
 
   return {
     level: finalLevel,
@@ -372,12 +432,13 @@ export type UnansweredItem = {
   label: string;
 };
 
-const CONTEXT_FIELD_LABELS: { id: string; label: string }[] = [
+// Campos de identificação (não fazem parte de CONTEXT_QUESTIONS). As descritivas
+// (contexto1, contexto2, C.3…C.8) são auditadas a partir de CONTEXT_QUESTIONS,
+// respeitando a visibilidade condicional.
+const IDENTIFICATION_FIELD_LABELS: { id: string; label: string }[] = [
   { id: 'titulo', label: 'Título do Projeto' },
   { id: 'instituicao', label: 'Instituição' },
   { id: 'cep_nome', label: 'Nome do CEP' },
-  { id: 'contexto1', label: 'Pergunta do sistema (C1)' },
-  { id: 'contexto2', label: 'Autonomia do sistema (C2)' },
 ];
 
 /**
@@ -396,7 +457,7 @@ export function getUnansweredItems(
 
   // 1) Campos de contexto (sempre obrigatórios, mas auditamos se algum ficou vazio
   //    — pode acontecer em fluxos restaurados de localStorage parcial).
-  for (const f of CONTEXT_FIELD_LABELS) {
+  for (const f of IDENTIFICATION_FIELD_LABELS) {
     const value = contextAnswers[f.id];
     if (!value || value.trim().length === 0) {
       items.push({
@@ -407,11 +468,26 @@ export function getUnansweredItems(
       });
     }
   }
+  // Descritivas visíveis (respeita o condicional — ex.: C.5 oculta se C.3 = 'anonimizados').
+  for (const q of CONTEXT_QUESTIONS) {
+    if (!isContextQuestionVisible(q, contextAnswers)) continue;
+    const value = contextAnswers[q.id];
+    if (!value || value.trim().length === 0) {
+      items.push({
+        id: q.id,
+        scope: 'contexto',
+        scopeName: 'Identificação e Contexto',
+        label: q.pergunta,
+      });
+    }
+  }
 
   // 2) Perguntas da matriz, só as aplicáveis ao recorte (Res 738 ativada ou não).
   if (version === 'A') {
     for (const axis of getApplicableAxes(usesDatabase)) {
       for (const q of axis.questoes) {
+        // Pergunta oculta por exibição condicional (F-17/F-18) não é pendência.
+        if (!isMatrixQuestionVisible(q, qualitativeAnswers, contextAnswers)) continue;
         if (qualitativeAnswers[q.id] === undefined) {
           items.push({
             id: q.id,
@@ -425,6 +501,7 @@ export function getUnansweredItems(
   } else {
     for (const block of getApplicableBlocks(usesDatabase)) {
       for (const q of block.questoes) {
+        if (!isMatrixQuestionVisible(q, quantitativeAnswers, contextAnswers)) continue;
         if (quantitativeAnswers[q.id] === undefined) {
           items.push({
             id: q.id,
@@ -726,6 +803,7 @@ export function generateReportHTML(
   <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:20px;flex-wrap:wrap;gap:8px">
     <span><strong>Versão:</strong> ${versionLabel} ${dbBadge}</span>
     <span><strong>Data:</strong> ${date}</span>
+    <span><strong>Versão da matriz:</strong> ${MATRIX_VERSION}</span>
   </div>
 
   <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:20px">
@@ -789,6 +867,7 @@ export function generateReportText(
   }`);
   lines.push(`Data: ${new Date().toLocaleDateString('pt-BR')}`);
   lines.push(`Utiliza banco de dados: ${usesDatabase ? 'Sim (Res 738)' : 'Não'}`);
+  lines.push(`Versão da matriz: ${MATRIX_VERSION}`);
   lines.push('');
 
   // Identification + Context
@@ -907,12 +986,17 @@ export function generateReportText(
 // e Versão B da planilha.
 // ============================================================
 
+/** Classificação exportada: nível de risco, "não avaliável" (devolução) ou ausente. */
+export type ClassificacaoExport = RiskLevel | 'NÃO AVALIÁVEL' | null;
+
 export type ValidationExport = {
   schema: 'maria-validacao-local';
-  schemaVersion: 1;
+  schemaVersion: 2;
   exportadoEm: string; // ISO 8601
   software: {
     nome: 'MARIAH';
+    /** Carimbo da versão da matriz (spec) usada nesta avaliação — rastreabilidade. */
+    versaoMatriz: string;
     observacao: string;
   };
   protocolo: {
@@ -926,7 +1010,7 @@ export type ValidationExport = {
   };
   versaoA: {
     aplicada: boolean;
-    classificacaoConsolidada: RiskLevel | null;
+    classificacaoConsolidada: ClassificacaoExport;
     protocoloNaoAvaliavel: boolean;
     eixos: Array<{
       id: string;
@@ -938,7 +1022,8 @@ export type ValidationExport = {
   };
   versaoB: {
     aplicada: boolean;
-    classificacaoFinal: RiskLevel | null;
+    classificacaoFinal: ClassificacaoExport;
+    protocoloNaoAvaliavel: boolean;
     pontuacaoTotal: number | null;
     clausulaPrevalencia: boolean;
     blocos: Array<{
@@ -989,7 +1074,7 @@ export function buildValidationExport(args: {
     const qual = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase);
     versaoA = {
       aplicada: true,
-      classificacaoConsolidada: qual.protocoloNaoAvaliavel ? 'IV' : qual.level,
+      classificacaoConsolidada: qual.protocoloNaoAvaliavel ? 'NÃO AVALIÁVEL' : qual.level,
       protocoloNaoAvaliavel: qual.protocoloNaoAvaliavel,
       eixos: qual.axisResults.map((r) => ({
         id: r.axisId,
@@ -1014,7 +1099,8 @@ export function buildValidationExport(args: {
     const quant = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase);
     versaoB = {
       aplicada: true,
-      classificacaoFinal: quant.protocoloNaoAvaliavel ? 'IV' : quant.level,
+      classificacaoFinal: quant.protocoloNaoAvaliavel ? 'NÃO AVALIÁVEL' : quant.level,
+      protocoloNaoAvaliavel: quant.protocoloNaoAvaliavel,
       pontuacaoTotal: quant.totalScore,
       clausulaPrevalencia: quant.clausulaPrevalencia,
       blocos: quant.blockResults.map((r) => ({
@@ -1028,6 +1114,7 @@ export function buildValidationExport(args: {
     versaoB = {
       aplicada: false,
       classificacaoFinal: null,
+      protocoloNaoAvaliavel: false,
       pontuacaoTotal: null,
       clausulaPrevalencia: false,
       blocos: [],
@@ -1040,10 +1127,11 @@ export function buildValidationExport(args: {
 
   return {
     schema: 'maria-validacao-local',
-    schemaVersion: 1,
+    schemaVersion: 2,
     exportadoEm: agora.toISOString(),
     software: {
       nome: 'MARIAH',
+      versaoMatriz: MATRIX_VERSION,
       observacao:
         'Exportação gerada para uso na planilha-modelo de Validação Local descrita em apêndice próprio do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
     },

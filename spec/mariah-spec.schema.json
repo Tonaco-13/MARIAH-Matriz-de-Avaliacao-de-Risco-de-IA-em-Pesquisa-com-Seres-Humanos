@@ -136,7 +136,8 @@
         "hasNaOption": { "type": "boolean" },
         "naoPontuavel": { "type": "boolean" },
         "motivoEliminatorio": { "type": "string" },
-        "refEliminatoria": { "type": "string" }
+        "refEliminatoria": { "type": "string" },
+        "exibicaoCondicional": { "$ref": "#/$defs/exibicaoCondicional" }
       }
     },
 
@@ -156,8 +157,43 @@
         "hasNaOption": { "type": "boolean" },
         "naoPontuavel": { "type": "boolean" },
         "motivoEliminatorio": { "type": "string" },
-        "refEliminatoria": { "type": "string" }
+        "refEliminatoria": { "type": "string" },
+        "exibicaoCondicional": { "$ref": "#/$defs/exibicaoCondicional" }
       }
+    },
+
+    "exibicaoCondicional": {
+      "type": "object",
+      "required": ["todas"],
+      "additionalProperties": false,
+      "properties": {
+        "descricao": { "type": "string" },
+        "todas": { "type": "array", "items": { "$ref": "#/$defs/clausulaExibicao" } }
+      }
+    },
+
+    "clausulaExibicao": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["campo", "origem", "operador", "valor"],
+          "additionalProperties": false,
+          "properties": {
+            "campo": { "type": "string" },
+            "origem": { "enum": ["contexto", "matriz"] },
+            "operador": { "enum": ["igual", "diferente"] },
+            "valor": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["nenhuma"],
+          "additionalProperties": false,
+          "properties": {
+            "nenhuma": { "type": "array", "items": { "$ref": "#/$defs/clausulaExibicao" } }
+          }
+        }
+      ]
     },
 
     "requirement": {
