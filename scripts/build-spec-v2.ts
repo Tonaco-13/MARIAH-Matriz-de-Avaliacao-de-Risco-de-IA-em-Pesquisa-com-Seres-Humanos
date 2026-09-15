@@ -148,6 +148,33 @@ const patchQuestao = (q: { id: string; pergunta: string; dica: string }) => {
 for (const ax of spec.qualitativeAxes) ax.questoes.forEach(patchQuestao);
 for (const bl of spec.quantitativeBlocks) bl.questoes.forEach(patchQuestao);
 
+// Notas de verificação do pacote MHRA (F-24 a F-28) — classe m1 (alterar-dica).
+// ANEXADAS à dica existente (preservam o texto atual); sem novo id, sem recalibração.
+// Aguardam registro no CHANGELOG; paridade cobre enunciados (dicas são app-side, m8).
+const NOTAS_VERIFICACAO: Record<string, string> = {
+  // F-27 — âmbito do sistema adaptativo
+  '1.2': 'Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8).',
+  'P2.2': 'Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8).',
+  // F-25 — indicadores de monitoramento + resposta graduada
+  '5.6': 'Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado.',
+  'P7.5': 'Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado.',
+  // F-24 — plano de gestão de mudanças (PCCP)
+  '5.8': 'Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório.',
+  'P7.7': 'Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório.',
+  // F-26 — auditabilidade por decisão
+  '3.10': 'Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável.',
+  'P6.10': 'Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável.',
+  // F-28 — condições contratuais do provedor (proporcionalidade)
+  '3.11': 'Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4.',
+  'P6.11': 'Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4.',
+};
+for (const grp of [...spec.qualitativeAxes, ...spec.quantitativeBlocks]) {
+  for (const q of grp.questoes) {
+    const nota = NOTAS_VERIFICACAO[q.id];
+    if (nota) q.dica = (q.dica ? String(q.dica).trim() + ' ' : '') + nota;
+  }
+}
+
 // MI6 — req-IV-4 (redação canônica v46).
 const REQUISITOS_HARMONIZADOS: Record<string, string> = {
   'req-IV-4': 'Submissão do protocolo à apreciação de CEP acreditado para protocolos de risco elevado ou de CEP com habilitação específica em inteligência artificial.',
@@ -188,7 +215,7 @@ spec.notasDominio = {
   obs: 'O teto teórico com banco só ocorre junto com a P6.b.2 eliminatória (protocolo não avaliável). O máximo pontuável com direito a classificação é o teto avaliável.',
 };
 
-spec.matrixVersion = '2.0.0';
+spec.matrixVersion = '2.1.0'; // v2.1.0: notas de verificação MHRA (F-24 a F-28), classe m1
 spec.geradoEm = new Date().toISOString();
 
 // ----- Resumo -----

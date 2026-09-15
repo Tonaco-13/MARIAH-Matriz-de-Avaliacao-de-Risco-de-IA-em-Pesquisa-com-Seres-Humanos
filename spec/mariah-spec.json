@@ -1,6 +1,6 @@
 {
-  "matrixVersion": "2.0.0",
-  "geradoEm": "2026-08-24T20:57:29.373Z",
+  "matrixVersion": "2.1.0",
+  "geradoEm": "2026-09-15T13:44:48.237Z",
   "riskLevels": {
     "I": {
       "level": "I",
@@ -150,7 +150,7 @@
           "id": "1.2",
           "pergunta": "O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?",
           "riskAnswer": "sim",
-          "dica": "Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa)."
+          "dica": "Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8)."
         },
         {
           "id": "1.3",
@@ -337,13 +337,13 @@
           "id": "3.10",
           "pergunta": "O protocolo prevê registro (log) auditável das operações de tratamento de dados e de inferência realizadas pelo sistema?",
           "riskAnswer": "nao",
-          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização."
+          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização. Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável."
         },
         {
           "id": "3.11",
           "pergunta": "O protocolo descreve o ambiente computacional de processamento e seus controles mínimos de segurança (isolamento, criptografia e, quando houver, certificações)?",
           "riskAnswer": "nao",
-          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição."
+          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição. Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4."
         },
         {
           "id": "3.12",
@@ -566,7 +566,7 @@
           "id": "5.6",
           "pergunta": "O protocolo prevê monitoramento contínuo do desempenho do sistema após o início do uso, com critérios definidos para interrupção?",
           "riskAnswer": "nao",
-          "dica": "Sem monitoramento contínuo e critérios definidos de interrupção, o sistema pode degradar sem detecção, mantendo participantes expostos."
+          "dica": "Sem monitoramento contínuo e critérios definidos de interrupção, o sistema pode degradar sem detecção, mantendo participantes expostos. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado."
         },
         {
           "id": "5.7",
@@ -578,7 +578,7 @@
           "id": "5.8",
           "pergunta": "O protocolo prevê como e quando o modelo será retreinado, e quem autoriza essa atualização?",
           "riskAnswer": "nao",
-          "dica": "Sem definir como, quando e quem autoriza o retreinamento, o comportamento do sistema pode mudar de forma imprevisível ao longo do estudo."
+          "dica": "Sem definir como, quando e quem autoriza o retreinamento, o comportamento do sistema pode mudar de forma imprevisível ao longo do estudo. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório."
         }
       ]
     }
@@ -659,7 +659,7 @@
           "pergunta": "O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?",
           "riskAnswer": "sim",
           "pontos": 3,
-          "dica": "Sistemas adaptativos podem mudar de comportamento ao aprender com novos dados durante o estudo, introduzindo incerteza sobre os resultados gerados. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa).",
+          "dica": "Sistemas adaptativos podem mudar de comportamento ao aprender com novos dados durante o estudo, introduzindo incerteza sobre os resultados gerados. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8).",
           "efeito": "risco"
         },
         {
@@ -960,7 +960,7 @@
           "pergunta": "O protocolo prevê registro (log) auditável das operações de tratamento de dados e de inferência realizadas pelo sistema?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização.",
+          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização. Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável.",
           "efeito": "risco"
         },
         {
@@ -968,7 +968,7 @@
           "pergunta": "O protocolo descreve o ambiente computacional de processamento e seus controles mínimos de segurança (isolamento, criptografia e, quando houver, certificações)?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição.",
+          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição. Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4.",
           "efeito": "risco"
         },
         {
@@ -1156,7 +1156,7 @@
           "pergunta": "O protocolo prevê monitoramento contínuo do desempenho do sistema após o início do uso, com critérios definidos para interrupção?",
           "riskAnswer": "sim",
           "pontos": -10,
-          "dica": "Monitoramento contínuo com critérios definidos de interrupção permite detectar e conter perda de desempenho durante o uso. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
+          "dica": "Monitoramento contínuo com critérios definidos de interrupção permite detectar e conter perda de desempenho durante o uso. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado.",
           "efeito": "mitigacao"
         },
         {
@@ -1172,7 +1172,7 @@
           "pergunta": "O protocolo prevê como e quando o modelo será retreinado, e quem autoriza essa atualização?",
           "riskAnswer": "sim",
           "pontos": -8,
-          "dica": "Definir como, quando e quem autoriza o retreinamento evita mudanças imprevisíveis no comportamento do sistema. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
+          "dica": "Definir como, quando e quem autoriza o retreinamento evita mudanças imprevisíveis no comportamento do sistema. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório.",
           "efeito": "mitigacao"
         },
         {
