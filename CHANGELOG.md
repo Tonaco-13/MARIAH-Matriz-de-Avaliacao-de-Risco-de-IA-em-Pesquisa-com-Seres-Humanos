@@ -7,6 +7,34 @@ ratificadas pelo GT/INAEP; a paridade 1:1 guia × app é verificada no gate trip
 
 ---
 
+## [2.1.0] — notas de verificação MHRA (F-24 a F-28) — 2026-09
+
+Origem: proposta de perguntas a partir do relatório da National Commission / MHRA +
+contribuição da Direção (proporcionalidade / condições do provedor). Incorporadas como
+**notas de verificação (classe m1, `alterar-dica`)** anexadas à dica de itens já
+existentes — **sem novo id e sem recalibração**: teto 275/304, cortes 58/127/208 e
+64/141/230, paridade 128/128 e gate 64/64 **inalterados**.
+
+- **F-24** (5.8/P7.7) — plano de gestão de mudanças (PCCP): impacto de atualizações/
+  recalibrações/substituições e critério menor × emenda ética; sem prejuízo do novo
+  consentimento (2.10/P2.8), que segue eliminatório.
+- **F-25** (5.6/P7.5) — indicadores de monitoramento (métrica, limiar, periodicidade,
+  responsável) + resposta proporcional graduada (alerta → restrição → suspensão).
+- **F-26** (3.10/P6.10) — auditabilidade por decisão (identificador da inferência,
+  versão do modelo, entrada/referência pseudonimizada, saída, operador), condicionada a
+  inferências clínicas/diagnósticas/preditivas.
+- **F-27** (1.2/P2.2) — verificação de sistema adaptativo abrange atualizações,
+  recalibrações e substituições.
+- **F-28** (3.11/P6.11) — condições contratuais de uso dos dados pelo provedor externo
+  (reuso/treino/retenção, confidencialidade, portabilidade / vendor lock-in),
+  proporcionais ao risco.
+
+Verificação: `verify` 105/105 · `parity` 0 divergências (dicas são app-side, m8 — não
+entram na paridade de enunciados) · `gate` 64/64 Δ=0 · build OK. Carimbo `versaoMatriz` = 2.1.0.
+O DIFF editorial equivalente no guia (quadros S3.x/S4.x) é aplicado à parte pelo lado guia.
+
+---
+
 ## [2.0.0-draft] — matriz v2 (guia v46) — 2026-08
 
 Origem: decisões da coordenação INAEP aprovadas pelo GT; fichas de alteração v0.3
