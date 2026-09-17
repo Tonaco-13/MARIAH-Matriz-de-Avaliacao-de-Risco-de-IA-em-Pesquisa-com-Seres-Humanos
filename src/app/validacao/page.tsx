@@ -18,7 +18,7 @@ import {
 export const metadata: Metadata = {
   title: 'Validação Local pelos CEPs — MARIAH',
   description:
-    'Protocolo opcional de validação local da MARIAH pelos Comitês de Ética em Pesquisa, descrito em apêndice próprio do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
+    'Protocolo opcional de validação local da MARIAH pelos Comitês de Ética em Pesquisa, descrito no Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
 };
 
 export default function ValidacaoPage() {
@@ -56,7 +56,7 @@ export default function ValidacaoPage() {
                   </Badge>
                 </div>
                 <p className="text-teal-700 text-sm mt-1">
-                  Apêndice do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
+                  Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
                 </p>
               </div>
             </div>
@@ -91,7 +91,7 @@ export default function ValidacaoPage() {
             o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar
             decisão central para fazê-lo. Quando o colegiado entender que vale a pena
             verificar como a matriz se comporta nos protocolos que lhe são submetidos, o
-            protocolo do apêndice oferece um roteiro prático.
+            protocolo da Validação Local (Caderno 2) oferece um roteiro prático.
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Há três razões para um CEP querer validar localmente:{' '}
@@ -210,7 +210,7 @@ export default function ValidacaoPage() {
                     asChild
                     className="bg-teal-700 hover:bg-teal-800 text-white"
                   >
-                    <a href="/planilha-validacao-local-maria.xlsx" download>
+                    <a href="/planilha-validacao-local-mariah.xlsx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       Baixar planilha (.xlsx)
                     </a>
@@ -222,7 +222,7 @@ export default function ValidacaoPage() {
                     <p className="font-medium text-sm">Roteiro completo</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Apêndice do guia com a justificativa de cada frente, recomendações
+                    Seção de Validação Local (Caderno 2) com a justificativa de cada frente, recomendações
                     operacionais, interpretação dos achados e canal opcional de
                     compartilhamento com o Grupo de Trabalho.
                   </p>
@@ -232,7 +232,7 @@ export default function ValidacaoPage() {
                     asChild
                     className="border-teal-300 text-teal-800 hover:bg-teal-50"
                   >
-                    <a href="/guia-validacao-local-maria.docx" download>
+                    <a href="/guia-validacao-local-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       Baixar roteiro (.docx)
                     </a>
