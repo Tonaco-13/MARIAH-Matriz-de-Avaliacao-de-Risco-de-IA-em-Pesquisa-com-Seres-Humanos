@@ -16,7 +16,7 @@ import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
 export const metadata: Metadata = {
   title: 'Instruções de Preenchimento — MARIAH',
   description:
-    'Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIAH, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Apêndice do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
+    'Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIAH, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
 };
 
 export default function InstrucoesPage() {
@@ -54,7 +54,7 @@ export default function InstrucoesPage() {
                   </Badge>
                 </div>
                 <p className="text-teal-700 text-sm mt-1">
-                  Apêndice do Guia — preenchimento das Versões A e B
+                  Caderno 2 do Guia — preenchimento das Versões A e B
                 </p>
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function InstrucoesPage() {
                     asChild
                     className="bg-teal-700 hover:bg-teal-800 text-white"
                   >
-                    <a href="/instrucoes-preenchimento-versao-a-maria.docx" download>
+                    <a href="/instrucoes-preenchimento-versao-a-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       Baixar Versão A (.docx)
                     </a>
@@ -143,7 +143,7 @@ export default function InstrucoesPage() {
                     asChild
                     className="border-teal-300 text-teal-800 hover:bg-teal-50"
                   >
-                    <a href="/instrucoes-preenchimento-versao-b-maria.docx" download>
+                    <a href="/instrucoes-preenchimento-versao-b-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       Baixar Versão B (.docx)
                     </a>
