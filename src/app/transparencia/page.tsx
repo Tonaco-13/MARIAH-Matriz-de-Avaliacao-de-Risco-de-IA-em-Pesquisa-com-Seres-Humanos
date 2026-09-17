@@ -99,7 +99,7 @@ export default function TransparenciaPage() {
           <p className="text-sm leading-relaxed text-muted-foreground">
             {MARIA_NAO_SUBSTITUI} A sua validação psicométrica é{' '}
             <strong>prospectiva</strong>: ocorrerá à medida que os CEPs adotarem o instrumento
-            e conduzirem o protocolo descrito no Apêndice F do Guia.
+            e conduzirem o protocolo descrito na Seção de Validação Local (Caderno 2 do Guia).
           </p>
         </section>
 
@@ -172,7 +172,7 @@ export default function TransparenciaPage() {
                 </div>
                 <CardTitle className="text-base">Empírica pendente</CardTitle>
                 <CardDescription className="text-xs">
-                  Objeto do Apêndice F
+                  Objeto da Validação Local
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
@@ -313,7 +313,7 @@ export default function TransparenciaPage() {
                     asChild
                     className="bg-teal-700 hover:bg-teal-800 text-white"
                   >
-                    <a href="/nota-tecnica-premissas-maria.docx" download>
+                    <a href="/nota-tecnica-premissas-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       Baixar nota técnica (.docx)
                     </a>
@@ -336,7 +336,7 @@ export default function TransparenciaPage() {
                     asChild
                     className="border-teal-300 text-teal-800 hover:bg-teal-50"
                   >
-                    <a href="/suplemento-salvaguardas-maria.docx" download>
+                    <a href="/suplemento-salvaguardas-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       Baixar suplemento (.docx)
                     </a>
