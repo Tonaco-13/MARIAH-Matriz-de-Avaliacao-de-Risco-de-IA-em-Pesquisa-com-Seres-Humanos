@@ -11,11 +11,11 @@ import { CONTEXT_QUESTIONS } from './data';
 import type { MarcaVersion, ContextQuestion } from './data';
 import { isContextQuestionVisible } from './utils';
 
-/** Badge curto do cartão a partir do id (contexto1→C1, contexto2→C2, C.3→C3…). */
+/** Badge curto do cartão a partir do id (contexto1→C.1, contexto2→C.2, C.3→C.3…). */
 function badgeLabel(id: string): string {
-  if (id === 'contexto1') return 'C1';
-  if (id === 'contexto2') return 'C2';
-  return id.replace('.', '');
+  if (id === 'contexto1') return 'C.1';
+  if (id === 'contexto2') return 'C.2';
+  return id;
 }
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
