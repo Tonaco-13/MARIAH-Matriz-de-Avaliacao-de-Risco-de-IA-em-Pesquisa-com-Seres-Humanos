@@ -14,6 +14,11 @@ tolerando atributos benignos do framework. A normalização abaixo:
   - descarta <script>/<style>/<head> (exceto title/description) e URLs de asset
     hasheadas (/_next/...), que variam por build sem mudar o conteúdo.
 
+O resolvedor de caminho tolera as duas estruturas do build:
+  - pré-i18n:  .next/server/app/index.html, .next/server/app/instrucoes.html …
+  - pós-i18n:  .next/server/app/pt-BR.html, .next/server/app/pt-BR/instrucoes.html …
+A baseline (gate/baseline-ndti/*.txt) é o conteúdo normalizado — independente do caminho.
+
 Fonte única da matriz permanece a spec; este script NÃO lê números da matriz.
 Uso: python3 scripts/parity-locale.py {capture|check}
 """
@@ -22,13 +27,34 @@ from html.parser import HTMLParser
 
 APP_DIR = os.path.join(".next", "server", "app")
 BASELINE_DIR = os.path.join("gate", "baseline-ndti")
+
+# rota lógica -> nome-base do arquivo de baseline (gate/baseline-ndti/<nome>.txt)
 ROUTES = {
-    "/": "index.html",
-    "/instrucoes": "instrucoes.html",
-    "/transparencia": "transparencia.html",
-    "/validacao": "validacao.html",
+    "/": "index",
+    "/instrucoes": "instrucoes",
+    "/transparencia": "transparencia",
+    "/validacao": "validacao",
 }
 SKIP = {"script", "style", "noscript", "template"}
+
+
+def html_path(name: str) -> str:
+    """HTML prerenderizado da rota pt-BR, tolerando estrutura pré/pós-i18n."""
+    if name == "index":
+        candidates = [
+            os.path.join(APP_DIR, "pt-BR.html"),
+            os.path.join(APP_DIR, "index.html"),
+        ]
+    else:
+        candidates = [
+            os.path.join(APP_DIR, "pt-BR", name + ".html"),
+            os.path.join(APP_DIR, name + ".html"),
+        ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return candidates[0]
+
 
 def _norm_href(href: str) -> str:
     if not href:
@@ -37,6 +63,7 @@ def _norm_href(href: str) -> str:
         return "/_next/*"          # asset hasheado — irrelevante ao conteúdo
     href = href.split("?")[0]       # remove querystring volátil
     return href
+
 
 class Norm(HTMLParser):
     def __init__(self):
@@ -83,38 +110,42 @@ class Norm(HTMLParser):
         elif not self.in_head:
             self.out.append(t)
 
+
 def normalize(html: str) -> str:
     p = Norm(); p.feed(html)
     title = re.sub(r"\s+", " ", p.title).strip()
     head = [f"TITLE: {title}", f"META-DESC: {p.desc}", "--"]
     return "\n".join(head + p.out) + "\n"
 
+
 def _read(path):
     with open(path, encoding="utf-8") as f:
         return f.read()
 
+
 def capture():
     os.makedirs(BASELINE_DIR, exist_ok=True)
     n = 0
-    for route, fname in ROUTES.items():
-        src = os.path.join(APP_DIR, fname)
+    for route, name in ROUTES.items():
+        src = html_path(name)
         if not os.path.exists(src):
             print(f"  ERRO: não encontrado {src} (rode `npm run build` antes)"); sys.exit(2)
         norm = normalize(_read(src))
-        out = os.path.join(BASELINE_DIR, fname.replace(".html", ".txt"))
+        out = os.path.join(BASELINE_DIR, name + ".txt")
         with open(out, "w", encoding="utf-8") as f:
             f.write(norm)
-        print(f"  baseline: {route:14s} → {out}  ({len(norm.splitlines())} linhas)")
+        print(f"  baseline: {route:14s} -> {out}  ({len(norm.splitlines())} linhas)")
         n += 1
     print(f"OK: {n}/4 rotas capturadas em {BASELINE_DIR}")
+
 
 def check():
     if not os.path.isdir(BASELINE_DIR):
         print("  ERRO: baseline ausente — rode `capture` primeiro."); sys.exit(2)
     diffs = 0
-    for route, fname in ROUTES.items():
-        src = os.path.join(APP_DIR, fname)
-        base = os.path.join(BASELINE_DIR, fname.replace(".html", ".txt"))
+    for route, name in ROUTES.items():
+        src = html_path(name)
+        base = os.path.join(BASELINE_DIR, name + ".txt")
         if not os.path.exists(src):
             print(f"  ERRO: build ausente para {route} ({src})"); sys.exit(2)
         cur = normalize(_read(src)).splitlines()
@@ -123,7 +154,7 @@ def check():
             print(f"  OK   {route}")
         else:
             diffs += 1
-            print(f"  DIFF {route}: baseline {len(ref)} linhas × atual {len(cur)} linhas")
+            print(f"  DIFF {route}: baseline {len(ref)} linhas x atual {len(cur)} linhas")
             import difflib
             for line in list(difflib.unified_diff(ref, cur, lineterm=""))[:12]:
                 print("      " + line)
@@ -131,6 +162,7 @@ def check():
         print(f"FALHOU: {diffs} rota(s) divergem da baseline NDTI (pt-BR não idêntico).")
         sys.exit(1)
     print("OK: pt-BR idêntico à baseline NDTI (flag off).")
+
 
 if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else ""
