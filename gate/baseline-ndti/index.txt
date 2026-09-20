@@ -1,0 +1,87 @@
+TITLE: MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+META-DESC: Ferramenta de avaliação de risco para sistemas de IA em protocolos de pesquisa submetidos a Comitês de Ética em Pesquisa (CEP).
+--
+[a href=#conteudo-principal]
+Pular para o conteúdo
+MARIAH
+Versão preliminar
+Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na avaliação ética, transparente e explicável, de pesquisas de intervenção em seres humanos que utilizam inteligência artificial.
+1
+Seleção da Versão
+Versão
+2
+Filtro de Entrada
+Filtro
+3
+Caracterização do Contexto
+Contexto
+4
+Avaliação de Risco
+Avaliação
+5
+Resultado
+Resultado
+Escolha a versão da matriz
+Selecione a versão mais adequada ao perfil do seu CEP e à complexidade do protocolo.
+Versão A
+Qualitativa
+Fluxograma sequencial com resposta binária por eixo de avaliação.
+Para CEPs em primeiros ciclos com IA ou protocolos de menor complexidade
+Lógica de fluxograma: resposta Sim/Não por eixo
+Nível de risco por combinação de respostas
+Deliberação colegiada orientada ao raciocínio
+Usar Versão A
+Versão B
+Quantitativa
+Pontuação ponderada em sete blocos de avaliação.
+Para CEPs com experiência consolidada ou protocolos de alta complexidade
+Pontuação ponderada em sete blocos
+Nível de risco por soma total com rastreabilidade numérica
+Documentação auditável e comparação entre protocolos
+Usar Versão B
+Usar Versão A como triagem e Versão B para aprofundamento
+Inicie com a avaliação qualitativa (Versão A). Caso o resultado indique nível III ou IV, prossiga com a avaliação quantitativa (Versão B) para documentação auditável.
+Modo Triagem
+Comparação entre versões
+Aspecto
+Versão A — Qualitativa
+Versão B — Quantitativa
+Perfil do CEP
+Primeiros ciclos com IA ou protocolos de menor complexidade
+Experiência consolidada ou protocolos de alta complexidade
+Lógica de operação
+Fluxograma sequencial, resposta binária por eixo
+Pontuação ponderada em sete blocos
+Estrutura
+5 eixos temáticos
+7 blocos com pesos diferenciados
+Resultado
+Nível de risco por combinação de respostas
+Nível de risco por soma total com rastreabilidade numérica
+Uso prioritário
+Deliberação colegiada orientada ao raciocínio
+Documentação auditável e comparação entre protocolos
+Cláusula de Prevalência
+Não aplicável
+Elevação automática a Nível IV (Bloco 4)
+A MARIAH torna transparente e explicável a avaliação ética de pesquisas de intervenção em seres humanos que utilizam inteligência artificial. Aplica-se aos sistemas que automatizam decisões, geram conteúdo ou intervêm na condução do estudo. Seu preenchimento é facultativo e serve tanto ao pesquisador, na preparação e autoavaliação do protocolo, quanto ao CEP, na análise. Não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada. Versão preliminar: ainda não submetida a validação empírica em casuística real e aguardando validação institucional pelo Ministério da Saúde.
+Esta é a versão 2.0 da matriz. Avaliações iniciadas em versões anteriores não são recuperadas automaticamente — as respostas ficam apenas no seu navegador e não migram entre versões da matriz.
+MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA
+Desenvolvido pelo
+Ministério da Saúde
+para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
+Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)
+Os dados preenchidos ficam somente neste navegador (armazenamento local do dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado, use “Nova avaliação” para apagá-los.
+©
+2026
+Ministério da Saúde — Governo Federal do Brasil
+[a href=/validacao]
+Validação Local pelos CEPs
+·
+[a href=/transparencia]
+Transparência metodológica
+·
+[a href=/instrucoes]
+Apêndice do guia
+(em revisão)
