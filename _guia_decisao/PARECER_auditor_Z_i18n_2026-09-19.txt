@@ -1,0 +1,124 @@
+PARECER Z — Arquitetura i18n MARIAH (resposta A1–A4 + condições de aceitação E1–E4)
+Data: 2026-09-19 · De: Z (z.ai) — Auditor independente · Para: Kimi (arquitetura) + Engenharia (Claude Code 4.8) Re: DESPACHO_arquitetura_i18n_2026-09-19.md (Caminho 1, seis localidades, matriz intocada) Método: verificação estática do repositório antes da emissão — spec/mariah-spec.json (2.1.0), src/components/maria/ (data.ts, disclaimer.ts, Results.tsx, utils.ts, ContextForm.tsx), src/app/page.tsx, scripts/ (parity-check, gate-run, build-spec-v2), package.json, e os precedentes de 2026-09-17 (contexto1/C.1).
+
+Veredito geral: DESPACHO APROVADO PELO AUDITOR, com duas correções factuais (§0.3 e §0.4) que calibram E3 e o item 5.7 sem alterar o desenho. A1–A4 respondidos abaixo; execução da infraestrutura (feat/i18n-architecture) liberada quando os pareceres E1–E4 atenderem às condições do §5.
+
+0. Verificações de base (o que o auditor constatou no código antes de pareceriar)
+0.1 A spec é de fato a fonte única — o item 5.3 é viável como proposto
+src/components/maria/data.ts:6 importa spec/mariah-spec.json diretamente ("Dados da matriz: carregados de spec — fonte única, versionada"). Rótulos, enunciados, dicas e referências normativas vivem na spec; o JSX carrega rótulos de UI e páginas. Isso concentra a maior parte do inventário normativo num arquivo só — a decisão do item 5.3 (rótulos por localidade nos nós de conteúdo, ids e números intocados) está ancorada na realidade do código.
+
+0.2 Persistência em produção — a pergunta de E2 tem resposta verificável
+Única persistência client-side: localStorage sob a chave fixa maria-assessment-state-v2 (src/app/page.tsx:148), serializando estado por ids de questão. Não há hoje persistência chaveada por texto de exibição. O precedente contexto1/C.1 foi resolvido no sentido certo (id estável, rótulo de exibição no badge — ContextForm.tsx:15). A regra para a extração é a generalização desse precedente: nenhuma chave de persistência, export ou gate pode derivar de string traduzível (vira critério bloqueante B7 no §4).
+
+0.3 Correção factual 1 — jspdf é dependência morta; o "PDF" de hoje é window.print()
+O item 5.4 do despacho assume "o export (jspdf)". Verificação: jspdf consta em package.json:27 mas não é importado em nenhum arquivo de src/. O caminho real de PDF é window.open + print() sobre HTML gerado (Results.tsx:151–155); o export de dados é JSON (downloadValidationExport, utils.ts:1169). Consequências:
+
+O problema "embutir Noto Sans SC no client" só existe se a engenharia (re)adotar jspdf. Mantida a via print, o PDF usa as fontes do sistema do usuário — CJK funciona nativamente onde houver fonte chinesa instalada, e o risco migra para "dispositivo sem fonte CJK" (indecidível client-side; declarar como limitação, não como bug).
+O parecer E3 deve começar decidindo se jspdf permanece, antes de discutir como. Se readotado: subset Noto Sans SC medido em KB, limite de ~1 MB do despacho mantido como gatilho para rota de servidor. Se removido do package.json (recomendável se não houver plano de uso): o item 5.4 se converte em teste de print zh-CN + declaração de limitação.
+0.4 Correção factual 2 — o gabarito de enunciados só existe em pt-BR; paridade por localidade é estrutural, não de enunciado
+scripts/parity-check.ts compara os enunciados da spec contra gate/enunciados-guia-v46.json — gabarito extraído do DOCX do Guia, que só existe em português. Logo, a paridade de enunciado é semanticamente indefinível para es/en/de/fr/zh: não há gabarito normativo nesses idiomas, e tradução do gabarito criaria exatamente a segunda fonte de verdade que o parity existe para impedir. O item 5.7 deve ser lido assim:
+
+Enunciados: parity atual permanece pt-BR contra o gabarito v46 — inalterado, é a âncora da fonte normativa.
+Estrutural (todas as localidades): mesmas chaves de mensagem, mesmos ids, mesmos valores numéricos, gate/vetores-*.json com saída numérica idêntica por localidade (a parte textual do relatório exportado não entra no gate, senão ele falha por definição).
+Semântica (localidades ≠ pt-BR): controlada por glossário + retroversão (protocolo do §2), não por parity.
+Ripple conexo que o E2 deve cobrir: mudar pergunta/label de string para objeto multilíngue quebra o contrato de todos os consumidores atuais da spec (parity-check.ts, build-spec-v2.ts, extract-gate-vectors.py, gen-instrucoes-preenchimento.py, data.ts — todos leem q.pergunta como string). Alternativa a submeter ao E2: campo canônico pt-BR preservado + campos por localidade opcionais, com função de acesso label(node, locale) — assim os consumidores existentes permanecem verdes no primeiro momento e o bump 2.1.x → 2.2.0 documenta o contrato novo sem rewiring simultâneo de tudo.
+
+1. A1 — Formato do glossário versionado e do relatório de conformidade
+Glossário: spec/i18n/glossario-<locale>.md + gêmeo .json (o par é o formato)
+O .md do despacho permanece — mas como vista curada para humanos. O que o CI e a auditoria consomem é spec/i18n/glossario-<locale>.json, gerado/espelhado do mesmo conteúdo. Motivo: o critério de auditoria é equivalência de consequência operacional, e consequência operacional só é verificável automaticamente se for dado, não prosa.
+
+Estrutura por termo (esqueleto vinculante):
+
+
+json
+{
+  "termoPtBr": "diligência",
+  "termoLocale": "…",
+  "variantes": [],
+  "consequenciaOperacional": "As três diligências do Bloco 6.b são condições cumulativas de enquadramento no Nível IV (Versão B); a ausência de qualquer uma impede a classificação.",
+  "referenciaNormativa": "Caderno 2 — Bloco 6.b; spec P6.b.4.1/P6.b.6/P6.b.7",
+  "classeModalidade": "obrigatorio | facultativo | vedado | null",
+  "status": "proposto | aprovado-z",
+  "notas": ""
+}
+Regras do artefato:
+
+consequenciaOperacional fica sempre em pt-BR, em todos os glossários — é o gabarito invariante; traduzi-lo seria traduzir o critério de auditoria junto.
+classeModalidade alimenta a tabela de preservação de modalidade do protocolo A2 (deve→must/muss/doit/必须; pode→may/kann/pourrait/可以; vedado→prohibited/verboten/interdit/禁止).
+Termo muda só por nova entrada versionada no próprio arquivo (changelog em seção final), com status: aprovado-z exigido antes da branch do idioma — como manda o §7 do despacho.
+Checagem automática derivada: todo termo do glossário deve ocorrer nas mensagens do idioma, com contagem por namespace coerente com a contagem do termo pt-BR nos mesmos namespaces (script da engenharia; o Z o executa como camada 1 do §2).
+Lista mínima — a do despacho (CEP, TCLE, re-consentimento, salvaguardas, nível de risco I–IV, diligência, triagem, matriz de risco, versão A/B, dark launch da cláusula de cortesia) mais as que o auditor acrescenta por terem consequência operacional direta no app: os quatro rótulos de nível ("Baixo/Moderado/Alto/Crítico" — spec.riskLevels.*.label), "eliminatória" (P6.b.2), "Cláusula de Prevalência Ética" e "Classificação suspensa" (Results.tsx), "banco de dados" (filtro db-filter), "dispensa de TCLE" (P6.b.4), "parecer técnico externo", "supervisão humana efetiva" (descrições dos níveis), o par requisito/recomendação (REQUIREMENTS), e os textos-âncora MARIA_DISCLAIMER / MARIA_NAO_SUBSTITUI / cláusula de cortesia (§3) como entradas de glossário plenas, não como strings soltas. Estimativa: 40–50 termos por idioma.
+
+Relatório de conformidade: spec/i18n/relatorios/conformidade-<locale>-v<n>.md
+Seções fixas e obrigatórias:
+
+#	Seção	Conteúdo
+1	Metadados	locale, branch + commits auditados, matrixVersion, hash da spec, hash de messages/<locale>.json, data, ferramental usado
+2	Escopo	namespaces, páginas, Anexo Normativo, resumo executivo (se fase 2); o que ficou de fora
+3	Verificações automatizadas	tabela check → resultado → evidência: chaves paritárias; ids/valores numéricos idênticos à spec; vetores gate por locale (saída numérica); cláusula de cortesia nos mesmos âncoras do disclaimer; termos do glossário presentes; lang/dir por rota; hreflang ausente com flag off; stress +40%
+4	Retroversão e amostragem	protocolo do §2 — camadas executadas, amostras, drifts
+5	Achados	classificados B/G/M (§4) com evidência e localização (arquivo:linha)
+6	Veredito	aprova · aprova com ressalvas (com prazo) · reprova
+7	Assinatura	Z, data, hash dos artefatos auditados
+Regra de conservação: relatórios são append-only — versão nova não edita a anterior; reprovação e re-auditoria coexistem no histórico.
+
+2. A2 — Protocolo de verificação de equivalência normativa
+Declaração de competência do auditor: domínio nativo pt-BR; domínio alto es e en. Não nativo: de, fr, zh. O protocolo existe para que a limitação declarada não vire lacuna de auditoria. Quatro camadas em ordem de custo; 0–1 eliminam a maior parte do risco sem competência linguística, 2–4 atacam a equivalência semântica.
+
+Camada 0 — Invariantes (automática, 100%, à prova de idioma). Números, ids, chaves, matrixVersion, saída numérica dos vetores gate — comparados por script contra a spec. Qualquer falha é bloqueante em qualquer idioma. A regra de ouro do despacho é verificável sem entender uma palavra da tradução.
+Camada 1 — Âncora de glossário (semiautomática). Cada termo crítico deve aparecer na tradução em todos os pontos onde o termo pt-BR aparece no mesmo namespace; contagem comparada. Captura o caso clássico: "diligência" vertida por dois termos diferentes em fichas diferentes, quebrando a cadeia que o Bloco 6.b exige que seja uma só.
+Camada 2 — Retroversão independente (back-translation). A tradução é retrovertida para pt-BR por um motor independente do tradutor (se a tradução saiu do modelo A, a retroversão sai de modelo B — nunca o autor retroverte o próprio texto; na prática: Claude traduz, Z retroverte). O auditor compara retroversão × fonte, string a string, nas classes normativas (enunciados, níveis, requisitos, disclaimers, instruções — não rótulos cosméticos de UI). Critério: a retroversão deve preservar (i) o termo do glossário, (ii) a classe de modalidade (tabela do §1), (iii) objeto e condição da consequência operacional. Fluência da retroversão é irrelevante — só preservação semântica conta.
+Camada 3 — Amostragem focada de risco. Além da retroversão integral das classes normativas, leitura bilíngue lado a lado das strings de maior risco por idioma: nível IV completo, Cláusula de Prevalência Ética, classificação suspensa/eliminatória, requisitos, cláusula de cortesia. Para de/fr/zh, recomenda-se (não se exige) leitura por falante nativo externo das ~50 strings de maior risco, anexada como evidência complementar; o veredito não depende dela, mas sua ausência consta como limitação declarada no relatório.
+Camada 4 — Teste de consequência. Por idioma: executar os vetores gate existentes + um vetor sensível (protocolo que atinge Nível IV) com a UI no idioma, verificando que os rótulos exibidos correspondem ao nível calculado. Texto errado no lugar certo é pior que texto feio em lugar nenhum — esta camada existe para pegar exatamente isso.
+O protocolo estabelece equivalência semântica normativa com confiança alta, não natividade idiomática — e o relatório declara explicitamente quais camadas rodaram por idioma.
+
+3. A3 — Cláusula de tradução não-oficial nos cinco idiomas (redação final)
+Princípios de redação: duas frases (natureza não-oficial → hierarquia normativa); nenhum vocábulo que sugira adaptação jurisdicional; o código pt-BR não se traduz; registro formal onde o idioma distinguir. Redações definitivas (salvo revisão motivada em glossário):
+
+Locale	Redação
+es	Esta es una traducción de cortesía. La versión normativa vigente es la versión en portugués (pt-BR).
+en	This is a courtesy translation. The binding normative version is the Portuguese (pt-BR) version.
+de	Dies ist eine unverbindliche Übersetzung. Verbindlich ist die portugiesische Normfassung (pt-BR).
+fr	Ceci est une traduction de courtoisie. La version normative en vigueur est la version portugaise (pt-BR).
+zh-CN	本页面内容为非官方参考译文。现行有效的规范版本为葡萄牙语（pt-BR）版本。
+Retroversões para pt-BR (Camada 2 aplicada à própria redação — o auditor come o que cozinha):
+
+es → "Esta é uma tradução de cortesia. A versão normativa vigente é a versão em português (pt-BR)." — idêntica à fonte. ✔
+en → "Esta é uma tradução de cortesia. A versão normativa vinculante é a versão portuguesa (pt-BR)." — "binding" ≅ "vigente" no efeito; sem drift de consequência. ✔
+de → "Esta é uma tradução não-vinculante. Vinculante é a versão normativa portuguesa (pt-BR)." — par legal alemão "unverbindlich/verbindlich" preserva a hierarquia exatamente. ✔
+fr → "Isto é uma tradução de cortesia. A versão normativa vigente é a versão portuguesa (pt-BR)." — idêntica. ✔
+zh-CN → "O conteúdo desta página é uma tradução de referência não-oficial. A versão normativa atualmente em vigor é a versão em português (pt-BR)." — preserva natureza e hierarquia. ✔
+Notas de escolha lexical (entram como primeiras entradas dos glossários respectivos): em alemão, "unverbindliche Übersetzung" em vez do calque "Höflichkeitsübersetzung" (não idiomático no registro jurídico); em chinês, "参考译文" é o termo consagrado em contextos regulatórios para tradução de cortesia, e "非官方" declara a não-oficialidade sem ambiguidade.
+
+Âncoras de exibição: mesmos pontos onde hoje aparece MARIA_DISCLAIMER (Resultados, seletor de versão, exports PDF/print e TXT) — herdadas do princípio "edita só aqui" de disclaimer.ts, agora por localidade.
+
+4. A4 — Critérios de reprovação (o que bloqueia merge)
+Classe B — bloqueante; merge vedado até correção + re-auditoria:
+
+B1. Qualquer divergência numérica ou de id contra a spec (pesos, cortes 58/127/208 e 64/141/230, somas 62/77, teto 297, ids, matrixVersion) — em qualquer idioma, qualquer namespace. Um número "corrigido" pela tradução é B1 do mesmo jeito.
+B2. Chave de mensagem ausente ou órfã em qualquer localidade (o CI do item 5.2 falhou).
+B3. Termo do glossário vertido com consequência operacional distinta — ex.: "vedado" vira "não recomendado"; "nível" vira "estágio/fase" quebrando a cadeia I–IV.
+B4. Cláusula de cortesia ausente, descaracterizada ou deslocada de qualquer âncora do disclaimer (inclui print/PDF e export TXT).
+B5. Escopo do disclaimer alterado na tradução (adição/omissão de ressalva em MARIA_DISCLAIMER/MARIA_NAO_SUBSTITUI).
+B6. Falha de paridade flag-off: render/build pt-BR divergente da baseline NDTI (aceite do item 3.2).
+B7. Qualquer chave de persistência, export ou gate derivada de texto traduzível (generalização do precedente contexto1/C.1: ids são invariantes; hoje maria-assessment-state-v2 é keyed por id e assim permanece).
+B8. Tradução que crie aparência de adaptação jurisdicional ("conforme GDPR" onde a fonte diz "conforme LGPD") — o Anexo Normativo explica a referência brasileira; o instrumento não adapta.
+B9. lang errado por rota, ou hreflang/metadados de localidade emitidos com a flag desligada (dark-launch vazando).
+Classe G — grave; merge em feat/* permitido para prosseguir trabalho, vedado em main até correção:
+
+G1. Quebra de layout sob stress +40% (item 5.5: fichas, StepIndicator, badges, tabelas de resultado).
+G2. Termo consistente no glossário mas ausente em algum namespace (contagem divergente sem drift de sentido).
+G3. Inconsistência terminológica em strings não-normativas.
+Classe M — menor; registrada no relatório, corrige quando conveniente:
+
+M1. Fluência, estilo e registro, desde que sem drift semântico.
+Regra de julgamento: B não admite "aprovação com ressalvas" — reprova. G admite aprovação com prazo. M não bloqueia. A classificação de um achado pode ser promovida (nunca rebaixada) pelo auditor com justificativa no relatório.
+
+5. Condições de aceitação dos pareceres E1–E4 (o que o Z exige como evidência)
+E1–E4 são da Engenharia; o que segue define o teste de suficiência de cada um, para que os pareceres engatem:
+
+E1 (biblioteca i18n). A escolha (next-intl vs. nativo vs. custom) é da engenharia. O auditável: (i) evidência de pt-BR byte-idêntico com flag off (diff de build/render contra baseline); (ii) mensagens pt-BR residindo em arquivo único auditável (messages/pt-BR.json); (iii) compatibilidade com output: "standalone". Se next-intl: atenção ao segmento [locale] no middleware com a flag desligada (redirect / tem que prevalecer — senão vira B9).
+E2 (extração). Inventário com contagem de strings por arquivo; estimativa de arquivos tocados; resposta explícita sobre persistência (§0.2 dá a resposta de base: não há chaveamento por texto, e não pode passar a haver — B7); e tratamento do ripple pergunta: string → objeto nos cinco consumidores da spec listados no §0.4, com o fallback pt-BR mantendo os gates atuais verdes no primeiro momento.
+E3 (fonte CJK). Com a correção factual 1 (§0.3): primeiro decidir se jspdf permanece (hoje, dependência morta). Se permanecer print: teste de print zh-CN + limitação declarada (dispositivo sem fonte CJK). Se readotar jspdf: subset Noto Sans SC com KB medido; >~1 MB = rota de servidor, como manda o despacho.
+E4 (flag dark-launch). A decisão middleware vs. build-config é da engenharia; o auditável é o script: parity-locale que (i) builda com flag off, (ii) compara render pt-BR contra baseline versionada e imutável, gerada do commit exato entregue ao NDTI, (iii) verifica redirect /es|/en|/de|/fr|/zh → / com flag off, (iv) com flag on, verifica rotas vivas e lang correto. O script entra no gate/CI.
+Em resumo: 1) Despacho aprovado, com duas correções factuais: jspdf é dependência morta (o PDF real é print — isso redesenha E3) e o gabarito de enunciados só existe em pt-BR (paridade por localidade é estrutural — isso calibra o item 5.7). 2) A1: glossário em par .md+.json com consequência operacional sempre em pt-BR e status aprovado-z pré-branch; relatório de conformidade com 7 seções fixas, append-only. 3) A2: protocolo de 4 camadas — invariantes, âncora de glossário, retroversão independente, amostragem de risco + teste de consequência; limitação declarada para de/fr/zh. 4) A3: cinco redações definitivas com retroversão verificada. 5) A4: 9 bloqueantes (B1–B9), 3 graves, menores; B reprova sem ressalva. 6) Condições de aceitação E1–E4 fixadas no §5. A execução pode começar quando a Engenharia entregar E1–E4 atendendo a elas.

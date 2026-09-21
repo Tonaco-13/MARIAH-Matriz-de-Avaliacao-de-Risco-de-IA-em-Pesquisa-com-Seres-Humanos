@@ -1,0 +1,92 @@
+[Normal] Suplemento à Nota Técnica de Premissas
+[Normal] Mecanismos de salvaguarda automática na MARIAH
+[Normal] MARIAH Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos · Versão preliminar · Julho de 2026
+[Normal] Este suplemento explica os quatro mecanismos de salvaguarda automática da MARIAH, que ignoram a lógica de gradiente do instrumento e forçam a elevação ou recusa da classificação com base em uma condição categórica. O texto é técnico dirigido às e aos integrantes do Grupo de Trabalho, e pode ser lido isoladamente ou inserido como seção da Nota Técnica de Premissas. Ele amplia a versão anterior, que cobria apenas o gatilho do Eixo 3.b.
+[Heading 1] 1. Por que a MARIAH adota salvaguardas
+[Normal] Em ambas as versões, a MARIAH parte de uma lógica de gradiente: o risco do protocolo cresce de forma incremental, seja com o número de respostas de risco por eixo (Versão A), seja com a soma de pontos entre blocos (Versão B). Sobre essa lógica gradiente, a matriz superpõe quatro mecanismos que a interrompem: uma vez satisfeita determinada condição, a classificação é definida por critério deontológico, e não estatístico, sobrescrevendo o que a contagem ou a soma indicariam.
+[Normal] A razão é substantiva, porque certas condições éticas não se manifestam em gradiente: a sua simples presença já é decisiva. Não existe, na prática, “violação moderada de confidencialidade”, “consentimento parcialmente válido” ou “dano irreversível de pequena monta”. Tratar essas condições pela média ou pela soma as diluiria em escores agregados, justamente onde o instrumento precisa ser mais sensível. Os quatro gatilhos são, portanto, salvaguardas de precaução: assimetrias assumidas como tais, que preferem classificar a mais a deixar passar a menos.
+[Normal] Os quatro mecanismos compartilham a mesma estrutura (uma condição categórica que, uma vez atendida, prevalece sobre o gradiente), mas atuam em pontos distintos do instrumento, conforme a Tabela 1.
+[Heading 2] Tabela 1 Visão geral dos quatro gatilhos de salvaguarda
+=== TABLE START ===
+Gatilho | Versão | Condição de disparo | Efeito sobre a classificação
+1. Regra especial do Eixo 3.b (Salvaguarda da Res. 738/2024) | A (qualitativa) | 1 ou mais respostas de risco no Eixo 3.b | Eixo salta o Nível II (1–2 → III; 3+ → IV); via regra do máximo, eleva o nível final
+2. Cláusula de Prevalência Ética (Salvaguarda Decisória) | B (quantitativa) | P4.1 ou P4.2 = “Sim” | Força Nível IV, sobrescrevendo a soma total dos blocos
+3. Eliminatória de cadeia de custódia (Salvaguarda de Inavaliabilidade — Res. 738/2024) | A e B | Ausência de cadeia de custódia formalizada dos dados | Classifica o protocolo como “não avaliável pela MARIAH”
+4. Diligência impeditiva de novo consentimento (Lei 14.874/2024 + LGPD) | A e B | Sistema adaptativo (1.2 / P2.2 = Sim) sem plano de novo consentimento | Classifica o protocolo como “não avaliável pela MARIAH”
+=== TABLE END ===
+[Normal] As seções seguintes detalham cada gatilho. Os dois primeiros recebem tratamento completo: o que faz, por que faz, como interage com a matriz, cenários e crítica honesta. Os dois últimos, por serem saídas categoriais distintas, são apresentados em conjunto.
+[Heading 1] 2. Gatilho 1 Regra especial do Eixo 3.b (Res. CNS n.º 738/2024), Versão A
+[Normal] O Eixo 3.b é condicionado à aplicação da Resolução CNS n.º 738/2024 sobre bancos de dados de pesquisa. Sua regra de consolidação difere da utilizada nos demais eixos e, por isso, merece explicação substantiva.
+[Heading 2] 2.1 O que a regra estabelece
+[Normal] A regra do Eixo 3.b opera segundo a Tabela 2. A comparação com a regra padrão dos demais eixos (Eixos 1, 2, 3, 4 e 5) está na Tabela 3.
+[Heading 2] Tabela 2 Regra do Eixo 3.b (Res. CNS n.º 738/2024)
+=== TABLE START ===
+Quantidade de respostas de risco | Nível atribuído ao eixo
+0 | I
+1 ou 2 | III (Nível II é deliberadamente saltado)
+3 ou mais | IV
+=== TABLE END ===
+[Heading 2] Tabela 3 Regra padrão dos demais eixos (1, 2, 3, 4, 5)
+=== TABLE START ===
+Quantidade de respostas de risco | Nível atribuído ao eixo
+0 | I
+1 ou 2 | II
+3 ou 4 | III
+5 ou mais | IV
+=== TABLE END ===
+[Normal] A diferença visível: no Eixo 3.b o Nível II é deliberadamente saltado. Uma única resposta de risco já leva o eixo diretamente ao Nível III.
+[Heading 2] 2.2 Por que essa diferença: o argumento substantivo
+[Normal] A Resolução CNS n.º 738/2024 disciplina a pesquisa que utiliza bancos de dados de pesquisa: reuso de dados clínicos, prontuários, registros, coortes e biobancos. É uma camada normativa mais prescritiva do que as resoluções gerais (466/2012, 510/2016) porque os riscos têm natureza qualitativamente distinta:
+[List Paragraph] Privacidade e confidencialidade de dados identificáveis ou potencialmente re-identificáveis.
+[List Paragraph] Reuso secundário sem consentimento específico (ou com dispensa que precisa ser bem justificada).
+[List Paragraph] Discriminação algorítmica futura a partir de dados clínicos sensíveis.
+[List Paragraph] Compartilhamento internacional e perda de governança nacional sobre os dados.
+[List Paragraph] Persistência temporal: diferente de um experimento que termina, um banco permanece e gera riscos cumulativos ao longo do tempo.
+[Normal] Esses riscos têm uma característica que justifica a regra excepcional: eles não se manifestam em gradiente. Ou o banco está sendo manejado dentro dos requisitos da Res. 738 (zero problema, risco baixo), ou há um problema concreto; e quando há, o risco já é elevado, porque os danos potenciais (vazamento, re-identificação, uso secundário não consentido) não admitem categoria moderada. Não existe, na prática, “violação moderada de confidencialidade” ou “consentimento parcialmente válido”. A categoria intermediária (“moderado”) não faz sentido analítico para esse domínio.
+[Heading 2] 2.3 Como a regra interage com a consolidação por máximo
+[Normal] A Versão A consolida o nível final do protocolo pela regra do máximo: o nível final é o mais alto observado entre todos os eixos aplicáveis. Em razão dessa interação, a regra especial do Eixo 3.b funciona, na prática, como um disparador de elevação:
+[List Paragraph] Se o Eixo 3.b retorna Nível I, ele não eleva nada. Os demais eixos definem o nível final normalmente.
+[List Paragraph] Se o Eixo 3.b retorna Nível III por uma única resposta de risco, o protocolo inteiro é classificado em pelo menos Nível III, mesmo que os outros cinco eixos estejam no Nível I. Há, nesse caso, salto de dois níveis (I → III) acionado por um único problema com banco de dados.
+[List Paragraph] Se o Eixo 3.b retorna Nível IV (3 ou mais respostas de risco), o protocolo é automaticamente classificado em Nível IV.
+[Normal] Em outras palavras: qualquer problema concreto no Eixo 3.b carrega o protocolo para revisão de alto risco, sem amortecimento. É amplificação direta, não suavização gradual.
+[Heading 2] 2.4 Três cenários para tornar a regra concreta
+[Normal] Cenário A: protocolo usa banco, em conformidade com a Res. 738.
+[Normal] Eixo 3.b: 0 respostas de risco → Nível I. O eixo não eleva a classificação. Os outros cinco eixos definem o nível final segundo a regra padrão.
+[Normal] Cenário B: protocolo usa banco, com 1 problema concreto.
+[Normal] Exemplo: dispensa de consentimento adotada sem justificativa adequada na perspectiva da Res. 738. Eixo 3.b: 1 resposta de risco → Nível III. Pela regra do máximo, o protocolo é classificado em pelo menos Nível III, ainda que os outros cinco eixos sejam todos Nível I. Um único problema no Eixo 3.b promove o protocolo dois níveis (do I direto ao III).
+[Normal] Cenário C: protocolo usa banco, com 3 ou mais problemas.
+[Normal] Eixo 3.b: 3+ respostas de risco → Nível IV. Protocolo automaticamente em Nível IV (crítico), independentemente dos demais eixos.
+[Heading 2] 2.5 Crítica: o que um leitor técnico pode levantar
+[List Paragraph] “Por que 1 problema já manda para o Nível III? Não poderia permanecer em Nível II ou borderline?” Poderia, sim. A escolha de pular o Nível II foi deontológica e conservadora, não estatística. Prefere-se classificar a mais a deixar passar a menos.
+[List Paragraph] “Isso vai gerar sobre-classificação?” Provavelmente sim, em algum percentual. A Frente 2 da Validação Local (distribuição empírica nos níveis) é justamente o instrumento desenhado para detectar se a elevação está sendo desproporcional na casuística real dos CEPs.
+[List Paragraph] “Por que a elevação não é proporcional ao risco material observado?” Porque a MARIAH, neste estágio, não dispõe de evidência empírica que permita calibrar de forma proporcional. Na ausência dessa evidência, preferiu-se errar para o lado da maior cautela, postura coerente com o restante das decisões metodológicas da matriz.
+[Heading 1] 3. Gatilho 2 Cláusula de Prevalência Ética, Versão B
+[Normal] A Versão B é quantitativa: a pontuação total do protocolo é a soma das pontuações de sete blocos (modelo aditivo), e os pontos de corte definem o nível final. A Cláusula de Prevalência Ética é a exceção a essa aritmética.
+[Heading 2] 3.1 O que a cláusula estabelece
+[Normal] A cláusula opera sobre duas questões do Bloco 4 (Decisão), o bloco que avalia o grau de autonomia decisória do sistema e a consequência de um erro, as perguntas mais críticas da matriz:
+[List Paragraph] P4.1 — “O sistema é o único determinante de uma decisão que afeta diretamente o participante — sem revisão humana obrigatória?” (resposta de risco: Sim)
+[List Paragraph] P4.2 — “Em caso de erro do sistema, o dano ao participante seria irreversível ou de difícil reparação?” (resposta de risco: Sim)
+[Normal] Se P4.1 ou P4.2 for marcada como “Sim”, aciona-se o princípio da precaução e o protocolo é elevado ao Nível IV, independentemente da pontuação total. A cláusula sobrescreve a soma: ainda que os sete blocos somados apontassem Nível I ou II, a marcação afirmativa em uma dessas questões leva o protocolo ao patamar crítico.
+[Heading 2] 3.2 Por que a cláusula existe
+[Normal] As duas condições capturadas por P4.1 e P4.2 (ausência de revisão humana sobre uma decisão que afeta diretamente o participante, e potencial de dano irreversível) são, no entendimento que orientou a elaboração da matriz, eticamente inegociáveis. São exatamente o tipo de condição que um modelo puramente aditivo trataria mal: um protocolo poderia acumular pontuação baixa nos demais blocos e, ainda assim, embutir um risco decisional grave que ficaria “diluído” no escore total. A cláusula impede essa diluição, tornando a presença da condição decisiva por si só.
+[Normal] Trata-se, portanto, de uma quebra deliberada da aditividade — uma regra deontológica embutida na escala quantitativa. Ela afirma que há riscos cuja gravidade não é compensável por boas pontuações em outras dimensões.
+[Heading 2] 3.3 Como a cláusula interage com o restante da Versão B
+[Normal] Vale contrastá-la com o Bloco 7 (Mitigação), o outro mecanismo que altera o escore. O Bloco 7 é bidirecional e opera dentro da soma: subtrai pontos quando há mitigação e os preserva quando não há, com piso de zero, isto é, move o protocolo ao longo do gradiente, mas nunca o retira dele. A Cláusula de Prevalência Ética faz o oposto: não participa da soma, e sim a sobrescreve. Por consequência, nenhuma mitigação do Bloco 7 reduz um protocolo abaixo do Nível IV uma vez acionada a cláusula, a salvaguarda ética prevalece sobre o crédito de mitigação.
+[Heading 2] 3.4 Três cenários para tornar a cláusula concreta
+[Heading 2] Tabela 4 — Efeito da Cláusula de Prevalência Ética
+=== TABLE START ===
+Cenário | P4.1 / P4.2 | Soma dos blocos indicaria | Classificação final
+A — sem condição crítica | Não / Não | Conforme os pontos de corte (ex.: Nível II) | Definida pela soma (Nível II)
+B — escore baixo, mas condição crítica presente | Sim (uma delas) | Nível I ou II | Nível IV (cláusula sobrescreve a soma)
+C — escore já alto e condição presente | Sim (uma delas) | Nível III ou IV | Nível IV (sem duplo efeito)
+=== TABLE END ===
+[Normal] O Cenário B é o que torna a cláusula visível: é nele que a regra deontológica se descola do que a aritmética indicaria, elevando o protocolo do gradiente baixo direto ao patamar crítico.
+[Heading 2] 3.5 Crítica: o que um leitor técnico pode levantar
+[List Paragraph] “Por que uma salvaguarda em vez de simplesmente atribuir peso muito alto a P4.1 e P4.2?” Porque um peso alto, ainda que grande, permaneceria dentro da soma e poderia, em tese, ser compensado ou diluído pela combinação dos demais blocos. A salvaguarda garante que a condição prevaleça em qualquer configuração de escore.
+[List Paragraph] “Isso não gera sobre-classificação?” Pode gerar, em algum percentual, é o custo deliberado da precaução. A Frente 2 da Validação Local (distribuição empírica nos níveis) é o instrumento para verificar com que frequência a cláusula é acionada e se a elevação se mostra desproporcional na casuística real.
+[List Paragraph] “A elevação é automática ou faculdade do colegiado?” A MARIAH aplica a elevação na classificação que computa; a decisão final permanece com o CEP. Como em todo o instrumento, a matriz não aprova nem reprova protocolos e não substitui a deliberação colegiada. A salvaguarda é um sinalizador conservador, não um veredito.
+[Heading 1] 4. Gatilhos 3 e 4 Questões eliminatórias (cadeia de custódia e novo consentimento)
+[Normal] Os dois últimos gatilhos são de natureza distinta dos dois primeiros e, por isso, são apresentados em conjunto. Ambos são questões eliminatórias: quando acionadas, não elevam o protocolo a um nível de risco mais alto — retiram-no do fluxo de classificação, atribuindo-lhe a saída categorial “não avaliável pela MARIAH”. Essa saída não é um quinto nível nem um agravamento da soma; é uma recusa de classificação, que sinaliza que o protocolo exige análise individualizada do colegiado, fora do alcance do instrumento. Os dois diferem quanto ao fundamento. O Gatilho 3 (cadeia de custódia, Res. CNS n.º 738/2024) dispara quando falta cadeia de custódia formalizada dos dados. O Gatilho 4 (novo consentimento, Lei n.º 14.874/2024 e LGPD) dispara em sistemas que mudam de comportamento durante o estudo — na Versão A quando 1.2 = Sim; na Versão B quando P2.2 = Sim — e o protocolo não apresenta plano de novo consentimento com limiar de mudança definido, procedimento e responsável; por ser exigência legal, a ausência desse plano não é compensável por pontos. Na Versão A corresponde à questão 2.10; na Versão B, à P2.8. São, nesse sentido, as salvaguardas mais radicais: enquanto os Gatilhos 1 e 2 forçam a elevação para dentro da escala, as questões eliminatórias sobrescrevem a contagem ou a soma reconhecendo o limite da própria matriz. O acionamento remete o caso à deliberação do CEP, em coerência com o disclaimer da MARIAH, que não substitui o julgamento do colegiado. Na esteira da Res. CNS n.º 738/2024, a versão atual acrescenta ainda, no Eixo 3.b / Bloco 6.b, três itens de diligência (P6.b.4.1, P6.b.6 e P6.b.7) que não pontuam e operam como um gate cumulativo: quando qualquer critério aplicável não é atendido, o protocolo é igualmente devolvido para diligência, sem análise de mérito.
+[Heading 1] 5. Em síntese
+[Normal] Os quatro gatilhos (a regra especial do Eixo 3.b, a Cláusula de Prevalência Ética, a eliminatória de cadeia de custódia e a diligência impeditiva de novo consentimento) materializam, em conjunto, a postura conservadora da MARIAH. São decisões éticas embutidas na escala, não derivações estatísticas: cada uma identifica uma condição que não admite tratamento gradual e faz com que a sua presença prevaleça sobre a contagem (Versão A) ou a soma (Versão B). São assimetrias deliberadas, assumidas como tais, que priorizam a precaução sobre a proporcionalidade fina e escolha coerente com a ausência, neste estágio, de evidência empírica que permitisse uma calibração proporcional.
+[Normal] A Frente 2 da Validação Local (distribuição empírica nos quatro níveis, na Versão B) é o instrumento prospectivo desenhado para verificar, na casuística real dos CEPs, se esses gatilhos estão bem calibrados ou se produzem sobre-classificação que justifique ajuste. Eventuais sugestões do GT sobre essas regras serão consolidadas no fechamento do período de leitura, antes do envio do Guia à Editora MS. Observações e críticas técnicas podem ser encaminhadas, em qualquer momento, à CGREP (cgrep@saude.gov.br).
