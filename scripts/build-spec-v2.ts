@@ -215,7 +215,7 @@ spec.notasDominio = {
   obs: 'O teto teórico com banco só ocorre junto com a P6.b.2 eliminatória (protocolo não avaliável). O máximo pontuável com direito a classificação é o teto avaliável.',
 };
 
-spec.matrixVersion = '2.1.0'; // v2.1.0: notas de verificação MHRA (F-24 a F-28), classe m1
+spec.matrixVersion = '2.2.0'; // v2.2.0: schema ganha campo i18n opcional (infra i18n; conteúdo da matriz inalterado)
 spec.geradoEm = new Date().toISOString();
 
 // ----- Resumo -----
