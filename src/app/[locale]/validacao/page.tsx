@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -15,13 +16,23 @@ import {
   FileText,
 } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: 'Validação Local pelos CEPs — MARIAH',
-  description:
-    'Protocolo opcional de validação local da MARIAH pelos Comitês de Ética em Pesquisa, descrito no Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
-};
+type PageProps = { params: Promise<{ locale: string }> };
 
-export default function ValidacaoPage() {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'pages.validacao' });
+  return { title: t('metaTitle'), description: t('metaDesc') };
+}
+
+export default async function ValidacaoPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations();
+
+  const codeSm = (chunks: React.ReactNode) => (
+    <code className="text-xs bg-muted px-1 py-0.5 rounded">{chunks}</code>
+  );
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
@@ -35,7 +46,7 @@ export default function ValidacaoPage() {
           >
             <Link href="/">
               <ArrowLeft className="mr-1.5 h-4 w-4" />
-              Voltar à MARIAH
+              {t('pages.voltar')}
             </Link>
           </Button>
           <div className="flex items-center justify-between gap-3 mb-3">
@@ -46,25 +57,23 @@ export default function ValidacaoPage() {
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
                   <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                    Validação Local pelos CEPs
+                    {t('pages.validacao.title')}
                   </h1>
                   <Badge
                     variant="outline"
                     className="text-[10px] font-medium px-2 py-0.5 border-amber-300 text-amber-800 bg-amber-50 whitespace-nowrap"
                   >
-                    em revisão
+                    {t('pages.emRevisao')}
                   </Badge>
                 </div>
                 <p className="text-teal-700 text-sm mt-1">
-                  Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
+                  {t('pages.validacao.subtitle')}
                 </p>
               </div>
             </div>
           </div>
           <p className="text-teal-600 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Protocolo opcional para que cada CEP verifique como a MARIAH se comporta na
-            casuística de protocolos de pesquisa com inteligência artificial que efetivamente
-            lhe são submetidos.
+            {t('pages.validacao.intro')}
           </p>
         </div>
       </header>
@@ -74,9 +83,11 @@ export default function ValidacaoPage() {
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-start gap-2 text-sm text-amber-900">
           <Info className="h-4 w-4 mt-0.5 shrink-0" />
           <p>
-            <span className="font-medium">Status:</span> o <em>Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos</em> está em fase de revisão pelo Grupo de Trabalho do
-            Ministério da Saúde. Os arquivos abaixo correspondem à minuta atual e serão
-            atualizados quando o guia for publicado oficialmente.
+            {t.rich('pages.statusAviso', {
+              tipo: t('pages.tipoArquivos'),
+              b: (chunks) => <span className="font-medium">{chunks}</span>,
+              em: (chunks) => <em>{chunks}</em>,
+            })}
           </p>
         </div>
       </div>
@@ -84,23 +95,12 @@ export default function ValidacaoPage() {
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         {/* Seção 1: O que é */}
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Por que validar localmente</h2>
+          <h2 className="text-xl font-semibold">{t('pages.validacao.s1Title')}</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            A MARIAH é instrumento de apoio à deliberação do CEP — não norma vinculante.
-            A adoção da matriz é escolha institucional de cada CEP, e a validação local segue
-            o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar
-            decisão central para fazê-lo. Quando o colegiado entender que vale a pena
-            verificar como a matriz se comporta nos protocolos que lhe são submetidos, o
-            protocolo da Validação Local (Caderno 2) oferece um roteiro prático.
+            {t('pages.validacao.s1p1')}
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Há três razões para um CEP querer validar localmente:{' '}
-            <strong>aprendizado institucional</strong> (descobrir quais perguntas estão sendo
-            interpretadas de forma divergente entre avaliadores),{' '}
-            <strong>qualificação dos pareceres</strong> (demonstrar aplicação consistente
-            da MARIAH na sua casuística) e{' '}
-            <strong>contribuição opcional à evolução do instrumento</strong> (compartilhar
-            observações com o Grupo de Trabalho responsável pelo guia).
+            {t.rich('pages.validacao.s1p2', { b: (chunks) => <strong>{chunks}</strong> })}
           </p>
         </section>
 
@@ -108,11 +108,9 @@ export default function ValidacaoPage() {
 
         {/* Seção 2: As três frentes */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">As três frentes de validação</h2>
+          <h2 className="text-xl font-semibold">{t('pages.validacao.s2Title')}</h2>
           <p className="text-sm text-muted-foreground">
-            Cada CEP pode rodar uma, duas ou as três frentes, em qualquer ordem. Todas
-            compartilham a mesma unidade amostral: o protocolo de pesquisa com uso de
-            inteligência artificial submetido ao CEP.
+            {t('pages.validacao.s2intro')}
           </p>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -123,19 +121,16 @@ export default function ValidacaoPage() {
                     <Users className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Frente 1
+                    {t('pages.validacao.f1Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Concordância entre avaliadores</CardTitle>
+                <CardTitle className="text-base">{t('pages.validacao.f1Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Versão A · kappa de Cohen
+                  {t('pages.validacao.f1Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Dois membros do CEP aplicam a Versão A ao mesmo protocolo, de forma
-                independente. A planilha calcula a concordância e o kappa, revelando quais
-                eixos têm leitura divergente. Recomenda-se pelo menos 20 protocolos avaliados
-                em paralelo.
+                {t('pages.validacao.f1Body')}
               </CardContent>
             </Card>
 
@@ -146,18 +141,16 @@ export default function ValidacaoPage() {
                     <BarChart3 className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Frente 2
+                    {t('pages.validacao.f2Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Distribuição empírica</CardTitle>
+                <CardTitle className="text-base">{t('pages.validacao.f2Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Versão B · histograma por nível
+                  {t('pages.validacao.f2Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Examina como os protocolos avaliados pelo CEP se distribuem nos quatro
-                níveis. Útil para conhecer o perfil da casuística e identificar concentrações
-                próximas aos pontos de corte da Versão B.
+                {t('pages.validacao.f2Body')}
               </CardContent>
             </Card>
 
@@ -168,19 +161,16 @@ export default function ValidacaoPage() {
                     <GitCompareArrows className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Frente 3
+                    {t('pages.validacao.f3Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Convergência A↔B</CardTitle>
+                <CardTitle className="text-base">{t('pages.validacao.f3Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Modo triagem · tabela de contingência
+                  {t('pages.validacao.f3Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Para protocolos avaliados pelas duas versões no modo triagem, verifica se A
-                e B convergem para a mesma classificação. Discordâncias sistemáticas indicam
-                inconsistência de leitura ou dimensões diferentes de risco captadas pelas
-                duas versões.
+                {t('pages.validacao.f3Body')}
               </CardContent>
             </Card>
           </div>
@@ -190,19 +180,17 @@ export default function ValidacaoPage() {
 
         {/* Seção 3: Downloads */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Recursos para começar</h2>
+          <h2 className="text-xl font-semibold">{t('pages.validacao.s3Title')}</h2>
           <Card>
             <CardContent className="py-5">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="h-4 w-4 text-teal-700" />
-                    <p className="font-medium text-sm">Planilha-modelo</p>
+                    <p className="font-medium text-sm">{t('pages.validacao.planilhaTitle')}</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Abas dedicadas a cada frente, com fórmulas pré-configuradas (kappa,
-                    distribuição, contingência) e painel-resumo. Funciona em Excel,
-                    LibreOffice Calc e Google Sheets.
+                    {t('pages.validacao.planilhaDesc')}
                   </p>
                   <Button
                     variant="default"
@@ -212,19 +200,17 @@ export default function ValidacaoPage() {
                   >
                     <a href="/planilha-validacao-local-mariah.xlsx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Baixar planilha (.xlsx)
+                      {t('pages.validacao.baixarPlanilha')}
                     </a>
                   </Button>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="h-4 w-4 text-teal-700" />
-                    <p className="font-medium text-sm">Roteiro completo</p>
+                    <p className="font-medium text-sm">{t('pages.validacao.roteiroTitle')}</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Seção de Validação Local (Caderno 2) com a justificativa de cada frente, recomendações
-                    operacionais, interpretação dos achados e canal opcional de
-                    compartilhamento com o Grupo de Trabalho.
+                    {t('pages.validacao.roteiroDesc')}
                   </p>
                   <Button
                     variant="outline"
@@ -234,7 +220,7 @@ export default function ValidacaoPage() {
                   >
                     <a href="/guia-validacao-local-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Baixar roteiro (.docx)
+                      {t('pages.validacao.baixarRoteiro')}
                     </a>
                   </Button>
                 </div>
@@ -247,45 +233,34 @@ export default function ValidacaoPage() {
 
         {/* Seção 4: Como usar com a MARIAH */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Como integrar à MARIAH</h2>
+          <h2 className="text-xl font-semibold">{t('pages.validacao.s4Title')}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            O software MARIAH oferece um botão{' '}
-            <span className="font-medium text-foreground">
-              &quot;Exportar dados desta avaliação&quot;
-            </span>{' '}
-            na tela de resultados. Cada avaliação gera um arquivo <code className="text-xs bg-muted px-1.5 py-0.5 rounded">.json</code>{' '}
-            estruturado contendo a classificação consolidada da Versão A, a pontuação por
-            bloco da Versão B (quando aplicada) e os metadados do protocolo.
+            {t.rich('pages.validacao.s4p1', {
+              b: (chunks) => <span className="font-medium text-foreground">{chunks}</span>,
+              code: (chunks) => <code className="text-xs bg-muted px-1.5 py-0.5 rounded">{chunks}</code>,
+            })}
           </p>
           <Card className="bg-muted/30">
             <CardContent className="py-4 text-sm space-y-2">
-              <p className="font-medium">Fluxo sugerido</p>
+              <p className="font-medium">{t('pages.validacao.fluxoTitle')}</p>
               <ol className="list-decimal list-inside space-y-1.5 text-muted-foreground text-xs leading-relaxed pl-1">
                 <li>
-                  Cada avaliador aplica a MARIAH ao protocolo de forma independente e exporta o{' '}
-                  <code className="text-xs bg-muted px-1 py-0.5 rounded">.json</code> ao final.
+                  {t.rich('pages.validacao.fluxo1', { code: codeSm })}
                 </li>
                 <li>
-                  Antes de transcrever, substitua o campo{' '}
-                  <code className="text-xs bg-muted px-1 py-0.5 rounded">idInterno</code> pelo
-                  identificador interno do seu CEP (ex.: <code className="text-xs bg-muted px-1 py-0.5 rounded">P-001</code>).
+                  {t.rich('pages.validacao.fluxo2', { code: codeSm })}
                 </li>
                 <li>
-                  Transcreva os campos para as abas correspondentes da planilha-modelo
-                  (Protocolos, Versão A, Versão B). As instruções por aba estão dentro do
-                  próprio JSON, no campo <code className="text-xs bg-muted px-1 py-0.5 rounded">comoUsar</code>.
+                  {t.rich('pages.validacao.fluxo3', { code: codeSm })}
                 </li>
                 <li>
-                  A planilha calcula automaticamente os indicadores das três frentes e gera
-                  o painel-resumo para discussão em reunião plenária.
+                  {t('pages.validacao.fluxo4')}
                 </li>
               </ol>
             </CardContent>
           </Card>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Versões futuras da MARIAH poderão preencher a planilha diretamente. Por ora, a
-            transcrição manual é deliberada: ela preserva a separação entre a ferramenta
-            operacional e o instrumento de validação institucional do CEP.
+            {t('pages.validacao.s4after')}
           </p>
         </section>
 
@@ -293,19 +268,12 @@ export default function ValidacaoPage() {
 
         {/* Seção 5: Status e contribuição */}
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Compartilhar resultados (opcional)</h2>
+          <h2 className="text-xl font-semibold">{t('pages.validacao.s5Title')}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            CEPs que decidirem compartilhar suas observações com o Grupo de Trabalho podem
-            fazê-lo a qualquer momento por meio da Secretaria Executiva da INAEP. Não há
-            prazo, formulário obrigatório ou contrapartida institucional — o compartilhamento
-            é ato voluntário, e seu único propósito é informar a evolução futura do
-            instrumento.
+            {t('pages.validacao.s5p1')}
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Pode-se enviar a planilha completa, apenas os indicadores agregados ou uma nota
-            narrativa do que o colegiado observou. CEPs com preocupação de
-            confidencialidade institucional podem encaminhar apenas os indicadores
-            agregados. Nenhum CEP será identificado em publicação sem consentimento expresso.
+            {t('pages.validacao.s5p2')}
           </p>
         </section>
       </main>
