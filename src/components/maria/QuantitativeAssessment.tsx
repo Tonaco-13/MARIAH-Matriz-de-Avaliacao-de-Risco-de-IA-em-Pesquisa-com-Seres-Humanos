@@ -17,6 +17,7 @@ import {
   Circle,
   AlertTriangle,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { RISK_LEVELS, getThresholds } from './data';
 import type { QuantitativeAnswer } from './utils';
 import {
@@ -67,6 +68,7 @@ export default function QuantitativeAssessment({
   onClearScopeIds,
   onStepClick,
 }: QuantitativeAssessmentProps) {
+  const t = useTranslations();
   const blocksList = getApplicableBlocks(usesDatabase);
   const thresholds = getThresholds(usesDatabase);
   const [currentBlock, setCurrentBlock] = useState(0);
@@ -147,12 +149,12 @@ export default function QuantitativeAssessment({
               </div>
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <h1 className="text-xl font-bold">MARIAH</h1>
+                  <h1 className="text-xl font-bold">{t('app.title')}</h1>
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
-                    Versão preliminar
+                    {t('app.badgePreliminar')}
                   </span>
                 </div>
-                <p className="text-teal-700 text-xs">Versão B — Quantitativa</p>
+                <p className="text-teal-700 text-xs">{t('app.versionLabelB')}</p>
               </div>
             </div>
           </div>
@@ -168,8 +170,8 @@ export default function QuantitativeAssessment({
         {/* Global progress */}
         <div className="mb-4">
           <div className="flex justify-between text-xs text-muted-foreground mb-1">
-            <span>Progresso geral</span>
-            <span>{totalAnswered}/{totalQuestions} questões respondidas</span>
+            <span>{t('assessment.progressoGeral')}</span>
+            <span>{t('assessment.questoesRespondidas', { answered: String(totalAnswered), total: String(totalQuestions) })}</span>
           </div>
           <Progress value={(totalAnswered / totalQuestions) * 100} className="h-2" />
         </div>
@@ -180,21 +182,21 @@ export default function QuantitativeAssessment({
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-4">
                 <div>
-                  <p className="text-xs text-muted-foreground">Pontuação Total</p>
+                  <p className="text-xs text-muted-foreground">{t('assessment.b.pontuacaoTotal')}</p>
                   <p className="text-2xl font-bold">{totalScore}<span className="text-sm font-normal text-muted-foreground">/{thresholds.maxScore}</span></p>
                 </div>
                 <Separator orientation="vertical" className="h-10" />
                 <div>
-                  <p className="text-xs text-muted-foreground">Nível Atual</p>
+                  <p className="text-xs text-muted-foreground">{t('assessment.b.nivelAtual')}</p>
                   <Badge className={`${levelColorMap[currentLevel]} text-sm px-3 py-1`}>
-                    Nível {currentLevel} — {levelInfo.label}
+                    {t('assessment.nivelBadge', { level: currentLevel, label: levelInfo.label })}
                   </Badge>
                 </div>
                 {usesDatabase && (
                   <>
                     <Separator orientation="vertical" className="h-10" />
                     <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
-                      Bloco 6.b — Res 738
+                      {t('assessment.b.bloco6bRes738')}
                     </Badge>
                   </>
                 )}
@@ -203,7 +205,7 @@ export default function QuantitativeAssessment({
                 <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
                   <AlertTriangle className="h-4 w-4 text-red-600" />
                   <span className="text-xs font-semibold text-red-700">
-                    Cláusula de Prevalência Ética ativada — Nível IV
+                    {t('assessment.b.clausulaAtivada')}
                   </span>
                 </div>
               )}
@@ -211,7 +213,7 @@ export default function QuantitativeAssessment({
                 <div className="flex items-center gap-2 bg-red-50 border-2 border-red-400 rounded-lg px-3 py-2">
                   <AlertTriangle className="h-4 w-4 text-red-700" />
                   <span className="text-xs font-semibold text-red-700">
-                    ⛔ Protocolo não avaliável ({eliminatoryQuestionId}) — {getEliminatoryInfo(eliminatoryQuestionId).ref}
+                    {t('assessment.b.naoAvaliavelInline', { id: eliminatoryQuestionId, ref: getEliminatoryInfo(eliminatoryQuestionId).ref })}
                   </span>
                 </div>
               )}
@@ -234,10 +236,10 @@ export default function QuantitativeAssessment({
                 />
               </div>
               <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                <span>I (0-{thresholds.levelI})</span>
-                <span>II ({thresholds.levelI + 1}-{thresholds.levelII})</span>
-                <span>III ({thresholds.levelII + 1}-{thresholds.levelIII})</span>
-                <span>IV ({thresholds.levelIII + 1}-{thresholds.maxScore})</span>
+                <span>{t('assessment.b.faixaI', { max: String(thresholds.levelI) })}</span>
+                <span>{t('assessment.b.faixaII', { min: String(thresholds.levelI + 1), max: String(thresholds.levelII) })}</span>
+                <span>{t('assessment.b.faixaIII', { min: String(thresholds.levelII + 1), max: String(thresholds.levelIII) })}</span>
+                <span>{t('assessment.b.faixaIV', { min: String(thresholds.levelIII + 1), max: String(thresholds.maxScore) })}</span>
               </div>
             </div>
           </CardContent>
@@ -249,11 +251,12 @@ export default function QuantitativeAssessment({
             const isRes738 = s.block.condicionalBancoDados;
             // Label from block id: 'bloco6b' → 'Bloco 6.b'; 'bloco4' → 'Bloco 4'
             const idMatch = s.block.id.match(/^bloco(\d+b?)$/);
-            const label = idMatch
+            const n = idMatch
               ? idMatch[1].includes('b')
-                ? 'Bloco 6.b'
-                : `Bloco ${idMatch[1]}`
-              : `Bloco ${s.index + 1}`;
+                ? '6.b'
+                : idMatch[1]
+              : String(s.index + 1);
+            const label = t('assessment.b.blocoLabel', { n });
             return (
               <button
                 key={s.block.id}
@@ -300,7 +303,7 @@ export default function QuantitativeAssessment({
                   {block.nome}
                   {block.condicionalBancoDados && (
                     <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-xs">
-                      Res 738/2024
+                      {t('assessment.res738Badge')}
                     </Badge>
                   )}
                   {block.subtitulo && !block.condicionalBancoDados && (
@@ -320,7 +323,7 @@ export default function QuantitativeAssessment({
               <div className="flex items-center gap-2">
                 {block.id === 'bloco7' ? (
                   <Badge variant="outline" className="text-xs">
-                    {blockScore >= 0 ? '+' : ''}{blockScore} pts (bidirecional)
+                    {blockScore >= 0 ? '+' : ''}{blockScore} {t('assessment.b.ptsBidirecional')}
                   </Badge>
                 ) : (
                   <Badge variant="outline" className="text-xs">
@@ -335,8 +338,8 @@ export default function QuantitativeAssessment({
             {/* Block score bar */}
             {block.id !== 'bloco7' && (
               <div className="mt-3">
-                <Progress 
-                  value={Math.min((blockScore / block.maxPontos) * 100, 100)} 
+                <Progress
+                  value={Math.min((blockScore / block.maxPontos) * 100, 100)}
                   className="h-1.5"
                 />
               </div>
@@ -370,7 +373,7 @@ export default function QuantitativeAssessment({
                 // só serve às perguntas normais.
                 const riskLabel = isMitigation
                   ? null
-                  : q.riskAnswer === 'sim' ? 'Sim ⬆' : 'Não ⬆';
+                  : q.riskAnswer === 'sim' ? t('assessment.riscoSim') : t('assessment.riscoNao');
                 const eliminatorioAtivado = q.eliminatorio && currentAnswer === q.riskAnswer;
 
                 return (
@@ -400,7 +403,7 @@ export default function QuantitativeAssessment({
                             <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
                             {q.eliminatorio && (
                               <Badge className="mt-1 bg-red-100 text-red-700 border border-red-300 text-[10px]">
-                                ⛔ ELIMINATÓRIO
+                                {t('assessment.eliminatorioBadge')}
                               </Badge>
                             )}
                           </div>
@@ -433,7 +436,7 @@ export default function QuantitativeAssessment({
                               }
                               aria-pressed={currentAnswer === 'sim'} onClick={() => onAnswer(q.id, 'sim')}
                             >
-                              Sim
+                              {t('ui.sim')}
                             </Button>
                             <Button
                               size="sm"
@@ -451,7 +454,7 @@ export default function QuantitativeAssessment({
                               }
                               aria-pressed={currentAnswer === 'nao'} onClick={() => onAnswer(q.id, 'nao')}
                             >
-                              Não
+                              {t('ui.nao')}
                             </Button>
                             {q.hasNaOption && (
                               <Button
@@ -464,7 +467,7 @@ export default function QuantitativeAssessment({
                                 }
                                 aria-pressed={currentAnswer === 'na'} onClick={() => onAnswer(q.id, 'na')}
                               >
-                                Não se aplica
+                                {t('ui.naoSeAplica')}
                               </Button>
                             )}
                           </div>
@@ -474,10 +477,10 @@ export default function QuantitativeAssessment({
                                 {/* Mitigação bidirecional: risco em vermelho, mitiga em teal,
                                     para leitura instantânea sem depender do ícone. */}
                                 <TrendingUp className="h-3 w-3 text-red-500" />
-                                <span className="font-semibold text-red-600">&ldquo;Não&rdquo; ⬆ risco</span>
+                                <span className="font-semibold text-red-600">{t('assessment.b.mitigaNao')}</span>
                                 <span className="text-muted-foreground">/</span>
                                 <TrendingDown className="h-3 w-3 text-teal-600" />
-                                <span className="font-semibold text-teal-600">&ldquo;Sim&rdquo; ⬇ mitiga</span>
+                                <span className="font-semibold text-teal-600">{t('assessment.b.mitigaSim')}</span>
                                 <span>(±{Math.abs(q.pontos)} pts)</span>
                               </>
                             ) : (
@@ -492,17 +495,17 @@ export default function QuantitativeAssessment({
                           {(q.id === 'P4.1' || q.id === 'P4.2') && currentAnswer === 'sim' && (
                             <Badge className="bg-red-100 text-red-700 border border-red-300 text-[10px]">
                               <AlertTriangle className="h-3 w-3 mr-1" />
-                              Cláusula de Prevalência Ética
+                              {t('assessment.b.clausulaBadge')}
                             </Badge>
                           )}
                           {eliminatorioAtivado && (
                             <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
-                              ⛔ Protocolo não avaliável — {q.refEliminatoria ?? '§7.3.6'}
+                              {t('assessment.naoAvaliavelBadge', { ref: q.refEliminatoria ?? '§7.3.6' })}
                             </Badge>
                           )}
                           {isNa && (
                             <Badge className="bg-slate-100 text-slate-600 border border-slate-300 text-[10px]">
-                              Não aplicável — não conta como risco
+                              {t('assessment.naoAplicavelBadge')}
                             </Badge>
                           )}
                         </div>
@@ -519,11 +522,11 @@ export default function QuantitativeAssessment({
         <div className="flex justify-between items-center flex-wrap gap-3">
           <Button variant="outline" onClick={handlePrev}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {currentBlock === 0 ? 'Voltar' : 'Bloco Anterior'}
+            {currentBlock === 0 ? t('ui.back') : t('assessment.b.blocoAnterior')}
           </Button>
           <div className="flex items-center gap-2 flex-wrap">
             <ClearScopeButton
-              scopeLabel="este bloco"
+              scopeLabel={t('ui.scopeBloco')}
               affectedCount={answeredCount}
               onClear={() => onClearScopeIds(block.questoes.map((q) => q.id))}
             />
@@ -533,7 +536,7 @@ export default function QuantitativeAssessment({
             className="bg-slate-700 hover:bg-slate-800 text-white"
             onClick={handleNext}
           >
-            {currentBlock < blocksList.length - 1 ? 'Próximo Bloco' : 'Ver Resultado'}
+            {currentBlock < blocksList.length - 1 ? t('assessment.b.proximoBloco') : t('assessment.verResultado')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -542,7 +545,7 @@ export default function QuantitativeAssessment({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIAH — Versão B — Quantitativa
+            {t('assessment.b.footer')}
           </p>
         </div>
       </footer>
