@@ -2,21 +2,17 @@
   "app": {
     "title": "MARIAH",
     "subtitle": "Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
+    "footerShort": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
     "badgePreliminar": "Versão preliminar",
     "versionLabelA": "Versão A — Qualitativa",
     "versionLabelB": "Versão B — Quantitativa"
   },
-  "footer": {
-    "developedBy": "Desenvolvido pelo <ms>Ministério da Saúde</ms> para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)",
-    "license": "Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)",
-    "privacy": "Os dados preenchidos ficam somente neste navegador (armazenamento local do dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado, use “Nova avaliação” para apagá-los.",
-    "copyrightOrg": "Ministério da Saúde — Governo Federal do Brasil",
-    "linkValidacao": "Validação Local pelos CEPs",
-    "linkTransparencia": "Transparência metodológica",
-    "linkApendice": "Apêndice do guia",
-    "emRevisao": " (em revisão)"
-  },
   "ui": {
+    "sim": "Sim",
+    "nao": "Não",
+    "back": "Voltar",
+    "continuar": "Continuar",
+    "scopePage": "esta página",
     "stepIndicator": {
       "version": { "label": "Seleção da Versão", "short": "Versão" },
       "filter": { "label": "Filtro de Entrada", "short": "Filtro" },
@@ -28,6 +24,16 @@
       "versionBadgeAriaA": "Você está na Versão A — Qualitativa",
       "versionBadgeAriaB": "Você está na Versão B — Quantitativa"
     }
+  },
+  "footer": {
+    "developedBy": "Desenvolvido pelo <ms>Ministério da Saúde</ms> para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)",
+    "license": "Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)",
+    "privacy": "Os dados preenchidos ficam somente neste navegador (armazenamento local do dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado, use “Nova avaliação” para apagá-los.",
+    "copyrightOrg": "Ministério da Saúde — Governo Federal do Brasil",
+    "linkValidacao": "Validação Local pelos CEPs",
+    "linkTransparencia": "Transparência metodológica",
+    "linkApendice": "Apêndice do guia",
+    "emRevisao": " (em revisão)"
   },
   "home": {
     "intro": "Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na avaliação ética, transparente e explicável, de pesquisas de intervenção em seres humanos que utilizam inteligência artificial.",
@@ -83,5 +89,42 @@
     },
     "disclaimerVersao": "Esta é a versão 2.0 da matriz. Avaliações iniciadas em versões anteriores não são recuperadas automaticamente — as respostas ficam apenas no seu navegador e não migram entre versões da matriz.",
     "footerLong": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA"
+  },
+  "entryFilter": {
+    "notApplicableTitle": "A MARIAH não se aplica",
+    "notApplicableBody": "O sistema de IA não realiza automação de decisão, geração de conteúdo ou intervenção no protocolo ou na condução do estudo. Portanto, a MARIAH não se aplica a este protocolo.",
+    "notApplicableRestart": "Iniciar nova avaliação",
+    "title": "Passo 0 — Filtro de Entrada",
+    "subtitle": "Verifique se o sistema de IA se enquadra no escopo da MARIAH e se o protocolo utiliza banco de dados (ativa a subseção da Res. CNS n.º 738/2024).",
+    "q1Label": "PERGUNTA 1 — Aplicabilidade",
+    "q1Question": "O sistema de IA realiza automação de decisão, geração de conteúdo ou intervenção no protocolo ou na condução do estudo?",
+    "q1Applies": "✓ MARIAH se aplica. Responda a segunda pergunta abaixo para prosseguir.",
+    "typesHint": "Antes de responder, veja o que cada termo significa",
+    "type1Title": "Automação de decisão",
+    "type1Desc": "Qualquer sistema que produza classificações, escores, recomendações ou alertas que influenciem decisões.",
+    "type2Title": "Geração de conteúdo",
+    "type2Desc": "Sistemas que produzem texto, dados sintéticos, imagens ou qualquer conteúdo que integre o protocolo.",
+    "type3Title": "Intervenção",
+    "type3Desc": "Sistemas cuja saída orienta, modifica ou substitui etapas do protocolo.",
+    "q2Label": "PERGUNTA 2 — Filtro de Banco de Dados",
+    "q2Badge": "Res. CNS n.º 738/2024",
+    "q2Activated": "✓ Subseção ativada: Eixo 3.b (Versão A) ou Bloco 6.b (Versão B) serão incluídos na avaliação.",
+    "q2Standard": "Avaliação seguirá com os eixos/blocos padrão (sem subseção Res 738).",
+    "proceed": "Prosseguir para a avaliação"
+  },
+  "contextForm": {
+    "identTitle": "Identificação do Protocolo",
+    "identSubtitle": "Campos obrigatórios para identificar o protocolo avaliado.",
+    "tituloLabel": "Título do Projeto *",
+    "tituloPlaceholder": "Ex: Sistema de triagem por IA para emergências",
+    "instituicaoLabel": "Instituição *",
+    "instituicaoPlaceholder": "Ex: Hospital Universitário XYZ",
+    "cepLabel": "Nome do CEP *",
+    "cepPlaceholder": "Ex: CEP/CONEP",
+    "contextTitle": "Caracterização do Contexto de Uso",
+    "contextSubtitle": "Estas questões são descritivas e obrigatórias. Elas não geram pontuação, mas contextualizam a avaliação.",
+    "placeholderNumero": "Ex: 1500",
+    "selecione": "Selecione…",
+    "respostaPlaceholder": "Sua resposta..."
   }
 }
