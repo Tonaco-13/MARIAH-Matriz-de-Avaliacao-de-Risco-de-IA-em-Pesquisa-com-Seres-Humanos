@@ -90,6 +90,16 @@ gate deriva de string traduzível — as respostas são chaveadas por **id**.
   `motivoEliminatorio`×8; `exibicaoCondicional.descricao`×4 na base;
   `referenciaNormativa`, `obs`, `opcoes`, ids e números **fora**) está
   documentada no cabeçalho do script.
+- **`scripts/i18n-no-literal.ts`** (roda no `npm run gate`) — guarda de regressão
+  com dois checks nomeados. **(A) zero-literal JSX:** nenhum literal de texto
+  pt-BR (acento ou palavra-domínio inequívoca) em `src/**/*.tsx` — a casca vem de
+  `messages/` via `t()`, o conteúdo da matriz vem de `data.ts` por expressão.
+  **(B) golden-rule:** números de corte/teto, ids de questão e `matrixVersion`
+  não viram texto traduzível — regra **completa** nos campos `i18n` da spec (B1)
+  e, nos `messages/*.json` (B2), falha por número de corte/`matrixVersion`
+  (ids de questão em narrativa de ajuda são âncoras legítimas — listadas como
+  aviso informativo, não bloqueiam). Os tokens proibidos são lidos da spec, não
+  fixados no script.
 - Telas do wizard (não pré-renderizadas) são conferidas por e2e no preview da
   Vercel contra a vitrine.
 
@@ -106,7 +116,7 @@ expectativa em `scripts/verify-math.ts` — cada commit deve ser reproduzível v
 ```
 npm run verify      # matemática/estrutura da matriz (tsx)
 npm run parity      # paridade spec × guia (128/0)
-npm run gate        # vetores de nível/pontuação + i18n-identity (no-op de label)
+npm run gate        # vetores de nível/pontuação + i18n-identity (no-op de label) + i18n-no-literal (A: zero-literal JSX; B: golden-rule)
 npm run build       # build de produção
 python3 scripts/parity-locale.py check   # pt-BR idêntico à baseline NDTI (flag off)
 ```
