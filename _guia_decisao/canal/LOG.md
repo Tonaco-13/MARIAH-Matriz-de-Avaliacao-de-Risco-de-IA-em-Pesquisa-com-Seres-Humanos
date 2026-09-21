@@ -5,6 +5,34 @@
 
 ---
 
+### #12 · 2026-09-21 16:35 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Passos 6–8 verificados independentemente e aceitos** (commits `4e2d22f`, `93321f5`, `2e9667d` conferidos; verify 105/105 e gate 344/344 re-rodados pela arquitetura; jspdf fora do package.json; MAINTENANCE com a seção i18n; datas locale-aware em `utils.ts:652/872` — **P6 fechado**). Respostas aos dois pontos:
+
+1. **P8 — atenção a um drift de escopo entre teu #7 e tua pergunta de agora:** no #7 propuseste formalizar o **grep zero-literal JSX**; na pergunta, descreveste um **guarda da regra de ouro** (número/id/matrixVersion não vira string traduzível). São **dois checks distintos e ambos necessários**. Decisão: um único `scripts/i18n-no-literal.ts` no gate com **duas verificações nomeadas** — (A) *zero-literal*: nenhum literal pt-BR de UI em JSX (B2); (B) *golden-rule*: nenhuma chave de `messages/*.json` nem campo `i18n` da spec casa padrão numérico/id de questão/matrixVersion (B1/B7). Nomeadas separadamente na saída, para o relatório do Z ler limpo. **Executa primeiro.**
+2. **package.json `version`:** alinha para **2.2.0** em commit `chore` próprio, minúsculo. A divergência package/spec é exatamente o tipo de pergunta que a auditoria faria; a política continua governando o `matrixVersion`, e o commit registra que o alinhamento é cosmético de versão, não de conteúdo. **Depois do P8.**
+3. Em seguida: monta o DoD completo (checklist do memorando, item 4) + pacote de auditoria do Z — **me traz antes de enviar ao Z**, que eu confiro contra o definition of done.
+
+---
+
+### #11 · 2026-09-21 16:28 · Engenharia → canal · [aviso]
+
+**Bloco 3/Passo 8 — relatório locale-aware (`2e9667d`).** generateReportHTML/generateReportText recebem locale (default pt-BR): `<html lang>` dinâmico, font-stack com Noto Sans/Noto Sans SC (fallback CJK) e datas via `toLocaleDateString(locale)` (utils.ts:652/872 — fecha P6). Results passa o locale ativo (useLocale). Em pt-BR o relatório é byte-a-byte o de antes; o relatório não é pré-renderizado, logo fica fora do parity (coberto por e2e). **Bloco 4/Passo 8 — build duplo flag off↔on (runtime, sem commit):** mesmo build, OFF → gated 307→pt-BR e pt-BR 200; ON (`LOCALES_ENABLED=true`) → gated 200. Flag puramente runtime confirmada. Evidência por bloco: build ok · verify 105/105 · parity 128/0 · gate 64/64 + i18n-identity 344 · parity-locale 4/4 (flag off). *(texto da Engenharia, transcrito pelo Operador)*
+
+---
+
+### #10 · 2026-09-21 16:25 · Engenharia → canal · [aviso]
+
+**Bloco 2/Passo 7 — remoção do jspdf + CHANGELOG (`93321f5`).** jspdf removido das dependências (0 imports em src/; o relatório usa `window.print()`). CHANGELOG ganha `[2.2.0]` — infraestrutura de i18n. Build/gates verdes pós-remoção. Superfície de dependências menor, sem impacto funcional. *(texto da Engenharia, transcrito pelo Operador)*
+
+---
+
+### #9 · 2026-09-21 16:20 · Engenharia → canal · [aviso]
+
+**Bloco 1/Passo 6 — MAINTENANCE.md (`4e2d22f`).** Documentada a arquitetura i18n: flag `LOCALES_ENABLED` (runtime, off por padrão), modelo campo-canônico + `label()`, regra de ouro B7, critério DOM-idêntico (parity-locale + i18n-identity 344), política de matrixVersion e fluxo futuro (`feat/i18n-es`). Sem mudança de código de produção. Gates verdes no commit. *(texto da Engenharia, transcrito pelo Operador)*
+
+---
+
 ### #8 · 2026-09-21 16:15 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Passos 6–8 LIBERADOS.** Antes de liberar, a arquitetura re-rodou os gates independentemente no `3c4e9c2`: verify **105/105** ✔ · parity **0 divergências** ✔ · gate com `i18n-identity` **344/344 no-op provado** (pt-BR e es → canônico) ✔. Condições 1 e 2 do Passo 5 satisfeitas; **P5 sancionada** (allowlist 344 documentada no cabeçalho do script e provada no gate). **P4 resolvida pela proposta da Engenharia:** inventário não entrou no 4a; aceito formalizar a conformidade zero-literal como `scripts/i18n-no-literal.ts` no gate (entra no Passo 9) — o Z decide na auditoria se o conjunto (nota E2 + grep formalizado + identity 344) é suficiente. **Ordem liberada** (conforme plano da Engenharia): (1) MAINTENANCE.md seção i18n (cond. 3.3); (2) remoção `jspdf` + CHANGELOG; (3) relatório locale-aware: `lang` dinâmico + font-stack CJK + datas (P6, `utils.ts:650/868`); (4) build duplo flag off/on. Sandbox verde a cada item; QUADRO + aviso no LOG por bloco; pacote do Z ao final.
