@@ -331,7 +331,7 @@ const pend = getUnansweredItems('B', {}, {}, { 'P6.b.4': 'na' }, true).map((i) =
 assert('Auditoria não lista P6.b.6 oculto', pend.includes('P6.b.6'), false);
 
 console.log('\n=== 16. Notas de verificação MHRA (F-24 a F-28) nas dicas ===');
-assert('MATRIX_VERSION = 2.1.0', MATRIX_VERSION, '2.1.0');
+assert('MATRIX_VERSION = 2.2.0', MATRIX_VERSION, '2.2.0');
 assert('F-24: dica de 5.8/P7.7 tem "plano de gestão de mudanças"', findQB('P7.7')?.dica.includes('plano de gestão de mudanças'), true);
 assert('F-25: dica de 5.6/P7.5 tem "escalonamento"', findQB('P7.5')?.dica.includes('escalonamento'), true);
 assert('F-26: dica de 3.10/P6.10 tem "por decisão"', findQB('P6.10')?.dica.includes('por decisão'), true);
