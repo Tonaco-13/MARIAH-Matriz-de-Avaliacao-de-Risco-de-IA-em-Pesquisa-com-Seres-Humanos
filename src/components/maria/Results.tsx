@@ -17,7 +17,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738 } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer, QuantitativeAnswer } from './utils';
@@ -60,6 +60,7 @@ export default function Results({
   onStepClick,
 }: ResultsProps) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const LevelBadge = ({ level }: { level: RiskLevel }) => {
     const info = RISK_LEVELS[level];
@@ -148,7 +149,8 @@ export default function Results({
       qualitativeAnswers,
       quantitativeAnswers,
       usesDatabase,
-      useAAsTriagem
+      useAAsTriagem,
+      locale
     );
     const printWindow = window.open('', '_blank');
     if (printWindow) {
