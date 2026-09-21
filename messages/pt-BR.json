@@ -13,6 +13,8 @@
     "back": "Voltar",
     "continuar": "Continuar",
     "scopePage": "esta página",
+    "cancel": "Cancelar",
+    "undoable": "Esta ação não pode ser desfeita.",
     "stepIndicator": {
       "version": { "label": "Seleção da Versão", "short": "Versão" },
       "filter": { "label": "Filtro de Entrada", "short": "Filtro" },
@@ -126,5 +128,20 @@
     "placeholderNumero": "Ex: 1500",
     "selecione": "Selecione…",
     "respostaPlaceholder": "Sua resposta..."
+  },
+  "restart": {
+    "aria": "Iniciar nova avaliação",
+    "button": "Nova avaliação",
+    "title": "Iniciar nova avaliação?",
+    "descWithCount": "Isso apagará <b>todas as {count, plural, one {# resposta já preenchida} other {# respostas já preenchidas}}</b> e voltará à tela de seleção de versão.",
+    "descZero": "Isso apagará todos os dados preenchidos até aqui e voltará à tela de seleção de versão.",
+    "confirm": "Sim, limpar tudo"
+  },
+  "clearScope": {
+    "limpar": "Limpar {scope}",
+    "limparTitle": "Limpar {scope}?",
+    "desc": "{titleScope} contém <b>{count, plural, one {# resposta} other {# respostas}}</b> {count, plural, one {preenchida que será apagada} other {preenchidas que serão apagadas}}. Os demais passos da avaliação ficam preservados.",
+    "descEmpty": "Não há respostas a apagar neste escopo.",
+    "confirm": "Sim, limpar"
   }
 }
