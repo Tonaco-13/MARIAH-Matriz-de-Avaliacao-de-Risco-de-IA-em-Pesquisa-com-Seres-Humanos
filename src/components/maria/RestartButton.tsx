@@ -1,6 +1,7 @@
 'use client';
 
 import { RotateCcw } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -33,6 +34,7 @@ export default function RestartButton({
   answeredCount,
   variant = 'inline',
 }: RestartButtonProps) {
+  const t = useTranslations();
   const buttonClasses =
     variant === 'compact'
       ? 'text-muted-foreground hover:text-foreground hover:bg-muted gap-1.5 h-8 px-2 sm:px-3'
@@ -45,44 +47,41 @@ export default function RestartButton({
           variant="ghost"
           size={variant === 'compact' ? 'sm' : 'default'}
           className={buttonClasses}
-          aria-label="Iniciar nova avaliação"
+          aria-label={t('restart.aria')}
         >
           <RotateCcw className="h-3.5 w-3.5" />
-          <span className="text-xs sm:text-sm">Nova avaliação</span>
+          <span className="text-xs sm:text-sm">{t('restart.button')}</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Iniciar nova avaliação?</AlertDialogTitle>
+          <AlertDialogTitle>{t('restart.title')}</AlertDialogTitle>
           <AlertDialogDescription>
             {answeredCount && answeredCount > 0 ? (
               <>
-                Isso apagará{' '}
-                <strong>
-                  todas as {answeredCount} resposta{answeredCount === 1 ? '' : 's'} já
-                  preenchida{answeredCount === 1 ? '' : 's'}
-                </strong>{' '}
-                e voltará à tela de seleção de versão.
+                {t.rich('restart.descWithCount', {
+                  count: answeredCount,
+                  b: (chunks) => <strong>{chunks}</strong>,
+                })}
                 <br />
-                <span className="block mt-2 text-xs">Esta ação não pode ser desfeita.</span>
+                <span className="block mt-2 text-xs">{t('ui.undoable')}</span>
               </>
             ) : (
               <>
-                Isso apagará todos os dados preenchidos até aqui e voltará à tela de seleção
-                de versão.
+                {t('restart.descZero')}
                 <br />
-                <span className="block mt-2 text-xs">Esta ação não pode ser desfeita.</span>
+                <span className="block mt-2 text-xs">{t('ui.undoable')}</span>
               </>
             )}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel>{t('ui.cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={onRestart}
             className="bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-400"
           >
-            Sim, limpar tudo
+            {t('restart.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Eraser } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -35,6 +36,7 @@ export default function ClearScopeButton({
   onClear,
   disabled,
 }: ClearScopeButtonProps) {
+  const t = useTranslations();
   // Capitaliza só a primeira letra do scope para a frase do título.
   const titleScope =
     scopeLabel.charAt(0).toUpperCase() + scopeLabel.slice(1);
@@ -45,40 +47,42 @@ export default function ClearScopeButton({
         <Button
           variant="ghost"
           className="text-muted-foreground hover:text-foreground hover:bg-muted gap-1.5"
-          aria-label={`Limpar ${scopeLabel}`}
+          aria-label={t('clearScope.limpar', { scope: scopeLabel })}
           disabled={disabled}
         >
           <Eraser className="h-3.5 w-3.5" />
-          <span className="text-xs sm:text-sm">Limpar {scopeLabel}</span>
+          <span className="text-xs sm:text-sm">{t('clearScope.limpar', { scope: scopeLabel })}</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Limpar {scopeLabel}?</AlertDialogTitle>
+          <AlertDialogTitle>{t('clearScope.limparTitle', { scope: scopeLabel })}</AlertDialogTitle>
           <AlertDialogDescription>
             {affectedCount > 0 ? (
               <>
-                {titleScope} contém <strong>{affectedCount} resposta{affectedCount === 1 ? '' : 's'}</strong>{' '}
-                preenchida{affectedCount === 1 ? '' : 's'} que ser{affectedCount === 1 ? 'á apagada' : 'ão apagadas'}.
-                Os demais passos da avaliação ficam preservados.
+                {t.rich('clearScope.desc', {
+                  count: affectedCount,
+                  titleScope,
+                  b: (chunks) => <strong>{chunks}</strong>,
+                })}
                 <br />
-                <span className="block mt-2 text-xs">Esta ação não pode ser desfeita.</span>
+                <span className="block mt-2 text-xs">{t('ui.undoable')}</span>
               </>
             ) : (
               <>
-                Não há respostas a apagar neste escopo.
+                {t('clearScope.descEmpty')}
               </>
             )}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel>{t('ui.cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={onClear}
             disabled={affectedCount === 0}
             className="bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-400"
           >
-            Sim, limpar
+            {t('clearScope.confirm')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
