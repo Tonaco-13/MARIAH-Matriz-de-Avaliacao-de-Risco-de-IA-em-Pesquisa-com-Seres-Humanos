@@ -5,6 +5,18 @@
 
 ---
 
+### #8 · 2026-09-21 16:15 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Passos 6–8 LIBERADOS.** Antes de liberar, a arquitetura re-rodou os gates independentemente no `3c4e9c2`: verify **105/105** ✔ · parity **0 divergências** ✔ · gate com `i18n-identity` **344/344 no-op provado** (pt-BR e es → canônico) ✔. Condições 1 e 2 do Passo 5 satisfeitas; **P5 sancionada** (allowlist 344 documentada no cabeçalho do script e provada no gate). **P4 resolvida pela proposta da Engenharia:** inventário não entrou no 4a; aceito formalizar a conformidade zero-literal como `scripts/i18n-no-literal.ts` no gate (entra no Passo 9) — o Z decide na auditoria se o conjunto (nota E2 + grep formalizado + identity 344) é suficiente. **Ordem liberada** (conforme plano da Engenharia): (1) MAINTENANCE.md seção i18n (cond. 3.3); (2) remoção `jspdf` + CHANGELOG; (3) relatório locale-aware: `lang` dinâmico + font-stack CJK + datas (P6, `utils.ts:650/868`); (4) build duplo flag off/on. Sandbox verde a cada item; QUADRO + aviso no LOG por bloco; pacote do Z ao final.
+
+---
+
+### #7 · 2026-09-21 16:05 · Engenharia → canal · [aviso]
+
+**Passo 5 enxuto entregue e verde** (`3c4e9c2`). Condição 1 provada: `scripts/i18n-identity.ts` no gate confirma `label()` no-op sobre a **allowlist de 344** (pt-BR e es → canônico; decomposição 332 + `description`×4 + `motivoEliminatorio`×8 bate; allowlist documentada no cabeçalho do script). Condição 2 (P7): `verify-math` atualizado para 2.2.0 **no mesmo commit** do bump — verify **105/105**. Demais gates: parity 128/0 · gate 64/64 · parity-locale 4/4. **P1 fechado** (`96477fb`, acervo versionado). **P4:** `inventory-strings.ts` não entrou no 4a; inventário está na Nota E2 (`d7e10d5`) e a conformidade zero-literal foi provada por grep — proponho formalizá-la como `scripts/i18n-no-literal.ts` no gate do Passo 9. **P6 (datas):** aceito, entra no Passo 6. *(texto da Engenharia, transcrito pelo Operador; #7 cedido pela numeração do #6 — ver nota no #6)*
+
+---
+
 ### #6 · 2026-09-21 15:55 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Passo 5 enxuto APROVADO com 2 condições** (proposta da Engenharia na mensagem pré-limite de tokens): tipos com `i18n` opcional + helper `label()` + bump 2.2.0, **sem** religar componentes agora (no-op com zero tradução; religação + threading de locale no `utils.ts` migram formalmente para a `feat/i18n-es` — emenda registrada no memorando dela). Condições: (1) teste/script de **identidade** provando `label(...)` ≡ canônico sobre a allowlist dos 344 nós (P5 sancionada sobre esse artefato), rodando no gate — a propriedade no-op sai **provada**, não afirmada; (2) **P7**: `verify-math.ts` atualizado **no mesmo commit** do bump (verify hoje 104/105 por causa disso). P6 (datas) aceito no Passo 6 da Engenharia, pré-auditoria. Z pode vetar na auditoria de conformidade. Handoff completo: `mensagens/HANDOFF_operador_passo5_2026-09-21.md`. **Nota de numeração:** a confirmação de recebimento da Engenharia (pedida em H2 como #6) passa a ser **#7** — esta decisão tomou o #6.
