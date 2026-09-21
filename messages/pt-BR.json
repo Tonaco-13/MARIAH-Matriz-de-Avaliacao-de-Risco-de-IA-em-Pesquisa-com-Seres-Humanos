@@ -13,6 +13,9 @@
     "back": "Voltar",
     "continuar": "Continuar",
     "scopePage": "esta página",
+    "scopeEixo": "este eixo",
+    "scopeBloco": "este bloco",
+    "naoSeAplica": "Não se aplica",
     "cancel": "Cancelar",
     "undoable": "Esta ação não pode ser desfeita.",
     "stepIndicator": {
@@ -143,5 +146,61 @@
     "desc": "{titleScope} contém <b>{count, plural, one {# resposta} other {# respostas}}</b> {count, plural, one {preenchida que será apagada} other {preenchidas que serão apagadas}}. Os demais passos da avaliação ficam preservados.",
     "descEmpty": "Não há respostas a apagar neste escopo.",
     "confirm": "Sim, limpar"
+  },
+  "assessment": {
+    "progressoGeral": "Progresso geral",
+    "questoesRespondidas": "{answered}/{total} questões respondidas",
+    "res738Badge": "Res 738/2024",
+    "eliminatorioBadge": "⛔ ELIMINATÓRIO",
+    "naoAvaliavelBadge": "⛔ Protocolo não avaliável — {ref}",
+    "naoAplicavelBadge": "Não aplicável — não conta como risco",
+    "nivelBadge": "Nível {level} — {label}",
+    "riscoSim": "Sim ⬆",
+    "riscoNao": "Não ⬆",
+    "respostaRisco": "Resposta de risco: <b>{label}</b>",
+    "respostasRiscoResumo": "Respostas de risco: <b>{count}</b>/{total}",
+    "diligenciaImpeditiva": "Diligência impeditiva",
+    "registroDiligencia": "Registro / diligência",
+    "sufixoImpeditiva": " — não pontua, mas bloqueia o parecer se ausente",
+    "sufixoRegistro": " — não altera a pontuação do eixo",
+    "verResultado": "Ver Resultado",
+    "a": {
+      "footer": "MARIAH — Versão A — Qualitativa",
+      "eixoLabel": "Eixo {n}",
+      "eixoAnterior": "Eixo Anterior",
+      "proximoEixo": "Próximo Eixo",
+      "elevacaoEspecial": "⚠ Elevação especial: 0 → não eleva · 1-2 risco → Nível III · 3+ → Nível IV"
+    },
+    "b": {
+      "footer": "MARIAH — Versão B — Quantitativa",
+      "blocoLabel": "Bloco {n}",
+      "blocoAnterior": "Bloco Anterior",
+      "proximoBloco": "Próximo Bloco",
+      "pontuacaoTotal": "Pontuação Total",
+      "nivelAtual": "Nível Atual",
+      "bloco6bRes738": "Bloco 6.b — Res 738",
+      "clausulaAtivada": "Cláusula de Prevalência Ética ativada — Nível IV",
+      "clausulaBadge": "Cláusula de Prevalência Ética",
+      "naoAvaliavelInline": "⛔ Protocolo não avaliável ({id}) — {ref}",
+      "faixaI": "I (0-{max})",
+      "faixaII": "II ({min}-{max})",
+      "faixaIII": "III ({min}-{max})",
+      "faixaIV": "IV ({min}-{max})",
+      "ptsBidirecional": "pts (bidirecional)",
+      "mitigaNao": "“Não” ⬆ risco",
+      "mitigaSim": "“Sim” ⬇ mitiga"
+    }
+  },
+  "help": {
+    "mitigacao": "Mitigação",
+    "risco": "Risco",
+    "ariaDescription": "Explicação detalhada da questão {id}",
+    "whyTitle": "Por que esta questão importa",
+    "riskAnswerTitle": "Resposta de risco",
+    "riskAnswerText": "Responder <b>\"{answer}\"</b> aumenta o nível de risco.",
+    "scoreTitle": "Efeito na pontuação",
+    "mitigacaoText": "Responder \"Sim\" <b>subtrai {pts} pontos</b> da pontuação total.",
+    "riscoText": "Resposta de risco <b>adiciona {pts} pontos</b> à pontuação total.",
+    "refTitle": "Referência normativa"
   }
 }
