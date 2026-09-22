@@ -82,5 +82,61 @@
     "desc": "{titleScope} contiene <b>{count, plural, one {# respuesta} other {# respuestas}}</b> {count, plural, one {cumplimentada que se borrará} other {cumplimentadas que se borrarán}}. Los demás pasos de la evaluación se conservan.",
     "descEmpty": "No hay respuestas que borrar en este ámbito.",
     "confirm": "Sí, limpiar"
+  },
+  "assessment": {
+    "progressoGeral": "Progreso general",
+    "questoesRespondidas": "{answered}/{total} preguntas respondidas",
+    "res738Badge": "Res 738/2024",
+    "eliminatorioBadge": "⛔ ELIMINATORIA",
+    "naoAvaliavelBadge": "⛔ Protocolo no evaluable — {ref}",
+    "naoAplicavelBadge": "No aplicable — no cuenta como riesgo",
+    "nivelBadge": "Nivel {level} — {label}",
+    "riscoSim": "Sí ⬆",
+    "riscoNao": "No ⬆",
+    "respostaRisco": "Respuesta de riesgo: <b>{label}</b>",
+    "respostasRiscoResumo": "Respuestas de riesgo: <b>{count}</b>/{total}",
+    "diligenciaImpeditiva": "Diligencia impeditiva",
+    "registroDiligencia": "Registro / diligencia",
+    "sufixoImpeditiva": " — no puntúa, pero bloquea el dictamen si está ausente",
+    "sufixoRegistro": " — no altera la puntuación del eje",
+    "verResultado": "Ver Resultado",
+    "a": {
+      "footer": "MARIAH — Versión A — Cualitativa",
+      "eixoLabel": "Eje {n}",
+      "eixoAnterior": "Eje Anterior",
+      "proximoEixo": "Eje Siguiente",
+      "elevacaoEspecial": "⚠ Elevación especial: 0 → no eleva · 1-2 riesgo → Nivel III · 3+ → Nivel IV"
+    },
+    "b": {
+      "footer": "MARIAH — Versión B — Cuantitativa",
+      "blocoLabel": "Bloque {n}",
+      "blocoAnterior": "Bloque Anterior",
+      "proximoBloco": "Bloque Siguiente",
+      "pontuacaoTotal": "Puntuación Total",
+      "nivelAtual": "Nivel Actual",
+      "bloco6bRes738": "Bloque 6.b — Res 738",
+      "clausulaAtivada": "Cláusula de Primacía Ética activada — Nivel IV",
+      "clausulaBadge": "Cláusula de Primacía Ética",
+      "naoAvaliavelInline": "⛔ Protocolo no evaluable ({id}) — {ref}",
+      "faixaI": "I (0-{max})",
+      "faixaII": "II ({min}-{max})",
+      "faixaIII": "III ({min}-{max})",
+      "faixaIV": "IV ({min}-{max})",
+      "ptsBidirecional": "pts (bidireccional)",
+      "mitigaNao": "“No” ⬆ riesgo",
+      "mitigaSim": "“Sí” ⬇ mitiga"
+    }
+  },
+  "help": {
+    "mitigacao": "Mitigación",
+    "risco": "Riesgo",
+    "ariaDescription": "Explicación detallada de la pregunta {id}",
+    "whyTitle": "Por qué esta pregunta importa",
+    "riskAnswerTitle": "Respuesta de riesgo",
+    "riskAnswerText": "Responder <b>\"{answer}\"</b> aumenta el nivel de riesgo.",
+    "scoreTitle": "Efecto en la puntuación",
+    "mitigacaoText": "Responder \"Sí\" <b>resta {pts} puntos</b> de la puntuación total.",
+    "riscoText": "Respuesta de riesgo <b>añade {pts} puntos</b> a la puntuación total.",
+    "refTitle": "Referencia normativa"
   }
 }
