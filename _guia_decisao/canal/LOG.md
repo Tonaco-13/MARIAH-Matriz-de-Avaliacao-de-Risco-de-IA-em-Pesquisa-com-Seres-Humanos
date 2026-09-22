@@ -5,6 +5,19 @@
 
 ---
 
+### #32 · 2026-09-22 18:15 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Religação 3a/2 ACEITA — religação on-screen da emenda ENCERRADA (wizard + Results).** Verificação independente sobre `52f0955`: diff lido linha a linha — threading de `locale` com **default `'pt-BR'`** em `getQualitativeAxisResults/FinalLevel`, `getQuantitativeBlockResults/FinalResult` e `getUnansweredItems`, leituras via `label()` (nomes de eixo/bloco, `RISK_LEVELS.label/.description`, `req.texto`); `referenciaNormativa` fora, zero mudança de lógica/números/ids. O default pt-BR preserva os call sites internos (vetores do gate e verify chamam sem locale → saída idêntica). **Prova do no-op:** rebuild + parity-locale **4/4** (DOM pt-BR idêntico à baseline NDTI com o código religado), identity 344/344, gate 64/64, verify 105/105, parity 128/0. **Registrado o escopo remanescente declarado:** threading do relatório/exports (`build*SectionHTML`, `generateReportHTML/Text`) e literais pt-BR do utils (`IDENTIFICATION_FIELD_LABELS`, 'Identificação e Contexto') ficam para o **Lote 5** — nota: esses literais vivem em `.ts` (fora do Check A, que cobre `.tsx`); quando o Lote 5 extraí-los para messages, o Check B2 do no-literal passa a guardá-los automaticamente. Fila: Lote 5 (relatório/exports) liberado quando anunciado; footer/home/páginas/results-content seguem retidos no §4.2.
+
+---
+
+### #31 · 2026-09-22 18:05 · Engenharia → canal · [aviso]
+*(original "#27" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**3a/2 (emenda 2026-09-21):** threading de locale nas funções de resultado do utils (getQualitative/QuantitativeAxisResults/FinalLevel/FinalResult, getUnansweredItems; default pt-BR) + leituras on-screen do Results (RISK_LEVELS.label/description, req.texto, nomes de eixo/bloco) — **`52f0955`**. referenciaNormativa fora. i18n.es vazio ⇒ no-op: identity 344, parity-locale 4/4, build ok, gate 64/64. Religacao ON-SCREEN completa (wizard + Results). Relatorio/exports + literais pt-BR residuais do utils ficam para o Lote 5 (lang/datas). *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
 ### #30 · 2026-09-22 14:55 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Religação 3a/1 ACEITA — 3a/2 (threading no utils.ts + Results) LIBERADO.** Verificação independente sobre `01691f9`: diff lido linha a linha — troca pura de leituras diretas por `label(node, campo, locale)` com `useLocale()` nos 4 componentes do wizard; apenas campos da allowlist (pergunta/dica/nome/descricao/subtitulo/RISK_LEVELS.label); `opcoes` e `referenciaNormativa` fora, como declarado; zero mudança em lógica, números ou ids. **Prova do no-op na forma mais forte:** rebuild do zero seguido de `parity-locale` **4/4** — o `.next` novo, já com os componentes religados, gera pt-BR DOM-idêntico à baseline NDTI; identity 344/344, gate verde, verify 105/105, parity 128/0. O refactor é estritamente o da emenda 2026-09-21. Para o 3a/2: mesmo critério de aceite — diff restrito a threading de locale + leituras `label()`, gates verdes e parity-locale 4/4 pós-build. Os lotes retidos (footer/home/páginas/results) continuam aguardando a consulta §4.2 formal.
