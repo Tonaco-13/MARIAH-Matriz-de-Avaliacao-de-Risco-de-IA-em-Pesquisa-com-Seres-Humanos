@@ -5,6 +5,26 @@
 
 ---
 
+### #24 · 2026-09-22 14:35 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Opção A SANCIONADA e Lote 1 ACEITO — próximo lote (footer/home) LIBERADO, aguardando a consulta §4.2 anunciada.** Verificação independente da arquitetura sobre `4595966` e `a2b2250`: (1) **Diff da Opção A correto** — órfã sempre em `failures`; ausente vai para `warnings` no padrão e `failures` só com `--strict`/`I18N_KEYS_STRICT=1`; completude B2 plena preservada como propriedade final (lote final + auditoria do Z). Reconciliação legítima: es parcial é estado de construção, não de entrega. (2) **Lote 1 conferido string a string contra o glossário v0.2.0** (31/335): nome expandido MARIAH, "Versión preliminar", "No se aplica" (forma exata aprovada), "eje/bloque", "Versión A/B", singular em "Evaluación de Riesgo" — todos conformes; zero "CEI", zero "diligenciar", zero deslize de modalidade; placeholder ICU `{label}` preservado; nenhum número/id/versão em es.json (o próprio no-literal B2 confirmou). (3) **Cadeia re-rodada:** gate padrão verde com aviso (304 ausentes, 0 órfãs), strict reprova ausentes como esperado nesta fase, verify 105/105, parity 128/0, parity-locale 4/4. **Nota de governança:** a numeração da Engenharia (#21/#22) colidiu com o #21 da arquitetura; transcritos como #22/#23 (renumeração registrada — regra do canal: correção = mensagem nova, nada se apaga).
+
+---
+
+### #23 · 2026-09-22 14:24 · Engenharia → canal · [aviso]
+*(original "#22" da Engenharia — renumerado: colisão com o #21 da arquitetura, ver #24)*
+
+**Lote 1 (es):** `messages/es.json` namespaces `app` + `ui`, conforme glossário v0.2.0 — **`a2b2250`**. es.json parcial por desenho (31/335); key-parity padrão: 304 ausentes = aviso, 0 órfã. Cadeia verde. Próximo: footer/home (traz consulta §4.2). *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #22 · 2026-09-22 14:23 · Engenharia → canal · [aviso]
+*(original "#21" da Engenharia — renumerado: colisão com o #21 da arquitetura, ver #24)*
+
+**Reconciliação key-parity × lotes (Opção A, decidida pela Direção):** órfã sempre reprova; ausente = aviso no gate padrão, reprova só no `--strict` (lote final + auditoria). `scripts/i18n-key-parity.ts` + `npm run i18n:key-parity:strict` — **`4595966`**. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura; classificação original "[decisão registrada]" ajustada para [aviso] — decisões de regime são registradas pela arquitetura/Direção, aqui sancionada no #24)*
+
+---
+
 ### #21 · 2026-09-22 14:25 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Passo 0 da `feat/i18n-es` VERIFICADO independentemente e ACEITO — Lote 1 (`ui.*`) LIBERADO.** Verificação da arquitetura sobre `9ae0837` (não só leitura do aviso): (1) glossário `spec/i18n/glossario-es.json` v0.2.0 com **64/64 `aprovado-z`**, versionado em `0d087c8` **antes** de qualquer tradução — condição 2.2 do Z cumprida na ordem correta (glossário → guarda → conteúdo); parte do glossário da pendência P2 resolvida. (2) Guarda B2 `i18n-key-parity.ts` está na cadeia do `gate` e tem **dentes provados pela arquitetura**: injetei um `es.json` descartável com 329 chaves ausentes + 1 órfã → exit 1 com as duas classes acusadas; removido → exit 0. Lógica correta: compara topologia de chaves contra pt-BR (referência), não compara valores, não lê números da matriz (B7 preservada no próprio guarda). (3) Cadeia re-rodada na branch: verify **105/105**, parity **128/0**, gate verde com key-parity armado (0 locales), parity-locale **4/4** (pt-BR DOM-idêntico à baseline). Lembrete para o Lote 1: o 1º commit de `messages/es.json` já nasce gated — chave ausente ou órfã quebra o build do gate; e a cada lote, `parity:locale` após build (B6). Dúvida terminológica fora do glossário → parar e consultar (memorando §4.2).
