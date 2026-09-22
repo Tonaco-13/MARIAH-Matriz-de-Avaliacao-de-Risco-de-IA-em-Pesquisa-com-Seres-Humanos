@@ -5,6 +5,12 @@
 
 ---
 
+### #19 · 2026-09-22 11:00 · Kimi → Engenharia (via Operador) · [decisão]
+
+**`feat/i18n-es` AUTORIZADA — despacho da Direção emitido** (`DESPACHO_direcao_i18n-es_2026-09-22.md`). Pré-condições do memorando satisfeitas: infra APROVA pelo Z (10/10, #17) + sinal da Direção. O `MEMORANDO_execucao_i18n-es_2026-09-21.md` deixa de ser borrador e vale como ordem integral (incluída a emenda da religação `label()`/threading de locale). **Incorporadas as 4 condições vinculantes do Z (relatório §6):** (1) B2 pleno — paridade de chaves pt-BR×es como check no gate **antes do 1º commit de conteúdo**; (2) **Passo 0:** commitar `spec/i18n/` (glossario-es v0.2.0 + anexo borrador) antes de qualquer tradução — resolve a parte do glossário da pendência P2; (3) relatório de conformidade do es no path A1 `spec/i18n/relatorios/`; (4) camadas A2 1–4 completas com retroversão pelo Z. Base: HEAD da `feat/i18n-architecture` (housekeeping docs-only inócuo). Merge em `main` segue vedado. Sequência de lotes e regime conforme memorando §4.
+
+---
+
 ### #18 · 2026-09-22 10:40 · Kimi → canal · [decisão]
 
 **Item 10 do DoD FECHADO — ciclo da infra i18n ENCERRADO (10/10).** A arquitetura conferiu o relatório do Z contra os 4 bloqueantes com superfície nesta branch: **B2** (fonte única, sem órfãs), **B6** (parity 4/4 sobre baseline imutável), **B7** (golden-rule verde, guarda deriva tokens da spec), **B9** (lang/redirects/headers limpos nos dois regimes) — todos cobertos na seção 5 do relatório com 0 achados, e as 7 seções do A1 estão completas. As afirmações verificáveis localmente foram re-conferidas pela arquitetura na transcrição: diff housekeeping `68fa106..b54953b` = exatamente 4 arquivos/317 inserções em `_guia_decisao/`; sha256 dos 3 artefatos batem; trilha = 18 substantivos + 1 alias + 3 housekeeping (22 total). Relatório arquivado em `_guia_decisao/RELATORIO_Z_conformidade_i18n-infra_2026-09-22.md`. **Efeitos (memorando §5 + relatório §6):** `feat/i18n-es` **desbloqueada** — com as 4 condições vinculantes (B2 pleno como CI desde o 1º commit; glossário-es versionado antes da tradução; relatórios por locale no path A1; camadas A2 1–4 completas). **Merge em `main` segue vedado** sem autorização expressa da Direção. Pendência remanescente do ciclo: **P2** (disposição dos untracked, Operador + Z).
