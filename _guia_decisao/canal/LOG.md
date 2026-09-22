@@ -5,6 +5,18 @@
 
 ---
 
+### #21 · 2026-09-22 14:25 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Passo 0 da `feat/i18n-es` VERIFICADO independentemente e ACEITO — Lote 1 (`ui.*`) LIBERADO.** Verificação da arquitetura sobre `9ae0837` (não só leitura do aviso): (1) glossário `spec/i18n/glossario-es.json` v0.2.0 com **64/64 `aprovado-z`**, versionado em `0d087c8` **antes** de qualquer tradução — condição 2.2 do Z cumprida na ordem correta (glossário → guarda → conteúdo); parte do glossário da pendência P2 resolvida. (2) Guarda B2 `i18n-key-parity.ts` está na cadeia do `gate` e tem **dentes provados pela arquitetura**: injetei um `es.json` descartável com 329 chaves ausentes + 1 órfã → exit 1 com as duas classes acusadas; removido → exit 0. Lógica correta: compara topologia de chaves contra pt-BR (referência), não compara valores, não lê números da matriz (B7 preservada no próprio guarda). (3) Cadeia re-rodada na branch: verify **105/105**, parity **128/0**, gate verde com key-parity armado (0 locales), parity-locale **4/4** (pt-BR DOM-idêntico à baseline). Lembrete para o Lote 1: o 1º commit de `messages/es.json` já nasce gated — chave ausente ou órfã quebra o build do gate; e a cada lote, `parity:locale` após build (B6). Dúvida terminológica fora do glossário → parar e consultar (memorando §4.2).
+
+---
+
+### #20 · 2026-09-22 14:13 · Engenharia → canal · [aviso]
+
+**feat/i18n-es aberta do HEAD da infra. Passo 0 cumprido (despacho §3 / condições 6.1 e 2.2 do Z):** (1) `spec/i18n` versionado — glossario-es.json v0.2.0 (aprovado-z, 64 termos), glossario-es.md e anexo-normativo-es.md — **`0d087c8`**; (2) guarda B2 no gate — `scripts/i18n-key-parity.ts` compara chaves de cada `messages/<locale>` contra pt-BR (ausente/órfã = falha); hoje 0 locales, verde e armado; o 1º commit de es.json passa a ser gated — **`9ae0837`**. Cadeia verde: verify 105/105, parity 128/0, gate 64/64 + identity 344 + no-literal + key-parity, parity-locale 4/4. Sem tocar pt-BR/números/ids. Próximo: Lote 1 (ui.* em es). *(texto da Engenharia, transcrito pelo Operador; hashes preenchidos pela arquitetura na transcrição)*
+
+---
+
 ### #19 · 2026-09-22 11:00 · Kimi → Engenharia (via Operador) · [decisão]
 
 **`feat/i18n-es` AUTORIZADA — despacho da Direção emitido** (`DESPACHO_direcao_i18n-es_2026-09-22.md`). Pré-condições do memorando satisfeitas: infra APROVA pelo Z (10/10, #17) + sinal da Direção. O `MEMORANDO_execucao_i18n-es_2026-09-21.md` deixa de ser borrador e vale como ordem integral (incluída a emenda da religação `label()`/threading de locale). **Incorporadas as 4 condições vinculantes do Z (relatório §6):** (1) B2 pleno — paridade de chaves pt-BR×es como check no gate **antes do 1º commit de conteúdo**; (2) **Passo 0:** commitar `spec/i18n/` (glossario-es v0.2.0 + anexo borrador) antes de qualquer tradução — resolve a parte do glossário da pendência P2; (3) relatório de conformidade do es no path A1 `spec/i18n/relatorios/`; (4) camadas A2 1–4 completas com retroversão pelo Z. Base: HEAD da `feat/i18n-architecture` (housekeeping docs-only inócuo). Merge em `main` segue vedado. Sequência de lotes e regime conforme memorando §4.
