@@ -5,6 +5,35 @@
 
 ---
 
+### #16 · 2026-09-22 10:12 · Kimi → canal · [decisão]
+
+**Ciclo da infra i18n FECHADO; pacote liberado para o Z.** Ao transcrever o #15, a arquitetura conferiu o delta e encontrou **um residual**: o comentário inline da cadeia (§7) ainda dizia "19 commits". Corrigido pela própria arquitetura como housekeeping (`0b9e685`, docs-only), junto com a precisão do §1 (HEAD **substantivo** = `68fa106`; housekeeping acima sem efeito sobre evidências). Zero ocorrências de "19 commits" restantes. Não houve re-conferência de gates (LOG #13 §6 mantido) — apenas a correção factual. **Estado final:** DoD 9/9 executáveis reproduzidos; HEAD da branch `0b9e685` (housekeeping) sobre `68fa106` (alias) sobre 18 substantivos. O pacote `PACOTE_auditoria_Z_i18n_2026-09-21.md` está íntegro e segue ao Z pela Direção. Resta o item 10: relatório de conformidade do Z (7 seções do A1), veredito "aprova".
+
+---
+
+### #15 · 2026-09-22 10:09 · Engenharia → canal · [aviso]
+
+**Ciclo da infra i18n fechado do lado da Engenharia, cumprido o LOG #14:** (1) alias `npm run parity:locale` = `python3 scripts/parity-locale.py check`, sem aninhar no gate (gate é lógica pura; parity-locale consome o `.next`) — **`68fa106`**; (2) pacote de auditoria do Z versionado em `_guia_decisao/PACOTE_auditoria_Z_i18n_2026-09-21.md` (`12134ad`), com as correções factuais do #14 (18 commits substantivos; HEAD=`68fa106`). DoD: 9/9 executáveis reproduzidos em verde; resta o item 10 (relatório do Z). Cadeia verde no commit. *(texto da Engenharia, transcrito pelo Operador; hashes preenchidos pela arquitetura na transcrição)*
+
+---
+
+### #14 · 2026-09-22 10:05 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Executa os 2 micro-ajustes do LOG #13, nesta ordem, antes do pacote seguir ao Z:**
+
+1. **Alias `parity:locale`** — micro-commit único `chore(i18n): alias npm run parity:locale` adicionando ao `package.json`: `"parity:locale": "python3 scripts/parity-locale.py check"`. Sem aninhar no `gate` (passo explícito após o build, conforme decisão #13). Gates verdes após o commit (o alias não toca código, mas confirma).
+2. **Correção factual no pacote** — em `PACOTE_auditoria_Z_i18n_2026-09-21.md`: trocar "19 commits" por **"18 commits"** nos dois pontos (§1 "Trilha auditável" e §7 comentário da cadeia) e atualizar o **HEAD no §1** para o novo hash após o commit do alias.
+
+Cumpridos os dois, avisa no canal (#15) e o pacote segue **direto ao Z** — a arquitetura já conferiu e não re-confere (LOG #13 §6). Fecha-se assim o ciclo da infra i18n: DoD 9/9 executáveis reproduzidos, restando só o ato do Z (item 10).
+
+---
+
+### #13 · 2026-09-22 09:50 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Pacote de auditoria Z CONFERIDO contra o DoD (memorando §4) — APROVADO com 2 micro-ajustes formais.** Verificação independente (não só leitura): rebuild + re-execução completa pela arquitetura — verify **105/105**, parity **128/0**, gate **64/64** + identity **344/344** + no-literal OK, parity-locale **4/4**, build duplo runtime reproduzido (OFF: gated **307**→pt-BR; ON: gated **200**; `lang` correto por rota). Hashes sha256 dos 3 artefatos conferem byte a byte; baseline NDTI intacta (único commit `d7e10d5`); diff do `verify-math.ts` = apenas a linha `MATRIX_VERSION`, atômica no bump (`3c4e9c2`); spec com **0** campos `i18n`. DoD: 9/9 itens executáveis cumpridos e reproduzidos; item 10 é o ato do Z. Detalhes em `VERIFICACAO_arquitetura_pacote-Z_2026-09-22.md`. **Micro-ajustes antes do envio:** (1) o pacote diz "19 commits" em §1/§7, mas `main..HEAD` e a própria lista do §7 têm **18** — corrigir; (2) **sancionada** a recomendação do §5: criar o alias `npm run parity:locale` (micro-commit) e manter `parity-locale` como **passo explícito após o build**, sem aninhar no `gate`; atualizar o HEAD no §1 do pacote no mesmo ajuste. Cumpridos os dois, segue direto ao Z, sem re-conferência da arquitetura.
+
+---
+
 ### #12 · 2026-09-21 16:35 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Passos 6–8 verificados independentemente e aceitos** (commits `4e2d22f`, `93321f5`, `2e9667d` conferidos; verify 105/105 e gate 344/344 re-rodados pela arquitetura; jspdf fora do package.json; MAINTENANCE com a seção i18n; datas locale-aware em `utils.ts:652/872` — **P6 fechado**). Respostas aos dois pontos:
