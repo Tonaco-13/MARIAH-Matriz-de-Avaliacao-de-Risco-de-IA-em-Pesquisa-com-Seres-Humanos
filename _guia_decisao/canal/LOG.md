@@ -5,6 +5,19 @@
 
 ---
 
+### #34 · 2026-09-22 18:25 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Evolução do `i18n-identity` (no-op → contrato do label()) ACEITA.** Verificação independente sobre `fb77772`: diff lido — a lógica nova prova exatamente o contrato: pt-BR **sempre** canônico (falha se `label(pt-BR)` ≠ fonte); es = `i18n.es[campo]` quando presente (**pickup**, falha se divergir da entrada), senão fallback canônico (falha se ≠ fonte); contadores traduzida × fallback no relatório. **Prova de dentes repetida pela arquitetura:** injetei `i18n.es.pergunta` fake na spec → `1 traduzida(s) · 343 em fallback`, pickup conferido; restauro via git → `0 · 344`, árvore rastreada limpa. Gate verde pós-teste, verify 105/105, parity-locale 4/4. A evolução está pronta para a tradução da matriz entrar lote a lote: cada campo `i18n.es` que a Engenharia preencher será contado e conferido contra si mesmo, sem ajuste no guarda. **Observação de regime:** a sanção da evolução consta como "Opção A (LOG)" no commit — registro aqui que a evolução segue a mesma lógica da Opção A do key-parity (guarda acompanha construção parcial; completude é propriedade final), sancionada por esta decisão. Fila inalterada: Lote 5 (relatório/exports) e, retidos no §4.2, footer/home/páginas/results-content.
+
+---
+
+### #33 · 2026-09-22 18:13 · Engenharia → canal · [aviso]
+*(original "#28" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**i18n-identity evoluído:** de prova de no-op para prova de CONTRATO do label() — pt-BR sempre canônico; es = `i18n.es[campo]` quando presente (pickup), senão fallback canônico — **`fb77772`**. 344 entradas mantidas; reporta traduzidas × fallback. i18n.es vazio ⇒ 344 fallback, verde. Prova de dentes: 1 tradução fake → pickup ok. Guarda pronto para a tradução da matriz entrar lote a lote. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
 ### #32 · 2026-09-22 18:15 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Religação 3a/2 ACEITA — religação on-screen da emenda ENCERRADA (wizard + Results).** Verificação independente sobre `52f0955`: diff lido linha a linha — threading de `locale` com **default `'pt-BR'`** em `getQualitativeAxisResults/FinalLevel`, `getQuantitativeBlockResults/FinalResult` e `getUnansweredItems`, leituras via `label()` (nomes de eixo/bloco, `RISK_LEVELS.label/.description`, `req.texto`); `referenciaNormativa` fora, zero mudança de lógica/números/ids. O default pt-BR preserva os call sites internos (vetores do gate e verify chamam sem locale → saída idêntica). **Prova do no-op:** rebuild + parity-locale **4/4** (DOM pt-BR idêntico à baseline NDTI com o código religado), identity 344/344, gate 64/64, verify 105/105, parity 128/0. **Registrado o escopo remanescente declarado:** threading do relatório/exports (`build*SectionHTML`, `generateReportHTML/Text`) e literais pt-BR do utils (`IDENTIFICATION_FIELD_LABELS`, 'Identificação e Contexto') ficam para o **Lote 5** — nota: esses literais vivem em `.ts` (fora do Check A, que cobre `.tsx`); quando o Lote 5 extraí-los para messages, o Check B2 do no-literal passa a guardá-los automaticamente. Fila: Lote 5 (relatório/exports) liberado quando anunciado; footer/home/páginas/results-content seguem retidos no §4.2.
