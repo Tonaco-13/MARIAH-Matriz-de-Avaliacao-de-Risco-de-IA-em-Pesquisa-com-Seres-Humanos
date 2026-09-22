@@ -30,5 +30,57 @@
       "versionBadgeAriaA": "Usted está en la Versión A — Cualitativa",
       "versionBadgeAriaB": "Usted está en la Versión B — Cuantitativa"
     }
+  },
+  "entryFilter": {
+    "notApplicableTitle": "La MARIAH no se aplica",
+    "notApplicableBody": "El sistema de IA no automatiza decisiones, no genera contenido ni interviene en el protocolo o en la conducción del estudio. Por lo tanto, la MARIAH no se aplica a este protocolo.",
+    "notApplicableRestart": "Iniciar nueva evaluación",
+    "title": "Paso 0 — Filtro de Entrada",
+    "subtitle": "Verifique si el sistema de IA se encuadra en el alcance de la MARIAH y si el protocolo utiliza banco de datos (activa la subsección de la Res. CNS n.º 738/2024).",
+    "q1Label": "PREGUNTA 1 — Aplicabilidad",
+    "q1Question": "¿El sistema de IA automatiza decisiones, genera contenido o interviene en el protocolo o en la conducción del estudio?",
+    "q1Applies": "✓ La MARIAH se aplica. Responda la segunda pregunta a continuación para continuar.",
+    "typesHint": "Antes de responder, vea lo que significa cada término",
+    "type1Title": "Automatización de decisiones",
+    "type1Desc": "Cualquier sistema que produzca clasificaciones, puntuaciones, recomendaciones o alertas que influyan en decisiones.",
+    "type2Title": "Generación de contenido",
+    "type2Desc": "Sistemas que producen texto, datos sintéticos, imágenes o cualquier contenido que integre el protocolo.",
+    "type3Title": "Intervención",
+    "type3Desc": "Sistemas cuya salida orienta, modifica o sustituye etapas del protocolo.",
+    "q2Label": "PREGUNTA 2 — Filtro de Banco de Datos",
+    "q2Badge": "Res. CNS n.º 738/2024",
+    "q2Activated": "✓ Subsección activada: Eje 3.b (Versión A) o Bloque 6.b (Versión B) se incluirán en la evaluación.",
+    "q2Standard": "La evaluación seguirá con los ejes/bloques estándar (sin subsección Res 738).",
+    "proceed": "Continuar a la evaluación"
+  },
+  "contextForm": {
+    "identTitle": "Identificación del Protocolo",
+    "identSubtitle": "Campos obligatorios para identificar el protocolo evaluado.",
+    "tituloLabel": "Título del Proyecto *",
+    "tituloPlaceholder": "Ej.: Sistema de triaje por IA para emergencias",
+    "instituicaoLabel": "Institución *",
+    "instituicaoPlaceholder": "Ej.: Hospital Universitario XYZ",
+    "cepLabel": "Nombre del CEP *",
+    "cepPlaceholder": "Ej.: CEP/CONEP",
+    "contextTitle": "Caracterización del Contexto de Uso",
+    "contextSubtitle": "Estas preguntas son descriptivas y obligatorias. No generan puntuación, pero contextualizan la evaluación.",
+    "placeholderNumero": "Ej.: 1500",
+    "selecione": "Seleccione…",
+    "respostaPlaceholder": "Su respuesta..."
+  },
+  "restart": {
+    "aria": "Iniciar nueva evaluación",
+    "button": "Nueva evaluación",
+    "title": "¿Iniciar nueva evaluación?",
+    "descWithCount": "Esto borrará <b>todas las {count, plural, one {# respuesta ya cumplimentada} other {# respuestas ya cumplimentadas}}</b> y volverá a la pantalla de selección de versión.",
+    "descZero": "Esto borrará todos los datos cumplimentados hasta aquí y volverá a la pantalla de selección de versión.",
+    "confirm": "Sí, limpiar todo"
+  },
+  "clearScope": {
+    "limpar": "Limpiar {scope}",
+    "limparTitle": "¿Limpiar {scope}?",
+    "desc": "{titleScope} contiene <b>{count, plural, one {# respuesta} other {# respuestas}}</b> {count, plural, one {cumplimentada que se borrará} other {cumplimentadas que se borrarán}}. Los demás pasos de la evaluación se conservan.",
+    "descEmpty": "No hay respuestas que borrar en este ámbito.",
+    "confirm": "Sí, limpiar"
   }
 }
