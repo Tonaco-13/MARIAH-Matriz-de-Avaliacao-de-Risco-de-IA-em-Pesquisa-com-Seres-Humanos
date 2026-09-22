@@ -13,7 +13,8 @@
     "parity:locale": "python3 scripts/parity-locale.py check",
     "i18n:identity": "tsx scripts/i18n-identity.ts",
     "i18n:no-literal": "tsx scripts/i18n-no-literal.ts",
-    "gate": "tsx scripts/gate-run.ts && tsx scripts/i18n-identity.ts && tsx scripts/i18n-no-literal.ts"
+    "i18n:key-parity": "tsx scripts/i18n-key-parity.ts",
+    "gate": "tsx scripts/gate-run.ts && tsx scripts/i18n-identity.ts && tsx scripts/i18n-no-literal.ts && tsx scripts/i18n-key-parity.ts"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.15",
