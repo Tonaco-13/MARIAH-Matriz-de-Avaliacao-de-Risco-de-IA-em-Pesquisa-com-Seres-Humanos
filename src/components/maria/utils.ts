@@ -12,6 +12,7 @@ import {
   CONTEXT_QUESTIONS,
   MATRIX_VERSION,
   getThresholds,
+  label,
 } from './data';
 import type {
   RiskLevel,
@@ -119,14 +120,15 @@ export function getAxisRiskLevel(riskCount: number, axis?: QualitativeAxis): Ris
 
 export function getQualitativeAxisResults(
   answers: QualitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
 ) {
   return getApplicableAxes(usesDatabase).map((axis) => {
     const riskCount = countRiskAnswersAxis(axis, answers);
     const level = getAxisRiskLevel(riskCount, axis);
     return {
       axisId: axis.id,
-      axisName: axis.nome,
+      axisName: label(axis, 'nome', locale),
       riskCount,
       totalQuestions: axis.questoes.length,
       level,
@@ -213,7 +215,8 @@ export function getEliminatoryInfo(id: string | null): {
 export function getQualitativeFinalLevel(
   answers: QualitativeAnswer,
   usesDatabase: boolean = false,
-  contextAnswers: Record<string, string | undefined> = {}
+  contextAnswers: Record<string, string | undefined> = {},
+  locale: string = 'pt-BR'
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -222,7 +225,7 @@ export function getQualitativeFinalLevel(
   protocoloNaoAvaliavel: boolean;
   eliminatoryQuestionId: string | null;
 } {
-  const axisResults = getQualitativeAxisResults(answers, usesDatabase);
+  const axisResults = getQualitativeAxisResults(answers, usesDatabase, locale);
 
   // The final level is the HIGHEST across all axes
   const levelOrder: RiskLevel[] = ['I', 'II', 'III', 'IV'];
@@ -322,13 +325,14 @@ export function checkClausulaPrevalencia(answers: QuantitativeAnswer): boolean {
 
 export function getQuantitativeBlockResults(
   answers: QuantitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
 ) {
   return getApplicableBlocks(usesDatabase).map((block) => {
     const score = calculateBlockScore(block, answers);
     return {
       blockId: block.id,
-      blockName: block.nome,
+      blockName: label(block, 'nome', locale),
       score,
       maxPontos: block.maxPontos,
       isBlock7: block.id === 'bloco7',
@@ -352,7 +356,8 @@ export function getQuantitativeTotalScore(
 export function getQuantitativeFinalResult(
   answers: QuantitativeAnswer,
   usesDatabase: boolean = false,
-  contextAnswers: Record<string, string | undefined> = {}
+  contextAnswers: Record<string, string | undefined> = {},
+  locale: string = 'pt-BR'
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -365,7 +370,7 @@ export function getQuantitativeFinalResult(
   thresholds: ReturnType<typeof getThresholds>;
 } {
   const totalScore = getQuantitativeTotalScore(answers, usesDatabase);
-  const blockResults = getQuantitativeBlockResults(answers, usesDatabase);
+  const blockResults = getQuantitativeBlockResults(answers, usesDatabase, locale);
   const clausulaPrevalencia = checkClausulaPrevalencia(answers);
   const thresholds = getThresholds(usesDatabase);
 
@@ -451,7 +456,8 @@ export function getUnansweredItems(
   contextAnswers: Record<string, string>,
   qualitativeAnswers: QualitativeAnswer,
   quantitativeAnswers: QuantitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
 ): UnansweredItem[] {
   const items: UnansweredItem[] = [];
 
