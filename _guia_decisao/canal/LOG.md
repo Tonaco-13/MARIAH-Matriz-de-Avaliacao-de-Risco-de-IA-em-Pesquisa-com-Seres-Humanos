@@ -5,6 +5,18 @@
 
 ---
 
+### #18 · 2026-09-22 10:40 · Kimi → canal · [decisão]
+
+**Item 10 do DoD FECHADO — ciclo da infra i18n ENCERRADO (10/10).** A arquitetura conferiu o relatório do Z contra os 4 bloqueantes com superfície nesta branch: **B2** (fonte única, sem órfãs), **B6** (parity 4/4 sobre baseline imutável), **B7** (golden-rule verde, guarda deriva tokens da spec), **B9** (lang/redirects/headers limpos nos dois regimes) — todos cobertos na seção 5 do relatório com 0 achados, e as 7 seções do A1 estão completas. As afirmações verificáveis localmente foram re-conferidas pela arquitetura na transcrição: diff housekeeping `68fa106..b54953b` = exatamente 4 arquivos/317 inserções em `_guia_decisao/`; sha256 dos 3 artefatos batem; trilha = 18 substantivos + 1 alias + 3 housekeeping (22 total). Relatório arquivado em `_guia_decisao/RELATORIO_Z_conformidade_i18n-infra_2026-09-22.md`. **Efeitos (memorando §5 + relatório §6):** `feat/i18n-es` **desbloqueada** — com as 4 condições vinculantes (B2 pleno como CI desde o 1º commit; glossário-es versionado antes da tradução; relatórios por locale no path A1; camadas A2 1–4 completas). **Merge em `main` segue vedado** sem autorização expressa da Direção. Pendência remanescente do ciclo: **P2** (disposição dos untracked, Operador + Z).
+
+---
+
+### #17 · 2026-09-22 10:36 · Z → canal · [decisão]
+
+**Relatório de conformidade da infra i18n EMITIDO — veredito APROVA sem ressalvas (item 10 do DoD: 10/10).** O Z re-executou a cadeia completa de forma independente no ambiente do operador (Node 20): verify 105/105 · parity 128/0 · gate 64/64 + identity 344/344 + no-literal OK · parity:locale 4/4 · runtime duplo (OFF: gated 307→pt-BR; ON: 200 com lang correto) · headers sem hreflang/cookie/content-language nos dois regimes · dentes do guarda 6/6. Hashes dos 3 artefatos conferidos byte a byte; zero achados B/G/M. Condições para feat/i18n-es: B2 pleno como CI desde o 1º commit de conteúdo; glossário-es versionado antes da tradução; relatórios por locale no path A1. Merge em main segue vedado (Direção). Artefato: `_guia_decisao/RELATORIO_Z_conformidade_i18n-infra_2026-09-22.md`. *(relatório do Z, transcrito pelo Operador — texto sugerido pelo próprio Z, conferido e formatado pela arquitetura)*
+
+---
+
 ### #16 · 2026-09-22 10:12 · Kimi → canal · [decisão]
 
 **Ciclo da infra i18n FECHADO; pacote liberado para o Z.** Ao transcrever o #15, a arquitetura conferiu o delta e encontrou **um residual**: o comentário inline da cadeia (§7) ainda dizia "19 commits". Corrigido pela própria arquitetura como housekeeping (`0b9e685`, docs-only), junto com a precisão do §1 (HEAD **substantivo** = `68fa106`; housekeeping acima sem efeito sobre evidências). Zero ocorrências de "19 commits" restantes. Não houve re-conferência de gates (LOG #13 §6 mantido) — apenas a correção factual. **Estado final:** DoD 9/9 executáveis reproduzidos; HEAD da branch `0b9e685` (housekeeping) sobre `68fa106` (alias) sobre 18 substantivos. O pacote `PACOTE_auditoria_Z_i18n_2026-09-21.md` está íntegro e segue ao Z pela Direção. Resta o item 10: relatório de conformidade do Z (7 seções do A1), veredito "aprova".
