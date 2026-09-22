@@ -1,0 +1,34 @@
+{
+  "app": {
+    "title": "MARIAH",
+    "subtitle": "Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+    "footerShort": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+    "badgePreliminar": "Versión preliminar",
+    "versionLabelA": "Versión A — Cualitativa",
+    "versionLabelB": "Versión B — Cuantitativa"
+  },
+  "ui": {
+    "sim": "Sí",
+    "nao": "No",
+    "back": "Volver",
+    "continuar": "Continuar",
+    "scopePage": "esta página",
+    "scopeEixo": "este eje",
+    "scopeBloco": "este bloque",
+    "naoSeAplica": "No se aplica",
+    "skipLink": "Saltar al contenido",
+    "cancel": "Cancelar",
+    "undoable": "Esta acción no se puede deshacer.",
+    "stepIndicator": {
+      "version": { "label": "Selección de la Versión", "short": "Versión" },
+      "filter": { "label": "Filtro de Entrada", "short": "Filtro" },
+      "context": { "label": "Caracterización del Contexto", "short": "Contexto" },
+      "assessment": { "label": "Evaluación de Riesgo", "short": "Evaluación" },
+      "results": { "label": "Resultado", "short": "Resultado" },
+      "goToStep": "Ir al paso: {label}",
+      "stepUnavailable": "Paso aún no disponible",
+      "versionBadgeAriaA": "Usted está en la Versión A — Cualitativa",
+      "versionBadgeAriaB": "Usted está en la Versión B — Cuantitativa"
+    }
+  }
+}
