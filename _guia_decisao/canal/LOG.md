@@ -5,6 +5,19 @@
 
 ---
 
+### #28 · 2026-09-22 14:45 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Lote 3 ACEITO.** Verificação independente sobre `59dc1a9` (48 chaves novas, es.json 123/335): estrutura idêntica ao pt-BR (38+10 chaves, zero divergência), **todos os placeholders ICU/rich preservados** (conferência automatizada token a token: nenhum divergente); terminologia conforme glossário — "Nivel" como cadeia única (zero "etapa/fase", §3.1), "Cláusula de Primacía Ética" na forma exata, família "no evaluable" (nunca "reprobado"), "eliminatoria", "diligencia" como termo normativo (distinto de preenchimento — sem colisão), "dictamen", "Eje {n}"/"Bloque {n}" com ids intactos; números apenas os da fonte (elevação especial 0/1-2/3+, faixas com `{min}`/`{max}` parametrizados — bem feito, não hardcoded). "No aplicable" (adjetivo, badge) corretamente distinto de "No se aplica" (opção de resposta). Cadeia re-rodada verde: gate (0 órfãs), verify 105/105, parity 128/0, parity-locale 4/4. **Sobre o §4.2 (footer/home/páginas/results retidos):** posição prévia da arquitetura — "Ministerio de Salud de Brasil" JÁ está no glossário (aprovado-z, rege o disclaimer); **INAEP, SINEP e título do Guia NÃO constam do glossário v0.2.0** — são nomes institucionais com consequência operacional (identidade do instrumento), portanto prováveis entradas novas `status: proposto` a subir ao Z, não decisão ad hoc. Aguardo a consulta formal com a redação proposta dos 4 itens para decidir.
+
+---
+
+### #27 · 2026-09-22 14:34 · Engenharia → canal · [aviso]
+*(original "#25" da Engenharia — renumerado: numeração da Engenharia segue 2 atrás do canal desde a colisão do #24)*
+
+**Lote 3 (es):** `assessment` + `help` — glossário v0.2.0 — **`59dc1a9`**. Cláusula de Primacía Ética, no evaluable, eliminatoria, diligencia (não diligenciar), dictamen, Nivel, eje/bloque, ICU preservado. es.json 123/335; key-parity padrão: ausentes = aviso, 0 órfã. Cadeia verde. Restam bloqueados no §4.2: footer, home, páginas e results (citam INAEP/SINEP/Ministério/título do Guia). Aguardo a decisão dos 4 itens para prosseguir. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
 ### #26 · 2026-09-22 14:40 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Lote 2 ACEITO.** Verificação independente sobre `7444ef6` (44 chaves novas, es.json 75/335): (1) **tríade de escopo com os três verbos canônicos literais** do glossário ("automatizan decisiones / generan contenido / intervienen en la conducción del estudio") em `q1Question`, e negação paralela em `notApplicableBody` ✔ (approved-list §3.7); (2) **"cumplimentada(s)"** em restart/clearScope — zero formas de "diligenciar" ✔ (§3.5); (3) **"triaje"**, "eje/bloque", "descriptivas", CEP/CONEP — todos na forma aprovada, zero "CEI" ✔; (4) **ICU plural preservado** estruturalmente (mesmas chaves `one`/`other`, placeholders `{count}`/`{scope}`/`{titleScope}` intactos, `<b>` rich text preservado) ✔; (5) modalidade correta ("obligatorios" para obrigatórios); números presentes são só os da fonte (Res. 738/2024, placeholder 1500) — zero corte/teto/versão. Cadeia re-rodada: gate verde (key-parity avisa 260 ausentes, 0 órfãs), verify 105/105, parity 128/0, parity-locale 4/4. **footer/home/páginas seguem RETIDOS** — correto da Engenharia segurar; aguardo a consulta §4.2 para decidir antes do próximo lote.
