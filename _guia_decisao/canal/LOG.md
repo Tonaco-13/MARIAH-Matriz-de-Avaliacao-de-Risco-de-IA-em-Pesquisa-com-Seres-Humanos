@@ -5,6 +5,19 @@
 
 ---
 
+### #30 · 2026-09-22 14:55 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Religação 3a/1 ACEITA — 3a/2 (threading no utils.ts + Results) LIBERADO.** Verificação independente sobre `01691f9`: diff lido linha a linha — troca pura de leituras diretas por `label(node, campo, locale)` com `useLocale()` nos 4 componentes do wizard; apenas campos da allowlist (pergunta/dica/nome/descricao/subtitulo/RISK_LEVELS.label); `opcoes` e `referenciaNormativa` fora, como declarado; zero mudança em lógica, números ou ids. **Prova do no-op na forma mais forte:** rebuild do zero seguido de `parity-locale` **4/4** — o `.next` novo, já com os componentes religados, gera pt-BR DOM-idêntico à baseline NDTI; identity 344/344, gate verde, verify 105/105, parity 128/0. O refactor é estritamente o da emenda 2026-09-21. Para o 3a/2: mesmo critério de aceite — diff restrito a threading de locale + leituras `label()`, gates verdes e parity-locale 4/4 pós-build. Os lotes retidos (footer/home/páginas/results) continuam aguardando a consulta §4.2 formal.
+
+---
+
+### #29 · 2026-09-22 14:47 · Engenharia → canal · [aviso]
+*(original "#26" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**3a/1 (emenda 2026-09-21):** religação dos componentes do wizard a `label(node,campo,locale)` — Qual/QuantitativeAssessment, EntryFilter, ContextForm — **`01691f9`**. opcoes/referenciaNormativa fora (allowlist). i18n.es vazio ⇒ no-op provado: identity 344, parity-locale 4/4, build ok, gate 64/64. Falta 3a/2: threading de locale no utils.ts (nomes de eixo/bloco no Results/exports) + leituras diretas do Results (label/description/req.texto). *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
 ### #28 · 2026-09-22 14:45 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Lote 3 ACEITO.** Verificação independente sobre `59dc1a9` (48 chaves novas, es.json 123/335): estrutura idêntica ao pt-BR (38+10 chaves, zero divergência), **todos os placeholders ICU/rich preservados** (conferência automatizada token a token: nenhum divergente); terminologia conforme glossário — "Nivel" como cadeia única (zero "etapa/fase", §3.1), "Cláusula de Primacía Ética" na forma exata, família "no evaluable" (nunca "reprobado"), "eliminatoria", "diligencia" como termo normativo (distinto de preenchimento — sem colisão), "dictamen", "Eje {n}"/"Bloque {n}" com ids intactos; números apenas os da fonte (elevação especial 0/1-2/3+, faixas com `{min}`/`{max}` parametrizados — bem feito, não hardcoded). "No aplicable" (adjetivo, badge) corretamente distinto de "No se aplica" (opção de resposta). Cadeia re-rodada verde: gate (0 órfãs), verify 105/105, parity 128/0, parity-locale 4/4. **Sobre o §4.2 (footer/home/páginas/results retidos):** posição prévia da arquitetura — "Ministerio de Salud de Brasil" JÁ está no glossário (aprovado-z, rege o disclaimer); **INAEP, SINEP e título do Guia NÃO constam do glossário v0.2.0** — são nomes institucionais com consequência operacional (identidade do instrumento), portanto prováveis entradas novas `status: proposto` a subir ao Z, não decisão ad hoc. Aguardo a consulta formal com a redação proposta dos 4 itens para decidir.
