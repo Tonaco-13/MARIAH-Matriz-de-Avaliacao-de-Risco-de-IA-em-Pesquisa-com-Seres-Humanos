@@ -15,8 +15,8 @@ import {
   CheckCircle2,
   Circle,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { RISK_LEVELS } from './data';
+import { useTranslations, useLocale } from 'next-intl';
+import { RISK_LEVELS, label } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer } from './utils';
 import { countRiskAnswersAxis, getAxisRiskLevel, getApplicableAxes, isMatrixQuestionVisible } from './utils';
@@ -59,6 +59,7 @@ export default function QualitativeAssessment({
   onStepClick,
 }: QualitativeAssessmentProps) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const getRiskLevelBadge = (lvl: RiskLevel) => {
     const info = RISK_LEVELS[lvl];
@@ -70,7 +71,7 @@ export default function QualitativeAssessment({
     };
     return (
       <Badge className={`${colorMap[lvl]} border`}>
-        {t('assessment.nivelBadge', { level: lvl, label: info.label })}
+        {t('assessment.nivelBadge', { level: lvl, label: label(info, 'label', locale) })}
       </Badge>
     );
   };
@@ -227,14 +228,14 @@ export default function QualitativeAssessment({
             <div className="flex items-start justify-between flex-wrap gap-2">
               <div>
                 <CardTitle className="text-lg flex items-center gap-2 flex-wrap">
-                  {axis.nome}
+                  {label(axis, 'nome', locale)}
                   {axis.condicionalBancoDados && (
                     <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-xs">
                       {t('assessment.res738Badge')}
                     </Badge>
                   )}
                 </CardTitle>
-                <CardDescription className="text-sm mt-1">{axis.descricao}</CardDescription>
+                <CardDescription className="text-sm mt-1">{label(axis, 'descricao', locale)}</CardDescription>
                 {axis.elevacaoEspecial === 'banco-dados' && (
                   <p className="text-xs mt-2 text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-100 inline-block">
                     {t('assessment.a.elevacaoEspecial')}
@@ -293,7 +294,7 @@ export default function QualitativeAssessment({
                       <div className="flex-1">
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <div className="flex-1">
-                            <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
+                            <p className="text-sm leading-relaxed font-medium">{label(q, 'pergunta', locale)}</p>
                             {q.eliminatorio && (
                               <Badge className="mt-1 bg-red-100 text-red-700 border border-red-300 text-[10px]">
                                 {t('assessment.eliminatorioBadge')}
@@ -306,7 +307,7 @@ export default function QualitativeAssessment({
                                 <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-0.5" />
                               </TooltipTrigger>
                               <TooltipContent className="max-w-sm">
-                                <p className="text-xs">{q.dica}</p>
+                                <p className="text-xs">{label(q, 'dica', locale)}</p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
