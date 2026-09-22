@@ -1,0 +1,701 @@
+{
+  "artefato": "glossario-es",
+  "versao": "0.2.0",
+  "data": "2026-09-20",
+  "fonte": "pt-BR (spec/mariah-spec.json 2.1.0, src/components/maria/, disclaimer.ts)",
+  "localeAlvo": "es",
+  "statusGeral": "aprovado-z (64/64 entradas; 19 entradas com ajuste do Z e 6 entradas novas — ver changelog 0.2.0 e RESPOSTA_Z_glossario-es_2026-09-20)",
+  "regras": [
+    "consequenciaOperacional fica SEMPRE em pt-BR — é o gabarito invariante de auditoria; não se traduz.",
+    "Termo muda só por nova entrada versionada (ver changelog ao final); status aprovado-z é pré-condição da branch do idioma.",
+    "Checagem automática (camada 1 do protocolo A2): todo termo deve ocorrer nas mensagens es com contagem por namespace coerente com a contagem do termo pt-BR nos mesmos namespaces."
+  ],
+  "tabelaModalidade": {
+    "deve": "debe",
+    "pode": "puede",
+    "vedado": "prohibido",
+    "obrigatorio": "obligatorio",
+    "facultativo": "facultativo"
+  },
+  "termos": [
+    {
+      "termoPtBr": "MARIAH",
+      "termoLocale": "MARIAH",
+      "variantes": [],
+      "consequenciaOperacional": "Nome próprio do instrumento; identifica a matriz em todos os textos, exports e relatórios. Não se traduz nem se adapta grafia.",
+      "referenciaNormativa": "Caderno 2 — Módulo Operacional; package.json description",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Sigla mantida; o nome expandido tem entrada própria."
+    },
+    {
+      "termoPtBr": "Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
+      "termoLocale": "Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+      "variantes": [],
+      "consequenciaOperacional": "Nome expandido do instrumento; aparece em apresentações, página de transparência e cabeçalhos de exports. Define o escopo do instrumento (avaliação de risco de IA em pesquisa com seres humanos).",
+      "referenciaNormativa": "package.json description; Caderno 2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "'Avaliação de Risco' no singular, como a fonte."
+    },
+    {
+      "termoPtBr": "CEP (Comitê de Ética em Pesquisa)",
+      "termoLocale": "CEP (Comité de Ética en Pesquisa)",
+      "variantes": [
+        "Comité de Ética en Pesquisa (CEP, Brasil)"
+      ],
+      "consequenciaOperacional": "Instância colegiada que analisa e delibera sobre protocolos. A MARIAH não substitui seu julgamento; requisitos como req-IV-4 referem-se a 'CEP acreditado/habilitado' — a tradução deve preservar que se trata de instância do sistema brasileiro CEP/CONEP, não de comitê genérico.",
+      "referenciaNormativa": "Res. CNS n.º 466/2012; spec requirements req-IV-4",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z: rejeitada a forma 'CEI' no corpo do instrumento — naturalizaria a instância brasileira num comitê genérico, contradizendo a própria consequência operacional (req-IV-4: 'CEP acreditado' é instância do sistema CEP/CONEP). 'CEI' aparece SOMENTE no Anexo Normativo es, como equivalência aproximada para o leitor. Retroversão: 'CEP (Comitê de Ética em Pesquisa)' ≡ fonte ✔."
+    },
+    {
+      "termoPtBr": "CONEP",
+      "termoLocale": "CONEP",
+      "variantes": [
+        "Comissão Nacional de Ética em Pesquisa (CONEP, Brasil)"
+      ],
+      "consequenciaOperacional": "Instância nacional do sistema brasileiro de ética em pesquisa; citada em referências normativas. Nome de entidade brasileira — sigla não se traduz; a forma expandida em es só aparece no Anexo Normativo, como explicação.",
+      "referenciaNormativa": "Res. CNS n.º 466/2012",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z: expansão mantida em pt-BR — é nome de entidade brasileira; 'Comisión Nacional de Ética en Investigación' sugeriria entidade es. Expansão só no Anexo Normativo."
+    },
+    {
+      "termoPtBr": "TCLE (Termo de Consentimento Livre e Esclarecido)",
+      "termoLocale": "TCLE (Término de Consentimiento Libre y Esclarecido)",
+      "variantes": [],
+      "consequenciaOperacional": "Instrumento de consentimento exigido pela Res. 466/2012; aparece em requisitos (req-I-2), na dispensa de TCLE (P6.b.4) e em instruções. A tradução deve manter a sigla TCLE para preservar a referência ao instituto brasileiro.",
+      "referenciaNormativa": "Res. CNS n.º 466/2012; spec req-I-2, P6.b.4",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z: 'consentimiento informado' removido das variantes — não substitui TCLE no corpo (só no Anexo Normativo, como explicação). O calque 'Término de Consentimiento Libre y Esclarecido' é mantido: é a forma consagrada das traduções es das normas brasileiras e preserva a âncora ao instituto; sigla TCLE sempre presente na primeira ocorrência de cada tela/export."
+    },
+    {
+      "termoPtBr": "dispensa de TCLE",
+      "termoLocale": "dispensa del TCLE",
+      "variantes": [],
+      "consequenciaOperacional": "Hipótese normativa regulada (Res. 738/2024, art. 20, §5.º): para banco constituído fora do âmbito de pesquisa, a única via é a anonimização pelo Controlador. A P6.b.4 exige enquadramento fundamentado — a tradução deve preservar que a dispensa nunca é presumida pela origem do banco.",
+      "referenciaNormativa": "Res. CNS n.º 738/2024 art. 20 §5.º; spec P6.b.4, req-738-III-1; Caderno 1 Cap. 7.2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "APROVADA; classeModalidade→null (a hipótese não é déntica; a exigência de fundamentação já está na consequência operacional)."
+    },
+    {
+      "termoPtBr": "re-consentimento",
+      "termoLocale": "reconsentimiento",
+      "variantes": [
+        "nuevo consentimiento"
+      ],
+      "consequenciaOperacional": "Nova rodada de consentimento exigida quando o uso dos dados muda de finalidade ou escopo; aparece nas fichas do eixo de dados e no bloco 6.b. Um termo só em todo o idioma (camada 1 do A2).",
+      "referenciaNormativa": "spec fichas bloco6/bloco6b; Caderno 2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Escolher UMA forma e fixar; variantes listadas só para retroversão."
+    },
+    {
+      "termoPtBr": "salvaguardas",
+      "termoLocale": "salvaguardas",
+      "variantes": [],
+      "consequenciaOperacional": "Conjunto de proteções normativas que condicionam a avaliabilidade do protocolo; inclui a Salvaguarda de Inavaliabilidade (P6.b.2) e o suplemento de salvaguardas do Caderno 2. Termo-âncora do instrumento.",
+      "referenciaNormativa": "suplemento-salvaguardas-mariah; spec P6.b.2 dica",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Salvaguarda de Inavaliabilidade",
+      "termoLocale": "Salvaguarda de Inevaluabilidad",
+      "variantes": [
+        "no evaluable por la MARIAH (glosa de primeira ocorrência)"
+      ],
+      "consequenciaOperacional": "Mecanismo da P6.b.2: ausência do Termo de Anuência Institucional em banco de origem não-investigativa torna o protocolo 'não avaliável pela MARIAH' (§7.3.6), independentemente da pontuação total. A tradução deve preservar o efeito eliminatório absoluto.",
+      "referenciaNormativa": "spec P6.b.2 dica; Res. CNS n.º 738/2024 §7.3.6 (conforme citado)",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z: classeModalidade 'vedado'→null (é estado/mecanismo, não termo déontico — evita falso positivo na camada 2). Neologismo ACEITO: espelha o pt-BR, funciona como nome próprio de mecanismo (âncora unívoca para a camada 1); exigir glosa na primeira ocorrência por tela: '(protocolo no evaluable por la MARIAH)'. Fonte verificada: dica da P6.b.2, 2 ocorrências na spec (Versões A e B)."
+    },
+    {
+      "termoPtBr": "não avaliável pela MARIAH",
+      "termoLocale": "no evaluable por la MARIAH",
+      "variantes": [
+        "no evaluable en el mérito",
+        "Protocolo NO EVALUABLE en el mérito"
+      ],
+      "consequenciaOperacional": "Estado terminal da avaliação quando a Salvaguarda de Inavaliabilidade é acionada; exibido nos Resultados em lugar da classificação. Não é reprovação — é impossibilidade de avaliação. A distinção é normativa.",
+      "referenciaNormativa": "spec P6.b.2 dica; Results.tsx",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z: variantes acrescentadas para cobrir as superfícies de Results.tsx (283: 'Protocolo NÃO AVALIÁVEL no mérito'; 333: 'não avaliável no mérito até a diligência ser sanada')."
+    },
+    {
+      "termoPtBr": "Hipótese eliminatória acionada",
+      "termoLocale": "Hipótesis eliminatoria activada",
+      "variantes": [],
+      "consequenciaOperacional": "Rótulo exibido nos Resultados quando uma questão eliminatória (P6.b.2) recebe a resposta de risco; acompanha o id da questão. Sinaliza que a classificação foi suspensa por falta de salvaguarda, não por pontuação.",
+      "referenciaNormativa": "Results.tsx:283",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "eliminatória",
+      "termoLocale": "eliminatoria",
+      "variantes": [],
+      "consequenciaOperacional": "Qualificador de questões cuja resposta de risco inviabiliza a classificação independentemente do escore (P6.b.2). Segundo notasDominio da spec, o peso da eliminatória conta no teto teórico com banco (304), mas o máximo pontuável com direito a classificação é o teto avaliável (297, descontada a P6.b.2). O estado resultante é 'não avaliável', exibido nos Resultados como 'Classificação suspensa'.",
+      "referenciaNormativa": "spec notasDominio.obs; P6.b.2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "CORREÇÃO Z (fidelidade à fonte): 'não soma nem subtrai pontos' era impreciso — o peso existe no teto teórico (304 vs 297, notasDominio); o efeito correto é suspender a classificação, não zerar pontos."
+    },
+    {
+      "termoPtBr": "Classificação suspensa",
+      "termoLocale": "Clasificación suspendida",
+      "variantes": [],
+      "consequenciaOperacional": "Estado exibido nos Resultados quando hipótese eliminatória está acionada; substitui a indicação de nível I–IV. Preservar a ideia de suspensão temporária (sanável), não de julgamento negativo.",
+      "referenciaNormativa": "Results.tsx:331",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Cláusula de Prevalência Ética",
+      "termoLocale": "Cláusula de Primacía Ética",
+      "variantes": [
+        "Salvaguarda Decisoria"
+      ],
+      "consequenciaOperacional": "Mecanismo de sobreposição (Salvaguarda Decisória): resposta 'Sim' em P4.1 (sistema como único determinante de decisão, sem revisão humana obrigatória) ou P4.2 (erro com potencial de dano irreversível ou de difícil reparação) força o protocolo ao Nível IV, sobrescrevendo a soma, qualquer que seja a pontuação dos demais blocos. Nos Resultados, o destaque exibe a elevação a Nível IV e seu motivo (P4.1/P4.2). NÃO confundir com a não-substituição do CEP (conteúdo de MARIA_NAO_SUBSTITUI).",
+      "referenciaNormativa": "spec P4.1/P4.2 dicas ('Salvaguarda Decisória (Cláusula de Prevalência Ética)'); Results.tsx:349",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "CORREÇÃO Z (achado B no v0.1.0): a consequência proposta descrevia a não-substituição do CEP — conteúdo de MARIA_NAO_SUBSTITUI —, não o mecanismo real: a cláusula prevalece SOBRE A PONTUAÇÃO (elevação forçada a Nível IV por P4.1/P4.2). Termo: 'Primacía' em vez de 'Prevalencia' — em es de pesquisa em saúde 'prevalencia' tem leitura epidemiológica dominante; 'primacía' traduz exatamente a sobreposição. Retroversão: 'Cláusula de Primazia Ética' ≡ ✔."
+    },
+    {
+      "termoPtBr": "nível de risco (I–IV)",
+      "termoLocale": "nivel de riesgo (I–IV)",
+      "variantes": [],
+      "consequenciaOperacional": "Classificação ordinal do protocolo em quatro níveis com requisitos distintos por nível (spec.requirements). A cadeia I→II→III→IV deve permanecer uma só palavra em todo o idioma; quebrá-la ('etapa', 'fase') é B3.",
+      "referenciaNormativa": "spec riskLevels, requirements; Caderno 2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Algarismos romanos I–IV inalterados."
+    },
+    {
+      "termoPtBr": "Baixo (Nível I)",
+      "termoLocale": "Bajo (Nivel I)",
+      "variantes": [],
+      "consequenciaOperacional": "Rótulo do Nível I: risco baixo — requisitos mínimos de documentação e transparência (req-I-1, req-I-2).",
+      "referenciaNormativa": "spec riskLevels.I",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Moderado (Nível II)",
+      "termoLocale": "Moderado (Nivel II)",
+      "variantes": [],
+      "consequenciaOperacional": "Rótulo do Nível II: exige descrição do sistema e conformidade com a LGPD (req-II-1 a req-II-3).",
+      "referenciaNormativa": "spec riskLevels.II",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Alto (Nível III)",
+      "termoLocale": "Alto (Nivel III)",
+      "variantes": [],
+      "consequenciaOperacional": "Rótulo do Nível III: exige validação técnica, análise por subgrupos e supervisão humana efetiva (req-III-1 a req-III-4).",
+      "referenciaNormativa": "spec riskLevels.III",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Crítico (Nível IV)",
+      "termoLocale": "Crítico (Nivel IV)",
+      "variantes": [],
+      "consequenciaOperacional": "Rótulo do Nível IV: exige parecer técnico externo, monitoramento contínuo, notificação à ANVISA quando aplicável e CEP acreditado/habilitado (req-IV-1 a req-IV-4).",
+      "referenciaNormativa": "spec riskLevels.IV; req-IV-1..4",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "diligência",
+      "termoLocale": "diligencia",
+      "variantes": [],
+      "consequenciaOperacional": "As três diligências do Bloco 6.b (P6.b.4.1/P6.b.6/P6.b.7) são condições cumulativas de enquadramento no Nível IV (Versão B); a ausência de qualquer uma impede a classificação. Também 'diligência obrigatória' (req-738-IV-1) sempre que ausência de cadeia de custódia. Um só termo em todo o idioma.",
+      "referenciaNormativa": "Caderno 2 — Bloco 6.b; spec P6.b.4.1/P6.b.6/P6.b.7, req-738-IV-1",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "APROVADA com ressalva Z: proibido usar 'diligenciamiento' (ou qualquer forma de 'diligenciar') para preenchimento de formulário — 'diligencia' e derivados são reservados ao termo normativo (pedido de esclarecimento/subsanação do comitê). Preenchimento = 'cumplimentación'."
+    },
+    {
+      "termoPtBr": "triagem",
+      "termoLocale": "triaje",
+      "variantes": [],
+      "consequenciaOperacional": "Modo de uso da Versão A como filtro: protocolos enquadrados nos Níveis III/IV seguem para a Versão B. Descrito duas vezes no Caderno 2; a tradução deve preservar a relação filtro→aprofundamento.",
+      "referenciaNormativa": "Caderno 2 — modo triagem; RESPOSTA_engenharia 2026-09-17",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Versão A / Versão B",
+      "termoLocale": "Versión A / Versión B",
+      "variantes": [],
+      "consequenciaOperacional": "Os dois instrumentos da matriz: A (triagem) e B (aprofundamento, com Bloco 6.b). Letras A/B inalteradas; a relação de modo triagem (A filtra, B aprofunda) é normativa.",
+      "referenciaNormativa": "Caderno 2; spec fichas",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "matriz de risco",
+      "termoLocale": "matriz de riesgo",
+      "variantes": [],
+      "consequenciaOperacional": "Designação genérica do instrumento MARIAH; quando se refere ao instrumento nomeado, preferir 'MARIAH'.",
+      "referenciaNormativa": "Caderno 2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "banco de dados",
+      "termoLocale": "banco de datos",
+      "variantes": [],
+      "consequenciaOperacional": "Ativa o filtro db-filter e a subseção Res. CNS n.º 738/2024 (Eixo 3.b na Versão A, Bloco 6.b na Versão B), ampliando o teto de 275 para 304 e os cortes de 58/127/208 para 64/141/230. Termo-gatilho: variantes ('base de datos') só onde a fonte pt-BR também variar.",
+      "referenciaNormativa": "spec databaseFilterQuestion; thresholdsBase/thresholdsComBanco",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Controlador",
+      "termoLocale": "Controlador",
+      "variantes": [],
+      "consequenciaOperacional": "Papel definido na LGPD e invocado pela Res. 738/2024 (Art. 3.º, IV — req-738-I-1): quem decide sobre o tratamento dos dados. Na dispensa de TCLE de banco não-investigativo, a anonimização é pelo Controlador (art. 20, §5.º). Manter capitalizado como no instituto brasileiro.",
+      "referenciaNormativa": "LGPD; Res. CNS n.º 738/2024 art. 3.º IV; spec req-738-I-1, P6.b.4",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "APROVADA: manter capitalizado como instituto da LGPD; distinto de 'responsable del tratamiento' (GDPR, controlador) E de 'encargado del tratamiento' (GDPR, operador) — nenhum dos dois substitui."
+    },
+    {
+      "termoPtBr": "Encarregado de Dados",
+      "termoLocale": "Encargado de Datos",
+      "variantes": [],
+      "consequenciaOperacional": "Papel definido na LGPD (DPO); exigido na identificação da instituição responsável pelo estudo (req-III-4, Nível III).",
+      "referenciaNormativa": "LGPD; spec req-III-4",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "APROVADA com ressalva: 'Encargado de Datos' colide visualmente com 'encargado del tratamiento' (GDPR = OPERADOR, papel diverso). O Anexo Normativo es deve explicitar o mapa dos papéis: Controlador/Encarregado (LGPD) × responsable/encargado del tratamiento (GDPR)."
+    },
+    {
+      "termoPtBr": "LGPD",
+      "termoLocale": "LGPD",
+      "variantes": [
+        "Ley General de Protección de Datos Personales de Brasil"
+      ],
+      "consequenciaOperacional": "Lei Geral de Proteção de Dados brasileira; conformidade exigida no Nível II (req-II-2) e base legal no req-II-3. Sigla não se traduz; forma expandida em es apenas no Anexo Normativo.",
+      "referenciaNormativa": "spec req-II-2, req-II-3; riskLevels.II.description",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z: variante qualificada ('Datos Personales' + 'de Brasil') — a forma anterior ('Ley General de Protección de Datos'), sem qualificação, é B8-adjacente: é o nome de várias leis estrangeiras. Expansão em es só no Anexo Normativo; nunca RGPD/GDPR no corpo."
+    },
+    {
+      "termoPtBr": "Res. CNS n.º 466/2012 e Res. CNS n.º 510/2016",
+      "termoLocale": "Res. CNS n.º 466/2012 y Res. CNS n.º 510/2016",
+      "variantes": [],
+      "consequenciaOperacional": "Resoluções brasileiras-base da ética em pesquisa com seres humanos; citadas em referências normativas das fichas. Numeração e sigla inalteradas; explicação no Anexo Normativo es.",
+      "referenciaNormativa": "spec referenciaNormativa das questões",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Textos legais não se traduzem (despacho item 4b)."
+    },
+    {
+      "termoPtBr": "Res. CNS n.º 738/2024",
+      "termoLocale": "Res. CNS n.º 738/2024",
+      "variantes": [],
+      "consequenciaOperacional": "Resolução que regula bancos de dados de pesquisa; ancora o Eixo 3.b, o Bloco 6.b, os requisitos req-738-* e a Salvaguarda de Inavaliabilidade. Numeração e sigla inalteradas.",
+      "referenciaNormativa": "spec eixo3b, bloco6b, requirementsRes738",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "ANVISA",
+      "termoLocale": "ANVISA",
+      "variantes": [
+        "Agencia Nacional de Vigilancia Sanitaria"
+      ],
+      "consequenciaOperacional": "Agência reguladora brasileira; notificação exigida no Nível IV quando o sistema se enquadra como SaMD (req-IV-3). Sigla não se traduz.",
+      "referenciaNormativa": "spec req-IV-3; riskLevels.IV.description",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "SaMD (Software as a Medical Device)",
+      "termoLocale": "SaMD (Software as a Medical Device)",
+      "variantes": [],
+      "consequenciaOperacional": "Enquadramento regulatório que dispara a notificação à ANVISA (req-IV-3); sigla internacional consagrada (IMDRF), mantida.",
+      "referenciaNormativa": "spec req-IV-3",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "CORREÇÃO Z (proveniência): a spec (dica da P7.1) usa a expansão em INGLÊS — o pt-BR da proposta ('Software como Dispositivo Médico') não existe na fonte. Sigla e expansão mantidas em inglês nos dois idiomas; glosa es '(software como dispositivo médico)' só como parêntese explicativo na dica, nunca substituindo a sigla."
+    },
+    {
+      "termoPtBr": "parecer técnico externo",
+      "termoLocale": "dictamen técnico externo",
+      "variantes": [
+        "parecer técnico externo"
+      ],
+      "consequenciaOperacional": "Requisito do Nível IV (req-IV-1): avaliação técnica independente do sistema, externa à equipe da pesquisa. A externidade/independência é a consequência operacional — a tradução deve preservá-la.",
+      "referenciaNormativa": "spec req-IV-1; riskLevels.IV.description",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "'Dictamen' é o termo consagrado em es no contexto de comités de ética; variante aceita sob revisão do Z."
+    },
+    {
+      "termoPtBr": "supervisão humana efetiva",
+      "termoLocale": "supervisión humana efectiva",
+      "variantes": [],
+      "consequenciaOperacional": "Requisito do Nível III (req-III-3): mecanismo comprovável de supervisão humana no circuito decisório (human-in-the-loop) — não basta declaração, exige comprovação. Preservar o qualificador 'efetiva/efectiva'.",
+      "referenciaNormativa": "spec req-III-3; riskLevels.III.description",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "human-in-the-loop",
+      "termoLocale": "human-in-the-loop",
+      "variantes": [
+        "humano en el circuito"
+      ],
+      "consequenciaOperacional": "Termo técnico internacional mantido em inglês no próprio pt-BR (req-III-3); conservar a mesma estratégia no es para não criar divergência terminológica com a literatura.",
+      "referenciaNormativa": "spec req-III-3",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entre parênteses após 'supervisión humana efectiva', espelhando a fonte."
+    },
+    {
+      "termoPtBr": "requisito / recomendação",
+      "termoLocale": "requisito / recomendación",
+      "variantes": [],
+      "consequenciaOperacional": "Par modal do instrumento: requisitos são exigências vinculadas ao nível alcançado; recomendações são orientações sem caráter vinculante. A distinção modal é normativa (tabela de modalidade do A1).",
+      "referenciaNormativa": "spec requirements; Caderno 2 — REQUIREMENTS",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "Confundir os dois é B3 (drift de modalidade)."
+    },
+    {
+      "termoPtBr": "pesquisador",
+      "termoLocale": "investigador",
+      "variantes": [],
+      "consequenciaOperacional": "Um dos dois públicos do instrumento (preparação e autoavaliação do protocolo); em es científico, 'investigador' é o equivalente funcional consagrado.",
+      "referenciaNormativa": "disclaimer.ts MARIA_DISCLAIMER; Caderno 2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "pessoa participante / participante",
+      "termoLocale": "persona participante / participante",
+      "variantes": [],
+      "consequenciaOperacional": "Designação do sujeito da pesquisa conforme a terminologia da Res. 466/2012 ('pessoa participante'), não 'sujeto' nem 'paciente'. Eixo 2 mede o impacto sobre ela.",
+      "referenciaNormativa": "Res. CNS n.º 466/2012; spec eixo2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "protocolo (de pesquisa)",
+      "termoLocale": "protocolo (de investigación)",
+      "variantes": [],
+      "consequenciaOperacional": "Objeto da avaliação: o documento submetido ao CEP. A MARIAH não aprova nem reprova protocolos — o termo carrega a não-substituição.",
+      "referenciaNormativa": "disclaimer.ts; spec inteira",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "anonimização",
+      "termoLocale": "anonimización",
+      "variantes": [],
+      "consequenciaOperacional": "Única via de dispensa de TCLE para banco de origem não-investigativa, executada pelo Controlador (art. 20, §5.º da Res. 738/2024); C.5 pergunta o momento da anonimização em relação ao acesso pelos pesquisadores.",
+      "referenciaNormativa": "spec P6.b.4, C.5; Res. CNS n.º 738/2024",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "Não confundir com 'seudonimización' — a distinção é normativa."
+    },
+    {
+      "termoPtBr": "dados anonimizados / identificáveis / identificação",
+      "termoLocale": "datos anonimizados / identificables / identificación",
+      "variantes": [],
+      "consequenciaOperacional": "C.3 pergunta o estado de identificação dos dados pessoais; a escala de identificação alimenta a pontuação do eixo de dados. Os estados devem formar uma escala coerente e exclusiva.",
+      "referenciaNormativa": "spec C.3",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Termo de Anuência Institucional",
+      "termoLocale": "Término de Anuencia Institucional",
+      "variantes": [],
+      "consequenciaOperacional": "Documento do Art. 27, VI da Res. 738/2024, exigível para bancos externos/constituídos fora do âmbito de pesquisa; sua ausência nesse caso aciona a Salvaguarda de Inavaliabilidade (P6.b.2 eliminatória).",
+      "referenciaNormativa": "spec req-738-II-2, P6.b.2; Res. CNS n.º 738/2024 art. 27 VI",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "APROVADA; calque 'Término' mantido (idem TCLE); primeira ocorrência por tela com o artigo da Res. 738 junto (Art. 27, VI)."
+    },
+    {
+      "termoPtBr": "Termo de Compromisso de Uso de Dados",
+      "termoLocale": "Término de Compromiso de Uso de Datos",
+      "variantes": [],
+      "consequenciaOperacional": "Documento dos Arts. 24, V e 27, V da Res. 738/2024, assinado pelos pesquisadores (req-738-II-1).",
+      "referenciaNormativa": "spec req-738-II-1",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "APROVADA; calque 'Término' mantido; distinto da Anuência (Compromisso = dos pesquisadores; Anuência = do dirigente da instituição detentora)."
+    },
+    {
+      "termoPtBr": "Termo de Acordo Institucional",
+      "termoLocale": "Término de Acuerdo Institucional",
+      "variantes": [],
+      "consequenciaOperacional": "Instrumento de controladoria conjunta em protocolos multicêntricos (Art. 3.º, XVI e §2.º da Res. 738/2024 — req-738-III-2).",
+      "referenciaNormativa": "spec req-738-III-2 (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024)",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z: citação completada conforme a spec ('§2.º do Art. 12'). Calque 'Término' mantido (precedente das traduções es das normas brasileiras)."
+    },
+    {
+      "termoPtBr": "cadeia de custódia",
+      "termoLocale": "cadena de custodia",
+      "variantes": [],
+      "consequenciaOperacional": "Sua ausência configurada dispara a diligência obrigatória (req-738-IV-1, §7.3.6). Termo normativo da Res. 738/2024.",
+      "referenciaNormativa": "spec req-738-IV-1",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "enquadramento",
+      "termoLocale": "encuadre",
+      "variantes": [],
+      "consequenciaOperacional": "Ato de classificar o protocolo num nível/hipótese normativa com fundamentação (P6.b.4: enquadramento fundamentado da dispensa). Não é 'aprovação'.",
+      "referenciaNormativa": "spec P6.b.4, req-738-III-1",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "mitigação",
+      "termoLocale": "mitigación",
+      "variantes": [],
+      "consequenciaOperacional": "Bloco 7 mede medidas de mitigação; o subbloco 7C (evidências) é só-abate, até −23 pontos (P7.11–P7.14, todas negativas). A direção do efeito (reduz pontuação) é normativa.",
+      "referenciaNormativa": "spec bloco7; DESPACHO 2026-09-17 item 5",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "evidências (subbloco 7C)",
+      "termoLocale": "evidencias (subbloque 7C)",
+      "variantes": [],
+      "consequenciaOperacional": "Perguntas P7.11–P7.14 que apenas abatem pontuação (até −23) quando há evidências de mitigação; nunca somam.",
+      "referenciaNormativa": "spec bloco7 P7.11–P7.14",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "pontos de corte",
+      "termoLocale": "puntos de corte",
+      "variantes": [],
+      "consequenciaOperacional": "Limiares 58/127/208 (base) e 64/141/230 (com banco) que separam os níveis; calibrações teóricas a testar empiricamente (reconhecido na descrição da Versão B). Números inalterados (B1).",
+      "referenciaNormativa": "spec thresholdsBase/thresholdsComBanco; Caderno 2 — Versão B",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "eixo / bloco",
+      "termoLocale": "eje / bloque",
+      "variantes": [],
+      "consequenciaOperacional": "Unidades estruturais: 6 eixos qualitativos (Versão A) e 8 blocos quantitativos (Versão B). Numeração e letras (3.b, 6.b) inalteradas.",
+      "referenciaNormativa": "spec qualitativeAxes, quantitativeBlocks",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "descritivas (C.1–C.8)",
+      "termoLocale": "descriptivas (C.1–C.8)",
+      "variantes": [],
+      "consequenciaOperacional": "As 8 perguntas de contexto que não pontuam mas condicionam a leitura (C.1–C.8); ids invariantes (B7 — precedente contexto1/C.1).",
+      "referenciaNormativa": "spec contextQuestions; DESPACHO 2026-09-17 item 5",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Não se aplica",
+      "termoLocale": "No se aplica",
+      "variantes": [],
+      "consequenciaOperacional": "Opção de resposta com efeito operacional definido (ex.: P6.b.2 — marca quando o banco foi constituído no âmbito de pesquisa, desarmando a eliminatória). Não é ausência de resposta.",
+      "referenciaNormativa": "spec P6.b.2 dica; reducer (respostas 'sim/nao/na')",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "AJUSTE Z (registro): forma reflexiva padrão do es. O VALOR da resposta persiste por id invariante (B7); só o rótulo exibido traduz."
+    },
+    {
+      "termoPtBr": "explicabilidade",
+      "termoLocale": "explicabilidad",
+      "variantes": [],
+      "consequenciaOperacional": "Eixo 5 (Supervisão Humana e Explicabilidade) e identidade do instrumento (disclaimer: 'torna transparente e explicável').",
+      "referenciaNormativa": "spec eixo5; disclaimer.ts",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "viés",
+      "termoLocale": "sesgo",
+      "variantes": [],
+      "consequenciaOperacional": "Risco avaliado nas fichas de algoritmo/representatividade (Eixo 4, Bloco 3); em es científico, 'sesgo' é o termo consagrado.",
+      "referenciaNormativa": "spec eixo4, bloco3",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "dados de treinamento",
+      "termoLocale": "datos de entrenamiento",
+      "variantes": [],
+      "consequenciaOperacional": "Origem dos dados de treinamento é requisito do Nível II (req-II-1); distinto de 'datos del estudio'.",
+      "referenciaNormativa": "spec req-II-1",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "MARIA_DISCLAIMER (string-âncora)",
+      "termoLocale": "La MARIAH vuelve transparente y explicable la evaluación ética de investigaciones de intervención en seres humanos que utilizan inteligencia artificial. Se aplica a los sistemas que automatizan decisiones, generan contenido o intervienen en la conducción del estudio. Su cumplimentación es facultativa y sirve tanto al investigador, en la preparación y autoevaluación del protocolo, como al CEP, en el análisis. No aprueba ni reprueba protocolos, no sustituye el juicio del CEP ni exime de la deliberación colegiada. Versión preliminar: aún no sometida a validación empírica en casuística real y a la espera de validación institucional por parte del Ministerio de Salud de Brasil.",
+      "variantes": [],
+      "consequenciaOperacional": "Aviso completo exibido nos Resultados, no seletor de versão e nos exports; define identidade, escopo (tríade: automatizam decisões/geram conteúdo/intervêm na condução), caráter facultativo, duplo público e ressalvas (não aprova/não substitui/não dispensa; versão preliminar aguardando validação MS). Qualquer adição/omissão de ressalva é B5.",
+      "referenciaNormativa": "disclaimer.ts MARIA_DISCLAIMER",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "AJUSTES Z (4): (1) 'diligenciamiento'→'cumplimentación es facultativa' — 'diligenciamiento' colide com o termo normativo 'diligencia' (camada 1) e não é o registro do es da Espanha; (2) 'CEI'→'CEP' ×2 (âncora institucional); (3) 'dispensa la deliberación'→'exime de la deliberación' — 'dispensar' em es lê-se 'conceder/gratificar'; 'eximir de' é o par legal; (4) 'aguardando… por el Ministerio de Salud'→'a la espera de… por parte del Ministerio de Salud de Brasil' (registro + desambiguação anti-B8, cf. entrada Ministério da Saúde). Retroversão integral verificada: preserva identidade, tríade de escopo, facultatividade, duplo público e as ressalvas (não aprova/não substitui/não exime; versão preliminar). ✔"
+    },
+    {
+      "termoPtBr": "MARIA_NAO_SUBSTITUI (string-âncora)",
+      "termoLocale": "La MARIAH no aprueba ni reprueba protocolos, no sustituye el juicio del CEP ni exime de la deliberación colegiada.",
+      "variantes": [],
+      "consequenciaOperacional": "Cláusula curta de não-substituição usada nas páginas de Transparência e Instruções; mantém a redação da ressalva do aviso completo. Qualquer drift de escopo é B5.",
+      "referenciaNormativa": "disclaimer.ts MARIA_NAO_SUBSTITUI",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "AJUSTES Z: 'CEI'→'CEP'; 'dispensa'→'exime de' (idem disclaimer). Retroversão ≡ fonte ✔."
+    },
+    {
+      "termoPtBr": "cláusula de cortesia (string-âncora)",
+      "termoLocale": "Esta es una traducción de cortesía. La versión normativa vigente es la versión en portugués (pt-BR).",
+      "variantes": [],
+      "consequenciaOperacional": "Declara a natureza não-oficial da tradução e a hierarquia normativa do pt-BR; exibida nos mesmos pontos de MARIA_DISCLAIMER (Resultados, seletor de versão, print/PDF, export TXT). Ausência ou deslocamento é B4.",
+      "referenciaNormativa": "PARECER Z A3 — redação definitiva com retroversão verificada",
+      "classeModalidade": "obrigatorio",
+      "status": "aprovado-z",
+      "notas": "ÚNICA entrada já aprovada: redação final do Z (A3), retrovertida ✔."
+    },
+    {
+      "termoPtBr": "Versão preliminar",
+      "termoLocale": "Versión preliminar",
+      "variantes": [],
+      "consequenciaOperacional": "Qualificador do estado de validação do instrumento (não submetida a validação empírica; aguardando validação institucional pelo MS). Nunca suavizar para 'versión actualizada' ou equivalente.",
+      "referenciaNormativa": "disclaimer.ts MARIA_DISCLAIMER",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": ""
+    },
+    {
+      "termoPtBr": "Salvaguarda Decisória",
+      "termoLocale": "Salvaguarda Decisoria",
+      "variantes": [
+        "Cláusula de Primacía Ética"
+      ],
+      "consequenciaOperacional": "Nome do mecanismo na spec: resposta 'Sim' em P4.1 (único determinante da decisão) ou P4.2 (dano irreversível/difícil reparação) força o protocolo ao Nível IV, sobrescrevendo a soma dos demais blocos. Cadeia terminológica única com a Cláusula de Primacía Ética (Results).",
+      "referenciaNormativa": "spec P4.1/P4.2 dicas (2 ocorrências)",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "ENTRADA NOVA (Z): termo presente na spec e ausente na proposta; sinônimo institucional da Cláusula de Primacía Ética."
+    },
+    {
+      "termoPtBr": "Salvaguarda da Res. 738",
+      "termoLocale": "Salvaguarda de la Res. 738",
+      "variantes": [],
+      "consequenciaOperacional": "Regra do Eixo 3.b (Versão A): uma única resposta de risco já leva o eixo ao Nível III — não há categoria intermediária para bancos de dados. Na Versão B, o Bloco 6.b é a contraparte pontuada.",
+      "referenciaNormativa": "spec dica do Eixo 3.b; Caderno 2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "ENTRADA NOVA (Z): terceiro mecanismo nomeado 'Salvaguarda' na spec, ausente na proposta."
+    },
+    {
+      "termoPtBr": "Recomendação de Aprofundamento",
+      "termoLocale": "Recomendación de profundización",
+      "variantes": [],
+      "consequenciaOperacional": "Destaque exibido nos Resultados da Versão A quando o resultado indica nível que recomenda a Versão B (modo triagem): 'Recomenda-se aplicar a Versão B'. É o gatilho textual da relação A→B.",
+      "referenciaNormativa": "Results.tsx:368; Caderno 2 — modo triagem",
+      "classeModalidade": "facultativo",
+      "status": "aprovado-z",
+      "notas": "ENTRADA NOVA (Z): presente em Results.tsx e ausente na proposta; 'recomendación' aqui é orientação (não requisito) — classe facultativa."
+    },
+    {
+      "termoPtBr": "Consolidação",
+      "termoLocale": "Consolidación",
+      "variantes": [],
+      "consequenciaOperacional": "Regra de consolidação da Versão A: o nível final é o MAIS ALTO entre todos os eixos (Results.tsx:469). Preservar a superlativa — suavizar para 'média' ou 'combinado' é B3.",
+      "referenciaNormativa": "Results.tsx:469; Caderno 2",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "ENTRADA NOVA (Z): regra operacional exibida em tela, ausente na proposta."
+    },
+    {
+      "termoPtBr": "Ministério da Saúde",
+      "termoLocale": "Ministerio de Salud de Brasil",
+      "variantes": [
+        "MS (Brasil)"
+      ],
+      "consequenciaOperacional": "Instituição brasileira responsável pela validação institucional do instrumento (disclaimer: 'aguardando validação institucional pelo Ministério da Saúde'). Em es, a qualificação 'de Brasil' é obrigatória — sem ela, remete ao ministério do país do leitor (B8).",
+      "referenciaNormativa": "disclaimer.ts MARIA_DISCLAIMER",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "ENTRADA NOVA (Z): rege a ocorrência do nome dentro do disclaimer es."
+    },
+    {
+      "termoPtBr": "tríade de escopo (automatizar decisões / gerar conteúdo / intervir na condução)",
+      "termoLocale": "sistemas que automatizan decisiones, generan contenido o intervienen en la conducción del estudio",
+      "variantes": [],
+      "consequenciaOperacional": "Define o escopo de aplicação da MARIAH (disclaimer e Pergunta 1 do instrumento): sistemas que automatizam decisões, geram conteúdo ou intervêm na condução do estudo. Os três verbos formam cadeia única; parafrasear qualquer um mudando o alcance é B3.",
+      "referenciaNormativa": "disclaimer.ts; spec questão 1",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "ENTRADA NOVA (Z): âncora de escopo que aparece em disclaimer, instruções e resultados; cadeia de contagem obrigatória na camada 1."
+    }
+  ],
+  "changelog": [
+    {
+      "versao": "0.1.0-proposta",
+      "data": "2026-09-20",
+      "autor": "Kimi (arquitetura)",
+      "descricao": "Esqueleto inicial: 58 entradas (57 propostas + 1 cláusula de cortesia aprovada pelo Z em A3). Termos extraídos de spec/mariah-spec.json 2.1.0, disclaimer.ts e Results.tsx. Aguarda revisão e status: aprovado-z por entrada."
+    },
+    {
+      "versao": "0.2.0",
+      "data": "2026-09-20",
+      "autor": "Z (z.ai) — Auditor",
+      "descricao": "Revisão A1 (memo de submissão): 58→64 entradas, todas aprovado-z. Correções classe B: (1) Cláusula de Prevalência Ética tinha consequência errada (descrevia a não-substituição; o real é a Salvaguarda Decisória que força Nível IV por P4.1/P4.2) e termo ajustado para 'Cláusula de Primacía Ética' (prevalencia = ambiguidade epidemiológica em es); (2) CEP mantido — rejeitada 'CEI' no corpo (contradizia a própria consequência); (3) 'diligenciamiento'→'cumplimentación' no disclaimer (colisão com o termo normativo 'diligencia'); (4) LGPD qualificada ('de Brasil'). Entradas novas: Salvaguarda Decisória, Salvaguarda da Res. 738, Recomendação de Aprofundamento, Consolidação, Ministério da Saúde, tríade de escopo. Ajustes G/M: SaMD com a expansão inglesa da spec, eliminatória corrigida pelo teto 304/297 (notasDominio), citação req-738-III-2 completada, 'No se aplica', classes modais revistas, variantes TCLE/CONEP/LGPD, strings-âncora com CEP/exime de/de Brasil. Retroversões das âncoras verificadas (camada 2)."
+    }
+  ]
+}
