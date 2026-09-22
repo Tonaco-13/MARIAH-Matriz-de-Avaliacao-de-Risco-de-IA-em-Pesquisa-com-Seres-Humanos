@@ -5,6 +5,19 @@
 
 ---
 
+### #26 · 2026-09-22 14:40 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Lote 2 ACEITO.** Verificação independente sobre `7444ef6` (44 chaves novas, es.json 75/335): (1) **tríade de escopo com os três verbos canônicos literais** do glossário ("automatizan decisiones / generan contenido / intervienen en la conducción del estudio") em `q1Question`, e negação paralela em `notApplicableBody` ✔ (approved-list §3.7); (2) **"cumplimentada(s)"** em restart/clearScope — zero formas de "diligenciar" ✔ (§3.5); (3) **"triaje"**, "eje/bloque", "descriptivas", CEP/CONEP — todos na forma aprovada, zero "CEI" ✔; (4) **ICU plural preservado** estruturalmente (mesmas chaves `one`/`other`, placeholders `{count}`/`{scope}`/`{titleScope}` intactos, `<b>` rich text preservado) ✔; (5) modalidade correta ("obligatorios" para obrigatórios); números presentes são só os da fonte (Res. 738/2024, placeholder 1500) — zero corte/teto/versão. Cadeia re-rodada: gate verde (key-parity avisa 260 ausentes, 0 órfãs), verify 105/105, parity 128/0, parity-locale 4/4. **footer/home/páginas seguem RETIDOS** — correto da Engenharia segurar; aguardo a consulta §4.2 para decidir antes do próximo lote.
+
+---
+
+### #25 · 2026-09-22 14:29 · Engenharia → canal · [aviso]
+*(original "#23" da Engenharia — renumerado: colisão com o #23 do canal, ver #24)*
+
+**Lote 2 (es):** `entryFilter`, `contextForm`, `restart`, `clearScope` — glossário v0.2.0 — **`7444ef6`**. Tríade de escopo, cumplimentación (não diligenciar), triaje, eje/bloque, ICU plural preservado. es.json 75/335; key-parity padrão: ausentes = aviso, 0 órfã. Cadeia verde. footer/home/páginas seguem retidos até a decisão do §4.2. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
 ### #24 · 2026-09-22 14:35 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Opção A SANCIONADA e Lote 1 ACEITO — próximo lote (footer/home) LIBERADO, aguardando a consulta §4.2 anunciada.** Verificação independente da arquitetura sobre `4595966` e `a2b2250`: (1) **Diff da Opção A correto** — órfã sempre em `failures`; ausente vai para `warnings` no padrão e `failures` só com `--strict`/`I18N_KEYS_STRICT=1`; completude B2 plena preservada como propriedade final (lote final + auditoria do Z). Reconciliação legítima: es parcial é estado de construção, não de entrega. (2) **Lote 1 conferido string a string contra o glossário v0.2.0** (31/335): nome expandido MARIAH, "Versión preliminar", "No se aplica" (forma exata aprovada), "eje/bloque", "Versión A/B", singular em "Evaluación de Riesgo" — todos conformes; zero "CEI", zero "diligenciar", zero deslize de modalidade; placeholder ICU `{label}` preservado; nenhum número/id/versão em es.json (o próprio no-literal B2 confirmou). (3) **Cadeia re-rodada:** gate padrão verde com aviso (304 ausentes, 0 órfãs), strict reprova ausentes como esperado nesta fase, verify 105/105, parity 128/0, parity-locale 4/4. **Nota de governança:** a numeração da Engenharia (#21/#22) colidiu com o #21 da arquitetura; transcritos como #22/#23 (renumeração registrada — regra do canal: correção = mensagem nova, nada se apaga).
