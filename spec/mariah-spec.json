@@ -874,51 +874,105 @@
           "id": "5.1",
           "pergunta": "O protocolo garante que um pesquisador habilitado revisa e pode contestar toda decisão gerada pelo sistema antes de sua execução?",
           "riskAnswer": "nao",
-          "dica": "Sem revisão humana obrigatória (human-in-the-loop) que possa contestar a decisão antes da execução, o participante fica exposto a erros sem barreira de segurança."
+          "dica": "Sem revisão humana obrigatória (human-in-the-loop) que possa contestar a decisão antes da execução, o participante fica exposto a erros sem barreira de segurança.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo garantiza que un investigador habilitado revisa y puede cuestionar toda decisión generada por el sistema antes de su ejecución?",
+              "dica": "Sin una revisión humana obligatoria (human-in-the-loop) que pueda cuestionar la decisión antes de la ejecución, la persona participante queda expuesta a errores sin barrera de seguridad."
+            }
+          }
         },
         {
           "id": "5.2",
           "pergunta": "O sistema opera como único determinante de uma decisão — sem revisão humana obrigatória?",
           "riskAnswer": "sim",
-          "dica": "Quando o sistema opera como único determinante da decisão, sem revisão humana obrigatória, atinge-se o maior nível de risco para o participante."
+          "dica": "Quando o sistema opera como único determinante da decisão, sem revisão humana obrigatória, atinge-se o maior nível de risco para o participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema opera como único determinante de una decisión — sin revisión humana obligatoria?",
+              "dica": "Cuando el sistema opera como único determinante de la decisión, sin revisión humana obligatoria, se alcanza el mayor nivel de riesgo para la persona participante."
+            }
+          }
         },
         {
           "id": "5.3",
           "pergunta": "O protocolo define responsabilidade humana clara em caso de erro ou dano decorrente do uso do sistema?",
           "riskAnswer": "nao",
-          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que enfraquece a proteção do participante."
+          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que enfraquece a proteção do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define una responsabilidad humana clara en caso de error o daño derivado del uso del sistema?",
+              "dica": "Sin una responsabilidad humana clara en caso de error o daño, se instala una zona de impunidad que debilita la protección de la persona participante."
+            }
+          }
         },
         {
           "id": "5.4",
           "pergunta": "A equipe responsável pelo estudo tem competência técnica suficiente para interpretar os resultados do sistema e identificar falhas?",
           "riskAnswer": "nao",
-          "dica": "Sem competência técnica para interpretar resultados e identificar falhas, a equipe não exerce supervisão real sobre o sistema."
+          "dica": "Sem competência técnica para interpretar resultados e identificar falhas, a equipe não exerce supervisão real sobre o sistema.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El equipo responsable del estudio tiene competencia técnica suficiente para interpretar los resultados del sistema e identificar fallas?",
+              "dica": "Sin competencia técnica para interpretar resultados e identificar fallas, el equipo no ejerce una supervisión real sobre el sistema."
+            }
+          }
         },
         {
           "id": "5.5",
           "pergunta": "O sistema fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que influenciaram aquele resultado?",
           "riskAnswer": "nao",
-          "dica": "Sem uma explicação compreensível junto a cada resultado, a supervisão humana e a detecção de vieses ficam prejudicadas."
+          "dica": "Sem uma explicação compreensível junto a cada resultado, a supervisão humana e a detecção de vieses ficam prejudicadas.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema proporciona, junto a cada resultado, una explicación comprensible sobre los factores que influyeron en ese resultado?",
+              "dica": "Sin una explicación comprensible junto a cada resultado, la supervisión humana y la detección de sesgos se ven perjudicadas."
+            }
+          }
         },
         {
           "id": "5.6",
           "pergunta": "O protocolo prevê monitoramento contínuo do desempenho do sistema após o início do uso, com critérios definidos para interrupção?",
           "riskAnswer": "nao",
-          "dica": "Sem monitoramento contínuo e critérios definidos de interrupção, o sistema pode degradar sem detecção, mantendo participantes expostos. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado."
+          "dica": "Sem monitoramento contínuo e critérios definidos de interrupção, o sistema pode degradar sem detecção, mantendo participantes expostos. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un monitoreo continuo del desempeño del sistema tras el inicio del uso, con criterios definidos para la interrupción?",
+              "dica": "Sin un monitoreo continuo y criterios definidos de interrupción, el sistema puede degradarse sin detección, manteniendo a las personas participantes expuestas. Nota (F-25): el plan debe nombrar el mínimo esperado — métrica(s) de desempeño (incluyendo, cuando corresponda, estratificadas por subgrupo, ver 4.3/P3.6), umbral de alerta, periodicidad de medición y responsable — y prever una respuesta proporcional graduada al deterioro (alerta → restricción de uso → suspensión), con escalamiento documentado."
+            }
+          }
         },
         {
           "id": "5.7",
           "pergunta": "Existe procedimento documentado para o caso de falha, indisponibilidade ou resultado inconsistente do sistema durante o estudo?",
           "riskAnswer": "nao",
-          "dica": "Sem procedimento documentado para falha, indisponibilidade ou resultado inconsistente, decisões passam a ser improvisadas em momentos críticos."
+          "dica": "Sem procedimento documentado para falha, indisponibilidade ou resultado inconsistente, decisões passam a ser improvisadas em momentos críticos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Existe un procedimiento documentado para el caso de falla, indisponibilidad o resultado inconsistente del sistema durante el estudio?",
+              "dica": "Sin un procedimiento documentado para falla, indisponibilidad o resultado inconsistente, las decisiones pasan a ser improvisadas en momentos críticos."
+            }
+          }
         },
         {
           "id": "5.8",
           "pergunta": "O protocolo prevê como e quando o modelo será retreinado, e quem autoriza essa atualização?",
           "riskAnswer": "nao",
-          "dica": "Sem definir como, quando e quem autoriza o retreinamento, o comportamento do sistema pode mudar de forma imprevisível ao longo do estudo. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório."
+          "dica": "Sem definir como, quando e quem autoriza o retreinamento, o comportamento do sistema pode mudar de forma imprevisível ao longo do estudo. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé cómo y cuándo el modelo será reentrenado, y quién autoriza esa actualización?",
+              "dica": "Sin definir cómo, cuándo y quién autoriza el reentrenamiento, el comportamiento del sistema puede cambiar de forma imprevisible a lo largo del estudio. Nota (F-24): se acepta como evidencia un plan de gestión de cambios preaprobado que evalúe el impacto de actualizaciones, recalibraciones o sustituciones sobre las personas participantes, los resultados y los riesgos éticos, y defina un criterio para distinguir una alteración menor de un cambio que exige comunicación o enmienda ética al CEP (umbrales predeterminados) — sin perjuicio del plan de nuevo consentimiento (2.10/P2.8), que permanece eliminatorio."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 5: Supervisión Humana y Explicabilidad",
+          "descricao": "Evalúa la existencia de mecanismos de supervisión humana, explicabilidad del sistema y procedimientos de contingencia."
+        }
+      }
     }
   ],
   "quantitativeBlocks": [
