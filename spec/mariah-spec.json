@@ -1377,63 +1377,117 @@
           "pergunta": "O sistema influencia diretamente decisões clínicas ou terapêuticas sobre o participante?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se converte em conduta inadequada sobre o participante — maior potencial de dano."
+          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se converte em conduta inadequada sobre o participante — maior potencial de dano.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema influye directamente en decisiones clínicas o terapéuticas sobre la persona participante?",
+              "dica": "Cuando el sistema influye directamente en decisiones clínicas o terapéuticas, un error se convierte en una conducta inadecuada sobre la persona participante — mayor potencial de daño."
+            }
+          }
         },
         {
           "id": "P5.2",
           "pergunta": "O sistema pode causar dano físico ao participante em caso de erro?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança."
+          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño físico a la persona participante en caso de error?",
+              "dica": "La posibilidad de daño físico en caso de error es la forma más grave de impacto y exige mecanismos robustos de seguridad."
+            }
+          }
         },
         {
           "id": "P5.3",
           "pergunta": "O sistema pode causar dano psíquico, social ou econômico ao participante em caso de erro?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são relevantes, sobretudo quando afetam a vida social ou a renda do participante."
+          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são relevantes, sobretudo quando afetam a vida social ou a renda do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño psíquico, social o económico a la persona participante en caso de error?",
+              "dica": "Los daños no físicos — psíquicos, sociales o económicos — también son relevantes, sobre todo cuando afectan la vida social o los ingresos de la persona participante."
+            }
+          }
         },
         {
           "id": "P5.4",
           "pergunta": "O protocolo envolve populações vulneráveis — crianças, gestantes, idosos, povos indígenas ou pessoas em situação de vulnerabilidade socioeconômica?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Populações vulneráveis (crianças, gestantes, idosos, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pela menor capacidade de contestar decisões ou compreender riscos."
+          "dica": "Populações vulneráveis (crianças, gestantes, idosos, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pela menor capacidade de contestar decisões ou compreender riscos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo involucra poblaciones vulnerables — niños, gestantes, personas mayores, pueblos indígenas o personas en situación de vulnerabilidad socioeconómica?",
+              "dica": "Las poblaciones vulnerables (niños, gestantes, personas mayores, pueblos indígenas, vulnerabilidad socioeconómica) exigen protección adicional, por la menor capacidad de cuestionar decisiones o comprender riesgos."
+            }
+          }
         },
         {
           "id": "P5.5",
           "pergunta": "O sistema infere características sensíveis do participante — raça, etnia, condição de saúde, orientação sexual — que não foram explicitamente coletadas?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Inferir características sensíveis não explicitamente coletadas (raça/cor, etnia, saúde, orientação sexual) contraria a autonomia informativa e pode gerar discriminação."
+          "dica": "Inferir características sensíveis não explicitamente coletadas (raça/cor, etnia, saúde, orientação sexual) contraria a autonomia informativa e pode gerar discriminação.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema infiere características sensibles de la persona participante — raza, etnia, condición de salud, orientación sexual — que no fueron explícitamente recolectadas?",
+              "dica": "Inferir características sensibles no explícitamente recolectadas (raza/color, etnia, salud, orientación sexual) contraría la autonomía informativa y puede generar discriminación."
+            }
+          }
         },
         {
           "id": "P5.6",
           "pergunta": "Os efeitos de um erro do sistema sobre o participante são reversíveis?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "A pergunta verifica a reversibilidade: efeitos NÃO reversíveis de um erro aumentam significativamente o risco, por não admitirem reparação integral."
+          "dica": "A pergunta verifica a reversibilidade: efeitos NÃO reversíveis de um erro aumentam significativamente o risco, por não admitirem reparação integral.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los efectos de un error del sistema sobre la persona participante son reversibles?",
+              "dica": "La pregunta verifica la reversibilidad: los efectos NO reversibles de un error aumentan significativamente el riesgo, por no admitir reparación integral."
+            }
+          }
         },
         {
           "id": "P5.7",
           "pergunta": "O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "A ausência de descrição sobre como os resultados serão comunicados ao participante compromete a transparência. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024)."
+          "dica": "A ausência de descrição sobre como os resultados serão comunicados ao participante compromete a transparência. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024).",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe cómo los resultados generados por la IA serán comunicados a la persona participante, cuando corresponda?",
+              "dica": "La ausencia de descripción sobre cómo los resultados serán comunicados a la persona participante compromete la transparencia. Incluye el derecho de la persona participante a la devolución de los resultados de la investigación y a la información sobre eventual repercusión en su condición de salud, cuando corresponda (LGPD; Ley n.º 14.874/2024)."
+            }
+          }
         },
         {
           "id": "P5.8",
           "pergunta": "O protocolo prevê mecanismo para que o participante retire o consentimento, com exclusão de seus dados das bases do estudo e garantia de não utilização em treinamentos ou retreinamentos futuros?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco."
+          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un mecanismo para que la persona participante retire el consentimiento, con exclusión de sus datos de las bases del estudio y garantía de no utilización en entrenamientos o reentrenamientos futuros?",
+              "dica": "La retirada del consentimiento es un derecho de la persona participante (Ley n.º 14.874/2024; LGPD, art. 8.º, §5.º, y art. 18). En modelos ya entrenados, la remoción retroactiva de la influencia de un dato específico tiene límites técnicos: el modelo no almacena los datos, sino pesos estadísticos aprendidos, y las técnicas de desaprendizaje automático aún son incipientes. Por ello, el protocolo debe garantizar tres compromisos verificables: (1) exclusión de los datos de la persona participante de las bases del estudio y bloqueo de su uso en cualquier entrenamiento o reentrenamiento futuro; (2) declaración clara de esos límites técnicos en el TCLE, en lenguaje comprensible; (3) salvaguardas de no memorización — curaduría y minimización de los datos antes del entrenamiento y pruebas documentadas de que el modelo no reproduce ni filtra datos de participantes. La ausencia de un mecanismo con esos tres compromisos configura riesgo."
+            }
+          }
         },
         {
           "id": "P5.9",
           "pergunta": "O protocolo define responsabilidade humana clara em caso de erro ou dano decorrente do uso do sistema?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que fragiliza a proteção do participante."
+          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que fragiliza a proteção do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define una responsabilidad humana clara en caso de error o daño derivado del uso del sistema?",
+              "dica": "Sin una responsabilidad humana clara en caso de error o daño, se instala una zona de impunidad que fragiliza la protección de la persona participante."
+            }
+          }
         },
         {
           "id": "P5.10",
@@ -1441,7 +1495,13 @@
           "riskAnswer": "sim",
           "pontos": 5,
           "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los resultados de la investigación pueden generar estigmatización de grupos o poblaciones?",
+              "dica": "Evaluar el daño incluso sin identificación individual: la estigmatización deriva de la atribución de características al grupo."
+            }
+          }
         },
         {
           "id": "P5.11",
@@ -1449,10 +1509,22 @@
           "riskAnswer": "sim",
           "pontos": 5,
           "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Hay riesgo de discriminación de individuos o grupos como consecuencia del uso de los resultados producidos por el sistema?",
+              "dica": "Distinguir de 4.3/P3.6: la equidad mide el desempeño desigual del modelo; esta pregunta mide el daño discriminatorio derivado del uso."
+            }
+          }
         }
       ],
-      "maxPontos": 62
+      "maxPontos": 62,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 5: Impacto",
+          "descricao": "Evalúa el impacto potencial del sistema sobre la persona participante, incluyendo daños físicos, psíquicos y sociales, y la protección de poblaciones vulnerables."
+        }
+      }
     },
     {
       "id": "bloco6",
