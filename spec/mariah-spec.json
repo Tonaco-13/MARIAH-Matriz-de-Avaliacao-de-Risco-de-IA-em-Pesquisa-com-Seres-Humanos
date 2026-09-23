@@ -986,52 +986,100 @@
           "pergunta": "O protocolo descreve com precisão o sistema de IA utilizado — nome, versão, fabricante ou desenvolvedor, e finalidade?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "A descrição precisa do sistema (nome, versão, fabricante/desenvolvedor, finalidade) é a base para a avaliação ética e para a responsabilização; sem ela, não há o que auditar."
+          "dica": "A descrição precisa do sistema (nome, versão, fabricante/desenvolvedor, finalidade) é a base para a avaliação ética e para a responsabilização; sem ela, não há o que auditar.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe con precisión el sistema de IA utilizado — nombre, versión, fabricante o desarrollador, y finalidad?",
+              "dica": "La descripción precisa del sistema (nombre, versión, fabricante/desarrollador, finalidad) es la base para la evaluación ética y para la responsabilización; sin ella, no hay qué auditar."
+            }
+          }
         },
         {
           "id": "P1.2",
           "pergunta": "O protocolo justifica a escolha do sistema de IA em relação a alternativas metodológicas disponíveis?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Justificar a escolha do sistema frente a alternativas metodológicas demonstra que o uso de IA é necessário e proporcional, não arbitrário."
+          "dica": "Justificar a escolha do sistema frente a alternativas metodológicas demonstra que o uso de IA é necessário e proporcional, não arbitrário.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo justifica la elección del sistema de IA en relación con alternativas metodológicas disponibles?",
+              "dica": "Justificar la elección del sistema frente a alternativas metodológicas demuestra que el uso de IA es necesario y proporcional, no arbitrario."
+            }
+          }
         },
         {
           "id": "P1.3",
           "pergunta": "A equipe responsável inclui ao menos um membro com competência técnica para interpretar os resultados do sistema e identificar falhas?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Sem ao menos um membro com competência técnica para interpretar resultados e identificar falhas, a supervisão da equipe é insuficiente."
+          "dica": "Sem ao menos um membro com competência técnica para interpretar resultados e identificar falhas, a supervisão da equipe é insuficiente.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El equipo responsable incluye al menos un miembro con competencia técnica para interpretar los resultados del sistema e identificar fallas?",
+              "dica": "Sin al menos un miembro con competencia técnica para interpretar resultados e identificar fallas, la supervisión del equipo es insuficiente."
+            }
+          }
         },
         {
           "id": "P1.4",
           "pergunta": "O protocolo descreve o estágio de desenvolvimento do sistema — Descoberta (Discovery), Translação (Translation) ou Implantação (Deployment)?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Informar o estágio de desenvolvimento (Descoberta, Translação ou Implantação) é o que permite calibrar a incerteza esperada sobre o desempenho do sistema."
+          "dica": "Informar o estágio de desenvolvimento (Descoberta, Translação ou Implantação) é o que permite calibrar a incerteza esperada sobre o desempenho do sistema.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe la etapa de desarrollo del sistema — Descubrimiento (Discovery), Traslación (Translation) o Implementación (Deployment)?",
+              "dica": "Informar la etapa de desarrollo (Descubrimiento, Traslación o Implementación) es lo que permite calibrar la incertidumbre esperada sobre el desempeño del sistema."
+            }
+          }
         },
         {
           "id": "P1.5",
           "pergunta": "O protocolo apresenta o contexto de uso definido — papel do sistema, escopo da decisão e fontes de evidência complementares?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Delimitar papel do sistema, escopo da decisão e fontes de evidência complementares é o que define o alcance e os riscos do uso; sem isso, o uso fica indefinido."
+          "dica": "Delimitar papel do sistema, escopo da decisão e fontes de evidência complementares é o que define o alcance e os riscos do uso; sem isso, o uso fica indefinido.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta el contexto de uso definido — papel del sistema, alcance de la decisión y fuentes de evidencia complementarias?",
+              "dica": "Delimitar el papel del sistema, el alcance de la decisión y las fuentes de evidencia complementarias es lo que define el alcance y los riesgos del uso; sin ello, el uso queda indefinido."
+            }
+          }
         },
         {
           "id": "P1.6",
           "pergunta": "O TCLE menciona de forma compreensível que um sistema de IA será utilizado e qual é o seu papel no estudo?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Mencionar no TCLE, de forma compreensível, que um sistema de IA será usado e qual o seu papel é requisito ético de transparência e autonomia."
+          "dica": "Mencionar no TCLE, de forma compreensível, que um sistema de IA será usado e qual o seu papel é requisito ético de transparência e autonomia.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El TCLE menciona de forma comprensible que un sistema de IA será utilizado y cuál es su papel en el estudio?",
+              "dica": "Mencionar en el TCLE, de forma comprensible, que un sistema de IA será usado y cuál es su papel es un requisito ético de transparencia y autonomía."
+            }
+          }
         },
         {
           "id": "P1.7",
           "pergunta": "O protocolo foi submetido a consulta ou parecer técnico externo sobre o uso do sistema de IA?",
           "riskAnswer": "nao",
           "pontos": 4,
-          "dica": "Um parecer técnico externo adiciona uma camada de verificação independente sobre o uso do sistema, reduzindo pontos cegos da equipe proponente."
+          "dica": "Um parecer técnico externo adiciona uma camada de verificação independente sobre o uso do sistema, reduzindo pontos cegos da equipe proponente.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo fue sometido a consulta o dictamen técnico externo sobre el uso del sistema de IA?",
+              "dica": "Un dictamen técnico externo añade una capa de verificación independiente sobre el uso del sistema, reduciendo puntos ciegos del equipo proponente."
+            }
+          }
         }
       ],
-      "maxPontos": 22
+      "maxPontos": 22,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 1: Proyecto",
+          "descricao": "Evalúa la calidad de la documentación del protocolo y la preparación del equipo para el uso del sistema de IA."
+        }
+      }
     },
     {
       "id": "bloco2",
