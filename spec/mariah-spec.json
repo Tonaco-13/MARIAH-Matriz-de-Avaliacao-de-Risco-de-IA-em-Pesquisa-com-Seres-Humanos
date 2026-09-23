@@ -1917,7 +1917,13 @@
           "pontos": 5,
           "hasNaOption": true,
           "dica": "SaMD (Software as a Medical Device) é software com finalidade médica — diagnóstico, prognóstico, monitoramento ou orientação terapêutica — regulado pela RDC ANVISA n.º 657/2022 (alinhada ao framework IMDRF). A consulta prévia (de enquadramento ou pré-submissão) é o mecanismo formal pelo qual a ANVISA se manifesta sobre se o sistema é dispositivo médico e qual a classe de risco. É especialmente importante quando o sistema gera saída que orienta ou dirige decisão clínica, está integrado a equipamento médico, processa imagens/sinais com IA para gerar recomendação, ou usa IA generativa em contexto clínico. Marque \"Não se aplica\" SOMENTE se o sistema comprovadamente não tem qualquer pretensão diagnóstica, prognóstica, terapêutica ou de orientação clínica (ex.: análise secundária retrospectiva sem feedback ao participante, gestão administrativa de pesquisa, pré-processamento de dados sem saída interpretativa). Qualquer dúvida razoável de enquadramento → a consulta deve ser feita.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo fue sometido a consulta previa con la ANVISA sobre el encuadre del sistema como SaMD?",
+              "dica": "SaMD (Software as a Medical Device) es software con finalidad médica —diagnóstico, pronóstico, monitoreo u orientación terapéutica— regulado por la RDC ANVISA n.º 657/2022 (alineada al marco IMDRF). La consulta previa (de encuadre o de presentación previa) es el mecanismo formal por el cual la ANVISA se manifiesta sobre si el sistema es dispositivo médico y cuál es su clase de riesgo. Es especialmente importante cuando el sistema genera una salida que orienta o dirige una decisión clínica, está integrado a un equipo médico, procesa imágenes/señales con IA para generar una recomendación, o usa IA generativa en contexto clínico. Marque «No se aplica» SOLO si el sistema comprobadamente no tiene pretensión diagnóstica, pronóstica, terapéutica ni de orientación clínica (p. ej.: análisis secundario retrospectivo sin retorno a la persona participante, gestión administrativa de investigación, preprocesamiento de datos sin salida interpretativa). Cualquier duda razonable de encuadre → la consulta debe realizarse."
+            }
+          }
         },
         {
           "id": "P7.2",
@@ -1925,7 +1931,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "O engajamento com o fabricante/desenvolvedor durante o estudo dá acesso a informações técnicas relevantes para esclarecer dúvidas e tratar falhas — reduz a dependência de uma caixa-preta sem suporte.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé la colaboración con el fabricante o desarrollador del sistema para el esclarecimiento de dudas técnicas durante el estudio?",
+              "dica": "La colaboración con el fabricante/desarrollador durante el estudio da acceso a información técnica relevante para aclarar dudas y tratar fallas —reduce la dependencia de una caja negra sin soporte."
+            }
+          }
         },
         {
           "id": "P7.3",
@@ -1933,7 +1945,13 @@
           "riskAnswer": "sim",
           "pontos": -10,
           "dica": "A revisão humana obrigatória antes da execução é a mitigação mais eficaz: reinsere a barreira de segurança entre a recomendação e a ação. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo garantiza que un investigador habilitado revise toda decisión generada por el sistema antes de su ejecución?",
+              "dica": "La revisión humana obligatoria antes de la ejecución es la mitigación más eficaz: reintroduce la barrera de seguridad entre la recomendación y la acción. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.4",
@@ -1941,7 +1959,13 @@
           "riskAnswer": "sim",
           "pontos": -8,
           "dica": "A explicação compreensível de cada resultado permite supervisão humana real, não apenas formal. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema proporciona, junto a cada resultado, una explicación comprensible sobre los factores que influyeron en ese resultado?",
+              "dica": "La explicación comprensible de cada resultado permite una supervisión humana real, no solo formal. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.5",
@@ -1949,7 +1973,13 @@
           "riskAnswer": "sim",
           "pontos": -10,
           "dica": "Monitoramento contínuo com critérios definidos de interrupção permite detectar e conter perda de desempenho durante o uso. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un monitoreo continuo del desempeño del sistema tras el inicio del uso, con criterios definidos para su interrupción?",
+              "dica": "El monitoreo continuo con criterios definidos de interrupción permite detectar y contener la pérdida de desempeño durante el uso. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero. Nota (F-25): el plan debe nombrar el mínimo esperado —métrica(s) de desempeño (incluyendo, cuando corresponda, estratificadas por subgrupo, ver 4.3/P3.6), umbral de alerta, periodicidad de medición y responsable— y prever una respuesta proporcional graduada al deterioro (alerta → restricción de uso → suspensión), con escalamiento documentado."
+            }
+          }
         },
         {
           "id": "P7.6",
@@ -1957,7 +1987,13 @@
           "riskAnswer": "sim",
           "pontos": -8,
           "dica": "Procedimento documentado para falha, indisponibilidade ou resultado inconsistente garante resposta segura quando o sistema falha. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Existe un procedimiento documentado para fallas, indisponibilidad o resultado inconsistente del sistema durante el estudio?",
+              "dica": "Un procedimiento documentado para falla, indisponibilidad o resultado inconsistente garantiza una respuesta segura cuando el sistema falla. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.7",
@@ -1965,7 +2001,13 @@
           "riskAnswer": "sim",
           "pontos": -8,
           "dica": "Definir como, quando e quem autoriza o retreinamento evita mudanças imprevisíveis no comportamento do sistema. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé cómo y cuándo será reentrenado el modelo, y quién autoriza esa actualización?",
+              "dica": "Definir cómo, cuándo y quién autoriza el reentrenamiento evita cambios impredecibles en el comportamiento del sistema. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero. Nota (F-24): se acepta como evidencia un plan de gestión de cambios preaprobado que evalúe el impacto de actualizaciones, recalibraciones o sustituciones sobre las personas participantes, los resultados y los riesgos éticos, y que defina un criterio para distinguir una alteración menor de un cambio que exige comunicación o enmienda ética al CEP (umbrales predeterminados) —sin perjuicio del plan de nuevo consentimiento (2.10/P2.8), que permanece eliminatorio."
+            }
+          }
         },
         {
           "id": "P7.8",
@@ -1973,7 +2015,13 @@
           "riskAnswer": "sim",
           "pontos": -7,
           "dica": "Equipe com competência técnica para interpretar resultados e identificar falhas torna a supervisão efetiva. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El equipo responsable tiene competencia técnica suficiente para interpretar los resultados del sistema e identificar fallas?",
+              "dica": "Un equipo con competencia técnica para interpretar resultados e identificar fallas hace efectiva la supervisión. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.9",
@@ -1981,7 +2029,13 @@
           "riskAnswer": "sim",
           "pontos": -7,
           "dica": "Monitorar deriva de dados (data drift) previne a degradação silenciosa do desempenho ao longo do tempo. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé el monitoreo de deriva de datos (data drift), es decir, la degradación del desempeño a lo largo del tiempo?",
+              "dica": "Monitorear la deriva de datos (data drift) previene la degradación silenciosa del desempeño a lo largo del tiempo. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.10",
@@ -1989,7 +2043,13 @@
           "riskAnswer": "sim",
           "pontos": -7,
           "dica": "Responsabilidade humana clara e identificada em caso de erro ou dano protege o participante e evita zona cinzenta de imputação. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe una responsabilidad humana clara e identificada en caso de error o daño derivado del sistema?",
+              "dica": "Una responsabilidad humana clara e identificada en caso de error o daño protege a la persona participante y evita una zona gris de imputación. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.11",
@@ -1998,7 +2058,13 @@
           "pontos": -5,
           "dica": "Model Card ou documento equivalente com finalidade, métricas, limitações e contextos de uso.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta documentación estandarizada del modelo (por ejemplo, Model Card)?",
+              "dica": "Model Card o documento equivalente con finalidad, métricas, limitaciones y contextos de uso."
+            }
+          }
         },
         {
           "id": "P7.12",
@@ -2007,7 +2073,13 @@
           "pontos": -5,
           "dica": "Datasheet ou equivalente com origem, composição, coleta, pré-processamento e usos recomendados.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta documentación estandarizada de la base de datos (por ejemplo, Datasheet for Datasets)?",
+              "dica": "Datasheet o equivalente con origen, composición, recolección, preprocesamiento y usos recomendados."
+            }
+          }
         },
         {
           "id": "P7.13",
@@ -2016,7 +2088,13 @@
           "pontos": -8,
           "dica": "RIPD do controlador ou avaliação de impacto algorítmico documentada valem como evidência; o peso maior (−8) reflete a abrangência da evidência.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Se realizó una evaluación de impacto algorítmico o un Informe de Impacto a la Protección de Datos Personales (RIPD) para el uso previsto en este protocolo?",
+              "dica": "El RIPD del controlador o una evaluación de impacto algorítmico documentada valen como evidencia; el peso mayor (−8) refleja la amplitud de la evidencia."
+            }
+          }
         },
         {
           "id": "P7.14",
@@ -2025,10 +2103,23 @@
           "pontos": -5,
           "dica": "Licenças de código aberto ou de auditoria (incluindo Software Público) valem; código fechado com auditoria independente contratada também pode ser considerado pelo CEP.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El código fuente del sistema será puesto a disposición abiertamente o bajo una licencia que permita la auditoría independiente?",
+              "dica": "Licencias de código abierto o de auditoría (incluido el Software Público) valen; el código cerrado con auditoría independiente contratada también puede ser considerado por el CEP."
+            }
+          }
         }
       ],
-      "maxPontos": 75
+      "maxPontos": 75,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 7: Mitigación",
+          "descricao": "Evalúa consultas regulatorias y medidas de mitigación de riesgo. Puede reducir la puntuación total del protocolo.",
+          "subtitulo": "Bidireccional — las Consultas suman puntos; las Mitigaciones restan puntos"
+        }
+      }
     }
   ],
   "requirements": [
