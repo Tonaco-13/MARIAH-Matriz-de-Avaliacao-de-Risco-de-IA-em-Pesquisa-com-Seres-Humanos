@@ -144,51 +144,105 @@
           "id": "1.1",
           "pergunta": "O sistema toma decisões ou emite recomendações sem intervenção humana obrigatória antes da execução?",
           "riskAnswer": "sim",
-          "dica": "Sem revisão humana obrigatória antes da execução, não há barreira de segurança entre a recomendação do sistema e a ação sobre o participante — um erro chega ao participante sem filtro. Quanto maior a autonomia decisória, maior o risco."
+          "dica": "Sem revisão humana obrigatória antes da execução, não há barreira de segurança entre a recomendação do sistema e a ação sobre o participante — um erro chega ao participante sem filtro. Quanto maior a autonomia decisória, maior o risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema toma decisiones o emite recomendaciones sin intervención humana obligatoria antes de la ejecución?",
+              "dica": "Sin revisión humana obligatoria antes de la ejecución, no hay barrera de seguridad entre la recomendación del sistema y la acción sobre la persona participante — un error llega a la persona participante sin filtro. Cuanto mayor la autonomía decisoria, mayor el riesgo."
+            }
+          }
         },
         {
           "id": "1.2",
           "pergunta": "O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?",
           "riskAnswer": "sim",
-          "dica": "Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8)."
+          "dica": "Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8).",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es adaptativo — aprende o se actualiza con nuevos datos durante la conducción del estudio o después de su finalización?",
+              "dica": "Los sistemas que aprenden o se actualizan durante el estudio pueden cambiar de comportamiento a lo largo del tiempo, generando resultados distintos de los validados al inicio — lo que introduce incertidumbre sobre lo que la persona participante de hecho recibirá. Un sistema adaptativo altera, durante el estudio, el propio objeto sobre el cual la persona participante consintió. El protocolo debe definir un umbral de cambio (de desempeño o de comportamiento del sistema) que, al ser superado, dispara la obtención de nuevo consentimiento y la comunicación al CEP. Sin ese plan, el consentimiento obtenido al inicio pierde validez continua (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa). Nota (F-27): la verificación abarca actualizaciones, recalibraciones y sustituciones del sistema, durante el estudio o después de su finalización; si el aprendizaje continúa después de la finalización, verificar 5.8/P7.7 (reentrenamiento autorizado) y el plan de nuevo consentimiento (2.10/P2.8)."
+            }
+          }
         },
         {
           "id": "1.3",
           "pergunta": "Em caso de falha ou erro do sistema, o dano ao participante seria de difícil reversão?",
           "riskAnswer": "sim",
-          "dica": "Quando o erro do sistema produz dano de difícil reversão (ex.: conduta cirúrgica indevida), o risco é maior do que em danos reparáveis, porque a correção posterior não restaura o participante ao estado anterior."
+          "dica": "Quando o erro do sistema produz dano de difícil reversão (ex.: conduta cirúrgica indevida), o risco é maior do que em danos reparáveis, porque a correção posterior não restaura o participante ao estado anterior.",
+          "i18n": {
+            "es": {
+              "pergunta": "En caso de falla o error del sistema, ¿el daño a la persona participante sería de difícil reversión?",
+              "dica": "Cuando el error del sistema produce un daño de difícil reversión (ej.: conducta quirúrgica indebida), el riesgo es mayor que en daños reparables, porque la corrección posterior no restaura a la persona participante al estado anterior."
+            }
+          }
         },
         {
           "id": "1.4",
           "pergunta": "O sistema foi desenvolvido e validado fora do contexto em que será utilizado neste protocolo?",
           "riskAnswer": "sim",
-          "dica": "Um sistema desenvolvido e validado em outro contexto (outra população, outro cenário assistencial) pode não manter o desempenho na realidade deste protocolo, gerando erros não detectados na validação original."
+          "dica": "Um sistema desenvolvido e validado em outro contexto (outra população, outro cenário assistencial) pode não manter o desempenho na realidade deste protocolo, gerando erros não detectados na validação original.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema fue desarrollado y validado fuera del contexto en que será utilizado en este protocolo?",
+              "dica": "Un sistema desarrollado y validado en otro contexto (otra población, otro escenario asistencial) puede no mantener el desempeño en la realidad de este protocolo, generando errores no detectados en la validación original."
+            }
+          }
         },
         {
           "id": "1.5",
           "pergunta": "O pesquisador tem acesso às informações necessárias para contestar a recomendação do sistema?",
           "riskAnswer": "nao",
-          "dica": "Se o profissional não tem acesso às informações necessárias para contestar a recomendação, a supervisão humana é apenas simbólica — existe no papel, mas não barra um erro. É a ausência desse acesso que eleva o risco."
+          "dica": "Se o profissional não tem acesso às informações necessárias para contestar a recomendação, a supervisão humana é apenas simbólica — existe no papel, mas não barra um erro. É a ausência desse acesso que eleva o risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El investigador tiene acceso a la información necesaria para cuestionar la recomendación del sistema?",
+              "dica": "Si el profesional no tiene acceso a la información necesaria para cuestionar la recomendación, la supervisión humana es apenas simbólica — existe en el papel, pero no frena un error. Es la ausencia de ese acceso lo que eleva el riesgo."
+            }
+          }
         },
         {
           "id": "1.6",
           "pergunta": "O protocolo define claramente o que acontece quando a decisão do sistema diverge do julgamento humano?",
           "riskAnswer": "nao",
-          "dica": "Sem regra definida para quando a decisão do sistema diverge do julgamento humano, cria-se uma zona cinzenta de responsabilidade que pode atrasar a correção e prejudicar o participante."
+          "dica": "Sem regra definida para quando a decisão do sistema diverge do julgamento humano, cria-se uma zona cinzenta de responsabilidade que pode atrasar a correção e prejudicar o participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define claramente qué ocurre cuando la decisión del sistema diverge del juicio humano?",
+              "dica": "Sin una regla definida para cuando la decisión del sistema diverge del juicio humano, se crea una zona gris de responsabilidad que puede retrasar la corrección y perjudicar a la persona participante."
+            }
+          }
         },
         {
           "id": "1.7",
           "pergunta": "O sistema é explicável — é possível compreender por que chegou a determinado resultado?",
           "riskAnswer": "nao",
-          "dica": "Sistemas opacos (caixa-preta) dificultam identificar vieses e erros e atribuir responsabilidade. A falta de explicabilidade reduz a capacidade de supervisão — é o que caracteriza o risco aqui."
+          "dica": "Sistemas opacos (caixa-preta) dificultam identificar vieses e erros e atribuir responsabilidade. A falta de explicabilidade reduz a capacidade de supervisão — é o que caracteriza o risco aqui.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es explicable — es posible comprender por qué llegó a determinado resultado?",
+              "dica": "Los sistemas opacos (caja negra) dificultan identificar sesgos y errores y atribuir responsabilidad. La falta de explicabilidad reduce la capacidad de supervisión — es lo que caracteriza el riesgo aquí."
+            }
+          }
         },
         {
           "id": "1.8",
           "pergunta": "O sistema foi submetido a testes de desempenho documentados antes do uso no protocolo?",
           "riskAnswer": "nao",
-          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de que o sistema é seguro e eficaz no contexto proposto; o protocolo passa a depender de um desempenho presumido, não demonstrado."
+          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de que o sistema é seguro e eficaz no contexto proposto; o protocolo passa a depender de um desempenho presumido, não demonstrado.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema fue sometido a pruebas de desempeño documentadas antes del uso en el protocolo?",
+              "dica": "Sin pruebas de desempeño documentadas antes del uso, no hay evidencia de que el sistema sea seguro y eficaz en el contexto propuesto; el protocolo pasa a depender de un desempeño presumido, no demostrado."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 1: Naturaleza y Autonomía del Sistema",
+          "descricao": "Evalúa el grado de autonomía del sistema, su capacidad adaptativa y los riesgos asociados a su naturaleza técnica."
+        }
+      }
     },
     {
       "id": "eixo2",
