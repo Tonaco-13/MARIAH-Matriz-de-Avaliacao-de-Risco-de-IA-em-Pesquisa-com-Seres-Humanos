@@ -765,51 +765,105 @@
           "id": "4.1",
           "pergunta": "Os dados de treinamento do modelo incluem representação adequada da diversidade da população-alvo deste protocolo — raça, etnia, gênero, faixa etária, região geográfica?",
           "riskAnswer": "nao",
-          "dica": "Se os dados de treinamento não representam a diversidade da população-alvo (raça/cor, etnia, gênero, idade, região), o modelo pode produzir resultados enviesados e discriminatórios para os subgrupos sub-representados."
+          "dica": "Se os dados de treinamento não representam a diversidade da população-alvo (raça/cor, etnia, gênero, idade, região), o modelo pode produzir resultados enviesados e discriminatórios para os subgrupos sub-representados.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento del modelo incluyen una representación adecuada de la diversidad de la población objetivo de este protocolo — raza, etnia, género, franja etaria, región geográfica?",
+              "dica": "Si los datos de entrenamiento no representan la diversidad de la población objetivo (raza/color, etnia, género, edad, región), el modelo puede producir resultados sesgados y discriminatorios para los subgrupos subrepresentados."
+            }
+          }
         },
         {
           "id": "4.2",
           "pergunta": "O modelo foi desenvolvido fora do Brasil para uso em população brasileira sem validação local documentada?",
           "riskAnswer": "sim",
-          "dica": "Um modelo desenvolvido fora do Brasil e usado em população brasileira sem validação local pode não refletir o perfil epidemiológico e socioeconômico nacional, degradando o desempenho real."
+          "dica": "Um modelo desenvolvido fora do Brasil e usado em população brasileira sem validação local pode não refletir o perfil epidemiológico e socioeconômico nacional, degradando o desempenho real.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El modelo fue desarrollado fuera de Brasil para uso en población brasileña sin validación local documentada?",
+              "dica": "Un modelo desarrollado fuera de Brasil y usado en población brasileña sin validación local puede no reflejar el perfil epidemiológico y socioeconómico nacional, degradando el desempeño real."
+            }
+          }
         },
         {
           "id": "4.3",
           "pergunta": "O protocolo apresenta avaliação de desempenho do modelo por subgrupos populacionais relevantes?",
           "riskAnswer": "nao",
-          "dica": "Sem avaliação de desempenho por subgrupos populacionais relevantes, disparidades que afetam grupos específicos passam despercebidas — o desempenho médio pode esconder falhas localizadas."
+          "dica": "Sem avaliação de desempenho por subgrupos populacionais relevantes, disparidades que afetam grupos específicos passam despercebidas — o desempenho médio pode esconder falhas localizadas.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta una evaluación del desempeño del modelo por subgrupos poblacionales relevantes?",
+              "dica": "Sin una evaluación del desempeño por subgrupos poblacionales relevantes, las disparidades que afectan a grupos específicos pasan desapercibidas — el desempeño medio puede ocultar fallas localizadas."
+            }
+          }
         },
         {
           "id": "4.4",
           "pergunta": "O modelo foi treinado predominantemente em dados de populações de alta renda ou de países do hemisfério norte?",
           "riskAnswer": "sim",
-          "dica": "Modelos treinados predominantemente em populações de alta renda ou do hemisfério norte podem não representar a realidade socioeconômica e epidemiológica brasileira."
+          "dica": "Modelos treinados predominantemente em populações de alta renda ou do hemisfério norte podem não representar a realidade socioeconômica e epidemiológica brasileira.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El modelo fue entrenado predominantemente con datos de poblaciones de altos ingresos o de países del hemisferio norte?",
+              "dica": "Los modelos entrenados predominantemente con poblaciones de altos ingresos o del hemisferio norte pueden no representar la realidad socioeconómica y epidemiológica brasileña."
+            }
+          }
         },
         {
           "id": "4.5",
           "pergunta": "O protocolo descreve os dados usados no treinamento do modelo: origem, período de coleta, critérios de inclusão e exclusão?",
           "riskAnswer": "nao",
-          "dica": "A descrição de origem, período de coleta e critérios de inclusão/exclusão dos dados de treinamento é o que permite avaliar a qualidade e a representatividade do modelo; sua ausência impede esse julgamento."
+          "dica": "A descrição de origem, período de coleta e critérios de inclusão/exclusão dos dados de treinamento é o que permite avaliar a qualidade e a representatividade do modelo; sua ausência impede esse julgamento.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe los datos usados en el entrenamiento del modelo: origen, período de recolección, criterios de inclusión y exclusión?",
+              "dica": "La descripción de origen, período de recolección y criterios de inclusión/exclusión de los datos de entrenamiento es lo que permite evaluar la calidad y la representatividad del modelo; su ausencia impide ese juicio."
+            }
+          }
         },
         {
           "id": "4.6",
           "pergunta": "Os dados de teste do modelo são independentes dos dados de treinamento?",
           "riskAnswer": "nao",
-          "dica": "Se os dados de teste não são independentes dos de treinamento, o desempenho relatado tende a ser superestimado e não se confirma no uso real."
+          "dica": "Se os dados de teste não são independentes dos de treinamento, o desempenho relatado tende a ser superestimado e não se confirma no uso real.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de prueba del modelo son independientes de los datos de entrenamiento?",
+              "dica": "Si los datos de prueba no son independientes de los de entrenamiento, el desempeño reportado tiende a ser sobreestimado y no se confirma en el uso real."
+            }
+          }
         },
         {
           "id": "4.7",
           "pergunta": "O protocolo prevê monitoramento de degradação de desempenho do modelo ao longo do tempo (deriva de dados-data drift) caso seja utilizado em contexto de aplicação continuada?",
           "riskAnswer": "nao",
-          "dica": "Em uso continuado, sem monitorar a deriva de dados (data drift) o modelo pode degradar silenciosamente, gerando resultados cada vez menos confiáveis sem que a equipe perceba."
+          "dica": "Em uso continuado, sem monitorar a deriva de dados (data drift) o modelo pode degradar silenciosamente, gerando resultados cada vez menos confiáveis sem que a equipe perceba.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé el monitoreo de la degradación del desempeño del modelo a lo largo del tiempo (deriva de datos-data drift) en caso de ser utilizado en un contexto de aplicación continuada?",
+              "dica": "En uso continuado, sin monitorear la deriva de datos (data drift) el modelo puede degradarse silenciosamente, generando resultados cada vez menos confiables sin que el equipo lo perciba."
+            }
+          }
         },
         {
           "id": "4.8",
           "pergunta": "O desempenho do modelo foi validado em contexto assistencial comparável ao SUS ou ao sistema de saúde em que será utilizado?",
           "riskAnswer": "nao",
-          "dica": "Validação em contexto diferente não garante desempenho adequado no cenário real de uso; a aderência ao contexto assistencial (ex.: SUS) é o que sustenta a transferibilidade."
+          "dica": "Validação em contexto diferente não garante desempenho adequado no cenário real de uso; a aderência ao contexto assistencial (ex.: SUS) é o que sustenta a transferibilidade.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El desempeño del modelo fue validado en un contexto asistencial comparable al SUS o al sistema de salud en que será utilizado?",
+              "dica": "La validación en un contexto diferente no garantiza un desempeño adecuado en el escenario real de uso; la adherencia al contexto asistencial (ej.: SUS) es lo que sustenta la transferibilidad."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 4: Representatividad y Transferibilidad",
+          "descricao": "Evalúa si los datos de entrenamiento representan adecuadamente a la población objetivo y si el modelo fue validado en el contexto de uso."
+        }
+      }
     },
     {
       "id": "eixo5",
