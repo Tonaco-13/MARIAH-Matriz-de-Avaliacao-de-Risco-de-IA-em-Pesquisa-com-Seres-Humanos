@@ -253,55 +253,109 @@
           "id": "2.1",
           "pergunta": "O sistema influencia diretamente decisões clínicas ou terapêuticas sobre o participante?",
           "riskAnswer": "sim",
-          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se traduz em conduta inadequada sobre o participante — o impacto potencial sobre a pessoa é maior."
+          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se traduz em conduta inadequada sobre o participante — o impacto potencial sobre a pessoa é maior.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema influye directamente en decisiones clínicas o terapéuticas sobre la persona participante?",
+              "dica": "Cuando el sistema influye directamente en decisiones clínicas o terapéuticas, un error se traduce en una conducta inadecuada sobre la persona participante — el impacto potencial sobre la persona es mayor."
+            }
+          }
         },
         {
           "id": "2.2",
           "pergunta": "O sistema pode causar dano físico ao participante em caso de erro?",
           "riskAnswer": "sim",
-          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança e supervisão."
+          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança e supervisão.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño físico a la persona participante en caso de error?",
+              "dica": "La posibilidad de daño físico en caso de error es la forma más grave de impacto y exige mecanismos robustos de seguridad y supervisión."
+            }
+          }
         },
         {
           "id": "2.3",
           "pergunta": "O sistema pode causar dano psíquico, social ou econômico ao participante em caso de erro?",
           "riskAnswer": "sim",
-          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são eticamente relevantes, sobretudo quando afetam a vida social, o emprego ou a renda do participante."
+          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são eticamente relevantes, sobretudo quando afetam a vida social, o emprego ou a renda do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño psíquico, social o económico a la persona participante en caso de error?",
+              "dica": "Los daños no físicos — psíquicos, sociales o económicos — también son éticamente relevantes, sobre todo cuando afectan la vida social, el empleo o los ingresos de la persona participante."
+            }
+          }
         },
         {
           "id": "2.4",
           "pergunta": "O protocolo envolve populações vulneráveis: crianças, gestantes, idosos, pessoas com deficiência, povos indígenas ou comunidades em situação de vulnerabilidade socioeconômica?",
           "riskAnswer": "sim",
-          "dica": "Populações vulneráveis (crianças, gestantes, idosos, pessoas com deficiência, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pois podem ter menor capacidade de compreender riscos ou contestar decisões."
+          "dica": "Populações vulneráveis (crianças, gestantes, idosos, pessoas com deficiência, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pois podem ter menor capacidade de compreender riscos ou contestar decisões.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo involucra poblaciones vulnerables: niños, gestantes, personas mayores, personas con discapacidad, pueblos indígenas o comunidades en situación de vulnerabilidad socioeconómica?",
+              "dica": "Las poblaciones vulnerables (niños, gestantes, personas mayores, personas con discapacidad, pueblos indígenas, vulnerabilidad socioeconómica) exigen protección adicional, pues pueden tener menor capacidad de comprender riesgos o de cuestionar decisiones."
+            }
+          }
         },
         {
           "id": "2.5",
           "pergunta": "O sistema infere características sensíveis do participante: raça/cor, etnia, condição de saúde, orientação sexual, que não foram explicitamente coletadas?",
           "riskAnswer": "sim",
-          "dica": "Inferir características sensíveis (raça/cor, etnia, saúde, orientação sexual) que não foram explicitamente coletadas contraria a autonomia informativa do participante e pode gerar discriminação."
+          "dica": "Inferir características sensíveis (raça/cor, etnia, saúde, orientação sexual) que não foram explicitamente coletadas contraria a autonomia informativa do participante e pode gerar discriminação.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema infiere características sensibles de la persona participante: raza/color, etnia, condición de salud, orientación sexual, que no fueron explícitamente recolectadas?",
+              "dica": "Inferir características sensibles (raza/color, etnia, salud, orientación sexual) que no fueron explícitamente recolectadas contraría la autonomía informativa de la persona participante y puede generar discriminación."
+            }
+          }
         },
         {
           "id": "2.6",
           "pergunta": "Os efeitos de um erro do sistema sobre o participante são reversíveis?",
           "riskAnswer": "nao",
-          "dica": "A pergunta verifica a reversibilidade: quando os efeitos de um erro NÃO são reversíveis, o risco aumenta de forma significativa, pois não há reparação integral possível."
+          "dica": "A pergunta verifica a reversibilidade: quando os efeitos de um erro NÃO são reversíveis, o risco aumenta de forma significativa, pois não há reparação integral possível.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los efectos de un error del sistema sobre la persona participante son reversibles?",
+              "dica": "La pregunta verifica la reversibilidad: cuando los efectos de un error NO son reversibles, el riesgo aumenta de forma significativa, pues no hay reparación integral posible."
+            }
+          }
         },
         {
           "id": "2.7",
           "pergunta": "O TCLE informa ao participante, de forma compreensível, que um sistema de IA será utilizado no protocolo e qual é o seu papel?",
           "riskAnswer": "nao",
-          "dica": "Se o TCLE não informa, de forma compreensível, que um sistema de IA será usado e qual o seu papel, viola-se a transparência e a autonomia — o participante consente sem saber a que está consentindo."
+          "dica": "Se o TCLE não informa, de forma compreensível, que um sistema de IA será usado e qual o seu papel, viola-se a transparência e a autonomia — o participante consente sem saber a que está consentindo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El TCLE informa a la persona participante, de forma comprensible, que un sistema de IA será utilizado en el protocolo y cuál es su papel?",
+              "dica": "Si el TCLE no informa, de forma comprensible, que un sistema de IA será usado y cuál es su papel, se viola la transparencia y la autonomía — la persona participante consiente sin saber a qué está consintiendo."
+            }
+          }
         },
         {
           "id": "2.8",
           "pergunta": "O protocolo prevê mecanismo para que o participante retire o consentimento, com exclusão de seus dados das bases do estudo e garantia de não utilização em treinamentos ou retreinamentos futuros?",
           "riskAnswer": "nao",
-          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco."
+          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un mecanismo para que la persona participante retire el consentimiento, con exclusión de sus datos de las bases del estudio y garantía de no utilización en entrenamientos o reentrenamientos futuros?",
+              "dica": "La retirada del consentimiento es un derecho de la persona participante (Ley n.º 14.874/2024; LGPD, art. 8.º, §5.º, y art. 18). En modelos ya entrenados, la remoción retroactiva de la influencia de un dato específico tiene límites técnicos: el modelo no almacena los datos, sino pesos estadísticos aprendidos, y las técnicas de desaprendizaje automático aún son incipientes. Por ello, el protocolo debe garantizar tres compromisos verificables: (1) exclusión de los datos de la persona participante de las bases del estudio y bloqueo de su uso en cualquier entrenamiento o reentrenamiento futuro; (2) declaración clara de esos límites técnicos en el TCLE, en lenguaje comprensible; (3) salvaguardas de no memorización — curaduría y minimización de los datos antes del entrenamiento y pruebas documentadas de que el modelo no reproduce ni filtra datos de participantes. La ausencia de un mecanismo con esos tres compromisos configura riesgo."
+            }
+          }
         },
         {
           "id": "2.9",
           "pergunta": "O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?",
           "riskAnswer": "nao",
-          "dica": "A ausência de descrição sobre como os resultados da IA serão comunicados ao participante compromete a transparência e o exercício da autonomia. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024)."
+          "dica": "A ausência de descrição sobre como os resultados da IA serão comunicados ao participante compromete a transparência e o exercício da autonomia. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024).",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe cómo los resultados generados por la IA serán comunicados a la persona participante, cuando corresponda?",
+              "dica": "La ausencia de descripción sobre cómo los resultados de la IA serán comunicados a la persona participante compromete la transparencia y el ejercicio de la autonomía. Incluye el derecho de la persona participante a la devolución de los resultados de la investigación y a la información sobre eventual repercusión en su condición de salud, cuando corresponda (LGPD; Ley n.º 14.874/2024)."
+            }
+          }
         },
         {
           "id": "2.10",
@@ -312,21 +366,46 @@
           "hasNaOption": true,
           "dica": "Sistema adaptativo é aquele que continua aprendendo ou muda de comportamento durante o estudo — por exemplo, um modelo que se reajusta com novos dados (aprendizado contínuo), em vez de permanecer \"congelado\" após a validação. Por que novo consentimento: o participante consentiu com um sistema que funcionava de certo modo; se ele muda de forma relevante, mudam os riscos e a própria natureza do que foi aceito — então a autonomia exige informá-lo e obter novo consentimento. Por isso se pede um plano com limiar de mudança definido, procedimento e responsável. Item de diligência com efeito impeditivo: NÃO altera a pontuação do Eixo 2 (não eleva o nível), mas a ausência do plano bloqueia o parecer — protocolo não avaliável no mérito —, em convergência com a P2.8 da Versão B. Aplicável quando o sistema é adaptativo (1.2 = Sim); marque \"Não se aplica\" quando 1.2 = Não. A obtenção de novo consentimento é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e, por isso, não é compensável por pontos.",
           "motivoEliminatorio": "ausência de plano de novo consentimento para sistema adaptativo (1.2 = Sim). A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e não é compensável por pontuação. O dossiê deve ser devolvido para complementação (diligência obrigatória); persistindo a ausência, o protocolo não recebe parecer de aprovação.",
-          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD"
+          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el sistema es adaptativo (1.2 = Sí): ¿el protocolo presenta un plan de nuevo consentimiento — con umbral definido, procedimiento y responsable — para el caso de que el sistema se actualice o cambie de comportamiento durante el estudio?",
+              "dica": "Un sistema adaptativo es aquel que continúa aprendiendo o cambia de comportamiento durante el estudio — por ejemplo, un modelo que se reajusta con nuevos datos (aprendizaje continuo), en vez de permanecer «congelado» tras la validación. Por qué nuevo consentimiento: la persona participante consintió con un sistema que funcionaba de cierto modo; si cambia de forma relevante, cambian los riesgos y la propia naturaleza de lo que se aceptó — entonces la autonomía exige informarla y obtener nuevo consentimiento. Por eso se pide un plan con umbral de cambio definido, procedimiento y responsable. Ítem de diligencia con efecto impeditivo: NO altera la puntuación del Eje 2 (no eleva el nivel), pero la ausencia del plan bloquea el dictamen — protocolo no evaluable en el mérito —, en convergencia con la P2.8 de la Versión B. Aplicable cuando el sistema es adaptativo (1.2 = Sí); marque «No se aplica» cuando 1.2 = No. La obtención de nuevo consentimiento es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y, por ello, no es compensable por puntos.",
+              "motivoEliminatorio": "ausencia de plan de nuevo consentimiento para sistema adaptativo (1.2 = Sí). La obtención de nuevo consentimiento ante un cambio relevante del sistema es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y no es compensable por puntuación. El dosier debe ser devuelto para complementación (diligencia obligatoria); si persiste la ausencia, el protocolo no recibe dictamen de aprobación."
+            }
+          }
         },
         {
           "id": "2.11",
           "pergunta": "Os resultados da pesquisa podem gerar estigmatização de grupos ou populações?",
           "riskAnswer": "sim",
-          "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo."
+          "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los resultados de la investigación pueden generar estigmatización de grupos o poblaciones?",
+              "dica": "Evaluar el daño incluso sin identificación individual: la estigmatización deriva de la atribución de características al grupo."
+            }
+          }
         },
         {
           "id": "2.12",
           "pergunta": "Há risco de discriminação de indivíduos ou grupos como consequência do uso dos resultados produzidos pelo sistema?",
           "riskAnswer": "sim",
-          "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso."
+          "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Hay riesgo de discriminación de individuos o grupos como consecuencia del uso de los resultados producidos por el sistema?",
+              "dica": "Distinguir de 4.3/P3.6: la equidad mide el desempeño desigual del modelo; esta pregunta mide el daño discriminatorio derivado del uso."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 2: Impacto sobre la Persona Participante",
+          "descricao": "Evalúa los potenciales daños físicos, psíquicos, sociales y económicos a la persona participante, así como la protección de poblaciones vulnerables."
+        }
+      }
     },
     {
       "id": "eixo3",
