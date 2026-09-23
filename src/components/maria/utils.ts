@@ -24,7 +24,7 @@ import type {
   ExibicaoCondicional,
   ClausulaExibicao,
 } from './data';
-import { MARIA_DISCLAIMER } from './disclaimer';
+import { getDisclaimer } from './disclaimer';
 
 /**
  * Regra de exibição condicional das descritivas (fonte única, usada pelo
@@ -837,7 +837,7 @@ export function generateReportHTML(
   ${unansweredSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
-    <strong>Aviso:</strong> ${MARIA_DISCLAIMER}
+    <strong>Aviso:</strong> ${getDisclaimer(locale)}
   </div>
 
   <div style="margin-top:24px;text-align:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:12px;line-height:1.6">
@@ -979,7 +979,7 @@ export function generateReportText(
 
   lines.push('');
   lines.push('── AVISO ──');
-  lines.push(MARIA_DISCLAIMER);
+  lines.push(getDisclaimer(locale));
   lines.push('');
   lines.push('═══════════════════════════════════════════════════════════');
 
