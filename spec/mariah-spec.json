@@ -9,7 +9,13 @@
       "bgColor": "bg-green-50",
       "borderColor": "border-green-300",
       "textColor": "text-green-700",
-      "description": "Risco baixo — requisitos mínimos de documentação e transparência."
+      "description": "Risco baixo — requisitos mínimos de documentação e transparência.",
+      "i18n": {
+        "es": {
+          "label": "Bajo",
+          "description": "Riesgo bajo — requisitos mínimos de documentación y transparencia."
+        }
+      }
     },
     "II": {
       "level": "II",
@@ -18,7 +24,13 @@
       "bgColor": "bg-amber-50",
       "borderColor": "border-amber-300",
       "textColor": "text-amber-700",
-      "description": "Risco moderado — exige descrição do sistema e conformidade com a LGPD."
+      "description": "Risco moderado — exige descrição do sistema e conformidade com a LGPD.",
+      "i18n": {
+        "es": {
+          "label": "Moderado",
+          "description": "Riesgo moderado — exige la descripción del sistema y la conformidad con la LGPD."
+        }
+      }
     },
     "III": {
       "level": "III",
@@ -27,7 +39,13 @@
       "bgColor": "bg-orange-50",
       "borderColor": "border-orange-300",
       "textColor": "text-orange-700",
-      "description": "Risco alto — exige validação técnica, análise por subgrupos e supervisão humana efetiva."
+      "description": "Risco alto — exige validação técnica, análise por subgrupos e supervisão humana efetiva.",
+      "i18n": {
+        "es": {
+          "label": "Alto",
+          "description": "Riesgo alto — exige validación técnica, análisis por subgrupos y supervisión humana efectiva."
+        }
+      }
     },
     "IV": {
       "level": "IV",
@@ -36,7 +54,13 @@
       "bgColor": "bg-red-50",
       "borderColor": "border-red-300",
       "textColor": "text-red-700",
-      "description": "Risco crítico — exige parecer técnico externo, monitoramento contínuo e notificação à ANVISA quando aplicável."
+      "description": "Risco crítico — exige parecer técnico externo, monitoramento contínuo e notificação à ANVISA quando aplicável.",
+      "i18n": {
+        "es": {
+          "label": "Crítico",
+          "description": "Riesgo crítico — exige dictamen técnico externo, monitoreo continuo y notificación a la ANVISA cuando corresponda."
+        }
+      }
     }
   },
   "thresholdsBase": {
@@ -55,18 +79,36 @@
     "id": "db-filter",
     "pergunta": "O protocolo utiliza banco de dados — próprio, de outra pesquisa ou de instituição externa?",
     "dica": "Este filtro ativa a subseção Res. CNS n.º 738/2024 (Eixo 3.b na Versão A e Bloco 6.b na Versão B). Bancos abrangem dados coletados fora do escopo direto de cada participante desta pesquisa. Não marque \"Sim\" quando o protocolo coleta dados exclusivamente no escopo da pesquisa com cada participante.",
-    "referenciaNormativa": "Res. CNS n.º 738/2024 — Arts. 3.º, 9.º, 12, 20, 24, 27"
+    "referenciaNormativa": "Res. CNS n.º 738/2024 — Arts. 3.º, 9.º, 12, 20, 24, 27",
+    "i18n": {
+      "es": {
+        "pergunta": "¿El protocolo utiliza un banco de datos —propio, de otra investigación o de una institución externa?",
+        "dica": "Este filtro activa la subsección Res. CNS n.º 738/2024 (Eje 3.b en la Versión A y Bloque 6.b en la Versión B). Los bancos abarcan datos recolectados fuera del alcance directo de cada persona participante de esta investigación. No marque «Sí» cuando el protocolo recolecta datos exclusivamente en el alcance de la investigación con cada persona participante."
+      }
+    }
   },
   "contextQuestions": [
     {
       "id": "contexto1",
       "pergunta": "Qual é a pergunta que o sistema de IA foi desenvolvido para responder neste protocolo?",
-      "dica": "Descreva a pergunta principal que o sistema de IA busca responder no contexto do estudo. Ex.: \"O sistema prevê o risco de readmissão hospitalar em 30 dias para pacientes com insuficiência cardíaca?\""
+      "dica": "Descreva a pergunta principal que o sistema de IA busca responder no contexto do estudo. Ex.: \"O sistema prevê o risco de readmissão hospitalar em 30 dias para pacientes com insuficiência cardíaca?\"",
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es la pregunta que el sistema de IA fue desarrollado para responder en este protocolo?",
+          "dica": "Describa la pregunta principal que el sistema de IA busca responder en el contexto del estudio. Ej.: «¿El sistema prevé el riesgo de reingreso hospitalario en 30 días para pacientes con insuficiencia cardíaca?»"
+        }
+      }
     },
     {
       "id": "contexto2",
       "pergunta": "O sistema responde a essa pergunta de forma autônoma ou subsidia uma decisão tomada por um ser humano?",
-      "dica": "Indique se o sistema toma a decisão de forma autônoma (sem intervenção humana obrigatória) ou se fornece subsídios para que um profissional tome a decisão final."
+      "dica": "Indique se o sistema toma a decisão de forma autônoma (sem intervenção humana obrigatória) ou se fornece subsídios para que um profissional tome a decisão final.",
+      "i18n": {
+        "es": {
+          "pergunta": "¿El sistema responde a esa pregunta de forma autónoma o subsidia una decisión tomada por un ser humano?",
+          "dica": "Indique si el sistema toma la decisión de forma autónoma (sin intervención humana obligatoria) o si aporta insumos para que un profesional tome la decisión final."
+        }
+      }
     },
     {
       "id": "C.3",
@@ -78,13 +120,25 @@
         "pseudonimizados",
         "anonimizados",
         "combinação por etapa do estudo"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el estado de identificación de los datos personales utilizados en este protocolo?",
+          "dica": "El estado de identificación modula la lectura del Eje 3 / Bloque 6 y condiciona la pregunta C.5 (momento de la anonimización)."
+        }
+      }
     },
     {
       "id": "C.4",
       "pergunta": "Qual é o volume aproximado de registros de participantes utilizados neste protocolo?",
       "dica": "Volume informa a avaliação de reidentificação (3.5 / P6.3) e o potencial de uso em treinamento. Não há faixa 'segura' — o CEP lê o número no contexto.",
-      "tipoEntrada": "numero"
+      "tipoEntrada": "numero",
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el volumen aproximado de registros de participantes utilizados en este protocolo?",
+          "dica": "El volumen informa la evaluación de reidentificación (3.5 / P6.3) y el potencial de uso en entrenamiento. No hay un rango «seguro» — el CEP lee el número en el contexto."
+        }
+      }
     },
     {
       "id": "C.5",
@@ -97,7 +151,13 @@
         "não haverá anonimização",
         "não se aplica"
       ],
-      "condicional": "exibir somente se C.3 ≠ 'anonimizados'"
+      "condicional": "exibir somente se C.3 ≠ 'anonimizados'",
+      "i18n": {
+        "es": {
+          "pergunta": "¿En qué momento ocurre la anonimización de los datos en relación con el acceso por parte de los investigadores?",
+          "dica": "Si la anonimización la realizan los investigadores tras el acceso, hay una etapa de tratamiento de datos identificables que exige salvaguardas y justificación —léase en conjunto con el Eje 3.b / Bloque 6.b y con la ficha F-17."
+        }
+      }
     },
     {
       "id": "C.6",
@@ -108,7 +168,13 @@
         "ferramenta de análise sobre dados da pesquisa",
         "objeto de desenvolvimento (treinamento de modelo)",
         "ambos"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el papel del sistema de IA en este protocolo?",
+          "dica": "La IA como objeto de desarrollo eleva los riesgos de reutilización, inferencia y gobernanza. El CEP registra la distinción en el dictamen; la modulación del nivel de riesgo, de adoptarse algún día, exigirá una validación propia (v2.1)."
+        }
+      }
     },
     {
       "id": "C.7",
@@ -120,7 +186,13 @@
         "aplicações futuras ou uso amplo",
         "compartilhamento com terceiros",
         "não se aplica (IA apenas como ferramenta)"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el destino previsto del modelo de IA utilizado o desarrollado en este protocolo?",
+          "dica": "Si el destino es un uso futuro/amplio o la compartición, léase en conjunto con 3.3/P6.4 (consentimiento para entrenamiento) y con el Eje 3.b / Bloque 6.b."
+        }
+      }
     },
     {
       "id": "C.8",
@@ -131,7 +203,13 @@
         "não haverá compartilhamento",
         "sim, sob Termo de Anuência/Acordo Institucional",
         "sim, outra forma (descrever)"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Habrá compartición del banco de datos, total o parcial, con terceros además de las instituciones participantes del protocolo?",
+          "dica": "Si hay compartición, léase en conjunto con 3.b.5/P6.b.5 (acuerdo formal — F-21) y 3.2/P6.2 (transferencia internacional)."
+        }
+      }
     }
   ],
   "qualitativeAxes": [
@@ -2126,99 +2204,194 @@
     {
       "id": "req-I-1",
       "texto": "Declaração de uso de IA no protocolo",
-      "nivel": "I"
+      "nivel": "I",
+      "i18n": {
+        "es": {
+          "texto": "Declaración de uso de IA en el protocolo"
+        }
+      }
     },
     {
       "id": "req-I-2",
       "texto": "Menção no TCLE de que um sistema algorítmico será utilizado e qual é o seu papel no estudo",
-      "nivel": "I"
+      "nivel": "I",
+      "i18n": {
+        "es": {
+          "texto": "Mención en el TCLE de que se utilizará un sistema algorítmico y cuál es su papel en el estudio"
+        }
+      }
     },
     {
       "id": "req-II-1",
       "texto": "Descrição do sistema e origem dos dados de treinamento",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Descripción del sistema y origen de los datos de entrenamiento"
+        }
+      }
     },
     {
       "id": "req-II-2",
       "texto": "Demonstração de conformidade com a LGPD",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Demostración de conformidad con la LGPD"
+        }
+      }
     },
     {
       "id": "req-II-3",
       "texto": "Indicação da base legal para o tratamento dos dados utilizados",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Indicación de la base legal para el tratamiento de los datos utilizados"
+        }
+      }
     },
     {
       "id": "req-III-1",
       "texto": "Documentação de validação técnica do sistema",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Documentación de validación técnica del sistema"
+        }
+      }
     },
     {
       "id": "req-III-2",
       "texto": "Análise de desempenho por subgrupos populacionais relevantes",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Análisis de desempeño por subgrupos poblacionales relevantes"
+        }
+      }
     },
     {
       "id": "req-III-3",
       "texto": "Comprovação de mecanismo de supervisão humana efetiva no circuito decisório (human-in-the-loop)",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Comprobación de un mecanismo de supervisión humana efectiva en el circuito decisorio (human-in-the-loop)"
+        }
+      }
     },
     {
       "id": "req-III-4",
       "texto": "Identificação do Encarregado de Dados da instituição responsável pelo estudo",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Identificación del Encargado de Datos de la institución responsable del estudio"
+        }
+      }
     },
     {
       "id": "req-IV-1",
       "texto": "Parecer técnico externo sobre o sistema",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Dictamen técnico externo sobre el sistema"
+        }
+      }
     },
     {
       "id": "req-IV-2",
       "texto": "Plano de monitoramento contínuo com critérios definidos de interrupção",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Plan de monitoreo continuo con criterios definidos de interrupción"
+        }
+      }
     },
     {
       "id": "req-IV-3",
       "texto": "Notificação à ANVISA quando o sistema se enquadrar como SaMD",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Notificación a la ANVISA cuando el sistema se encuadre como SaMD"
+        }
+      }
     },
     {
       "id": "req-IV-4",
       "texto": "Submissão do protocolo à apreciação de CEP acreditado para protocolos de risco elevado ou de CEP com habilitação específica em inteligência artificial.",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Sometimiento del protocolo a la apreciación de un CEP acreditado para protocolos de riesgo elevado o de un CEP con habilitación específica en inteligencia artificial."
+        }
+      }
     }
   ],
   "requirementsRes738": [
     {
       "id": "req-738-I-1",
       "texto": "Identificação do Controlador do banco de dados (Art. 3.º, IV da Res. CNS n.º 738/2024)",
-      "nivel": "I"
+      "nivel": "I",
+      "i18n": {
+        "es": {
+          "texto": "Identificación del Controlador del banco de datos (Art. 3.º, IV de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-II-1",
       "texto": "Termo de Compromisso de Uso de Dados assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024)",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Término de Compromiso de Uso de Datos firmado por los investigadores (Arts. 24, V y 27, V de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-II-2",
       "texto": "Termo de Anuência Institucional para bancos externos à pesquisa (Art. 27, VI da Res. CNS n.º 738/2024) — obrigatório/eliminatório",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Término de Anuencia Institucional para bancos externos a la investigación (Art. 27, VI de la Res. CNS n.º 738/2024) — obligatorio/eliminatorio"
+        }
+      }
     },
     {
       "id": "req-738-III-1",
       "texto": "Fundamentação do enquadramento da dispensa de TCLE na hipótese cabível segundo a origem do banco (art. 20, § 5.º, ou art. 25 da Res. CNS n.º 738/2024)",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Fundamentación del encuadre de la dispensa del TCLE en la hipótesis aplicable según el origen del banco (art. 20, § 5.º, o art. 25 de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-III-2",
       "texto": "Termo de Acordo Institucional para controladoria conjunta em protocolos multicêntricos (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024)",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Término de Acuerdo Institucional para controladoría conjunta en protocolos multicéntricos (Art. 3.º, XVI y §2.º del Art. 12 de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-IV-1",
       "texto": "Diligência obrigatória (§7.3.6 do Capítulo 7 da Res. CNS n.º 738/2024) sempre que configurada ausência de cadeia de custódia formalizada",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Diligencia obligatoria (§7.3.6 del Capítulo 7 de la Res. CNS n.º 738/2024) siempre que se configure ausencia de cadena de custodia formalizada"
+        }
+      }
     }
   ],
   "notasDominio": {
