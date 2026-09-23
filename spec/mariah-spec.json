@@ -1217,52 +1217,100 @@
           "pergunta": "O modelo foi desenvolvido fora do Brasil para uso em população brasileira sem validação local documentada?",
           "riskAnswer": "sim",
           "pontos": 2,
-          "dica": "Modelos desenvolvidos fora do Brasil e usados em população brasileira sem validação local podem não ser adequados à realidade nacional."
+          "dica": "Modelos desenvolvidos fora do Brasil e usados em população brasileira sem validação local podem não ser adequados à realidade nacional.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El modelo fue desarrollado fuera de Brasil para uso en población brasileña sin validación local documentada?",
+              "dica": "Los modelos desarrollados fuera de Brasil y usados en población brasileña sin validación local pueden no ser adecuados a la realidad nacional."
+            }
+          }
         },
         {
           "id": "P3.2",
           "pergunta": "Os dados de treinamento do modelo foram coletados predominantemente em populações de alta renda ou do hemisfério norte?",
           "riskAnswer": "sim",
           "pontos": 2,
-          "dica": "Dados de treinamento de populações de alta renda ou do hemisfério norte podem não representar o perfil socioeconômico e epidemiológico brasileiro."
+          "dica": "Dados de treinamento de populações de alta renda ou do hemisfério norte podem não representar o perfil socioeconômico e epidemiológico brasileiro.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento del modelo fueron recolectados predominantemente en poblaciones de altos ingresos o del hemisferio norte?",
+              "dica": "Los datos de entrenamiento de poblaciones de altos ingresos o del hemisferio norte pueden no representar el perfil socioeconómico y epidemiológico brasileño."
+            }
+          }
         },
         {
           "id": "P3.3",
           "pergunta": "Os dados de treinamento incluem representação adequada da diversidade da população-alvo deste protocolo: raça/cor, etnia, orientação sexual, gênero, faixa etária, região geográfica?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem representação adequada da diversidade da população-alvo (raça/cor, etnia, orientação sexual, gênero, idade, região), o modelo pode gerar resultados enviesados e discriminatórios."
+          "dica": "Sem representação adequada da diversidade da população-alvo (raça/cor, etnia, orientação sexual, gênero, idade, região), o modelo pode gerar resultados enviesados e discriminatórios.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento incluyen una representación adecuada de la diversidad de la población objetivo de este protocolo: raza/color, etnia, orientación sexual, género, franja etaria, región geográfica?",
+              "dica": "Sin una representación adecuada de la diversidad de la población objetivo (raza/color, etnia, orientación sexual, género, edad, región), el modelo puede generar resultados sesgados y discriminatorios."
+            }
+          }
         },
         {
           "id": "P3.4",
           "pergunta": "Os dados de teste do modelo são independentes dos dados de treinamento?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Dados de teste não independentes dos de treinamento tendem a superestimar o desempenho do modelo."
+          "dica": "Dados de teste não independentes dos de treinamento tendem a superestimar o desempenho do modelo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de prueba del modelo son independientes de los datos de entrenamiento?",
+              "dica": "Los datos de prueba no independientes de los de entrenamiento tienden a sobreestimar el desempeño del modelo."
+            }
+          }
         },
         {
           "id": "P3.5",
           "pergunta": "O protocolo descreve os dados usados no treinamento: origem, período de coleta, critérios de inclusão e exclusão?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A descrição de origem, período e critérios de inclusão/exclusão dos dados de treinamento é essencial para avaliar a qualidade do modelo."
+          "dica": "A descrição de origem, período e critérios de inclusão/exclusão dos dados de treinamento é essencial para avaliar a qualidade do modelo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe los datos usados en el entrenamiento: origen, período de recolección, criterios de inclusión y exclusión?",
+              "dica": "La descripción de origen, período y criterios de inclusión/exclusión de los datos de entrenamiento es esencial para evaluar la calidad del modelo."
+            }
+          }
         },
         {
           "id": "P3.6",
           "pergunta": "O protocolo apresenta avaliação de desempenho do modelo por subgrupos populacionais relevantes?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem avaliação por subgrupos populacionais relevantes, disparidades de desempenho que afetam grupos específicos não são identificadas."
+          "dica": "Sem avaliação por subgrupos populacionais relevantes, disparidades de desempenho que afetam grupos específicos não são identificadas.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta una evaluación del desempeño del modelo por subgrupos poblacionales relevantes?",
+              "dica": "Sin una evaluación por subgrupos poblacionales relevantes, las disparidades de desempeño que afectan a grupos específicos no se identifican."
+            }
+          }
         },
         {
           "id": "P3.7",
           "pergunta": "O desempenho do modelo foi validado em contexto assistencial comparável ao SUS ou ao sistema de saúde em que será utilizado?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A validação em contexto assistencial comparável (ex.: SUS) é o que assegura a adequação do modelo ao cenário real de uso."
+          "dica": "A validação em contexto assistencial comparável (ex.: SUS) é o que assegura a adequação do modelo ao cenário real de uso.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El desempeño del modelo fue validado en un contexto asistencial comparable al SUS o al sistema de salud en que será utilizado?",
+              "dica": "La validación en un contexto asistencial comparable (ej.: SUS) es lo que asegura la adecuación del modelo al escenario real de uso."
+            }
+          }
         }
       ],
-      "maxPontos": 14
+      "maxPontos": 14,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 3: Algoritmo",
+          "descricao": "Evalúa el origen y la representatividad de los datos de entrenamiento, así como la validación del modelo."
+        }
+      }
     },
     {
       "id": "bloco4",
