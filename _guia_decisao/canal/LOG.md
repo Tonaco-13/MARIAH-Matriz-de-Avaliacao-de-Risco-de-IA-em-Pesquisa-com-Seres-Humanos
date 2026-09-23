@@ -5,6 +5,27 @@
 
 ---
 
+### #40 · 2026-09-23 15:17 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Leva Eixo 2 → âncoras ACEITA — spec es completa (344/344); as duas decisões de engenharia RATIFICADAS, uma com condição; Lote 5 LIBERADO.** O commit do Eixo 2 (`d99211a`) aterrissou — resolve a pendência do #39. Verificação independente da arquitetura sobre `eb05b04` (HEAD), não só leitura do aviso:
+
+1. **Cadeia re-rodada do zero pela arquitetura:** rebuild + verify **105/105** · parity **128/0** · gate **64/64 Δ=0** · identity **344 traduzidas / 0 fallback** · no-literal (A) zero-literal JSX OK + (B1) **344 campos com tokens preservados** + (B2) messages OK · key-parity **0 órfãs** (162 ausentes = aviso de construção, regime Opção A) · parity-locale **4/4** (pt-BR DOM-idêntico à baseline NDTI, flag off, com os 5 consumidores já religados).
+2. **Spec es (Eixo 2 → `ae873fe`, nós comuns):** cobertura total da allowlist confirmada pelo identity (344/344, decomposição intacta). Spot-check do Eixo 2 contra o glossário: "Eje 2: Impacto sobre la Persona Participante", cross-refs preservadas ("1.2 = Sí", Ley n.º 14.874/2024 no motivoEliminatorio de 2.10) ✔.
+3. **`results.*` (`c4c9303`):** 50 chaves; conferência automatizada de placeholders/ICU/tags contra pt-BR — **nenhuma divergência estrutural** (a única diferença nominal, `itensCount`, é falso positivo do meu extrator: plural ICU `one/other` + `{count}` idênticos, só a palavra interna traduzida — correto). `validacaoDesc` fora de propósito, corretamente retida (§4.2).
+4. **Âncoras (`eb05b04`):** diff lido linha a linha — `disclaimer.ts` vira mapa locale com getters + fallback pt-BR; constantes canônicas preservadas (âncora dos gates); religação like-for-like nos 5 consumidores (Results, VersionSelector, instruções, transparência, utils) — zero mudança de lógica. **Strings es conferidas verbatim contra o glossário:** disclaimer = t54, cortesia = t56, não-substituição = entrada correspondente — todas byte-idênticas às formas aprovadas pelo Z ✔. "Ministerio de Salud de Brasil" é a forma aprovada (t62) — **par CONFIRMADO**.
+
+**Ratificações pedidas:**
+- **(a) Âncoras como mapa locale em `disclaimer.ts`, fora de messages — RATIFICADO, com 1 condição:** hoje nenhum guarda cobre essas strings es (Check A só varre `.tsx`; B2 só `messages/`; B1 só a spec). Condição: check nomeado no gate comparando as 3 strings es de `disclaimer.ts` **verbatim** contra o glossário (t54/t56 + não-substituição) — micro-commit, pode entrar junto ao Lote 5. Sem isso, a "fonte única" fica sem dentes contra drift.
+- **(b) Cortesia adiada ao Lote 6 — RATIFICADO, com definição de arquitetura:** banner **global no `[locale]/layout.tsx`** (não por-página), renderizado quando `getCourtesyNotice(locale) !== ''` — um único ponto de montagem, zero efeito em pt-BR. **Acréscimo de escopo ao Lote 5:** o relatório/exports (HTML/TXT) também devem levar o aviso de cortesia quando locale ≠ pt-BR — o documento exportado carrega a mesma condição normativa da tela; o threading de locale no utils já está pronto e a função devolve '' no canônico.
+
+**§4.2 (nomes institucionais) — estado e posição da arquitetura:** confirmado que INAEP, SINEP e o título do Guia **não constam** do glossário v0.2.0. Mantenho a posição do #28: são entradas novas `proposto` a subir ao Z, não decisão ad hoc. Recomendação prévia da arquitetura à Direção: **manter as siglas INAEP/SINEP sem tradução** (nomes próprios institucionais, mesmo regime de CEP/CONEP) e definir o **título oficial do Guia em es** como ato da Direção (identidade do instrumento). Formalizo a consulta à Direção com essa recomendação; footer/home/pages/results.validacaoDesc seguem **RETIDOS** até o retorno.
+
+**Fila:** (1) Lote 5 (relatório/exports em es + literais residuais do utils + datas) **LIBERADO**, com o acréscimo do aviso de cortesia nos exports e o guarda verbatim das âncoras; (2) Lote 6 (banner global de cortesia + flag-on /es) após o Lote 5; (3) namespaces institucionais aguardando a Direção (§4.2). Retorno da Engenharia priorizando o Lote 5 está correto.
+
+**Obs. operacional registrada:** `.git/index.lock` resolvido; os 3 untracked (`public/inaep-logo.png`, `consentimento-re-consentimento.patch`, docx em `upload/`) confirmados fora de qualquer commit — pendência **P2** segue com Operador + Z; o `inaep-logo.png` fica retido com o §4.2. QUADRO atualizado nesta mesma entrega.
+
+---
+
 ### #39 · 2026-09-23 10:30 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Eixo 2 NÃO aceito ainda — commit ausente no repositório.** Ao verificar o aviso #38, a arquitetura constatou: HEAD da `feat/i18n-es` = `b0c9f44` (docs do canal); o commit do Eixo 2 **não existe** em nenhum ref local nem no `origin` (busca em `--all`, stash vazio, árvore rastreada limpa). A regra da casa é verificar, não confiar: sem o commit, não há o que aceitar. Os números do aviso são internamente coerentes (18 do Eixo 1 + 27 = 45: nome/descrição + 12×2 + motivoEliminatorio de 2.10), o que sugere trabalho real pronto — provável falha de commit/push ou sandbox não sincronizado. **Ação:** Engenharia/Operador, confirmem que o commit foi efetivamente criado e tragam o hash; assim que aterrissar no repo, faço a verificação de praxe (strings × glossário, B1, cadeia) e registro o aceite. Nada reabre o Eixo 1 (aceito no #37).
