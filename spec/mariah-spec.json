@@ -1323,24 +1323,49 @@
           "pergunta": "O sistema é o único determinante de uma decisão que afeta diretamente o participante — sem revisão humana obrigatória?",
           "riskAnswer": "sim",
           "pontos": 3,
-          "dica": "Verifica se o sistema é o único determinante de uma decisão que afeta o participante, sem revisão humana obrigatória — o que remove a barreira de segurança humana. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma, qualquer que seja a pontuação dos demais blocos."
+          "dica": "Verifica se o sistema é o único determinante de uma decisão que afeta o participante, sem revisão humana obrigatória — o que remove a barreira de segurança humana. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma, qualquer que seja a pontuação dos demais blocos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es el único determinante de una decisión que afecta directamente a la persona participante — sin revisión humana obligatoria?",
+              "dica": "Verifica si el sistema es el único determinante de una decisión que afecta a la persona participante, sin revisión humana obligatoria — lo que elimina la barrera de seguridad humana. Salvaguarda Decisoria (Cláusula de Primacía Ética): responder «Sí» fuerza el protocolo al Nivel IV, sobrescribiendo la suma, cualquiera que sea la puntuación de los demás bloques."
+            }
+          }
         },
         {
           "id": "P4.2",
           "pergunta": "Em caso de erro do sistema, o dano ao participante seria irreversível ou de difícil reparação?",
           "riskAnswer": "sim",
           "pontos": 3,
-          "dica": "Avalia se um erro do sistema poderia causar dano irreversível ou de difícil reparação ao participante — o patamar mais alto de risco. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma."
+          "dica": "Avalia se um erro do sistema poderia causar dano irreversível ou de difícil reparação ao participante — o patamar mais alto de risco. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma.",
+          "i18n": {
+            "es": {
+              "pergunta": "En caso de error del sistema, ¿el daño a la persona participante sería irreversible o de difícil reparación?",
+              "dica": "Evalúa si un error del sistema podría causar un daño irreversible o de difícil reparación a la persona participante — el nivel más alto de riesgo. Salvaguarda Decisoria (Cláusula de Primacía Ética): responder «Sí» fuerza el protocolo al Nivel IV, sobrescribiendo la suma."
+            }
+          }
         },
         {
           "id": "P4.3",
           "pergunta": "O pesquisador tem acesso às informações necessárias para contestar a recomendação do sistema antes de sua execução?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem acesso às informações necessárias para contestar a recomendação antes da execução, a supervisão humana é apenas simbólica — não consegue barrar um erro."
+          "dica": "Sem acesso às informações necessárias para contestar a recomendação antes da execução, a supervisão humana é apenas simbólica — não consegue barrar um erro.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El investigador tiene acceso a la información necesaria para cuestionar la recomendación del sistema antes de su ejecución?",
+              "dica": "Sin acceso a la información necesaria para cuestionar la recomendación antes de la ejecución, la supervisión humana es apenas simbólica — no logra frenar un error."
+            }
+          }
         }
       ],
-      "maxPontos": 8
+      "maxPontos": 8,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 4: Decisión",
+          "descricao": "Evalúa si el sistema es el único determinante de decisiones y la irreversibilidad de los daños potenciales. Este es un bloque CRÍTICO.",
+          "subtitulo": "⚠️ BLOQUE CRÍTICO — Cláusula de Primacía Ética"
+        }
+      }
     },
     {
       "id": "bloco5",
