@@ -590,7 +590,13 @@
           "id": "3.b.1",
           "pergunta": "O protocolo identifica o Controlador do banco de dados (art. 3.º, IV da Res. CNS n.º 738/2024), com cargo, função e instituição vinculada?",
           "riskAnswer": "nao",
-          "dica": "Identifica o Controlador do banco (Arts. 3.º, IV e 9.º da Res. CNS n.º 738/2024), com cargo, função e instituição. Sem isso, não há cadeia de custódia formalizada sobre os dados. No Eixo 3.b (Salvaguarda da Res. 738), uma única resposta de risco já leva o eixo ao Nível III — não há categoria intermediária para bancos de dados."
+          "dica": "Identifica o Controlador do banco (Arts. 3.º, IV e 9.º da Res. CNS n.º 738/2024), com cargo, função e instituição. Sem isso, não há cadeia de custódia formalizada sobre os dados. No Eixo 3.b (Salvaguarda da Res. 738), uma única resposta de risco já leva o eixo ao Nível III — não há categoria intermediária para bancos de dados.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo identifica al Controlador del banco de datos (art. 3.º, IV de la Res. CNS n.º 738/2024), con cargo, función e institución vinculada?",
+              "dica": "Identifica al Controlador del banco (Arts. 3.º, IV y 9.º de la Res. CNS n.º 738/2024), con cargo, función e institución. Sin ello, no hay cadena de custodia formalizada sobre los datos. En el Eje 3.b (Salvaguarda de la Res. 738), una única respuesta de riesgo ya lleva el eje al Nivel III — no hay categoría intermedia para bancos de datos."
+            }
+          }
         },
         {
           "id": "3.b.2",
@@ -598,26 +604,50 @@
           "riskAnswer": "nao",
           "eliminatorio": true,
           "hasNaOption": true,
-          "dica": "Verifica o Termo de Anuência Institucional (Art. 27, VI da Res. CNS n.º 738/2024), assinado pelo responsável (dirigente ou pessoa por ele delegada) da instituição de onde os dados provêm — exigível apenas para banco constituído fora do âmbito de pesquisa (origem não-investigativa: prontuários, registros, bases administrativas). Salvaguarda de Inavaliabilidade: nesse caso, sua ausência torna o protocolo \"não avaliável pela MARIAH\" (§7.3.6), sobrescrevendo a classificação e exigindo análise individualizada do CEP. Marque \"Não se aplica\" quando o banco foi constituído no âmbito de pesquisa — inclusive reuso de banco de pesquisa anterior do próprio pesquisador —, hipótese regida pelo Art. 24 (Termo de Compromisso de Uso de Dados), que não exige Anuência."
+          "dica": "Verifica o Termo de Anuência Institucional (Art. 27, VI da Res. CNS n.º 738/2024), assinado pelo responsável (dirigente ou pessoa por ele delegada) da instituição de onde os dados provêm — exigível apenas para banco constituído fora do âmbito de pesquisa (origem não-investigativa: prontuários, registros, bases administrativas). Salvaguarda de Inavaliabilidade: nesse caso, sua ausência torna o protocolo \"não avaliável pela MARIAH\" (§7.3.6), sobrescrevendo a classificação e exigindo análise individualizada do CEP. Marque \"Não se aplica\" quando o banco foi constituído no âmbito de pesquisa — inclusive reuso de banco de pesquisa anterior do próprio pesquisador —, hipótese regida pelo Art. 24 (Termo de Compromisso de Uso de Dados), que não exige Anuência.",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el banco fue constituido fuera del ámbito de investigación (origen no investigativo: historias clínicas, registros, bases administrativas): ¿hay Término de Anuencia Institucional (Art. 27, VI de la Res. CNS n.º 738/2024) firmado por el responsable (directivo o persona por él delegada) de la institución que posee los datos?",
+              "dica": "Verifica el Término de Anuencia Institucional (Art. 27, VI de la Res. CNS n.º 738/2024), firmado por el responsable (directivo o persona por él delegada) de la institución de donde provienen los datos — exigible solo para banco constituido fuera del ámbito de investigación (origen no investigativo: historias clínicas, registros, bases administrativas). Salvaguarda de Inevaluabilidad: en ese caso, su ausencia torna el protocolo «no evaluable por la MARIAH» (§7.3.6), sobrescribiendo la clasificación y exigiendo un análisis individualizado del CEP. Marque «No se aplica» cuando el banco fue constituido en el ámbito de investigación — incluido el reuso de un banco de investigación anterior del propio investigador —, hipótesis regida por el Art. 24 (Término de Compromiso de Uso de Datos), que no exige Anuencia."
+            }
+          }
         },
         {
           "id": "3.b.3",
           "pergunta": "O Termo de Compromisso de Uso de Dados (Arts. 24, V e 27, V), assinado pelos pesquisadores, consta do dossiê do protocolo?",
           "riskAnswer": "nao",
-          "dica": "Confirma o Termo de Compromisso de Uso de Dados, assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024), que assumem responsabilidade sobre finalidade, confidencialidade e descarte. É distinto do Termo de Anuência (3.b.2): o Compromisso é dos pesquisadores; a Anuência, do responsável (dirigente ou pessoa por ele delegada) da instituição detentora. No Eixo 3.b, uma única resposta de risco já eleva o eixo ao Nível III."
+          "dica": "Confirma o Termo de Compromisso de Uso de Dados, assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024), que assumem responsabilidade sobre finalidade, confidencialidade e descarte. É distinto do Termo de Anuência (3.b.2): o Compromisso é dos pesquisadores; a Anuência, do responsável (dirigente ou pessoa por ele delegada) da instituição detentora. No Eixo 3.b, uma única resposta de risco já eleva o eixo ao Nível III.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El Término de Compromiso de Uso de Datos (Arts. 24, V y 27, V), firmado por los investigadores, consta en el dosier del protocolo?",
+              "dica": "Confirma el Término de Compromiso de Uso de Datos, firmado por los investigadores (Arts. 24, V y 27, V de la Res. CNS n.º 738/2024), que asumen responsabilidad sobre finalidad, confidencialidad y eliminación. Es distinto del Término de Anuencia (3.b.2): el Compromiso es de los investigadores; la Anuencia, del responsable (directivo o persona por él delegada) de la institución que posee los datos. En el Eje 3.b, una única respuesta de riesgo ya eleva el eje al Nivel III."
+            }
+          }
         },
         {
           "id": "3.b.4",
           "pergunta": "Se há pedido de dispensa de TCLE para uso futuro de dados: o protocolo identifica a origem do banco e indica expressamente a hipótese invocada da Res. CNS n.º 738/2024, e a fundamenta? Para banco constituído fora do âmbito da pesquisa (art. 27), a única via é a anonimização pelo Controlador (art. 20, § 5.º). Para banco constituído no âmbito da pesquisa, o art. 25 admite quatro situações: (i) dados coletados originalmente sem identificação do participante; (ii) consentimento prévio do participante, manifestado em TCLE de pesquisa anterior, para uso em pesquisas futuras, na forma do art. 40, X, da Lei n.º 14.874/2024; (iii) compartilhamento de dados anonimizados pelo Controlador; (iv) anonimização irreversível dos dados no protocolo original, hipótese em que o dado deixa de ser dado pessoal (art. 12 da LGPD).",
           "riskAnswer": "nao",
           "dica": "A dispensa de TCLE para uso futuro não é automática: exige enquadramento na hipótese cabível segundo a origem do banco (Res. CNS n.º 738/2024). Banco constituído fora do âmbito da pesquisa → única via é a anonimização pelo Controlador (art. 20, § 5.º). Banco constituído no âmbito da pesquisa → art. 25, quatro situações. Justificativa genérica não basta.",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "Si hay una solicitud de dispensa del TCLE para uso futuro de datos: ¿el protocolo identifica el origen del banco e indica expresamente la hipótesis invocada de la Res. CNS n.º 738/2024, y la fundamenta? Para banco constituido fuera del ámbito de la investigación (art. 27), la única vía es la anonimización por el Controlador (art. 20, § 5.º). Para banco constituido en el ámbito de la investigación, el art. 25 admite cuatro situaciones: (i) datos recolectados originalmente sin identificación de la persona participante; (ii) consentimiento previo de la persona participante, manifestado en TCLE de una investigación anterior, para uso en investigaciones futuras, en la forma del art. 40, X, de la Ley n.º 14.874/2024; (iii) compartición de datos anonimizados por el Controlador; (iv) anonimización irreversible de los datos en el protocolo original, hipótesis en que el dato deja de ser dato personal (art. 12 de la LGPD).",
+              "dica": "La dispensa del TCLE para uso futuro no es automática: exige el encuadre en la hipótesis correspondiente según el origen del banco (Res. CNS n.º 738/2024). Banco constituido fuera del ámbito de la investigación → la única vía es la anonimización por el Controlador (art. 20, § 5.º). Banco constituido en el ámbito de la investigación → art. 25, cuatro situaciones. Una justificación genérica no basta."
+            }
+          }
         },
         {
           "id": "3.b.5",
           "pergunta": "Se o protocolo é multicêntrico, envolve mais de uma instituição ou prevê compartilhamento do banco com terceiros: há acordo formal de compartilhamento ou controladoria conjunta formalizada em Termo de Acordo Institucional (art. 3.º, XVI e § 2.º do art. 12)?",
           "riskAnswer": "nao",
-          "dica": "Em pesquisa multicêntrica, a controladoria conjunta dos dados deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III."
+          "dica": "Em pesquisa multicêntrica, a controladoria conjunta dos dados deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III.",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el protocolo es multicéntrico, involucra a más de una institución o prevé la compartición del banco con terceros: ¿hay un acuerdo formal de compartición o controladoría conjunta formalizada en Término de Acuerdo Institucional (art. 3.º, XVI y § 2.º del art. 12)?",
+              "dica": "En investigación multicéntrica, la controladoría conjunta de los datos debe estar formalizada en Término de Acuerdo Institucional (Art. 3.º, XVI y §2.º del Art. 12 de la Res. CNS n.º 738/2024). En el Eje 3.b, una única respuesta de riesgo ya lleva el eje al Nivel III."
+            }
+          }
         },
         {
           "id": "3.b.4.1",
@@ -653,7 +683,19 @@
                   }
                 ]
               }
-            ]
+            ],
+            "i18n": {
+              "es": {
+                "descricao": "Mostrar cuando hay solicitud de dispensa (3.b.4 ≠ N/A) y acceso a datos identificables (C.3/C.5)."
+              }
+            }
+          },
+          "i18n": {
+            "es": {
+              "pergunta": "Si hay una solicitud de dispensa del TCLE con acceso a datos identificables: ¿el acceso es indispensable para alcanzar los objetivos científicos de la investigación, o la misma finalidad podría lograrse mediante datos previamente anonimizados o pseudonimizados por la institución custodia?",
+              "dica": "Si la finalidad es alcanzable sin datos identificables y el protocolo aun así los requiere, el CEP lo devuelve para justificación o redireccionamiento a la anonimización por el Controlador (art. 20, § 5.º).",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
           }
         },
         {
@@ -674,7 +716,19 @@
                 "operador": "diferente",
                 "valor": "na"
               }
-            ]
+            ],
+            "i18n": {
+              "es": {
+                "descricao": "Mostrar solo cuando hay solicitud de dispensa del TCLE (3.b.4 ≠ «no se aplica»)."
+              }
+            }
+          },
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo cumple acumulativamente todos los criterios para la dispensa del TCLE en investigación con IA sobre bancos de datos? (i) datos secundarios obtenidos lícitamente; (ii) investigación retrospectiva, sin contacto con las personas participantes; (iii) imposibilidad práctica de obtención del TCLE debidamente justificada; (iv) riesgo mínimo para las personas participantes; (v) acceso a datos identificables limitado a lo estrictamente necesario, preferentemente datos pseudonimizados/anonimizados por la institución custodia; (vi) entorno seguro de procesamiento, con controles de acceso, auditoría y gobernanza; (vii) evaluación documentada del riesgo de reidentificación y de inferencia derivado del uso de la IA; (viii) inexistencia de decisiones o intervenciones individualizadas sobre las personas participantes con base en los resultados de la IA; (ix) finalidad científica delimitada, prohibido el entrenamiento de modelos de propósito general sin nueva apreciación ética.",
+              "dica": "El checklist no gradúa riesgo: verifica la admisibilidad de la dispensa. La puntuación del protocolo sigue por los demás bloques.",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
           }
         },
         {
@@ -685,9 +739,22 @@
           "eliminatorio": true,
           "naoPontuavel": true,
           "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
+          "refEliminatoria": "Res. CNS n.º 738/2024",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta una declaración del Controlador con el compromiso de anonimización de los datos antes de la puesta a disposición del banco?",
+              "dica": "Documento obligatorio del dosier de sumisión; la verificación es de presencia y validez de la declaración.",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 3.b: Bancos de Datos de Investigación (Res. CNS n.º 738/2024)",
+          "descricao": "Subsección aplicable cuando el protocolo utiliza bancos de datos (propios, de otra investigación o de institución externa). Deriva de la Resolución CNS n.º 738/2024 y complementa el Eje 3. Puede elevar el nivel consolidado del protocolo."
+        }
+      }
     },
     {
       "id": "eixo4",
