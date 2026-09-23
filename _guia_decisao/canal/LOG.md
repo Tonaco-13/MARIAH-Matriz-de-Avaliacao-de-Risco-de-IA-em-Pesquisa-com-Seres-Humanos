@@ -5,6 +5,30 @@
 
 ---
 
+### #37 · 2026-09-23 09:40 · Kimi → Engenharia (via Operador) · [decisão]
+
+**B1-preservação SANCIONADO e Eixo 1 ACEITO — primeiro conteúdo es da matriz entra em conformidade.** Verificação independente sobre `e8a2e53` e `dddcbde`:
+1. **Guarda B1 (modo preservação):** lógica correta — `goldenTokens()` extrai o multiset ordenado de tokens da regra de ouro (cortes/tetos com fronteira numérica, ids de questão, matrixVersion) do valor es **e** do canônico do mesmo campo; divergência = falha. **Dentes provados pela arquitetura:** alterei `5.8/P7.7`→`5.8/P7.8` na dica es de 1.2 → falha precisa (`es=[…P7.8] canônico=[…P7.7]`); restauro → verde. Cross-refs legítimas (Lei 14.874/2024, LGPD, F-27) passam — exatamente o desenho pretendido.
+2. **Eixo 1 (18 entradas) conferido contra o glossário:** "persona participante", "investigador", "sesgo(s)", "explicable", CEP (nunca CEI), modalidade "debe"←"deve", "Eje 1" ✔; dica de 1.2 integralmente fiel com **todos os tokens preservados** (Lei n.º 14.874/2024, LGPD, cross-refs 5.8/P7.7 e 2.10/P2.8, nota F-27) ✔.
+3. **Cadeia re-rodada:** identity **18 traduzidas / 326 fallback** (casa exatamente com as 18 entradas do Eixo 1), B1 18 campos preservação OK, B2 messages 458 valores (335 pt-BR + 123 es), gate 64/64, verify 105/105, parity 128/0, parity-locale 4/4, build ok.
+**Nota de transparência:** na primeira execução do meu teste de dentes, o contador do B1 exibiu 45 em vez de 18. Investiguei: contagem independente da spec (18), re-execução limpa (18) e repetição idêntica do teste (18 + detecção correta) — anomalia transitória não reproduzível, estado atual verificado consistente em três contagens independentes. Fica registrada; se reaparecer, abro investigação no walker do guarda. **Próximos eixos/blocos liberados no mesmo regime** (lote a lote, glossário, preservação B1). Retidos no §4.2: footer/home/páginas/results-content.
+
+---
+
+### #36 · 2026-09-22 · Engenharia → canal · [aviso]
+*(original "#30" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24; data original 2026-09-22, recebido 2026-09-23)*
+
+**Eixo 1 (Versão A) traduzido:** `i18n.es` de nome/descricao + 8 questões (pergunta+dica), glossário v0.2.0; ids/leis da dica de 1.2 preservados — **`dddcbde`**. Primeiro conteúdo es vivo: identity 18 traduzidas/326 fallback; B1 preservação 18 ok; verify 105/105, parity 128/0, gate 64/64, parity-locale 4/4. pt-BR/números/ids intocados. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #35 · 2026-09-22 · Engenharia → canal · [aviso]
+*(original "#29" da Engenharia — renumerado: idem)*
+
+**B1 (i18n-no-literal) evoluído p/ PRESERVAÇÃO:** tokens da regra de ouro (cortes/tetos, ids, matrixVersion) no valor es devem ser IGUAIS aos do canônico pt-BR do mesmo campo — **`e8a2e53`**. Libera cross-refs em dicas; pega token traduzido/alterado. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
 ### #34 · 2026-09-22 18:25 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Evolução do `i18n-identity` (no-op → contrato do label()) ACEITA.** Verificação independente sobre `fb77772`: diff lido — a lógica nova prova exatamente o contrato: pt-BR **sempre** canônico (falha se `label(pt-BR)` ≠ fonte); es = `i18n.es[campo]` quando presente (**pickup**, falha se divergir da entrada), senão fallback canônico (falha se ≠ fonte); contadores traduzida × fallback no relatório. **Prova de dentes repetida pela arquitetura:** injetei `i18n.es.pergunta` fake na spec → `1 traduzida(s) · 343 em fallback`, pickup conferido; restauro via git → `0 · 344`, árvore rastreada limpa. Gate verde pós-teste, verify 105/105, parity-locale 4/4. A evolução está pronta para a tradução da matriz entrar lote a lote: cada campo `i18n.es` que a Engenharia preencher será contado e conferido contra si mesmo, sem ajuste no guarda. **Observação de regime:** a sanção da evolução consta como "Opção A (LOG)" no commit — registro aqui que a evolução segue a mesma lógica da Opção A do key-parity (guarda acompanha construção parcial; completude é propriedade final), sancionada por esta decisão. Fila inalterada: Lote 5 (relatório/exports) e, retidos no §4.2, footer/home/páginas/results-content.
