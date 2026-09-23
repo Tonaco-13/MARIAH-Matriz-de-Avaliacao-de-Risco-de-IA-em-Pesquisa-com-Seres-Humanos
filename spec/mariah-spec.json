@@ -1536,56 +1536,104 @@
           "pergunta": "O sistema processa dados pessoais sensíveis: saúde (inclusive saúde mental), genética, biometria, dados de localização, raça, etnia, religião, vida sexual?",
           "riskAnswer": "sim",
           "pontos": 7,
-          "dica": "O processamento de dados sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD."
+          "dica": "O processamento de dados sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema procesa datos personales sensibles: salud (incluida la salud mental), genética, biometría, datos de localización, raza, etnia, religión, vida sexual?",
+              "dica": "El procesamiento de datos sensibles (salud, genética, biometría, raza/color, etnia, religión, vida sexual) exige protección reforzada y base legal específica en la LGPD."
+            }
+          }
         },
         {
           "id": "P6.2",
           "pergunta": "Os dados são transferidos ou processados em servidores fora do Brasil?",
           "riskAnswer": "sim",
           "pontos": 7,
-          "dica": "Transferir ou processar dados fora do Brasil exige avaliar a adequação do destino e adotar salvaguardas adicionais, reduzindo a governança nacional sobre os dados."
+          "dica": "Transferir ou processar dados fora do Brasil exige avaliar a adequação do destino e adotar salvaguardas adicionais, reduzindo a governança nacional sobre os dados.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos son transferidos o procesados en servidores fuera de Brasil?",
+              "dica": "Transferir o procesar datos fuera de Brasil exige evaluar la adecuación del destino y adoptar salvaguardas adicionales, reduciendo la gobernanza nacional sobre los datos."
+            }
+          }
         },
         {
           "id": "P6.3",
           "pergunta": "Existe risco real de reidentificação dos participantes a partir dos dados utilizados ou gerados pelo sistema?",
           "riskAnswer": "sim",
           "pontos": 7,
-          "dica": "Risco real de reidentificação compromete a promessa de anonimato e amplia os danos potenciais à privacidade e à segurança."
+          "dica": "Risco real de reidentificação compromete a promessa de anonimato e amplia os danos potenciais à privacidade e à segurança.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Existe riesgo real de reidentificación de las personas participantes a partir de los datos utilizados o generados por el sistema?",
+              "dica": "Un riesgo real de reidentificación compromete la promesa de anonimato y amplía los daños potenciales a la privacidad y a la seguridad."
+            }
+          }
         },
         {
           "id": "P6.4",
           "pergunta": "O consentimento obtido cobre explicitamente o uso dos dados para treinamento ou retreinamento de modelos de IA?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "Consentimento genérico não basta para treinar/retreinar modelos; é preciso consentimento específico e informado para esse uso."
+          "dica": "Consentimento genérico não basta para treinar/retreinar modelos; é preciso consentimento específico e informado para esse uso.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El consentimiento obtenido cubre explícitamente el uso de los datos para entrenamiento o reentrenamiento de modelos de IA?",
+              "dica": "El consentimiento genérico no basta para entrenar/reentrenar modelos; se requiere consentimiento específico e informado para ese uso."
+            }
+          }
         },
         {
           "id": "P6.5",
           "pergunta": "O protocolo demonstra conformidade com a LGPD — base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?",
           "riskAnswer": "nao",
           "pontos": 7,
-          "dica": "Sem base legal, finalidade declarada e Encarregado (DPO) indicado, o protocolo não demonstra conformidade com a LGPD, expondo a riscos legais e éticos."
+          "dica": "Sem base legal, finalidade declarada e Encarregado (DPO) indicado, o protocolo não demonstra conformidade com a LGPD, expondo a riscos legais e éticos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo demuestra conformidad con la LGPD — base legal identificada, finalidad declarada, Encargado de Datos (DPO) indicado?",
+              "dica": "Sin base legal, finalidad declarada y Encargado (DPO) indicado, el protocolo no demuestra conformidad con la LGPD, exponiendo a riesgos legales y éticos."
+            }
+          }
         },
         {
           "id": "P6.6",
           "pergunta": "O protocolo prevê plano de resposta a incidentes de segurança envolvendo os dados processados pela IA?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "Sem plano de resposta a incidentes, um vazamento ou acesso indevido pode não ser contido a tempo, agravando os danos."
+          "dica": "Sem plano de resposta a incidentes, um vazamento ou acesso indevido pode não ser contido a tempo, agravando os danos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un plan de respuesta a incidentes de seguridad que involucren los datos procesados por la IA?",
+              "dica": "Sin un plan de respuesta a incidentes, una filtración o un acceso indebido puede no ser contenido a tiempo, agravando los daños."
+            }
+          }
         },
         {
           "id": "P6.7",
           "pergunta": "Os dados de treinamento do modelo foram coletados com consentimento compatível com o uso previsto neste protocolo?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "Dados de treinamento coletados para outra finalidade podem não ter base legal para uso em IA neste protocolo."
+          "dica": "Dados de treinamento coletados para outra finalidade podem não ter base legal para uso em IA neste protocolo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento del modelo fueron recolectados con un consentimiento compatible con el uso previsto en este protocolo?",
+              "dica": "Los datos de entrenamiento recolectados para otra finalidad pueden no tener base legal para su uso en IA en este protocolo."
+            }
+          }
         },
         {
           "id": "P6.8",
           "pergunta": "O protocolo descreve como os dados serão armazenados, por quanto tempo e como serão descartados ao final do estudo?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados após o estudo."
+          "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados após o estudo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe cómo se almacenarán los datos, por cuánto tiempo y cómo se eliminarán al final del estudio?",
+              "dica": "La ausencia de una política de almacenamiento, retención y eliminación abre espacio para el uso indebido de los datos después del estudio."
+            }
+          }
         },
         {
           "id": "P6.9",
@@ -1593,7 +1641,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "A resposta deve indicar quem acessa, com qual perfil e sob qual registro.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo restringe el acceso a los datos identificables a lo estrictamente necesario, con control de acceso por perfil e identificación de los responsables?",
+              "dica": "La respuesta debe indicar quién accede, con qué perfil y bajo qué registro."
+            }
+          }
         },
         {
           "id": "P6.10",
@@ -1601,7 +1655,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização. Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un registro (log) auditable de las operaciones de tratamiento de datos y de inferencia realizadas por el sistema?",
+              "dica": "Log auditable = registro íntegro, con fecha y atribuible de las operaciones, consultable en fiscalización. Nota (F-26): cuando el sistema genere inferencias clínicas, diagnósticas o predictivas (ver 2.1/P5.1), el log debe permitir rastrear, por decisión: identificador de la inferencia, versión/configuración del modelo, datos de entrada (o referencia pseudonimizada a ellos), salida del sistema y operador humano responsable."
+            }
+          }
         },
         {
           "id": "P6.11",
@@ -1609,7 +1669,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição. Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe el entorno computacional de procesamiento y sus controles mínimos de seguridad (aislamiento, cifrado y, cuando corresponda, certificaciones)?",
+              "dica": "No exigir una certificación específica: exigir la descripción del entorno y de los controles. La certificación es evidencia, no condición. Nota (F-28): cuando el procesamiento dependa de un proveedor externo (nube, servicio de IA o modelo de terceros), la descripción del entorno incluye las condiciones contractuales de uso de los datos por el proveedor: prohibición de reutilización, entrenamiento o retención para finalidad propia; garantías de confidencialidad; y portabilidad/salida (vendor lock-in), proporcionales al riesgo. Verificar 3.2/P6.2 y 3.3/P6.4."
+            }
+          }
         },
         {
           "id": "P6.12",
@@ -1618,7 +1684,13 @@
           "pontos": 5,
           "dica": "Se houver linkage, a avaliação de reidentificação (3.5 / P6.3) deve considerar explicitamente o cruzamento das bases envolvidas.",
           "efeito": "risco",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos del protocolo serán vinculados (linkage) a otras bases de datos, propias o externas?",
+              "dica": "Si hay linkage, la evaluación de reidentificación (3.5 / P6.3) debe considerar explícitamente el cruce de las bases involucradas."
+            }
+          }
         },
         {
           "id": "P6.13",
@@ -1627,10 +1699,22 @@
           "pontos": 7,
           "dica": "Aplicável apenas a PLN/LLM/dados sintéticos (N/A nos demais casos).",
           "efeito": "risco",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "Para sistemas con procesamiento de lenguaje natural, grandes modelos de lenguaje o generación de datos sintéticos: ¿hay pruebas documentadas de robustez contra la memorización y la extracción de datos de entrenamiento (ataques de extracción o de inferencia de pertenencia)?",
+              "dica": "Aplicable solo a PLN/LLM/datos sintéticos (N/A en los demás casos)."
+            }
+          }
         }
       ],
-      "maxPontos": 77
+      "maxPontos": 77,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 6: Datos",
+          "descricao": "Evalúa la sensibilidad de los datos, la conformidad con la LGPD y los mecanismos de protección y gobernanza."
+        }
+      }
     },
     {
       "id": "bloco6b",
