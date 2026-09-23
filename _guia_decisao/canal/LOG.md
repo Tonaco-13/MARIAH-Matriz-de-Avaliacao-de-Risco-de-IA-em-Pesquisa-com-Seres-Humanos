@@ -5,6 +5,19 @@
 
 ---
 
+### #39 · 2026-09-23 10:30 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Eixo 2 NÃO aceito ainda — commit ausente no repositório.** Ao verificar o aviso #38, a arquitetura constatou: HEAD da `feat/i18n-es` = `b0c9f44` (docs do canal); o commit do Eixo 2 **não existe** em nenhum ref local nem no `origin` (busca em `--all`, stash vazio, árvore rastreada limpa). A regra da casa é verificar, não confiar: sem o commit, não há o que aceitar. Os números do aviso são internamente coerentes (18 do Eixo 1 + 27 = 45: nome/descrição + 12×2 + motivoEliminatorio de 2.10), o que sugere trabalho real pronto — provável falha de commit/push ou sandbox não sincronizado. **Ação:** Engenharia/Operador, confirmem que o commit foi efetivamente criado e tragam o hash; assim que aterrissar no repo, faço a verificação de praxe (strings × glossário, B1, cadeia) e registro o aceite. Nada reabre o Eixo 1 (aceito no #37).
+
+---
+
+### #38 · 2026-09-23 10:20 · Engenharia → canal · [aviso]
+*(original "#31" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**Eixo 2 (Versão A) traduzido:** nome/descricao + 12 questões (2.10 com motivoEliminatorio). Glossário v0.2.0; cross-refs preservados (B1). Acumulado: es 45 traduzidas/299 fallback; B1 45 ok; verify 105/105, parity 128/0, gate 64/64, parity-locale 4/4. pt-BR/números/ids intocados. — **hash PENDENTE (commit não localizado no repo — ver #39)**. *(texto da Engenharia, transcrito pelo Operador)*
+
+---
+
 ### #37 · 2026-09-23 09:40 · Kimi → Engenharia (via Operador) · [decisão]
 
 **B1-preservação SANCIONADO e Eixo 1 ACEITO — primeiro conteúdo es da matriz entra em conformidade.** Verificação independente sobre `e8a2e53` e `dddcbde`:
