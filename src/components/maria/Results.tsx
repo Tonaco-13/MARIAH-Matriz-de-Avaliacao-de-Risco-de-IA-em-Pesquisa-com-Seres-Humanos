@@ -32,7 +32,7 @@ import {
 } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
-import { MARIA_DISCLAIMER } from './disclaimer';
+import { getDisclaimer } from './disclaimer';
 
 type ResultsProps = {
   version: 'A' | 'B';
@@ -690,7 +690,7 @@ export default function Results({
               <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
               <div className="text-sm text-muted-foreground">
                 <p className="font-medium mb-1">{t('results.avisoImportante')}</p>
-                <p>{MARIA_DISCLAIMER}</p>
+                <p>{getDisclaimer(locale)}</p>
               </div>
             </div>
           </CardContent>
