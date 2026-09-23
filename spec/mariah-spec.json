@@ -1092,7 +1092,13 @@
           "riskAnswer": "sim",
           "pontos": 3,
           "dica": "Sistemas que decidem ou recomendam sem intervenção humana obrigatória antes da execução elevam o risco, pois removem a barreira de segurança entre recomendação e ação.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema toma decisiones o emite recomendaciones sin intervención humana obligatoria antes de la ejecución?",
+              "dica": "Los sistemas que deciden o recomiendan sin intervención humana obligatoria antes de la ejecución elevan el riesgo, pues eliminan la barrera de seguridad entre recomendación y acción."
+            }
+          }
         },
         {
           "id": "P2.2",
@@ -1100,7 +1106,13 @@
           "riskAnswer": "sim",
           "pontos": 3,
           "dica": "Sistemas adaptativos podem mudar de comportamento ao aprender com novos dados durante o estudo, introduzindo incerteza sobre os resultados gerados. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8).",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es adaptativo — aprende o se actualiza con nuevos datos durante la conducción del estudio o después de su finalización?",
+              "dica": "Los sistemas adaptativos pueden cambiar de comportamiento al aprender con nuevos datos durante el estudio, introduciendo incertidumbre sobre los resultados generados. Un sistema adaptativo altera, durante el estudio, el propio objeto sobre el cual la persona participante consintió. El protocolo debe definir un umbral de cambio (de desempeño o de comportamiento del sistema) que, al ser superado, dispara la obtención de nuevo consentimiento y la comunicación al CEP. Sin ese plan, el consentimiento obtenido al inicio pierde validez continua (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa). Nota (F-27): la verificación abarca actualizaciones, recalibraciones y sustituciones del sistema, durante el estudio o después de su finalización; si el aprendizaje continúa después de la finalización, verificar 5.8/P7.7 (reentrenamiento autorizado) y el plan de nuevo consentimiento (2.10/P2.8)."
+            }
+          }
         },
         {
           "id": "P2.3",
@@ -1108,35 +1120,65 @@
           "riskAnswer": "sim",
           "pontos": 3,
           "dica": "Sistemas caixa-preta, sem explicação dos fatores de cada resultado, impedem supervisão eficaz e a identificação de vieses.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema opera como caja negra: sin posibilidad de explicar los factores que determinaron cada resultado?",
+              "dica": "Los sistemas de caja negra, sin explicación de los factores de cada resultado, impiden una supervisión eficaz y la identificación de sesgos."
+            }
+          }
         },
         {
           "id": "P2.4",
           "pergunta": "O sistema foi submetido a testes de desempenho documentados antes do uso no protocolo?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de segurança e eficácia no contexto proposto."
+          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de segurança e eficácia no contexto proposto.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema fue sometido a pruebas de desempeño documentadas antes del uso en el protocolo?",
+              "dica": "Sin pruebas de desempeño documentadas antes del uso, no hay evidencia de seguridad y eficacia en el contexto propuesto."
+            }
+          }
         },
         {
           "id": "P2.5",
           "pergunta": "O sistema é explicável: fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que o influenciaram?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A explicação compreensível junto a cada resultado é o que viabiliza uma supervisão humana eficaz; sua ausência caracteriza o risco."
+          "dica": "A explicação compreensível junto a cada resultado é o que viabiliza uma supervisão humana eficaz; sua ausência caracteriza o risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es explicable: proporciona, junto a cada resultado, una explicación comprensible sobre los factores que lo influyeron?",
+              "dica": "La explicación comprensible junto a cada resultado es lo que viabiliza una supervisión humana eficaz; su ausencia caracteriza el riesgo."
+            }
+          }
         },
         {
           "id": "P2.6",
           "pergunta": "O protocolo define claramente o que acontece quando a decisão do sistema diverge do julgamento humano?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem regra para quando a decisão do sistema diverge do julgamento humano, cria-se zona cinzenta de responsabilidade."
+          "dica": "Sem regra para quando a decisão do sistema diverge do julgamento humano, cria-se zona cinzenta de responsabilidade.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define claramente qué ocurre cuando la decisión del sistema diverge del juicio humano?",
+              "dica": "Sin una regla para cuando la decisión del sistema diverge del juicio humano, se crea una zona gris de responsabilidad."
+            }
+          }
         },
         {
           "id": "P2.7",
           "pergunta": "O protocolo descreve a arquitetura do sistema — tipo de modelo, dados de entrada e saída, método de treinamento?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A descrição da arquitetura (tipo de modelo, dados de entrada e saída, método de treinamento) é a base da avaliação técnica; sem ela, o sistema não é auditável."
+          "dica": "A descrição da arquitetura (tipo de modelo, dados de entrada e saída, método de treinamento) é a base da avaliação técnica; sem ela, o sistema não é auditável.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe la arquitectura del sistema — tipo de modelo, datos de entrada y salida, método de entrenamiento?",
+              "dica": "La descripción de la arquitectura (tipo de modelo, datos de entrada y salida, método de entrenamiento) es la base de la evaluación técnica; sin ella, el sistema no es auditable."
+            }
+          }
         },
         {
           "id": "P2.8",
@@ -1147,10 +1189,23 @@
           "hasNaOption": true,
           "dica": "Sistema adaptativo é aquele que continua aprendendo ou muda de comportamento durante o estudo — por exemplo, um modelo que se reajusta com novos dados (aprendizado contínuo), em vez de permanecer \"congelado\" após a validação. Por que novo consentimento: o participante consentiu com um sistema que funcionava de certo modo; se ele muda de forma relevante, mudam os riscos e a própria natureza do que foi aceito — então a autonomia exige informá-lo e obter novo consentimento. Por isso se pede um plano com limiar de mudança definido, procedimento e responsável. Item de diligência com efeito impeditivo (NÃO pontua — não altera o escore nem o teto). Aplicável quando o sistema é adaptativo (P2.2 = Sim); marque \"Não se aplica\" quando P2.2 = Não. A obtenção de novo consentimento é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e, por isso, não é compensável por pontos no modelo aditivo. Ausente o plano, o dossiê é devolvido para complementação (mesmo mecanismo do Termo de Anuência ausente, P6.b.2); persistindo a falta, o protocolo não recebe parecer de aprovação.",
           "motivoEliminatorio": "ausência de plano de novo consentimento para sistema adaptativo (P2.2 = Sim). A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e não é compensável por pontuação. O dossiê deve ser devolvido para complementação (diligência obrigatória); persistindo a ausência, o protocolo não recebe parecer de aprovação.",
-          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD"
+          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el sistema es adaptativo (P2.2 = Sí): ¿el protocolo presenta un plan de nuevo consentimiento — con umbral definido, procedimiento y responsable — para el caso de que el sistema se actualice o cambie de comportamiento durante el estudio?",
+              "dica": "Un sistema adaptativo es aquel que continúa aprendiendo o cambia de comportamiento durante el estudio — por ejemplo, un modelo que se reajusta con nuevos datos (aprendizaje continuo), en vez de permanecer «congelado» tras la validación. Por qué nuevo consentimiento: la persona participante consintió con un sistema que funcionaba de cierto modo; si cambia de forma relevante, cambian los riesgos y la propia naturaleza de lo que se aceptó — entonces la autonomía exige informarla y obtener nuevo consentimiento. Por eso se pide un plan con umbral de cambio definido, procedimiento y responsable. Ítem de diligencia con efecto impeditivo (NO puntúa — no altera la puntuación ni el techo). Aplicable cuando el sistema es adaptativo (P2.2 = Sí); marque «No se aplica» cuando P2.2 = No. La obtención de nuevo consentimiento es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y, por ello, no es compensable por puntos en el modelo aditivo. Ausente el plan, el dosier es devuelto para complementación (mismo mecanismo del Término de Anuencia ausente, P6.b.2); si persiste la falta, el protocolo no recibe dictamen de aprobación.",
+              "motivoEliminatorio": "ausencia de plan de nuevo consentimiento para sistema adaptativo (P2.2 = Sí). La obtención de nuevo consentimiento ante un cambio relevante del sistema es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y no es compensable por puntuación. El dosier debe ser devuelto para complementación (diligencia obligatoria); si persiste la ausencia, el protocolo no recibe dictamen de aprobación."
+            }
+          }
         }
       ],
-      "maxPontos": 17
+      "maxPontos": 17,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 2: Sistema",
+          "descricao": "Evalúa las características técnicas del sistema de IA, incluyendo autonomía, adaptabilidad y transparencia."
+        }
+      }
     },
     {
       "id": "bloco3",
