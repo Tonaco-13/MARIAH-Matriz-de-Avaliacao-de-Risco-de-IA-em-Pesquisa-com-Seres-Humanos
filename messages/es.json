@@ -20,11 +20,26 @@
     "cancel": "Cancelar",
     "undoable": "Esta acción no se puede deshacer.",
     "stepIndicator": {
-      "version": { "label": "Selección de la Versión", "short": "Versión" },
-      "filter": { "label": "Filtro de Entrada", "short": "Filtro" },
-      "context": { "label": "Caracterización del Contexto", "short": "Contexto" },
-      "assessment": { "label": "Evaluación de Riesgo", "short": "Evaluación" },
-      "results": { "label": "Resultado", "short": "Resultado" },
+      "version": {
+        "label": "Selección de la Versión",
+        "short": "Versión"
+      },
+      "filter": {
+        "label": "Filtro de Entrada",
+        "short": "Filtro"
+      },
+      "context": {
+        "label": "Caracterización del Contexto",
+        "short": "Contexto"
+      },
+      "assessment": {
+        "label": "Evaluación de Riesgo",
+        "short": "Evaluación"
+      },
+      "results": {
+        "label": "Resultado",
+        "short": "Resultado"
+      },
       "goToStep": "Ir al paso: {label}",
       "stepUnavailable": "Paso aún no disponible",
       "versionBadgeAriaA": "Usted está en la Versión A — Cualitativa",
@@ -138,5 +153,57 @@
     "mitigacaoText": "Responder \"Sí\" <b>resta {pts} puntos</b> de la puntuación total.",
     "riscoText": "Respuesta de riesgo <b>añade {pts} puntos</b> a la puntuación total.",
     "refTitle": "Referencia normativa"
+  },
+  "results": {
+    "headerSubtitle": "Resultado de la Evaluación",
+    "nivelCard": "Nivel {level}",
+    "contextTitle": "Caracterización del Contexto",
+    "contextRes738Badge": "Res 738/2024 — banco de datos",
+    "perguntaSistema": "Pregunta del sistema:",
+    "autonomiaSistema": "Autonomía del sistema:",
+    "utilizaBanco": "Utiliza banco de datos:",
+    "naoInformado": "No informado",
+    "bancoSim": "Sí — Eje 3.b / Bloque 6.b activados (Resolución CNS n.º 738/2024)",
+    "naoAvaliavelTitle": "⛔ Protocolo NO EVALUABLE en el mérito",
+    "hipoteseEliminatoria": "Hipótesis eliminatoria activada en <b>{id}</b> — {motivo}",
+    "naoAgravamento": "Esto no es un agravamiento del nivel de riesgo — es un bloqueo de la evaluación.",
+    "triagemTitulo": "Modo Triaje A → B — Informe Combinado",
+    "triagemDesc": "Usted recorrió las dos matrices. El nivel consolidado es el <b>más alto</b> entre las dos (criterio más conservador).",
+    "badgeA": "A: Nivel {level}",
+    "badgeB": "B: Nivel {level}",
+    "badgeConsolidado": "Consolidado: Nivel {level}",
+    "classificacaoSuspensa": "Clasificación suspendida",
+    "suspensaDesc": "El protocolo es <b>no evaluable en el mérito</b> hasta que la diligencia sea subsanada (ver arriba). No hay nivel de riesgo atribuido.",
+    "clausulaDesc": "El protocolo fue elevado a <b>Nivel IV</b> debido a la respuesta «Sí» en P4.1 (sistema como único determinante de la decisión) o P4.2 (daño irreversible), independientemente de la puntuación total.",
+    "recomendacaoTitle": "Recomendación de profundización",
+    "recomendacaoDesc": "El resultado de la Versión A indicó Nivel {level}. Se recomienda aplicar la Versión B (Cuantitativa) para documentación auditable y trazabilidad numérica.",
+    "continuarVersaoB": "Continuar a la Versión B",
+    "opcionalDesc": "La Versión A fue suficiente para el Nivel {level}. Si lo prefiere, puede aplicar la Versión B de todos modos — útil para el registro del estudio, exigencia de CEP local o comparación numérica entre protocolos.",
+    "aplicarVersaoB": "Aplicar la Versión B de todos modos",
+    "porEixo": "Resultado por Eje — Versión A",
+    "porBloco": "Resultado por Bloque — Versión B",
+    "res738Short": "Res 738",
+    "respostasRiscoEixo": "Respuestas de riesgo: {count}/{total}",
+    "elevacaoEspecialCurta": "(elevación especial: 1-2 → III · 3+ → IV)",
+    "consolidacaoEixos": "Consolidación: El nivel final es el <b>más alto</b> entre todos los ejes",
+    "bidirecionalSuffix": " (bidireccional)",
+    "incluiBloco6b": "(incluye Bloque 6.b — Res 738)",
+    "requisitosTitle": "Requisitos por Nivel (acumulativos)",
+    "maisRes738": "+ Res 738/2024",
+    "nivelAtualArrow": "← Nivel actual",
+    "itensTitle": "Ítems no evaluados (auditoría)",
+    "itensCount": "{count, plural, one {# ítem} other {# ítems}}",
+    "nenhumItem": "Todas las preguntas aplicables y los campos de contexto fueron completados. Ningún ítem quedó pendiente.",
+    "auditoriaDesc": "A efectos de auditoría, listamos a continuación cada pregunta presentada que quedó sin respuesta. El cálculo del nivel de riesgo trata la <b>ausencia de respuesta como «no riesgo» por defecto</b>; se recomienda que el CEP justifique cada ítem o solicite diligencia al investigador antes de deliberar.",
+    "avisoImportante": "Aviso importante",
+    "emRevisaoBadge": "en revisión",
+    "planilhaModelo": "Planilla-modelo (.xlsx)",
+    "roteiroCompleto": "Guion completo (.docx)",
+    "exportarJson": "Exportar los datos de esta evaluación (.json)",
+    "saibaMais": "Saber más",
+    "arquivosAtualizados": "Los archivos se actualizarán a medida que se concluya la revisión de la guía.",
+    "imprimir": "Imprimir / Guardar PDF",
+    "novaAvaliacao": "Nueva Evaluación",
+    "footer": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos • {versao}"
   }
 }
