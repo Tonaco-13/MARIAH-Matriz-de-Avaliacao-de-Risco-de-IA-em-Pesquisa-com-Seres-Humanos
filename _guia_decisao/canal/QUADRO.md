@@ -9,6 +9,8 @@
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
 | AUD | Auditoria de conformidade do Z — parecer preliminar favorável (#55) + **C4 aceito com as 5 condições verificadas (#58)**; Z declarado pronto — veredito final é o próximo ato | Z | 2026-09-24 | LOG #54/#55/#58 |
+| C5 | **Seletor de idioma na UI** (footer, só com flag on; strict 436/436) — consulta da Direção respondida no #59: hoje NÃO existe; recomendado antes da flag. Aguarda decisão da Direção (checklist etapa 1) | Direção (decide) → Engenharia | 2026-09-24 | LOG #59; CHECKLIST_publicacao |
+| PUB | Publicação do espanhol — checklist de 7 etapas entregue (push → merge → flag Vercel → smoke → faxina de 21 branches merged); bloqueado no veredito final do Z | Direção/Operador | 2026-09-24 | LOG #59; CHECKLIST_publicacao |
 | ANX | Anexo Normativo es §1 ainda no paradigma "CEP/CONEP", sem INAEP/SINEP — atualizar no próximo ciclo de glossário (recomendação do Z, não bloqueante); incluir a regra operante registral×descritiva no `glossario-es.md` | Engenharia (próximo ciclo) | 2026-09-24 | LOG #55 §2.4 e registros conexos |
 
 ## Pendências fechadas
