@@ -2,6 +2,7 @@
 
 **Data:** 2026-09-24 · **Autor:** Kimi (arquitetura) · **Para:** Direção (Fabiano) · **Ref.:** LOG #28, #40; QUADRO §4.2/RET
 **Base verificada:** HEAD `08492c8` (feat/i18n-es) — ocorrências levantadas por varredura direta nesta data, não por memória.
+**Errata:** parecer do Z (2026-09-24, LOG #46) verificou o dossiê como factualmente sólido e registrou 3 correções de números/caminhos — ver **§7 Errata**. Nenhuma altera a decisão.
 
 ---
 
@@ -92,6 +93,26 @@ Redigidas por analogia à forma aprovada pelo Z para CEP ("Comité de Ética **e
 3. **O placeholder `"Ex: CEP/CONEP"`**: filar para o próximo ciclo pt-BR (recomendado) ou corrigir agora com regeneração da baseline NDTI?
 
 Com o (1) e (2) respondidos, a Engenharia executa a leva institucional (162 chaves) no mesmo regime dos lotes anteriores e o ciclo segue para o `--strict` e a auditoria do Z.
+
+---
+
+## 7. Errata registrada — parecer do Z (2026-09-24, LOG #46)
+
+O Z refez todas as verificações por varredura direta sobre `d7ac963` (≡ `08492c8` para `messages/` e `spec/`): **veredito "factualmente sólido no que decide; os números load-bearing conferem"**. Correções de registro aceitas pela arquitetura — nenhuma muda a decisão:
+
+1. **Denominador das chaves:** pt-BR tem **420 folhas** hoje (335 era o total pré-Lote 5: +78 do namespace `report`, +7 posteriores). A fração correta é **162/420**; composição exata das retidas: footer 8 + home 45 + pages 108 + results.validacaoDesc 1; es tem 0 chaves extras. (Corrige §1.)
+2. **Ocorrências de CEP em messages:** **29 chaves / 34 ocorrências** (não "~20"); o custo da Leitura B é **~53 campos**, maior que o estimado — reforça a recomendação contra a Leitura B. (Corrige §3.3 e §4.)
+3. **Caminho e escopo do título do Guia:** a chave de transparência é `pages.statusAviso` (`pt-BR.json:350`), não `pages.transparencia.statusAviso`; o título do Guia aparece em **10 chaves pt** (não 2), todas dentro da leva retida — a minuta da entrada "Guia" passa a citar o escopo real de 10 chaves. (Corrige §3.2 e §5.)
+
+**Acréscimos do Z registrados:**
+- O es já espelha o placeholder (`"Ej.: CEP/CONEP"`) — omitido no §3.3; o fix futuro do placeholder deve tocar pt e es **no mesmo commit**, além da regeneração da baseline NDTI.
+- `report.footerDev` es está mais misturada que o descrito: a forma extensa do SINEP está inteira em pt, incluindo preposições — a reconciliação na leva institucional se confirma como micro-commit.
+- Nota de auditoria: WIP do Lote 6 não commitado exige gate antes do commit (já flagado à Engenharia/Operador); `public/inaep-logo.png` não rastreado é presumível insumo da leva (pendência P2).
+
+**Posições do Z sobre as 3 perguntas (caráter de pré-revisão; a decisão formal é da Direção):**
+- **P1 — endossa a Leitura A sem ressalva:** a âncora byte-protegida nomeia o CEP como ente deliberador, a spec o tem como público em 24 pontos, o Caderno registra o SINEP como sucessor do sistema (comitês permanecem), e o ajuste de glossário do próprio Z já rejeitou des-naturalizar o CEP.
+- **P2 — pré-revisão favorável às minutas:** formas seguem os precedentes fixados (conservar "Pesquisa"/"Ética", nunca "Investigación"; preposições es; "(…, Brasil)" análogo ao B8); assimetria com CONEP justificada (CONEP não aparece expandido na UI es; SINEP aparece). Aprovaria no mesmo teor, com a correção de escopo da entrada Guia (10 chaves).
+- **P3 — concorda com filar o placeholder**, na forma do acréscimo acima (pt+es no mesmo commit + baseline).
 
 ---
 

@@ -9,7 +9,7 @@
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
 | P2 | Disposição de `consentimento-re-consentimento.patch`, `public/inaep-logo.png` e docx em `upload/` (3 untracked confirmados) | Operador + Z | 2026-09-20 | Aceite E2, emenda 2.2; LOG #40 |
-| §4.2 | Nomes institucionais: INAEP/SINEP + título oficial do Guia em es + par Ministério da Saúde→Ministerio de Salud de Brasil (**confirmado**, glossário t62). Dossiê com diretriz "tudo INAEP/SINEP" incorporada e 3 minutas `proposto` aguardando a Direção | **Direção** | 2026-09-22 | LOG #28, #40, #45; DOSSIE §4.2 de 2026-09-24 |
+| §4.2 | Nomes institucionais: INAEP/SINEP + título oficial do Guia em es + par Ministério da Saúde→Ministerio de Salud de Brasil (**confirmado**, glossário t62). Dossiê com diretriz "tudo INAEP/SINEP" incorporada, 3 minutas `proposto` e **parecer favorável do Z** (Leitura A endossada) — aguarda decisão formal da Direção | **Direção** | 2026-09-22 | LOG #28, #40, #45, #46; DOSSIE §4.2 de 2026-09-24 (com Errata §7) |
 | RET | footer.*, home.*, pages.*, results.validacaoDesc — **RETIDOS** até decisão §4.2 (162/335 chaves ausentes) | Engenharia (bloqueado na Direção) | 2026-09-22 | LOG #27/#28/#40 |
 
 ## Pendências fechadas
