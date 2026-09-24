@@ -33,6 +33,16 @@ A exposição dos idiomas é controlada por uma flag lida **em runtime** dentro 
   sem prefixo; `/pt-BR` também redireciona para `/`. As rotas pt-BR são servidas
   normalmente. Resultado: a aplicação se comporta exatamente como antes do i18n.
 - **ON:** o roteamento next-intl passa a servir também os idiomas prefixados.
+  Com a flag ON, valem dois comportamentos (Lote 6, `feat/i18n-es`):
+  - **Merge de messages:** `src/i18n/request.ts` carrega `messages/<locale>.json`
+    (apenas locales no mapa `TRANSLATIONS` — hoje só `es`) e o mescla
+    **recursivamente sobre o pt-BR**: cada chave traduzida cobre a canônica;
+    chaves ausentes caem no pt-BR (regime Opção A em runtime — o key-parity no
+    gate audita as ausências). Locales sem arquivo seguem 100% pt-BR.
+  - **Banner global de cortesia:** o `[locale]/layout.tsx` renderiza
+    `getCourtesyNotice(locale)` (de `disclaimer.ts`) numa faixa no topo de todas
+    as páginas quando o locale tem tradução de cortesia; em pt-BR a função
+    retorna `''` e **nada é renderizado** (pt-BR inalterado).
 
 Configuração adicional em `src/i18n/routing.ts` (fixada nesta branch):
 `localeDetection: false` (locale só pela URL — não redireciona por
