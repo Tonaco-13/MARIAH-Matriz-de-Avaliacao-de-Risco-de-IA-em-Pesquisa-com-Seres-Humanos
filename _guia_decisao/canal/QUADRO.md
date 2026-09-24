@@ -8,8 +8,8 @@
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| P2 | Disposição de `consentimento-re-consentimento.patch`, `public/inaep-logo.png` e docx em `upload/` (3 untracked confirmados) | Operador + Z | 2026-09-20 | Aceite E2, emenda 2.2; LOG #40 |
-| RET | footer.*, home.*, pages.*, results.validacaoDesc (162/420 chaves) — **LIBERADO** pela decisão §4.2; Lote 7 agora parte de merge de `origin/main` (`e2ea13e`) na branch antes de C1–C3 (LOG #48) | Engenharia | 2026-09-22 | LOG #47/#48; DESPACHO leva-institucional 2026-09-24 |
+| P2 | ~~3 untracked~~ **Resolvida na prática (2026-09-24):** logo INAEP versionado (`599a287`), docx de `upload/` versionado (`3c8af18`), patch removido do disco — falta só o Z registrar ciência do descarte do patch | Operador + Z | 2026-09-20 → 2026-09-24 | LOG #40, #49 |
+| RET | footer.*, home.*, pages.*, results.validacaoDesc + 10 chaves do PR #32 (**172/430**) — **LIBERADO** pela decisão §4.2; branch já re-ancorada sobre `e2ea13e` (passo 0 cumprido pelo Operador) | Engenharia | 2026-09-22 | LOG #47–#49; DESPACHO leva-institucional 2026-09-24 (atualizado 18:20) |
 
 ## Pendências fechadas
 
