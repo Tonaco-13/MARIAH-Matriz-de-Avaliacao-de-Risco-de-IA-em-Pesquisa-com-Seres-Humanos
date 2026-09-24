@@ -1,19 +1,20 @@
 # QUADRO VIVO — ciclo i18n-es (feat/i18n-es)
 
-**Última atualização:** 2026-09-24 18:10 · Kimi — PR #31 (feat/i18n-es) e PR #32 (espelho do relatório) mergeados na main pela Direção (LOG #48); produção pt-BR intacta, flag de locales OFF.
-**Fase atual:** 🟢 **Infra i18n publicada na main** (espanhol ainda invisível — flag OFF). Restam: Lote 7 (leva institucional, 162 chaves) → `--strict` → auditoria do Z → decisão de ligar a flag (Direção).
+**Última atualização:** 2026-09-24 19:05 · Kimi — Lote 7 ACEITO (LOG #53): messages es completas (430/430), strict verde. Espanhol tecnicamente completo na branch.
+**Fase atual:** 🟢 **Construção do espanhol encerrada.** Restam: micro-lote META (metadata do layout, C4) → auditoria de conformidade do Z → decisão de ligar a flag (Direção). Push dos 13 commits locais: Operador.
 **Regime até 26/09:** Kimi executa código; Operador (Fabiano) revisa e commita (LOG #41). Claude retorna 26/09.
 
 ## Pendências abertas
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| RET | footer.*, home.*, pages.*, results.validacaoDesc + 10 chaves do PR #32 (**172/430**) — **LIBERADO** pela decisão §4.2; branch já re-ancorada sobre `e2ea13e` (passo 0 cumprido pelo Operador) | Engenharia | 2026-09-22 | LOG #47–#49; DESPACHO leva-institucional 2026-09-24 (atualizado 18:25) |
+| META | `metadata` hardcoded pt-BR em `src/app/[locale]/layout.tsx` — vaza pt no `<head>` do /es e `keywords` citam "CONEP" (resíduo da diretriz #47); TITLE/META-DESC integram a baseline → micro-lote C4 com baseline regenerada, antes da flag | Arquitetura (minuta) + Direção (aprova) | 2026-09-24 | LOG #52 nota 2, #53 |
 
 ## Pendências fechadas
 
 | # | Pendência | Fechamento |
 |---|---|---|
+| RET | Leva institucional (172 chaves: footer/home/pages/validacaoDesc + 10 do PR #32) + placeholder pt/es | ✅ Lote 7, LOG #53 (`1d4a00d`, `9c4ddf0`, `83a361e`; strict 0/0) |
 | P1 | `_guia_decisao/` versionado | ✅ `96477fb` |
 | P2 | Disposição dos 3 untracked (patch, logo INAEP, docx `upload/`) | ✅ LOG #50 — ciência do Z: patch descartado (supersededo, tripla prova), logo `599a287`, docx `3c8af18` |
 | P4–P7 | Ciclo infra i18n | ✅ LOG #12 |
@@ -38,7 +39,7 @@
 6. ✅ Merge main→branch (`7a13ece`): fix do relatório (PR #30: C.3–C.8 + seção 'Não se aplica') absorvido e adaptado a `label(q,'pergunta',locale)` — LOG #42
 7. ✅ **Lote 5** (relatório/exports locale-aware via `createTranslator` + cortesia nos exports + Check C âncoras×glossário) — LOG #43
 8. ✅ **Lote 6** (merge es→pt-BR no `request.ts` + banner global de cortesia no layout + /es alcançável com flag on) — LOG #44
-9. ⬜ **Lote 7 — leva institucional (§4.2 decidido, LOG #47):** glossário v0.3.0 + 162 chaves + reconciliação footerDev + placeholder pt/es + baseline NDTI (despacho 2026-09-24) → key-parity `--strict`
+9. ✅ **Lote 7 — leva institucional ACEITO (LOG #53):** glossário v0.3.0 (`1d4a00d`) + 172 chaves (`9c4ddf0`) + placeholder pt/es (`83a361e`) → key-parity `--strict` **0/0**
 10. ⬜ Auditoria de conformidade do Z (camadas A2 1–4, retroversão) → veredito
 11. ⬜ Decisão de publicação: **Direção** (merge em `main` VEDADO até lá)
 
