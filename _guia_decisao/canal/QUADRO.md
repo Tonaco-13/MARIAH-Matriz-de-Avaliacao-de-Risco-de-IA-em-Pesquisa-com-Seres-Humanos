@@ -9,7 +9,7 @@
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
 | P2 | Disposição de `consentimento-re-consentimento.patch`, `public/inaep-logo.png` e docx em `upload/` (3 untracked confirmados) | Operador + Z | 2026-09-20 | Aceite E2, emenda 2.2; LOG #40 |
-| §4.2 | Nomes institucionais: INAEP/SINEP + título oficial do Guia em es + par Ministério da Saúde→Ministerio de Salud de Brasil (**confirmado**, glossário t62). Dossiê com diretriz "tudo INAEP/SINEP" incorporada, 3 minutas `proposto` e **parecer favorável do Z** (Leitura A endossada) — aguarda decisão formal da Direção | **Direção** | 2026-09-22 | LOG #28, #40, #45, #46; DOSSIE §4.2 de 2026-09-24 (com Errata §7) |
+| RET | footer.*, home.*, pages.*, results.validacaoDesc (162/420 chaves) — **LIBERADO** pela decisão §4.2; em execução como Lote 7 (despacho de 2026-09-24, commits C1–C3) | Engenharia | 2026-09-22 | LOG #47; DESPACHO leva-institucional 2026-09-24 |
 | RET | footer.*, home.*, pages.*, results.validacaoDesc — **RETIDOS** até decisão §4.2 (162/335 chaves ausentes) | Engenharia (bloqueado na Direção) | 2026-09-22 | LOG #27/#28/#40 |
 
 ## Pendências fechadas
@@ -27,6 +27,7 @@
 | results.* (50 chaves) + âncoras locale-aware | placeholders ICU íntegros; âncoras verbatim × glossário | ✅ LOG #40 (`c4c9303`, `eb05b04`) |
 | Lote 5 (relatório/exports locale-aware + cortesia nos exports + Check C) | namespace `report` 78 chaves pt+es; pt-BR byte-idêntico por snapshot; Check C com dentes provados | ✅ LOG #43 |
 | Lote 6 (merge de messages + banner global cortesia + /es alcançável) | smoke flag-on OK; fallback Opção A ao vivo; flag permanece OFF por padrão | ✅ LOG #44 |
+| §4.2 | Nomes institucionais INAEP/SINEP/título do Guia + diretriz "tudo INAEP/SINEP" | ✅ DECIDIDO pela Direção (LOG #47): Leitura A; minutas com "Investigación" (→ glossário v0.3.0 `proposto`, revisão formal do Z pendente); placeholder "Ex: CEP/CONEP" corrigido agora (C3 + baseline NDTI) |
 
 ## Trilha da branch feat/i18n-es
 
@@ -38,7 +39,7 @@
 6. ✅ Merge main→branch (`7a13ece`): fix do relatório (PR #30: C.3–C.8 + seção 'Não se aplica') absorvido e adaptado a `label(q,'pergunta',locale)` — LOG #42
 7. ✅ **Lote 5** (relatório/exports locale-aware via `createTranslator` + cortesia nos exports + Check C âncoras×glossário) — LOG #43
 8. ✅ **Lote 6** (merge es→pt-BR no `request.ts` + banner global de cortesia no layout + /es alcançável com flag on) — LOG #44
-9. ⬜ Namespaces institucionais (§4.2 — Direção) + lote final com key-parity `--strict`
+9. ⬜ **Lote 7 — leva institucional (§4.2 decidido, LOG #47):** glossário v0.3.0 + 162 chaves + reconciliação footerDev + placeholder pt/es + baseline NDTI (despacho 2026-09-24) → key-parity `--strict`
 10. ⬜ Auditoria de conformidade do Z (camadas A2 1–4, retroversão) → veredito
 11. ⬜ Decisão de publicação: **Direção** (merge em `main` VEDADO até lá)
 
