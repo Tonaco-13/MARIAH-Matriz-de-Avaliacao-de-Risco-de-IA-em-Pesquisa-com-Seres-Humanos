@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/maria/Footer";
+import { getCourtesyNotice } from "@/components/maria/disclaimer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,6 +49,7 @@ export default async function LocaleLayout({
   }
   setRequestLocale(locale);
   const t = await getTranslations();
+  const courtesyNotice = getCourtesyNotice(locale);
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -57,6 +59,11 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <a href="#conteudo-principal" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-teal-700 focus:px-4 focus:py-2 focus:text-white">{t('ui.skipLink')}</a>
           <div className="min-h-screen flex flex-col">
+            {courtesyNotice !== "" && (
+              <div role="note" className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm text-amber-900">
+                {courtesyNotice}
+              </div>
+            )}
             <main id="conteudo-principal" tabIndex={-1} className="flex-1">
               {children}
             </main>
