@@ -41,5 +41,5 @@
 
 ## 5. Aprovação
 
-- [ ] Direção aprova a redação pt-BR do §3 (ou edita e devolve)
-- [ ] Direção autoriza a execução do C4 pela Engenharia
+- [x] Direção aprova a redação pt-BR do §3 — **APROVADO 2026-09-24 (LOG #56), sem alteração de redação**
+- [x] Direção autoriza a execução do C4 pela Engenharia — **AUTORIZADO 2026-09-24 (LOG #56)**, com o carimbo do glossário (`proposto` → `aprovado-z`, parecer #55) como micro-commit de docs separado
