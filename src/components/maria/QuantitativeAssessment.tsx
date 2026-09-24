@@ -17,8 +17,8 @@ import {
   Circle,
   AlertTriangle,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import { RISK_LEVELS, getThresholds } from './data';
+import { useTranslations, useLocale } from 'next-intl';
+import { RISK_LEVELS, getThresholds, label } from './data';
 import type { QuantitativeAnswer } from './utils';
 import {
   calculateBlockScore,
@@ -69,6 +69,7 @@ export default function QuantitativeAssessment({
   onStepClick,
 }: QuantitativeAssessmentProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const blocksList = getApplicableBlocks(usesDatabase);
   const thresholds = getThresholds(usesDatabase);
   const [currentBlock, setCurrentBlock] = useState(0);
@@ -189,7 +190,7 @@ export default function QuantitativeAssessment({
                 <div>
                   <p className="text-xs text-muted-foreground">{t('assessment.b.nivelAtual')}</p>
                   <Badge className={`${levelColorMap[currentLevel]} text-sm px-3 py-1`}>
-                    {t('assessment.nivelBadge', { level: currentLevel, label: levelInfo.label })}
+                    {t('assessment.nivelBadge', { level: currentLevel, label: label(levelInfo, 'label', locale) })}
                   </Badge>
                 </div>
                 {usesDatabase && (
@@ -300,7 +301,7 @@ export default function QuantitativeAssessment({
             <div className="flex items-start justify-between flex-wrap gap-2">
               <div>
                 <CardTitle className="text-lg flex items-center gap-2 flex-wrap">
-                  {block.nome}
+                  {label(block, 'nome', locale)}
                   {block.condicionalBancoDados && (
                     <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-xs">
                       {t('assessment.res738Badge')}
@@ -309,16 +310,16 @@ export default function QuantitativeAssessment({
                   {block.subtitulo && !block.condicionalBancoDados && (
                     <Badge className="bg-red-100 text-red-700 border border-red-200 text-xs">
                       <AlertTriangle className="h-3 w-3 mr-1" />
-                      {block.subtitulo}
+                      {label(block, 'subtitulo', locale)}
                     </Badge>
                   )}
                   {block.subtitulo && block.condicionalBancoDados && (
                     <Badge className="bg-blue-50 text-blue-700 border border-blue-200 text-xs">
-                      {block.subtitulo}
+                      {label(block, 'subtitulo', locale)}
                     </Badge>
                   )}
                 </CardTitle>
-                <CardDescription className="text-sm mt-1">{block.descricao}</CardDescription>
+                <CardDescription className="text-sm mt-1">{label(block, 'descricao', locale)}</CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 {block.id === 'bloco7' ? (
@@ -400,7 +401,7 @@ export default function QuantitativeAssessment({
                       <div className="flex-1">
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <div className="flex-1">
-                            <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
+                            <p className="text-sm leading-relaxed font-medium">{label(q, 'pergunta', locale)}</p>
                             {q.eliminatorio && (
                               <Badge className="mt-1 bg-red-100 text-red-700 border border-red-300 text-[10px]">
                                 {t('assessment.eliminatorioBadge')}
@@ -413,7 +414,7 @@ export default function QuantitativeAssessment({
                                 <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-0.5" />
                               </TooltipTrigger>
                               <TooltipContent className="max-w-sm">
-                                <p className="text-xs">{q.dica}</p>
+                                <p className="text-xs">{label(q, 'dica', locale)}</p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
