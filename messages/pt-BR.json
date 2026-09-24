@@ -255,7 +255,17 @@
     "arquivosAtualizados": "Os arquivos serão atualizados conforme a revisão do guia for concluída.",
     "imprimir": "Imprimir / Salvar PDF",
     "novaAvaliacao": "Nova Avaliação",
-    "footer": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • {versao}"
+    "footer": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • {versao}",
+    "identTitulo": "Identificação do Protocolo",
+    "identTituloProjeto": "Título do Projeto",
+    "identInstituicao": "Instituição",
+    "identCep": "Nome do CEP",
+    "geradoEm": "Gerado em {date}",
+    "versaoMatrizRotulo": "Versão da matriz: {version}",
+    "naTitulo": "Questões marcadas como \"Não se aplica\"",
+    "naCount": "{count, plural, one {# questão} other {# questões}}",
+    "naDesc": "{count, plural, one {Quem preencheu marcou # questão como} other {Quem preencheu marcou # questões como}} <b>\"Não se aplica\"</b>. Registrado para auditoria: a escolha declara que o antecedente da pergunta não se verifica no protocolo. Nas questões eliminatórias (destacadas), o \"Não se aplica\" afasta a hipótese de não-avaliabilidade — recomenda-se que o CEP confirme o enquadramento.",
+    "naTagEliminatorio": "diligência eliminatória — não-avaliabilidade afastada"
   },
   "report": {
     "docTitle": "MARIAH — Relatório de Avaliação de Risco em IA",
