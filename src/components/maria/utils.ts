@@ -782,6 +782,16 @@ export function generateReportHTML(
       </div>`;
   }
 
+  // Caracterização do Contexto — todas as descritivas visíveis (C.1…C.8),
+  // respeitando exibição condicional. Antes só contexto1/contexto2 apareciam.
+  let contextItemsHtml = '';
+  for (const q of CONTEXT_QUESTIONS) {
+    if (!isContextQuestionVisible(q, contextAnswers)) continue;
+    const ans = contextAnswers[q.id];
+    contextItemsHtml += `
+    <p style="margin:0 0 8px;font-size:13px"><strong>${q.pergunta}</strong> ${ans && ans.trim() ? ans : 'Não informado'}</p>`;
+  }
+
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -815,8 +825,7 @@ export function generateReportHTML(
 
   <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:20px">
     <h3 style="margin:0 0 10px;font-size:14px;color:#374151">Caracterização do Contexto</h3>
-    <p style="margin:0 0 8px;font-size:13px"><strong>Pergunta do sistema:</strong> ${contextAnswers['contexto1'] || 'Não informado'}</p>
-    <p style="margin:0 0 8px;font-size:13px"><strong>Autonomia do sistema:</strong> ${contextAnswers['contexto2'] || 'Não informado'}</p>
+    ${contextItemsHtml}
     <p style="margin:0;font-size:13px"><strong>Utiliza banco de dados:</strong> ${usesDatabase ? 'Sim — Eixo 3.b / Bloco 6.b ativados (Res. CNS n.º 738/2024)' : 'Não'}</p>
   </div>
 
@@ -877,8 +886,13 @@ export function generateReportText(
   lines.push(`Nome do CEP: ${contextAnswers['cep_nome'] || 'Não informado'}`);
   lines.push('');
   lines.push('── CARACTERIZAÇÃO DO CONTEXTO ──');
-  lines.push(`Sistema de IA: ${contextAnswers['contexto1'] || 'Não informado'}`);
-  lines.push(`Contexto de uso: ${contextAnswers['contexto2'] || 'Não informado'}`);
+  // Todas as descritivas visíveis (C.1…C.8), respeitando exibição condicional.
+  for (const q of CONTEXT_QUESTIONS) {
+    if (!isContextQuestionVisible(q, contextAnswers)) continue;
+    const ans = contextAnswers[q.id];
+    lines.push(`${q.pergunta} ${ans && ans.trim() ? ans : 'Não informado'}`);
+  }
+  lines.push(`Utiliza banco de dados: ${usesDatabase ? 'Sim — Eixo 3.b / Bloco 6.b (Res. CNS n.º 738/2024)' : 'Não'}`);
   lines.push('');
 
   const renderQual = () => {
