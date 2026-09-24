@@ -3,7 +3,7 @@
 //                   (feat/i18n-architecture, Passo 8 / P8)
 // ------------------------------------------------------------
 // Condição vinculante da Arquitetura: a "regra de ouro" (B7) e a extração de
-// texto para next-intl saem PROVADAS a cada gate, não afirmadas. Reúne DOIS
+// texto para next-intl saem PROVADAS a cada gate, não afirmadas. Reúne TRÊS
 // checks nomeados, num único arquivo, e roda no `npm run gate`:
 //
 //   (A) ZERO-LITERAL JSX  — nenhum literal de texto em pt-BR pode estar
@@ -34,6 +34,12 @@
 //             da spec, para não confundir com leis (14.874) ou versões (2.0) —
 //             são apenas CONTADAS (aviso informativo, não bloqueiam).
 //
+//   (C) ÂNCORAS VERBATIM  — as 3 strings-âncora do disclaimer (disclaimer,
+//       não-substituição, cortesia) vivem em disclaimer.ts, fora de messages/;
+//       o valor es no código deve ser VERBATIM ao `termoLocale` do glossário-es
+//       (âncora normativa aprovada pelo Z). Drift sem passar pelo glossário
+//       quebra o gate (condição da Arquitetura, LOG #40).
+//
 // Regra de ouro (B7): este script não fixa número/id/versão próprios — lê tudo
 // da spec (matrixVersion e ids reais) para proibir apenas o que a matriz define.
 // ============================================================
@@ -41,6 +47,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import * as ts from 'typescript';
+import { getCourtesyNotice, getDisclaimer, getNaoSubstitui } from '../src/components/maria/disclaimer';
 
 const ROOT = resolve(__dirname, '..');
 const SRC_DIR = join(ROOT, 'src');
@@ -225,14 +232,50 @@ function checkB(): void {
 }
 
 // ============================================================
-console.log('=== i18n no-literal — guarda de regressão (Check A + Check B) ===');
+// CHECK C — âncoras do disclaimer × glossário (verbatim)
+// ------------------------------------------------------------
+// As 3 strings-âncora (disclaimer, não-substituição, cortesia) vivem em
+// disclaimer.ts — fora de messages/ e do Check B. O glossário-es é a âncora
+// normativa aprovada pelo Z: o valor es no código deve ser VERBATIM ao
+// `termoLocale` da entrada correspondente. Drift (edição direta no código sem
+// passar pelo glossário) faz o gate falhar. Condição da Arquitetura (LOG #40).
+// ============================================================
+function checkC(): void {
+  const GLOSSARIO_PATH = join(ROOT, 'spec', 'i18n', 'glossario-es.json');
+  const glossario = JSON.parse(readFileSync(GLOSSARIO_PATH, 'utf8')) as {
+    termos: Array<{ termoPtBr?: string; termoLocale?: string; status?: string }>;
+  };
+  const ANCORAS: Array<{ chaveGlossario: string; valorCodigo: string }> = [
+    { chaveGlossario: 'MARIA_DISCLAIMER (string-âncora)', valorCodigo: getDisclaimer('es') },
+    { chaveGlossario: 'MARIA_NAO_SUBSTITUI (string-âncora)', valorCodigo: getNaoSubstitui('es') },
+    { chaveGlossario: 'cláusula de cortesia (string-âncora)', valorCodigo: getCourtesyNotice('es') },
+  ];
+  let ok = 0;
+  for (const ancora of ANCORAS) {
+    const entrada = glossario.termos.find((t) => t.termoPtBr === ancora.chaveGlossario);
+    if (!entrada) {
+      failures.push(`[C] glossário-es: entrada "${ancora.chaveGlossario}" não encontrada`);
+      continue;
+    }
+    if (entrada.termoLocale !== ancora.valorCodigo) {
+      failures.push(`[C] ${ancora.chaveGlossario}: valor es no código diverge do glossário (verbatim exigido) — código="${ancora.valorCodigo.slice(0, 60)}…" glossário="${String(entrada.termoLocale).slice(0, 60)}…"`);
+      continue;
+    }
+    ok += 1;
+  }
+  console.log(`  (C) âncoras disclaimer × glossário: ${ok}/${ANCORAS.length} verbatim (es === termoLocale aprovado-z)`);
+}
+
+// ============================================================
+console.log('=== i18n no-literal — guarda de regressão (Check A + Check B + Check C) ===');
 console.log(`  matrixVersion (spec): ${MATRIX_VERSION} · ids reais na spec: ${REAL_IDS.size}`);
 checkA();
 checkB();
+checkC();
 
 if (failures.length > 0) {
   console.log(`\nFALHOU: ${failures.length} violação(ões) da regra:`);
   for (const f of failures.slice(0, 40)) console.log('  ✗ ' + f);
   process.exit(1);
 }
-console.log('\nOK: (A) sem literal pt-BR no JSX; (B1) tokens da regra de ouro preservados (es === canônico) nos campos i18n; (B2) sem número de corte/versão nos messages.');
+console.log('\nOK: (A) sem literal pt-BR no JSX; (B1) tokens da regra de ouro preservados (es === canônico) nos campos i18n; (B2) sem número de corte/versão nos messages; (C) âncoras do disclaimer verbatim ao glossário.');
