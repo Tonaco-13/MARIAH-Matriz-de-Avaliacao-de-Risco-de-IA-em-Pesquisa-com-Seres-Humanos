@@ -12,6 +12,7 @@ import {
   CONTEXT_QUESTIONS,
   MATRIX_VERSION,
   getThresholds,
+  label,
 } from './data';
 import type {
   RiskLevel,
@@ -23,7 +24,28 @@ import type {
   ExibicaoCondicional,
   ClausulaExibicao,
 } from './data';
-import { MARIA_DISCLAIMER } from './disclaimer';
+import { getCourtesyNotice, getDisclaimer } from './disclaimer';
+import { createTranslator } from 'next-intl';
+import ptBRMessages from '../../../messages/pt-BR.json';
+import esMessages from '../../../messages/es.json';
+
+// ----- i18n do relatório/exports (Lote 5) -----
+// Os literais do relatório vivem em messages/<locale>.json (namespace `report`).
+// Fora de React a leitura é via createTranslator; locale sem namespace cai no
+// canônico pt-BR. Em pt-BR a saída é byte-idêntica à extração (provado por
+// snapshot na entrega do Lote 5).
+const REPORT_MESSAGES: Record<string, typeof ptBRMessages> = {
+  'pt-BR': ptBRMessages,
+  es: esMessages,
+};
+
+function reportTranslator(locale: string) {
+  return createTranslator({
+    locale,
+    messages: REPORT_MESSAGES[locale] ?? REPORT_MESSAGES['pt-BR'],
+    namespace: 'report',
+  });
+}
 
 /**
  * Regra de exibição condicional das descritivas (fonte única, usada pelo
@@ -119,14 +141,15 @@ export function getAxisRiskLevel(riskCount: number, axis?: QualitativeAxis): Ris
 
 export function getQualitativeAxisResults(
   answers: QualitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
 ) {
   return getApplicableAxes(usesDatabase).map((axis) => {
     const riskCount = countRiskAnswersAxis(axis, answers);
     const level = getAxisRiskLevel(riskCount, axis);
     return {
       axisId: axis.id,
-      axisName: axis.nome,
+      axisName: label(axis, 'nome', locale),
       riskCount,
       totalQuestions: axis.questoes.length,
       level,
@@ -175,14 +198,13 @@ export function getEliminatoryQuestionTriggered(
  * bloqueio. Usado para parametrizar a mensagem de "protocolo não avaliável"
  * conforme a norma que fundamenta cada eliminatória (Res. 738 vs. Lei 14.874).
  */
-export function getEliminatoryInfo(id: string | null): {
+export function getEliminatoryInfo(id: string | null, locale: string = 'pt-BR'): {
   motivo: string;
   ref: string;
 } {
   // Texto padrão: eliminatórias da cadeia de custódia (Res. CNS n.º 738/2024).
   const DEFAULT = {
-    motivo:
-      'ausência de cadeia de custódia formalizada (Res. CNS n.º 738/2024 — Art. 27, VI). O dossiê deve ser devolvido ao pesquisador para diligência obrigatória antes de qualquer análise de mérito, conforme §7.3.6 do Capítulo 7.',
+    motivo: reportTranslator(locale)('eliminatorioDefaultMotivo'),
     ref: '§7.3.6',
   };
   if (!id) return DEFAULT;
@@ -191,7 +213,7 @@ export function getEliminatoryInfo(id: string | null): {
     for (const q of axis.questoes) {
       if (q.id === id) {
         return {
-          motivo: q.motivoEliminatorio ?? DEFAULT.motivo,
+          motivo: q.motivoEliminatorio ? label(q, 'motivoEliminatorio', locale) : DEFAULT.motivo,
           ref: q.refEliminatoria ?? DEFAULT.ref,
         };
       }
@@ -201,7 +223,7 @@ export function getEliminatoryInfo(id: string | null): {
     for (const q of block.questoes) {
       if (q.id === id) {
         return {
-          motivo: q.motivoEliminatorio ?? DEFAULT.motivo,
+          motivo: q.motivoEliminatorio ? label(q, 'motivoEliminatorio', locale) : DEFAULT.motivo,
           ref: q.refEliminatoria ?? DEFAULT.ref,
         };
       }
@@ -213,7 +235,8 @@ export function getEliminatoryInfo(id: string | null): {
 export function getQualitativeFinalLevel(
   answers: QualitativeAnswer,
   usesDatabase: boolean = false,
-  contextAnswers: Record<string, string | undefined> = {}
+  contextAnswers: Record<string, string | undefined> = {},
+  locale: string = 'pt-BR'
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -222,7 +245,7 @@ export function getQualitativeFinalLevel(
   protocoloNaoAvaliavel: boolean;
   eliminatoryQuestionId: string | null;
 } {
-  const axisResults = getQualitativeAxisResults(answers, usesDatabase);
+  const axisResults = getQualitativeAxisResults(answers, usesDatabase, locale);
 
   // The final level is the HIGHEST across all axes
   const levelOrder: RiskLevel[] = ['I', 'II', 'III', 'IV'];
@@ -322,13 +345,14 @@ export function checkClausulaPrevalencia(answers: QuantitativeAnswer): boolean {
 
 export function getQuantitativeBlockResults(
   answers: QuantitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
 ) {
   return getApplicableBlocks(usesDatabase).map((block) => {
     const score = calculateBlockScore(block, answers);
     return {
       blockId: block.id,
-      blockName: block.nome,
+      blockName: label(block, 'nome', locale),
       score,
       maxPontos: block.maxPontos,
       isBlock7: block.id === 'bloco7',
@@ -352,7 +376,8 @@ export function getQuantitativeTotalScore(
 export function getQuantitativeFinalResult(
   answers: QuantitativeAnswer,
   usesDatabase: boolean = false,
-  contextAnswers: Record<string, string | undefined> = {}
+  contextAnswers: Record<string, string | undefined> = {},
+  locale: string = 'pt-BR'
 ): {
   level: RiskLevel;
   levelInfo: RiskLevelInfo;
@@ -365,7 +390,7 @@ export function getQuantitativeFinalResult(
   thresholds: ReturnType<typeof getThresholds>;
 } {
   const totalScore = getQuantitativeTotalScore(answers, usesDatabase);
-  const blockResults = getQuantitativeBlockResults(answers, usesDatabase);
+  const blockResults = getQuantitativeBlockResults(answers, usesDatabase, locale);
   const clausulaPrevalencia = checkClausulaPrevalencia(answers);
   const thresholds = getThresholds(usesDatabase);
 
@@ -434,12 +459,14 @@ export type UnansweredItem = {
 
 // Campos de identificação (não fazem parte de CONTEXT_QUESTIONS). As descritivas
 // (contexto1, contexto2, C.3…C.8) são auditadas a partir de CONTEXT_QUESTIONS,
-// respeitando a visibilidade condicional.
-const IDENTIFICATION_FIELD_LABELS: { id: string; label: string }[] = [
-  { id: 'titulo', label: 'Título do Projeto' },
-  { id: 'instituicao', label: 'Instituição' },
-  { id: 'cep_nome', label: 'Nome do CEP' },
-];
+// respeitando a visibilidade condicional. Os rótulos vivem em messages (namespace
+// `report`) e são resolvidos em runtime pelo locale ativo.
+const IDENTIFICATION_FIELD_IDS = ['titulo', 'instituicao', 'cep_nome'] as const;
+const IDENTIFICATION_LABEL_KEYS = {
+  titulo: 'identTituloProjeto',
+  instituicao: 'identInstituicao',
+  cep_nome: 'identCep',
+} as const;
 
 /**
  * Retorna a lista de itens (campos de contexto + perguntas da matriz) que ficaram
@@ -451,20 +478,22 @@ export function getUnansweredItems(
   contextAnswers: Record<string, string>,
   qualitativeAnswers: QualitativeAnswer,
   quantitativeAnswers: QuantitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
 ): UnansweredItem[] {
   const items: UnansweredItem[] = [];
+  const t = reportTranslator(locale);
 
   // 1) Campos de contexto (sempre obrigatórios, mas auditamos se algum ficou vazio
   //    — pode acontecer em fluxos restaurados de localStorage parcial).
-  for (const f of IDENTIFICATION_FIELD_LABELS) {
-    const value = contextAnswers[f.id];
+  for (const id of IDENTIFICATION_FIELD_IDS) {
+    const value = contextAnswers[id];
     if (!value || value.trim().length === 0) {
       items.push({
-        id: f.id,
+        id,
         scope: 'contexto',
-        scopeName: 'Identificação e Contexto',
-        label: f.label,
+        scopeName: t('scopeIdentificacao'),
+        label: t(IDENTIFICATION_LABEL_KEYS[id]),
       });
     }
   }
@@ -476,8 +505,8 @@ export function getUnansweredItems(
       items.push({
         id: q.id,
         scope: 'contexto',
-        scopeName: 'Identificação e Contexto',
-        label: q.pergunta,
+        scopeName: t('scopeIdentificacao'),
+        label: label(q, 'pergunta', locale),
       });
     }
   }
@@ -492,8 +521,8 @@ export function getUnansweredItems(
           items.push({
             id: q.id,
             scope: 'eixo',
-            scopeName: axis.nome,
-            label: q.pergunta,
+            scopeName: label(axis, 'nome', locale),
+            label: label(q, 'pergunta', locale),
           });
         }
       }
@@ -506,8 +535,8 @@ export function getUnansweredItems(
           items.push({
             id: q.id,
             scope: 'bloco',
-            scopeName: block.nome,
-            label: q.pergunta,
+            scopeName: label(block, 'nome', locale),
+            label: label(q, 'pergunta', locale),
           });
         }
       }
@@ -542,7 +571,8 @@ export function getNaoSeAplicaItems(
   contextAnswers: Record<string, string>,
   qualitativeAnswers: QualitativeAnswer,
   quantitativeAnswers: QuantitativeAnswer,
-  usesDatabase: boolean = false
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
 ): NaoSeAplicaItem[] {
   const items: NaoSeAplicaItem[] = [];
   if (version === 'A') {
@@ -550,7 +580,7 @@ export function getNaoSeAplicaItems(
       for (const q of axis.questoes) {
         if (!isMatrixQuestionVisible(q, qualitativeAnswers, contextAnswers)) continue;
         if (qualitativeAnswers[q.id] === 'na') {
-          items.push({ id: q.id, scopeName: axis.nome, label: q.pergunta, eliminatorio: !!q.eliminatorio });
+          items.push({ id: q.id, scopeName: label(axis, 'nome', locale), label: label(q, 'pergunta', locale), eliminatorio: !!q.eliminatorio });
         }
       }
     }
@@ -559,7 +589,7 @@ export function getNaoSeAplicaItems(
       for (const q of block.questoes) {
         if (!isMatrixQuestionVisible(q, quantitativeAnswers, contextAnswers)) continue;
         if (quantitativeAnswers[q.id] === 'na') {
-          items.push({ id: q.id, scopeName: block.nome, label: q.pergunta, eliminatorio: !!q.eliminatorio });
+          items.push({ id: q.id, scopeName: label(block, 'nome', locale), label: label(q, 'pergunta', locale), eliminatorio: !!q.eliminatorio });
         }
       }
     }
@@ -580,9 +610,11 @@ const LEVEL_COLORS: Record<RiskLevel, { bg: string; text: string; border: string
 function buildQualitativeSectionHTML(
   qualitativeAnswers: QualitativeAnswer,
   usesDatabase: boolean,
-  heading: string = 'Resultado por Eixo'
+  locale: string,
+  heading: string
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
-  const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase);
+  const t = reportTranslator(locale);
+  const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, locale);
   const lc = LEVEL_COLORS[result.level];
 
   let axisRows = '';
@@ -597,7 +629,7 @@ function buildQualitativeSectionHTML(
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${axis.riskCount}/${axis.totalQuestions}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">
           <span style="background:${alc.bg};color:${alc.text};padding:2px 10px;border-radius:4px;border:1px solid ${alc.border};font-weight:600;font-size:12px">
-            Nível ${axis.level} — ${RISK_LEVELS[axis.level].label}
+            ${t('nivelPalavra')} ${axis.level} — ${label(RISK_LEVELS[axis.level], 'label', locale)}
           </span>
         </td>
       </tr>`;
@@ -605,22 +637,22 @@ function buildQualitativeSectionHTML(
 
   const html = `
     <div style="text-align:center;margin:24px 0;padding:20px;background:${lc.bg};border:2px solid ${lc.border};border-radius:8px">
-      <div style="font-size:36px;font-weight:bold;color:${lc.text}">Nível ${result.level}</div>
-      <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${result.levelInfo.label}</div>
-      <p style="color:#6b7280;margin-top:8px;font-size:13px">${result.levelInfo.description}</p>
+      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}</div>
+      <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${label(result.levelInfo, 'label', locale)}</div>
+      <p style="color:#6b7280;margin-top:8px;font-size:13px">${label(result.levelInfo, 'description', locale)}</p>
     </div>
     <h3 style="margin:20px 0 10px;font-size:15px;color:#374151">${heading}</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13px">
       <thead>
         <tr style="background:#f9fafb">
-          <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">Eixo</th>
-          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">Respostas de Risco</th>
-          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">Nível</th>
+          <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colEixo')}</th>
+          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colRespostasRisco')}</th>
+          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colNivel')}</th>
         </tr>
       </thead>
       <tbody>${axisRows}</tbody>
     </table>
-    <p style="margin-top:12px;font-size:12px;color:#6b7280"><strong>Consolidação:</strong> O nível final é o mais alto entre todos os eixos. Eixo 3.b (Res 738) usa elevação especial: 1-2 risco → III; 3+ → IV.</p>`;
+    <p style="margin-top:12px;font-size:12px;color:#6b7280"><strong>${t('consolidacaoRotulo')}</strong> ${t('consolidacaoTexto')}</p>`;
 
   return { html, level: result.level, eliminatoryQuestionId: result.eliminatoryQuestionId };
 }
@@ -629,9 +661,11 @@ function buildQualitativeSectionHTML(
 function buildQuantitativeSectionHTML(
   quantitativeAnswers: QuantitativeAnswer,
   usesDatabase: boolean,
-  heading: string = 'Resultado por Bloco'
+  locale: string,
+  heading: string
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
-  const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase);
+  const t = reportTranslator(locale);
+  const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, locale);
   const lc = LEVEL_COLORS[result.level];
 
   let blockRows = '';
@@ -642,34 +676,34 @@ function buildQuantitativeSectionHTML(
     blockRows += `
       <tr>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:500">${block.blockName}${ref}</td>
-        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;font-family:monospace">${block.score} / ${block.maxPontos} pts</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;font-family:monospace">${block.score} / ${block.maxPontos} ${t('pts')}</td>
       </tr>`;
   }
 
   const clausulaSection = result.clausulaPrevalencia
     ? `
     <div style="margin:16px 0;padding:12px;background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;font-size:13px;color:#dc2626">
-      <strong>⚠️ Cláusula de Prevalência Ética ativada</strong><br>
-      O protocolo foi elevado a Nível IV devido a P4.1 ou P4.2 = Sim.
+      <strong>${t('clausulaTitulo')}</strong><br>
+      ${t('clausulaTexto')}.
     </div>`
     : '';
 
-  const t = result.thresholds;
+  const th = result.thresholds;
   const html = `
     <div style="text-align:center;margin:24px 0;padding:20px;background:${lc.bg};border:2px solid ${lc.border};border-radius:8px">
-      <div style="font-size:36px;font-weight:bold;color:${lc.text}">Nível ${result.level}</div>
-      <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${result.levelInfo.label}</div>
-      <p style="color:#6b7280;margin-top:8px;font-size:13px">${result.levelInfo.description}</p>
-      <div style="font-size:24px;font-weight:bold;color:${lc.text};margin-top:8px">${result.totalScore} / ${result.maxScore} pontos</div>
-      <p style="color:#6b7280;margin-top:4px;font-size:11px">Faixas${usesDatabase ? ' (com Bloco 6.b — Res 738)' : ''}: I (0-${t.levelI}) · II (${t.levelI + 1}-${t.levelII}) · III (${t.levelII + 1}-${t.levelIII}) · IV (${t.levelIII + 1}-${t.maxScore})</p>
+      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}</div>
+      <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${label(result.levelInfo, 'label', locale)}</div>
+      <p style="color:#6b7280;margin-top:8px;font-size:13px">${label(result.levelInfo, 'description', locale)}</p>
+      <div style="font-size:24px;font-weight:bold;color:${lc.text};margin-top:8px">${result.totalScore} / ${result.maxScore} ${t('pontos')}</div>
+      <p style="color:#6b7280;margin-top:4px;font-size:11px">${t('faixas', { db: usesDatabase ? t('faixasDbSuffix') : '', i: String(th.levelI), i1: String(th.levelI + 1), ii: String(th.levelII), ii1: String(th.levelII + 1), iii: String(th.levelIII), iii1: String(th.levelIII + 1), max: String(th.maxScore) })}</p>
     </div>
     ${clausulaSection}
     <h3 style="margin:20px 0 10px;font-size:15px;color:#374151">${heading}</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13px">
       <thead>
         <tr style="background:#f9fafb">
-          <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">Bloco</th>
-          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">Pontuação</th>
+          <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colBloco')}</th>
+          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colPontuacao')}</th>
         </tr>
       </thead>
       <tbody>${blockRows}</tbody>
@@ -706,13 +740,14 @@ export function generateReportHTML(
     hour: '2-digit',
     minute: '2-digit',
   });
+  const t = reportTranslator(locale);
   // No modo triagem com B já percorrida, o relatório vira combinado.
   const isCombinedReport = useAAsTriagem && version === 'B';
   const versionLabel = isCombinedReport
-    ? 'Triagem (A → B) — Relatório Combinado'
-    : version === 'A' ? 'A — Qualitativa' : 'B — Quantitativa';
+    ? t('versaoCombinada')
+    : version === 'A' ? t('versaoA') : t('versaoB');
   const dbBadge = usesDatabase
-    ? '<span style="background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">Banco de dados (Res 738)</span>'
+    ? `<span style="background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">${t('dbBadge')}</span>`
     : '';
 
   let resultSection = '';
@@ -720,35 +755,34 @@ export function generateReportHTML(
   let eliminatoryIdForReport: string | null = null;
 
   if (isCombinedReport) {
-    const qualSection = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, 'Resultado por Eixo (Versão A — Triagem)');
-    const quantSection = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, 'Resultado por Bloco (Versão B — Quantitativa)');
+    const qualSection = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, locale, t('headingEixoTriagem'));
+    const quantSection = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, locale, t('headingBlocoTriagem'));
     eliminatoryIdForReport = quantSection.eliminatoryQuestionId ?? qualSection.eliminatoryQuestionId;
 
     resultSection = `
       <div style="margin:18px 0;padding:12px 14px;background:#f1f5f9;border-left:4px solid #475569;border-radius:4px;font-size:12px;color:#334155">
-        <strong>Modo Triagem A → B.</strong> Este relatório consolida as duas matrizes percorridas pelo avaliador.
-        O nível final consolidado é o <strong>mais alto entre as duas</strong> (critério mais conservador).
+        <strong>${t('combinadoNotaA')}</strong> ${t('combinadoNotaB')}<strong>${t('combinadoNotaStrong')}</strong>${t('combinadoNotaC')}
       </div>
-      <h3 style="margin:24px 0 6px;font-size:16px;color:#0C2C56;border-bottom:2px solid #0C2C56;padding-bottom:4px">▌ Versão A — Qualitativa (Triagem)</h3>
+      <h3 style="margin:24px 0 6px;font-size:16px;color:#0C2C56;border-bottom:2px solid #0C2C56;padding-bottom:4px">${t('secaoVersaoA')}</h3>
       ${qualSection.html}
-      <h3 style="margin:32px 0 6px;font-size:16px;color:#334155;border-bottom:2px solid #334155;padding-bottom:4px">▌ Versão B — Quantitativa</h3>
+      <h3 style="margin:32px 0 6px;font-size:16px;color:#334155;border-bottom:2px solid #334155;padding-bottom:4px">${t('secaoVersaoB')}</h3>
       ${quantSection.html}`;
   } else if (version === 'A') {
-    const built = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase);
+    const built = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, locale, t('headingEixo'));
     resultSection = built.html;
     eliminatoryIdForReport = built.eliminatoryQuestionId;
   } else {
-    const built = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase);
+    const built = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, locale, t('headingBloco'));
     resultSection = built.html;
     eliminatoryIdForReport = built.eliminatoryQuestionId;
   }
 
   if (eliminatoryIdForReport) {
-    const info = getEliminatoryInfo(eliminatoryIdForReport);
+    const info = getEliminatoryInfo(eliminatoryIdForReport, locale);
     eliminatoryWarning = `
       <div style="margin:16px 0;padding:14px;background:#fef2f2;border:2px solid #dc2626;border-radius:6px;font-size:13px;color:#7f1d1d">
-        <strong>⛔ Hipótese eliminatória acionada (${eliminatoryIdForReport})</strong><br>
-        O protocolo NÃO É AVALIÁVEL NO MÉRITO — ${info.motivo}
+        <strong>${t('eliminatorioHtmlTitulo', { id: eliminatoryIdForReport })}</strong><br>
+        ${t('eliminatorioNaoAvaliavel', { motivo: info.motivo })}
       </div>`;
   }
 
@@ -771,12 +805,12 @@ export function generateReportHTML(
     const rlc = LEVEL_COLORS[req.nivel];
     const isRes738 = req.id.startsWith('req-738');
     const tagRes738 = isRes738
-      ? '<span style="background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;padding:0 4px;border-radius:3px;font-size:10px;margin-right:4px">Res 738</span>'
+      ? `<span style="background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;padding:0 4px;border-radius:3px;font-size:10px;margin-right:4px">${t('res738Tag')}</span>`
       : '';
     reqItems += `
       <li style="margin:6px 0;font-size:13px">
-        <span style="background:${rlc.bg};color:${rlc.text};padding:1px 6px;border-radius:3px;font-size:11px;font-weight:600;border:1px solid ${rlc.border}">Nível ${req.nivel}</span>
-        ${tagRes738}${req.texto}
+        <span style="background:${rlc.bg};color:${rlc.text};padding:1px 6px;border-radius:3px;font-size:11px;font-weight:600;border:1px solid ${rlc.border}">${t('nivelPalavra')} ${req.nivel}</span>
+        ${tagRes738}${label(req, 'texto', locale)}
       </li>`;
   }
 
@@ -801,9 +835,9 @@ export function generateReportHTML(
   let unansweredSection = '';
   if (unanswered.length === 0) {
     unansweredSection = `
-      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Itens não avaliados (auditoria)</h3>
+      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">${t('itensTitulo')}</h3>
       <div style="padding:12px;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;font-size:12px;color:#15803d">
-        ✓ Todas as perguntas aplicáveis e campos de contexto foram preenchidos.
+        ${t('itensOkHtml')}
       </div>`;
   } else {
     // Agrupa por scopeName para o relatório ficar legível.
@@ -826,10 +860,10 @@ export function generateReportHTML(
         </div>`;
     }
     unansweredSection = `
-      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Itens não avaliados (auditoria)</h3>
+      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">${t('itensTitulo')}</h3>
       <div style="padding:14px;background:#fffbeb;border:1px solid #fbbf24;border-radius:6px;font-size:12px;color:#78350f">
-        <p style="margin:0 0 8px;font-weight:600">⚠️ ${unanswered.length} ite${unanswered.length === 1 ? 'm' : 'ns'} sem avaliação registrada.</p>
-        <p style="margin:0 0 8px">Para fins de auditoria, listamos abaixo cada pergunta apresentada que ficou sem resposta. O cálculo do nível de risco trata <strong>ausência de resposta como "não risco" por padrão</strong>; recomenda-se que o CEP justifique cada item ou solicite diligência ao pesquisador antes de deliberar.</p>
+        <p style="margin:0 0 8px;font-weight:600">${t('itensCountHtml', { count: unanswered.length })}</p>
+        <p style="margin:0 0 8px">${t('itensDescHtmlA')}<strong>${t('itensDescHtmlStrong')}</strong>${t('itensDescHtmlB')}</p>
         ${groupsHtml}
       </div>`;
   }
@@ -841,41 +875,43 @@ export function generateReportHTML(
     if (!isContextQuestionVisible(q, contextAnswers)) continue;
     const ans = contextAnswers[q.id];
     contextItemsHtml += `
-    <p style="margin:0 0 8px;font-size:13px"><strong>${q.pergunta}</strong> ${ans && ans.trim() ? ans : 'Não informado'}</p>`;
+    <p style="margin:0 0 8px;font-size:13px"><strong>${label(q, 'pergunta', locale)}</strong> ${ans && ans.trim() ? ans : t('naoInformado')}</p>`;
   }
 
   // Questões marcadas como "Não se aplica" — rastro auditável da escolha 'na'.
   let naoSeAplica: NaoSeAplicaItem[];
   if (isCombinedReport) {
     naoSeAplica = [
-      ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase),
-      ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase),
+      ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+      ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
     ];
   } else {
-    naoSeAplica = getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+    naoSeAplica = getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
   }
   let naoSeAplicaSection = '';
   if (naoSeAplica.length > 0) {
     let naRows = '';
     for (const it of naoSeAplica) {
       const tag = it.eliminatorio
-        ? '<span style="background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5;padding:0 5px;border-radius:3px;font-size:10px;margin-left:6px;font-weight:600">diligência eliminatória — não-avaliabilidade afastada</span>'
+        ? `<span style="background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5;padding:0 5px;border-radius:3px;font-size:10px;margin-left:6px;font-weight:600">${t('naTagEliminatorio')}</span>`
         : '';
       naRows += `<li style="margin:3px 0;font-size:12px"><strong style="font-family:monospace;color:#374151">${it.id}</strong> — ${it.label}${tag}</li>`;
     }
     naoSeAplicaSection = `
-      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Questões marcadas como "Não se aplica"</h3>
+      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">${t('naTitulo')}</h3>
       <div style="padding:14px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#374151">
-        <p style="margin:0 0 8px">Quem preencheu marcou ${naoSeAplica.length} quest${naoSeAplica.length === 1 ? 'ão' : 'ões'} como <strong>"Não se aplica"</strong>. Registrado para auditoria: a escolha declara que o antecedente da pergunta não se verifica no protocolo. Nas questões eliminatórias (destacadas), o "Não se aplica" afasta a hipótese de não-avaliabilidade — recomenda-se que o CEP confirme o enquadramento.</p>
+        <p style="margin:0 0 8px">${t('naCountHtmlA', { count: naoSeAplica.length })}<strong>"${t('naCitacaoTexto')}"</strong>. ${t('naCountHtmlB')}</p>
         <ul style="padding-left:18px;margin:0">${naRows}</ul>
       </div>`;
   }
+
+  const courtesyNotice = getCourtesyNotice(locale);
 
   return `<!DOCTYPE html>
 <html lang="${locale}">
 <head>
   <meta charset="UTF-8">
-  <title>MARIAH — Relatório de Avaliação de Risco em IA</title>
+  <title>${t('docTitle')}</title>
   <style>
     @media print { body { padding: 20px; } }
   </style>
@@ -884,34 +920,34 @@ export function generateReportHTML(
   <div style="border-bottom:3px solid #0C2C56;padding-bottom:16px;margin-bottom:24px">
     <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
       <h1 style="margin:0;font-size:24px;color:#0C2C56">MARIAH</h1>
-      <span style="font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;white-space:nowrap">Versão preliminar</span>
+      <span style="font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;background:#fef3c7;color:#92400e;border:1px solid #fde68a;white-space:nowrap">${t('badgePreliminar')}</span>
     </div>
-    <p style="margin:4px 0 0;font-size:14px;color:#6b7280">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+    <p style="margin:4px 0 0;font-size:14px;color:#6b7280">${t('subtitle')}</p>
   </div>
 
   <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:20px;flex-wrap:wrap;gap:8px">
-    <span><strong>Versão:</strong> ${versionLabel} ${dbBadge}</span>
-    <span><strong>Data:</strong> ${date}</span>
-    <span><strong>Versão da matriz:</strong> ${MATRIX_VERSION}</span>
+    <span><strong>${t('versaoRotulo')}</strong> ${versionLabel} ${dbBadge}</span>
+    <span><strong>${t('dataRotulo')}</strong> ${date}</span>
+    <span><strong>${t('versaoMatrizRotulo')}</strong> ${MATRIX_VERSION}</span>
   </div>
 
   <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:20px">
-    <h3 style="margin:0 0 10px;font-size:14px;color:#374151">Identificação do Protocolo</h3>
-    <p style="margin:0 0 6px;font-size:13px"><strong>Título do Projeto:</strong> ${contextAnswers['titulo'] || 'Não informado'}</p>
-    <p style="margin:0 0 6px;font-size:13px"><strong>Instituição:</strong> ${contextAnswers['instituicao'] || 'Não informado'}</p>
-    <p style="margin:0;font-size:13px"><strong>Nome do CEP:</strong> ${contextAnswers['cep_nome'] || 'Não informado'}</p>
+    <h3 style="margin:0 0 10px;font-size:14px;color:#374151">${t('identTitulo')}</h3>
+    <p style="margin:0 0 6px;font-size:13px"><strong>${t('identTituloProjeto')}:</strong> ${contextAnswers['titulo'] || t('naoInformado')}</p>
+    <p style="margin:0 0 6px;font-size:13px"><strong>${t('identInstituicao')}:</strong> ${contextAnswers['instituicao'] || t('naoInformado')}</p>
+    <p style="margin:0;font-size:13px"><strong>${t('identCep')}:</strong> ${contextAnswers['cep_nome'] || t('naoInformado')}</p>
   </div>
 
   <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:20px">
-    <h3 style="margin:0 0 10px;font-size:14px;color:#374151">Caracterização do Contexto</h3>
+    <h3 style="margin:0 0 10px;font-size:14px;color:#374151">${t('contextoTitulo')}</h3>
     ${contextItemsHtml}
-    <p style="margin:0;font-size:13px"><strong>Utiliza banco de dados:</strong> ${usesDatabase ? 'Sim — Eixo 3.b / Bloco 6.b ativados (Res. CNS n.º 738/2024)' : 'Não'}</p>
+    <p style="margin:0;font-size:13px"><strong>${t('utilizaBanco')}</strong> ${usesDatabase ? t('bancoSimLongo') : t('nao')}</p>
   </div>
 
   ${eliminatoryWarning}
   ${resultSection}
 
-  <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Requisitos (cumulativos)</h3>
+  <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">${t('requisitosTitulo')}</h3>
   <ul style="padding-left:20px">${reqItems}</ul>
 
   ${unansweredSection}
@@ -919,15 +955,15 @@ export function generateReportHTML(
   ${naoSeAplicaSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
-    <strong>Aviso:</strong> ${MARIA_DISCLAIMER}
+    <strong>${t('avisoRotulo')}</strong> ${getDisclaimer(locale)}${courtesyNotice ? `<p style="margin:8px 0 0;font-style:italic">${courtesyNotice}</p>` : ''}
   </div>
 
   <div style="margin-top:24px;text-align:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:12px;line-height:1.6">
-    MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Gerado em ${date}
+    ${t('footerGerado', { date })}
     <br>
-    Desenvolvido pelo Ministério da Saúde para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
+    ${t('footerDev')}
     <br>
-    <span style="font-size:10px">Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)</span>
+    <span style="font-size:10px">${t('footerLicenca')}</span>
   </div>
 </body>
 </html>`;
@@ -945,89 +981,90 @@ export function generateReportText(
   locale: string = 'pt-BR'
 ): string {
   const lines: string[] = [];
+  const t = reportTranslator(locale);
   const isCombinedReport = useAAsTriagem && version === 'B';
 
   lines.push('═══════════════════════════════════════════════════════════');
-  lines.push('MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos');
-  lines.push('[Versão preliminar]');
+  lines.push(t('txtHeaderTitulo'));
+  lines.push(t('txtHeaderPreliminar'));
   lines.push('═══════════════════════════════════════════════════════════');
   lines.push('');
-  lines.push(`Versão: ${
+  lines.push(`${t('versaoRotulo')} ${
     isCombinedReport
-      ? 'Triagem (A → B) — Relatório Combinado'
-      : version === 'A' ? 'A — Qualitativa' : 'B — Quantitativa'
+      ? t('versaoCombinada')
+      : version === 'A' ? t('versaoA') : t('versaoB')
   }`);
-  lines.push(`Data: ${new Date().toLocaleDateString(locale)}`);
-  lines.push(`Utiliza banco de dados: ${usesDatabase ? 'Sim (Res 738)' : 'Não'}`);
-  lines.push(`Versão da matriz: ${MATRIX_VERSION}`);
+  lines.push(`${t('dataRotulo')} ${new Date().toLocaleDateString(locale)}`);
+  lines.push(`${t('utilizaBanco')} ${usesDatabase ? t('bancoSimCurto') : t('nao')}`);
+  lines.push(`${t('versaoMatrizRotulo')} ${MATRIX_VERSION}`);
   lines.push('');
 
   // Identification + Context
-  lines.push('── IDENTIFICAÇÃO DO PROTOCOLO ──');
-  lines.push(`Título do Projeto: ${contextAnswers['titulo'] || 'Não informado'}`);
-  lines.push(`Instituição: ${contextAnswers['instituicao'] || 'Não informado'}`);
-  lines.push(`Nome do CEP: ${contextAnswers['cep_nome'] || 'Não informado'}`);
+  lines.push(t('identTxtTitulo'));
+  lines.push(`${t('identTituloProjeto')}: ${contextAnswers['titulo'] || t('naoInformado')}`);
+  lines.push(`${t('identInstituicao')}: ${contextAnswers['instituicao'] || t('naoInformado')}`);
+  lines.push(`${t('identCep')}: ${contextAnswers['cep_nome'] || t('naoInformado')}`);
   lines.push('');
-  lines.push('── CARACTERIZAÇÃO DO CONTEXTO ──');
+  lines.push(t('contextoTxtTitulo'));
   // Todas as descritivas visíveis (C.1…C.8), respeitando exibição condicional.
   for (const q of CONTEXT_QUESTIONS) {
     if (!isContextQuestionVisible(q, contextAnswers)) continue;
     const ans = contextAnswers[q.id];
-    lines.push(`${q.pergunta} ${ans && ans.trim() ? ans : 'Não informado'}`);
+    lines.push(`${label(q, 'pergunta', locale)} ${ans && ans.trim() ? ans : t('naoInformado')}`);
   }
-  lines.push(`Utiliza banco de dados: ${usesDatabase ? 'Sim — Eixo 3.b / Bloco 6.b (Res. CNS n.º 738/2024)' : 'Não'}`);
+  lines.push(`${t('utilizaBanco')} ${usesDatabase ? t('bancoSimLongoTxt') : t('nao')}`);
   lines.push('');
 
   const renderQual = () => {
-    const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase);
-    lines.push(`Nível ${result.level} — ${result.levelInfo.label}`);
+    const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, locale);
+    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
     if (result.protocoloNaoAvaliavel) {
       lines.push('');
-      lines.push(`⛔ PROTOCOLO NÃO AVALIÁVEL NO MÉRITO (eliminatório em ${result.eliminatoryQuestionId})`);
-      lines.push(`   → Diligência obrigatória — ${getEliminatoryInfo(result.eliminatoryQuestionId).motivo}`);
+      lines.push(t('eliminatorioTxtTitulo', { id: result.eliminatoryQuestionId ?? '' }));
+      lines.push(`   ${t('diligenciaObrigatoria', { motivo: getEliminatoryInfo(result.eliminatoryQuestionId, locale).motivo })}`);
     }
     lines.push('');
     for (const axis of result.axisResults) {
       lines.push(`${axis.axisName}`);
       lines.push(
-        `  Respostas de risco: ${axis.riskCount}/${axis.totalQuestions} → Nível ${axis.level} (${RISK_LEVELS[axis.level].label})`
+        `  ${t('respostasRiscoTxt', { count: String(axis.riskCount), total: String(axis.totalQuestions), level: axis.level, label: label(RISK_LEVELS[axis.level], 'label', locale) })}`
       );
     }
   };
 
   const renderQuant = () => {
-    const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase);
-    lines.push(`Nível ${result.level} — ${result.levelInfo.label}`);
-    lines.push(`Pontuação total: ${result.totalScore}/${result.maxScore}`);
+    const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, locale);
+    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
+    lines.push(t('pontuacaoTotalTxt', { score: String(result.totalScore), max: String(result.maxScore) }));
     if (result.clausulaPrevalencia) {
       lines.push('');
-      lines.push('⚠️ CLÁUSULA DE PREVALÊNCIA ÉTICA ATIVADA');
-      lines.push('O protocolo foi elevado a Nível IV devido a P4.1 ou P4.2 = Sim');
+      lines.push(t('clausulaTituloTxt'));
+      lines.push(t('clausulaTexto'));
     }
     if (result.protocoloNaoAvaliavel) {
       lines.push('');
-      lines.push(`⛔ PROTOCOLO NÃO AVALIÁVEL NO MÉRITO (eliminatório em ${result.eliminatoryQuestionId})`);
-      lines.push(`   → Diligência obrigatória — ${getEliminatoryInfo(result.eliminatoryQuestionId).motivo}`);
+      lines.push(t('eliminatorioTxtTitulo', { id: result.eliminatoryQuestionId ?? '' }));
+      lines.push(`   ${t('diligenciaObrigatoria', { motivo: getEliminatoryInfo(result.eliminatoryQuestionId, locale).motivo })}`);
     }
     lines.push('');
     for (const block of result.blockResults) {
-      lines.push(`${block.blockName}: ${block.score} pts`);
+      lines.push(`${block.blockName}: ${block.score} ${t('pts')}`);
     }
   };
 
   if (isCombinedReport) {
-    lines.push('── RESULTADO FINAL — VERSÃO A (TRIAGEM) ──');
+    lines.push(t('resultadoFinalATxt'));
     renderQual();
     lines.push('');
-    lines.push('── RESULTADO FINAL — VERSÃO B (QUANTITATIVA) ──');
+    lines.push(t('resultadoFinalBTxt'));
     renderQuant();
     lines.push('');
-    lines.push('Nota: o nível consolidado para os requisitos é o MAIS ALTO entre A e B.');
+    lines.push(t('notaConsolidadoTxt'));
   } else if (version === 'A') {
-    lines.push('── RESULTADO FINAL ──');
+    lines.push(t('resultadoFinalTxt'));
     renderQual();
   } else {
-    lines.push('── RESULTADO FINAL ──');
+    lines.push(t('resultadoFinalTxt'));
     renderQuant();
   }
 
@@ -1048,11 +1085,11 @@ export function generateReportText(
     );
   }
   lines.push('');
-  lines.push('── ITENS NÃO AVALIADOS (AUDITORIA) ──');
+  lines.push(t('itensTxtTitulo'));
   if (unanswered.length === 0) {
-    lines.push('✓ Todas as perguntas aplicáveis e campos foram preenchidos.');
+    lines.push(t('itensOkTxt'));
   } else {
-    lines.push(`⚠️ ${unanswered.length} item(ns) sem resposta. Ausência tratada como "não risco" no cálculo.`);
+    lines.push(t('itensCountTxt', { count: String(unanswered.length) }));
     let lastScope = '';
     for (const it of unanswered) {
       if (it.scopeName !== lastScope) {
@@ -1068,16 +1105,16 @@ export function generateReportText(
   let naoSeAplicaTxt: NaoSeAplicaItem[];
   if (isCombinedReport) {
     naoSeAplicaTxt = [
-      ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase),
-      ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase),
+      ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+      ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
     ];
   } else {
-    naoSeAplicaTxt = getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+    naoSeAplicaTxt = getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
   }
   if (naoSeAplicaTxt.length > 0) {
     lines.push('');
-    lines.push('── QUESTÕES MARCADAS COMO "NÃO SE APLICA" ──');
-    lines.push(`${naoSeAplicaTxt.length} questão(ões) marcada(s) como "Não se aplica" por quem preencheu (registro de auditoria).`);
+    lines.push(t('naTituloTxt'));
+    lines.push(t('naCountTxt', { count: String(naoSeAplicaTxt.length) }));
     let lastScopeNa = '';
     for (const it of naoSeAplicaTxt) {
       if (it.scopeName !== lastScopeNa) {
@@ -1085,13 +1122,18 @@ export function generateReportText(
         lines.push(`[${it.scopeName}]`);
         lastScopeNa = it.scopeName;
       }
-      lines.push(`  • ${it.id} — ${it.label}${it.eliminatorio ? '  [diligência eliminatória — não-avaliabilidade afastada]' : ''}`);
+      lines.push(`  • ${it.id} — ${it.label}${it.eliminatorio ? `  [${t('naTagEliminatorio')}]` : ''}`);
     }
   }
 
   lines.push('');
-  lines.push('── AVISO ──');
-  lines.push(MARIA_DISCLAIMER);
+  lines.push(t('avisoTxtTitulo'));
+  lines.push(getDisclaimer(locale));
+  const courtesyNotice = getCourtesyNotice(locale);
+  if (courtesyNotice) {
+    lines.push('');
+    lines.push(courtesyNotice);
+  }
   lines.push('');
   lines.push('═══════════════════════════════════════════════════════════');
 

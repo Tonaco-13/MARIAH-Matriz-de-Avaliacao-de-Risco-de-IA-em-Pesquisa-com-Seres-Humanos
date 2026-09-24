@@ -17,7 +17,7 @@ import {
   Info,
   FileText,
 } from 'lucide-react';
-import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
+import { getNaoSubstitui } from '@/components/maria/disclaimer';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -99,7 +99,7 @@ export default async function TransparenciaPage({ params }: PageProps) {
             {t('pages.transparencia.s1p1')}
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            {MARIA_NAO_SUBSTITUI} {t.rich('pages.transparencia.s1p2', {
+            {getNaoSubstitui(locale)} {t.rich('pages.transparencia.s1p2', {
               b: (chunks) => <strong>{chunks}</strong>,
             })}
           </p>

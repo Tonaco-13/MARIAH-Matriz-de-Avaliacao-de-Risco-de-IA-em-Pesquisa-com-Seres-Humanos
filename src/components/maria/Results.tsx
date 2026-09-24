@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
-import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738 } from './data';
+import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, label } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer, QuantitativeAnswer } from './utils';
 import {
@@ -32,7 +32,7 @@ import {
 } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
-import { MARIA_DISCLAIMER } from './disclaimer';
+import { getDisclaimer } from './disclaimer';
 
 type ResultsProps = {
   version: 'A' | 'B';
@@ -72,7 +72,7 @@ export default function Results({
     };
     return (
       <Badge className={`${colorMap[level]} border text-base px-4 py-1.5 font-semibold`}>
-        {t('assessment.nivelBadge', { level, label: info.label })}
+        {t('assessment.nivelBadge', { level, label: label(info, 'label', locale) })}
       </Badge>
     );
   };
@@ -106,20 +106,20 @@ export default function Results({
             {t('results.nivelCard', { level })}
           </div>
           <div className={`text-2xl font-semibold ${textMap[level]} mb-3`}>
-            {info.label}
+            {label(info, 'label', locale)}
           </div>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto">{info.description}</p>
+          <p className="text-sm text-muted-foreground max-w-md mx-auto">{label(info, 'description', locale)}</p>
         </CardContent>
       </Card>
     );
   };
 
   const qualResult = version === 'A' || useAAsTriagem
-    ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers)
+    ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale)
     : null;
 
   const quantResult = version === 'B'
-    ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers)
+    ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale)
     : null;
 
   // No modo triagem A→B, o nível consolidado é o MAIS ALTO entre as duas matrizes
@@ -188,8 +188,8 @@ export default function Results({
 
   const unansweredItems = isCombinedReport
     ? [
-        ...getUnansweredItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase),
-        ...getUnansweredItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+        ...getUnansweredItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+        ...getUnansweredItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale)
           .filter((it) => it.scope !== 'contexto'),
       ]
     : getUnansweredItems(
@@ -197,7 +197,8 @@ export default function Results({
         contextAnswers,
         qualitativeAnswers,
         quantitativeAnswers,
-        usesDatabase
+        usesDatabase,
+        locale
       );
   const unansweredByScope = unansweredItems.reduce<Record<string, typeof unansweredItems>>(
     (acc, item) => {
@@ -286,7 +287,7 @@ export default function Results({
                   <p className="text-sm text-red-800">
                     {t.rich('results.hipoteseEliminatoria', {
                       id: eliminatoryQuestionId,
-                      motivo: getEliminatoryInfo(eliminatoryQuestionId).motivo,
+                      motivo: getEliminatoryInfo(eliminatoryQuestionId, locale).motivo,
                       b: (chunks) => <strong>{chunks}</strong>,
                     })}
                   </p>
@@ -617,7 +618,7 @@ export default function Results({
                                   {t('results.res738Short')}
                                 </Badge>
                               )}
-                              {req.texto}
+                              {label(req, 'texto', locale)}
                             </span>
                           </li>
                         );
@@ -689,7 +690,7 @@ export default function Results({
               <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
               <div className="text-sm text-muted-foreground">
                 <p className="font-medium mb-1">{t('results.avisoImportante')}</p>
-                <p>{MARIA_DISCLAIMER}</p>
+                <p>{getDisclaimer(locale)}</p>
               </div>
             </div>
           </CardContent>
