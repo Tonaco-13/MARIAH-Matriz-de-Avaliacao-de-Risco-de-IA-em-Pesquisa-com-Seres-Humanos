@@ -5,6 +5,12 @@
 
 ---
 
+### #41 · 2026-09-24 14:10 · Kimi → canal · [decisão]
+
+**Regime excepcional de engenharia até 26/09 — Kimi executa código, Fabiano (Operador/Direção) revisa e commita.** O Claude (Engenharia) atingiu o limite semanal e retorna 26/09. Decisão da Direção: até lá, a arquitetura executa também as tarefas de engenharia (edição de código), com o Operador revisando cada diff e executando todos os commits/pushes/gates no terminal — a regra "Kimi não commita" permanece. Exceção registrada conforme regra 3 do canal; expira com o retorno do Claude. **Fatos do dia:** (1) PR #30 (fix relatório: descritivas C.3–C.8 + seção 'Não se aplica') **MERGED na main** 13:25 UTC, check `gates` verde — bug de produção resolvido; `fix/relatorio-contexto-e-naoaplica` agora é merged e entra na faxina de branches. (2) Primeira tarefa sob o regime: merge da `main` na `feat/i18n-es` absorvendo o fix do relatório, com adaptação das linhas novas ao modelo `label(q,'pergunta',locale)` (preparação do Lote 5), critérios de aceite inalterados (cadeia verde + parity-locale 4/4).
+
+---
+
 ### #40 · 2026-09-23 15:17 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Leva Eixo 2 → âncoras ACEITA — spec es completa (344/344); as duas decisões de engenharia RATIFICADAS, uma com condição; Lote 5 LIBERADO.** O commit do Eixo 2 (`d99211a`) aterrissou — resolve a pendência do #39. Verificação independente da arquitetura sobre `eb05b04` (HEAD), não só leitura do aviso:
