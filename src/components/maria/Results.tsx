@@ -3,7 +3,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import {
   Shield,
@@ -18,6 +17,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations, useLocale } from 'next-intl';
 import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738 } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer, QuantitativeAnswer } from './utils';
@@ -48,58 +48,6 @@ type ResultsProps = {
   onStepClick: (step: WizardStep) => void;
 };
 
-function LevelBadge({ level }: { level: RiskLevel }) {
-  const info = RISK_LEVELS[level];
-  const colorMap: Record<RiskLevel, string> = {
-    I: 'bg-green-100 text-green-800 border-green-300',
-    II: 'bg-amber-100 text-amber-800 border-amber-300',
-    III: 'bg-orange-100 text-orange-800 border-orange-300',
-    IV: 'bg-red-100 text-red-800 border-red-300',
-  };
-  return (
-    <Badge className={`${colorMap[level]} border text-base px-4 py-1.5 font-semibold`}>
-      Nível {level} — {info.label}
-    </Badge>
-  );
-}
-
-function LevelCard({ level }: { level: RiskLevel }) {
-  const info = RISK_LEVELS[level];
-  const bgMap: Record<RiskLevel, string> = {
-    I: 'bg-green-50 border-green-300',
-    II: 'bg-amber-50 border-amber-300',
-    III: 'bg-orange-50 border-orange-300',
-    IV: 'bg-red-50 border-red-300',
-  };
-  const textMap: Record<RiskLevel, string> = {
-    I: 'text-green-700',
-    II: 'text-amber-700',
-    III: 'text-orange-700',
-    IV: 'text-red-700',
-  };
-  const iconMap: Record<RiskLevel, React.ReactNode> = {
-    I: <CheckCircle2 className="h-10 w-10 text-green-500" />,
-    II: <AlertTriangle className="h-10 w-10 text-amber-500" />,
-    III: <AlertTriangle className="h-10 w-10 text-orange-500" />,
-    IV: <AlertTriangle className="h-10 w-10 text-red-500" />,
-  };
-
-  return (
-    <Card className={`border-2 ${bgMap[level]}`}>
-      <CardContent className="py-8 text-center">
-        <div className="flex justify-center mb-3">{iconMap[level]}</div>
-        <div className={`text-5xl font-bold ${textMap[level]} mb-1`}>
-          Nível {level}
-        </div>
-        <div className={`text-2xl font-semibold ${textMap[level]} mb-3`}>
-          {info.label}
-        </div>
-        <p className="text-sm text-muted-foreground max-w-md mx-auto">{info.description}</p>
-      </CardContent>
-    </Card>
-  );
-}
-
 export default function Results({
   version,
   useAAsTriagem,
@@ -111,6 +59,61 @@ export default function Results({
   onContinueToB,
   onStepClick,
 }: ResultsProps) {
+  const t = useTranslations();
+  const locale = useLocale();
+
+  const LevelBadge = ({ level }: { level: RiskLevel }) => {
+    const info = RISK_LEVELS[level];
+    const colorMap: Record<RiskLevel, string> = {
+      I: 'bg-green-100 text-green-800 border-green-300',
+      II: 'bg-amber-100 text-amber-800 border-amber-300',
+      III: 'bg-orange-100 text-orange-800 border-orange-300',
+      IV: 'bg-red-100 text-red-800 border-red-300',
+    };
+    return (
+      <Badge className={`${colorMap[level]} border text-base px-4 py-1.5 font-semibold`}>
+        {t('assessment.nivelBadge', { level, label: info.label })}
+      </Badge>
+    );
+  };
+
+  const LevelCard = ({ level }: { level: RiskLevel }) => {
+    const info = RISK_LEVELS[level];
+    const bgMap: Record<RiskLevel, string> = {
+      I: 'bg-green-50 border-green-300',
+      II: 'bg-amber-50 border-amber-300',
+      III: 'bg-orange-50 border-orange-300',
+      IV: 'bg-red-50 border-red-300',
+    };
+    const textMap: Record<RiskLevel, string> = {
+      I: 'text-green-700',
+      II: 'text-amber-700',
+      III: 'text-orange-700',
+      IV: 'text-red-700',
+    };
+    const iconMap: Record<RiskLevel, React.ReactNode> = {
+      I: <CheckCircle2 className="h-10 w-10 text-green-500" />,
+      II: <AlertTriangle className="h-10 w-10 text-amber-500" />,
+      III: <AlertTriangle className="h-10 w-10 text-orange-500" />,
+      IV: <AlertTriangle className="h-10 w-10 text-red-500" />,
+    };
+
+    return (
+      <Card className={`border-2 ${bgMap[level]}`}>
+        <CardContent className="py-8 text-center">
+          <div className="flex justify-center mb-3">{iconMap[level]}</div>
+          <div className={`text-5xl font-bold ${textMap[level]} mb-1`}>
+            {t('results.nivelCard', { level })}
+          </div>
+          <div className={`text-2xl font-semibold ${textMap[level]} mb-3`}>
+            {info.label}
+          </div>
+          <p className="text-sm text-muted-foreground max-w-md mx-auto">{info.description}</p>
+        </CardContent>
+      </Card>
+    );
+  };
+
   const qualResult = version === 'A' || useAAsTriagem
     ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers)
     : null;
@@ -146,7 +149,8 @@ export default function Results({
       qualitativeAnswers,
       quantitativeAnswers,
       usesDatabase,
-      useAAsTriagem
+      useAAsTriagem,
+      locale
     );
     const printWindow = window.open('', '_blank');
     if (printWindow) {
@@ -214,12 +218,12 @@ export default function Results({
               </div>
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <h1 className="text-xl font-bold">MARIAH</h1>
+                  <h1 className="text-xl font-bold">{t('app.title')}</h1>
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
-                    Versão preliminar
+                    {t('app.badgePreliminar')}
                   </span>
                 </div>
-                <p className="text-teal-700 text-xs">Resultado da Avaliação</p>
+                <p className="text-teal-700 text-xs">{t('results.headerSubtitle')}</p>
               </div>
             </div>
           </div>
@@ -237,10 +241,10 @@ export default function Results({
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
               <FileText className="h-4 w-4" />
-              Caracterização do Contexto
+              {t('results.contextTitle')}
               {usesDatabase && (
                 <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
-                  Res 738/2024 — banco de dados
+                  {t('results.contextRes738Badge')}
                 </Badge>
               )}
             </CardTitle>
@@ -248,21 +252,21 @@ export default function Results({
           <CardContent>
             <div className="space-y-3 text-sm">
               <div>
-                <span className="font-medium text-muted-foreground">Pergunta do sistema:</span>
-                <p className="mt-1">{contextAnswers['contexto1'] || 'Não informado'}</p>
+                <span className="font-medium text-muted-foreground">{t('results.perguntaSistema')}</span>
+                <p className="mt-1">{contextAnswers['contexto1'] || t('results.naoInformado')}</p>
               </div>
               <Separator />
               <div>
-                <span className="font-medium text-muted-foreground">Autonomia do sistema:</span>
-                <p className="mt-1">{contextAnswers['contexto2'] || 'Não informado'}</p>
+                <span className="font-medium text-muted-foreground">{t('results.autonomiaSistema')}</span>
+                <p className="mt-1">{contextAnswers['contexto2'] || t('results.naoInformado')}</p>
               </div>
               <Separator />
               <div>
-                <span className="font-medium text-muted-foreground">Utiliza banco de dados:</span>
+                <span className="font-medium text-muted-foreground">{t('results.utilizaBanco')}</span>
                 <p className="mt-1">
                   {usesDatabase
-                    ? 'Sim — Eixo 3.b / Bloco 6.b ativados (Resolução CNS n.º 738/2024)'
-                    : 'Não'}
+                    ? t('results.bancoSim')
+                    : t('ui.nao')}
                 </p>
               </div>
             </div>
@@ -277,14 +281,17 @@ export default function Results({
                 <AlertTriangle className="h-6 w-6 text-red-700 shrink-0 mt-0.5" />
                 <div>
                   <h3 className="font-semibold text-red-900 mb-1">
-                    ⛔ Protocolo NÃO AVALIÁVEL no mérito
+                    {t('results.naoAvaliavelTitle')}
                   </h3>
                   <p className="text-sm text-red-800">
-                    Hipótese eliminatória acionada em <strong>{eliminatoryQuestionId}</strong>
-                    {' — '}{getEliminatoryInfo(eliminatoryQuestionId).motivo}
+                    {t.rich('results.hipoteseEliminatoria', {
+                      id: eliminatoryQuestionId,
+                      motivo: getEliminatoryInfo(eliminatoryQuestionId).motivo,
+                      b: (chunks) => <strong>{chunks}</strong>,
+                    })}
                   </p>
                   <p className="text-sm text-red-800 mt-2">
-                    Isto não é agravamento de nível de risco — é bloqueio de avaliação.
+                    {t('results.naoAgravamento')}
                   </p>
                 </div>
               </div>
@@ -300,22 +307,21 @@ export default function Results({
                 <FileText className="h-5 w-5 text-slate-700 shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-[200px]">
                   <p className="text-sm font-semibold text-slate-800">
-                    Modo Triagem A → B — Relatório Combinado
+                    {t('results.triagemTitulo')}
                   </p>
                   <p className="text-xs text-slate-700 mt-1">
-                    Você percorreu as duas matrizes. O nível consolidado é o{' '}
-                    <strong>mais alto</strong> entre as duas (critério mais conservador).
+                    {t.rich('results.triagemDesc', { b: (chunks) => <strong>{chunks}</strong> })}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <Badge className="bg-teal-100 text-teal-700 border border-teal-300 text-[10px]">
-                    A: Nível {qualResult.level}
+                    {t('results.badgeA', { level: qualResult.level })}
                   </Badge>
                   <Badge className="bg-slate-200 text-slate-800 border border-slate-400 text-[10px]">
-                    B: Nível {quantResult.level}
+                    {t('results.badgeB', { level: quantResult.level })}
                   </Badge>
                   <Badge className="bg-red-100 text-red-700 border border-red-300 text-[10px] font-semibold">
-                    Consolidado: Nível {finalLevel}
+                    {t('results.badgeConsolidado', { level: finalLevel })}
                   </Badge>
                 </div>
               </div>
@@ -328,10 +334,9 @@ export default function Results({
         {protocoloNaoAvaliavel ? (
           <Card className="border-2 border-slate-300 bg-slate-50 mb-6">
             <CardContent className="py-6 text-center">
-              <p className="text-2xl font-bold text-slate-700">Classificação suspensa</p>
+              <p className="text-2xl font-bold text-slate-700">{t('results.classificacaoSuspensa')}</p>
               <p className="text-sm text-slate-600 mt-1">
-                O protocolo é <strong>não avaliável no mérito</strong> até a diligência ser sanada (ver acima).
-                Não há nível de risco atribuído.
+                {t.rich('results.suspensaDesc', { b: (chunks) => <strong>{chunks}</strong> })}
               </p>
             </CardContent>
           </Card>
@@ -346,11 +351,9 @@ export default function Results({
               <div className="flex items-start gap-3">
                 <AlertTriangle className="h-6 w-6 text-red-600 shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="font-semibold text-red-800 mb-1">Cláusula de Prevalência Ética</h3>
+                  <h3 className="font-semibold text-red-800 mb-1">{t('assessment.b.clausulaBadge')}</h3>
                   <p className="text-sm text-red-700">
-                    O protocolo foi elevado a <strong>Nível IV</strong> devido à resposta &quot;Sim&quot; 
-                    em P4.1 (sistema como único determinante de decisão) ou P4.2 (dano irreversível), 
-                    independentemente da pontuação total.
+                    {t.rich('results.clausulaDesc', { b: (chunks) => <strong>{chunks}</strong> })}
                   </p>
                 </div>
               </div>
@@ -365,16 +368,15 @@ export default function Results({
               <div className="flex items-start gap-3">
                 <AlertTriangle className="h-6 w-6 text-amber-600 shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-amber-800 mb-1">Recomendação de Aprofundamento</h3>
+                  <h3 className="font-semibold text-amber-800 mb-1">{t('results.recomendacaoTitle')}</h3>
                   <p className="text-sm text-amber-700 mb-3">
-                    O resultado da Versão A indicou Nível {qualResult!.level}. Recomenda-se aplicar a
-                    Versão B (Quantitativa) para documentação auditável e rastreabilidade numérica.
+                    {t('results.recomendacaoDesc', { level: qualResult!.level })}
                   </p>
                   <Button
                     className="bg-slate-700 hover:bg-slate-800 text-white"
                     onClick={onContinueToB}
                   >
-                    Continuar para Versão B
+                    {t('results.continuarVersaoB')}
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
@@ -392,9 +394,7 @@ export default function Results({
                 <div className="flex items-start gap-2 flex-1 min-w-[200px]">
                   <FileText className="h-4 w-4 text-slate-600 shrink-0 mt-0.5" />
                   <p className="text-xs text-slate-700 leading-relaxed">
-                    A Versão A foi suficiente para Nível {qualResult!.level}. Se preferir, você pode aplicar
-                    a Versão B mesmo assim — útil para registro do estudo, exigência de CEP local ou
-                    comparação numérica entre protocolos.
+                    {t('results.opcionalDesc', { level: qualResult!.level })}
                   </p>
                 </div>
                 <Button
@@ -403,7 +403,7 @@ export default function Results({
                   className="border-slate-300 text-slate-700 hover:bg-slate-100 shrink-0"
                   onClick={onContinueToB}
                 >
-                  Aplicar Versão B mesmo assim
+                  {t('results.aplicarVersaoB')}
                   <ChevronRight className="ml-1.5 h-3.5 w-3.5" />
                 </Button>
               </div>
@@ -417,7 +417,7 @@ export default function Results({
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
                 <FileText className="h-4 w-4" />
-                Resultado por Eixo — Versão A
+                {t('results.porEixo')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -436,17 +436,17 @@ export default function Results({
                           <span className="text-sm font-medium">{ar.axisName}</span>
                           {isRes738 && (
                             <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
-                              Res 738
+                              {t('results.res738Short')}
                             </Badge>
                           )}
                         </div>
                         <LevelBadge level={ar.level} />
                       </div>
                       <div className="flex items-center gap-3 text-xs text-muted-foreground mb-2">
-                        <span>Respostas de risco: {ar.riskCount}/{ar.totalQuestions}</span>
+                        <span>{t('results.respostasRiscoEixo', { count: String(ar.riskCount), total: String(ar.totalQuestions) })}</span>
                         {isRes738 && (
                           <span className="text-blue-700">
-                            (elevação especial: 1-2 → III · 3+ → IV)
+                            {t('results.elevacaoEspecialCurta')}
                           </span>
                         )}
                       </div>
@@ -466,7 +466,7 @@ export default function Results({
               </div>
               <Separator className="my-4" />
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <span className="text-sm font-medium">Consolidação: O nível final é o <strong>mais alto</strong> entre todos os eixos</span>
+                <span className="text-sm font-medium">{t.rich('results.consolidacaoEixos', { b: (chunks) => <strong>{chunks}</strong> })}</span>
                 <LevelBadge level={qualResult.level} />
               </div>
             </CardContent>
@@ -479,7 +479,7 @@ export default function Results({
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
                 <FileText className="h-4 w-4" />
-                Resultado por Bloco — Versão B
+                {t('results.porBloco')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -498,12 +498,12 @@ export default function Results({
                           <span className="text-sm font-medium">{br.blockName}</span>
                           {isRes738 && (
                             <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
-                              Res 738
+                              {t('results.res738Short')}
                             </Badge>
                           )}
                         </div>
                         <span className="text-sm font-mono font-semibold">
-                          {br.score}{br.isBlock7 && ' (bidirecional)'} / {br.maxPontos} pts
+                          {br.score}{br.isBlock7 && t('results.bidirecionalSuffix')} / {br.maxPontos} pts
                         </span>
                       </div>
                       <div className="w-full bg-muted rounded-full h-1.5">
@@ -523,9 +523,9 @@ export default function Results({
               <Separator className="my-4" />
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium">
-                  Pontuação Total
+                  {t('assessment.b.pontuacaoTotal')}
                   {usesDatabase && (
-                    <span className="text-xs text-blue-700 ml-2">(inclui Bloco 6.b — Res 738)</span>
+                    <span className="text-xs text-blue-700 ml-2">{t('results.incluiBloco6b')}</span>
                   )}
                 </span>
                 <span className="text-xl font-bold">
@@ -547,10 +547,10 @@ export default function Results({
                   />
                 </div>
                 <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                  <span>I (0-{quantResult.thresholds.levelI})</span>
-                  <span>II ({quantResult.thresholds.levelI + 1}-{quantResult.thresholds.levelII})</span>
-                  <span>III ({quantResult.thresholds.levelII + 1}-{quantResult.thresholds.levelIII})</span>
-                  <span>IV ({quantResult.thresholds.levelIII + 1}-{quantResult.maxScore})</span>
+                  <span>{t('assessment.b.faixaI', { max: String(quantResult.thresholds.levelI) })}</span>
+                  <span>{t('assessment.b.faixaII', { min: String(quantResult.thresholds.levelI + 1), max: String(quantResult.thresholds.levelII) })}</span>
+                  <span>{t('assessment.b.faixaIII', { min: String(quantResult.thresholds.levelII + 1), max: String(quantResult.thresholds.levelIII) })}</span>
+                  <span>{t('assessment.b.faixaIV', { min: String(quantResult.thresholds.levelIII + 1), max: String(quantResult.maxScore) })}</span>
                 </div>
               </div>
             </CardContent>
@@ -562,10 +562,10 @@ export default function Results({
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4" />
-              Requisitos por Nível (cumulativos)
+              {t('results.requisitosTitle')}
               {usesDatabase && (
                 <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-[10px]">
-                  + Res 738/2024
+                  {t('results.maisRes738')}
                 </Badge>
               )}
             </CardTitle>
@@ -601,7 +601,7 @@ export default function Results({
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <LevelBadge level={lvl} />
-                      {isActive && <span className="text-xs font-semibold text-muted-foreground">← Nível atual</span>}
+                      {isActive && <span className="text-xs font-semibold text-muted-foreground">{t('results.nivelAtualArrow')}</span>}
                     </div>
                     <ul className="space-y-1.5 ml-2">
                       {lvlReqs.map((req) => {
@@ -614,7 +614,7 @@ export default function Results({
                             <span className={isBelowOrEqual ? '' : 'line-through text-muted-foreground'}>
                               {isRes738 && (
                                 <Badge className="mr-1 bg-blue-50 text-blue-700 border border-blue-200 text-[9px] px-1 py-0">
-                                  Res 738
+                                  {t('results.res738Short')}
                                 </Badge>
                               )}
                               {req.texto}
@@ -637,15 +637,15 @@ export default function Results({
               {unansweredItems.length > 0 ? (
                 <>
                   <AlertTriangle className="h-4 w-4 text-amber-600" />
-                  <span>Itens não avaliados (auditoria)</span>
+                  <span>{t('results.itensTitle')}</span>
                   <Badge className="bg-amber-100 text-amber-800 border border-amber-300 text-[10px]">
-                    {unansweredItems.length} ite{unansweredItems.length === 1 ? 'm' : 'ns'}
+                    {t('results.itensCount', { count: unansweredItems.length })}
                   </Badge>
                 </>
               ) : (
                 <>
                   <CheckCircle2 className="h-4 w-4 text-green-600" />
-                  <span>Itens não avaliados (auditoria)</span>
+                  <span>{t('results.itensTitle')}</span>
                 </>
               )}
             </CardTitle>
@@ -653,14 +653,12 @@ export default function Results({
           <CardContent>
             {unansweredItems.length === 0 ? (
               <p className="text-sm text-green-700">
-                Todas as perguntas aplicáveis e campos de contexto foram preenchidos. Nenhum item ficou em aberto.
+                {t('results.nenhumItem')}
               </p>
             ) : (
               <>
                 <p className="text-sm text-amber-900 mb-3">
-                  Para fins de auditoria, listamos abaixo cada pergunta apresentada que ficou sem resposta. O cálculo do
-                  nível de risco trata <strong>ausência de resposta como &ldquo;não risco&rdquo; por padrão</strong>;
-                  recomenda-se que o CEP justifique cada item ou solicite diligência ao pesquisador antes de deliberar.
+                  {t.rich('results.auditoriaDesc', { b: (chunks) => <strong>{chunks}</strong> })}
                 </p>
                 <div className="space-y-3">
                   {Object.entries(unansweredByScope).map(([scopeName, items]) => (
@@ -690,7 +688,7 @@ export default function Results({
             <div className="flex items-start gap-3">
               <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
               <div className="text-sm text-muted-foreground">
-                <p className="font-medium mb-1">Aviso importante</p>
+                <p className="font-medium mb-1">{t('results.avisoImportante')}</p>
                 <p>{MARIA_DISCLAIMER}</p>
               </div>
             </div>
@@ -704,20 +702,16 @@ export default function Results({
               <ClipboardCheck className="h-5 w-5 text-teal-700 shrink-0 mt-0.5" />
               <div className="flex-1 text-sm">
                 <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                  <p className="font-medium text-foreground">Validação Local pelos CEPs</p>
+                  <p className="font-medium text-foreground">{t('footer.linkValidacao')}</p>
                   <Badge
                     variant="outline"
                     className="text-[10px] font-medium px-2 py-0 border-amber-400 text-amber-700 bg-amber-50"
                   >
-                    em revisão
+                    {t('results.emRevisaoBadge')}
                   </Badge>
                 </div>
                 <p className="text-muted-foreground mb-3 leading-relaxed">
-                  O Grupo de Trabalho do Ministério da Saúde desenvolveu um protocolo opcional
-                  de validação local da MARIAH, descrito em apêndice próprio do{' '}
-                  <em>Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos</em> (atualmente em revisão).
-                  Seu CEP pode aplicá-lo desde já: baixe a planilha-modelo e o roteiro, e
-                  exporte os dados desta avaliação em formato compatível.
+                  {t.rich('results.validacaoDesc', { em: (chunks) => <em>{chunks}</em> })}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <Button
@@ -731,7 +725,7 @@ export default function Results({
                       download
                     >
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Planilha-modelo (.xlsx)
+                      {t('results.planilhaModelo')}
                     </a>
                   </Button>
                   <Button
@@ -745,7 +739,7 @@ export default function Results({
                       download
                     >
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Roteiro completo (.docx)
+                      {t('results.roteiroCompleto')}
                     </a>
                   </Button>
                   <Button
@@ -755,7 +749,7 @@ export default function Results({
                     className="bg-teal-700 hover:bg-teal-800 text-white"
                   >
                     <Download className="mr-1.5 h-3.5 w-3.5" />
-                    Exportar dados desta avaliação (.json)
+                    {t('results.exportarJson')}
                   </Button>
                   <Button
                     variant="ghost"
@@ -764,13 +758,13 @@ export default function Results({
                     className="text-teal-800 hover:bg-teal-100"
                   >
                     <Link href="/validacao">
-                      Saiba mais
+                      {t('results.saibaMais')}
                       <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
                     </Link>
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">
-                  Os arquivos serão atualizados conforme a revisão do guia for concluída.
+                  {t('results.arquivosAtualizados')}
                 </p>
               </div>
             </div>
@@ -781,11 +775,11 @@ export default function Results({
         <div className="flex flex-wrap gap-3">
           <Button variant="outline" onClick={handlePrint}>
             <Printer className="mr-2 h-4 w-4" />
-            Imprimir / Salvar PDF
+            {t('results.imprimir')}
           </Button>
           <Button variant="outline" onClick={onRestart}>
             <RotateCcw className="mr-2 h-4 w-4" />
-            Nova Avaliação
+            {t('results.novaAvaliacao')}
           </Button>
         </div>
       </main>
@@ -793,7 +787,7 @@ export default function Results({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • {version === 'A' ? 'Versão A — Qualitativa' : 'Versão B — Quantitativa'}
+            {t('results.footer', { versao: version === 'A' ? t('app.versionLabelA') : t('app.versionLabelB') })}
           </p>
         </div>
       </footer>

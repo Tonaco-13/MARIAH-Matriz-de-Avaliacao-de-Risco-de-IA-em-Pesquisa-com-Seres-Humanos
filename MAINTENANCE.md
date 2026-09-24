@@ -1,57 +1,130 @@
-# MARIAH — Manutenção: atualização e calibração da matriz
+# MARIAH — Manutenção
 
-> Metodologia verificada em 13/09/2026 pelo Guia (Kimi) e pelo revisor independente (Z Code — OK após conferência ao vivo dos gates e do repositório). Público: Equipe NDTI (técnico) e Direção. Estado de referência: **v2.0.0**.
+Notas de manutenção da MARIAH (Matriz de Avaliação de Risco de Inteligência
+Artificial em Pesquisa com Seres Humanos). Este documento descreve a
+infraestrutura de internacionalização (i18n) introduzida na branch
+`feat/i18n-architecture`. **Regra soberana:** a matriz (números, pesos, cortes,
+ids, `matrixVersion`) é a fonte de verdade; nada de i18n pode alterá-la.
 
-## 1. Princípio — fonte única e reprodutibilidade
-- A matriz é um único arquivo canônico e versionado: **`spec/mariah-spec.json`**.
-- `src/components/maria/data.ts` **importa** a spec; o guia renderiza o **mesmo** conteúdo ("fonte única, duas renderizações"). A paridade spec × guia é garantida por **checagem** (`parity`), não por confiança.
-- A spec **nunca é editada à mão** — é **gerada** por `scripts/build-spec-v2.ts` a partir de: baseline v1 + fichas do guia (`spec/fichas/`) + enunciados verbatim (`gate/enunciados-guia-v46.json`, extraídos do DOCX por `scripts/extract-enunciados-guia.py`).
+## Internacionalização (i18n)
 
-## 2. Como atualizar (fluxo de uma alteração)
-1. **Guia** emite/atualiza a **ficha** em `spec/fichas/` (conteúdo normativo).
-2. **Engenharia** regenera a spec: `npx tsx scripts/build-spec-v2.ts --apply`.
-3. Rodar os **gates** (seção 4).
-4. **Guia** confere a paridade e a planilha de vetores; **Z Code** audita o delta.
-5. Aprovado → **publicar** (seção 5), com versão, tag e CHANGELOG.
+### Visão geral
 
-**Classes de ficha (v0.4):** `efeito` ∈ {`risco`, `descritiva`, `evidencia`, `diligencia`} × `acao` ∈ {`incluir`, `alterar-redacao`, `alterar-opcoes`, `alterar`}.
+A MARIAH usa **next-intl 4** sobre Next.js 16 (App Router). O objetivo da
+arquitetura i18n é permitir traduções futuras **sem** alterar o pt-BR atual: na
+branch de infraestrutura, **nada visível muda** — este é o critério de sucesso.
 
-**Regra de escopo (governança):**
-- **Alteração de texto/critério sem impacto em pontuação → classe m1** (`alterar-redacao` / `alterar-dica`): sem novo id, sem recalibração (preserva tetos, cortes, paridade e vetores); registrada no CHANGELOG como "Redação alterada". Exemplo aplicado: pacote MHRA (fichas F-24 a F-28, aguardando GT).
-- **Item pontuável novo** (`efeito: risco`, `acao: incluir`) eleva o `maxPontos` do bloco e **dispara recalibração**; por decisão (c) da Fase 1, só pode entrar nos **Blocos 5 ou 6**, com aceite pela tabela de pesos pública (Quadro S4.11). Evidências (7C) são só-abate e diligências valem 0 — nenhuma mexe no teto.
+- **Idiomas previstos:** `pt-BR` (padrão) · `es` · `en` · `de` · `fr` · `zh`.
+- **URLs:** `localePrefix: "as-needed"`. O pt-BR fica **sem prefixo**
+  (`/`, `/instrucoes`, `/transparencia`, `/validacao`); os demais idiomas, quando
+  habilitados, ganham prefixo (`/es/...`).
+- **Estrutura:** todas as páginas vivem sob `src/app/[locale]/`. O arquivo de
+  middleware chama-se **`src/proxy.ts`** (renome do `middleware.ts` a partir do
+  Next.js 16).
 
-> **Limitação do gerador atual:** `build-spec-v2.ts` é **one-shot** — aborta se a spec já está em v2 e referencia as fichas v2 fixas. Uma próxima versão (v3) **exige nova ficha + extensão do gerador**; não é um caminho genérico pronto. Para regenerar a v2 do zero, parte-se da baseline v1 (`git show <commit_v1>:spec/mariah-spec.json`).
+### Flag de habilitação — `LOCALES_ENABLED`
 
-## 3. Calibração e recalibração
-- Cada item tem um **peso** (`pontos`) na ficha. **Teto** = soma dos pesos por versão.
-- **Cortes** = frações fixas do baseline 238 — **I = 50/238, II = 110/238, III = 180/238** — aplicadas ao **teto teórico** vigente, com **arredondamento de meia-unidade para cima** (`Math.round`, `build-spec-v2.ts`).
-- v2.0: base **275 → 58 / 127 / 208** (Nível IV ≥ 209); com banco (Res. 738) teto teórico **304 → 64 / 141 / 230**.
-- Os cortes derivam **sempre do teto teórico**. O **teto avaliável (297 = 304 − 7** da eliminatória P6.b.2**)** é **nota de domínio** (`notasDominio.tetoAvaliavelComBanco`), não a base dos cortes.
-- Baseline v1 (git, commit `bfefd0b`): 238 → 50/110/180; com banco 267 → 56/123/202.
+A exposição dos idiomas é controlada por uma flag lida **em runtime** dentro do
+`proxy.ts` (`process.env.LOCALES_ENABLED === "true"`). **Não** é `NEXT_PUBLIC_*`
+— para poder ser alternada sem rebuild no ambiente standalone/Vercel.
 
-## 4. Testes e gates
-| Comando | Garante | Estado v2.0 |
-|---|---|---|
-| `npm run verify` | Estrutura, contagens, tetos, cortes, efeitos (7C só-abate, diligências, eliminatórias, Prevalência, condicionais) | 98/98 |
-| `npm run parity` | Paridade 1:1 dos **enunciados** (128) app × quadros do guia | 0 divergências |
-| `npm run gate` | 31 vetores da Versão B + 33 do V17 pelas **funções reais** do app × planilha de pontuação paralela | 64/64 · Δ=0 |
-| `npm run build` | Compilação do app | OK |
+- **OFF (padrão):** qualquer caminho com prefixo de idioma gated
+  (`/es`, `/en`, `/de`, `/fr`, `/zh`) é redirecionado (307) ao equivalente pt-BR
+  sem prefixo; `/pt-BR` também redireciona para `/`. As rotas pt-BR são servidas
+  normalmente. Resultado: a aplicação se comporta exatamente como antes do i18n.
+- **ON:** o roteamento next-intl passa a servir também os idiomas prefixados.
 
-- **CI** (workflow `gates`): roda **`verify` + `parity` + `gate`** (os três) em push/PR, **com filtro de caminhos** — só dispara em `spec/**`, `gate/**`, os scripts e `data.ts`/`utils.ts`. Gate vermelho **bloqueia** o merge.
-- O **`build` NÃO é job da CI** — é validado no **preview** (Vercel) e manualmente antes do publish.
-- **Escopo da paridade (m8):** a `parity` cobre **enunciados**. Dicas, notas de verificação e textos de `requirements` são **camada app-side (paráfrase deliberada)** — não são verbatim e exigem sincronia manual **guia × spec × `data.ts`**.
+Configuração adicional em `src/i18n/routing.ts` (fixada nesta branch):
+`localeDetection: false` (locale só pela URL — não redireciona por
+`Accept-Language`), `localeCookie: false` (sem cookie `NEXT_LOCALE`),
+`alternateLinks: false` (sem header `Link`/`hreflang`). Isso mantém o
+comportamento idêntico ao pré-i18n para todos os visitantes e evita cookies/SEO
+de localidade nesta fase.
 
-## 5. Governança tripartite e publicação
-- **Três frentes:** Guia (redação/fichas/planilha) · Engenharia (implementação/gates/publicação) · Revisor independente (auditoria do delta + re-sonda da produção + termo).
-- **Gate tripartite:** nenhuma frente publica sozinha (o próprio cabeçalho da CI diz "NÃO substituem o gate tripartite"); divergência → gate; desbloqueio só por **waiver do GT** (ver `parity-check.ts`); impasse → GT.
-- **Publicação:** ramo isolado → PR → **preview** (Vercel) → gates verdes + termo do revisor no PR → **merge no `main`** (dispara produção) → **tag** semver (`vX.Y.Z`).
-- **Nunca commitar direto no `main`.** Reversão **não destrutiva** disponível (revert/checkout de árvore, sem `--force`) — precedente: rollback B1 (commit `84496ba`).
+> **Servidor standalone:** `node .next/standalone/server.js` (usado pelo
+> `npm start` via bun) tem um defeito conhecido de não consumir o rewrite interno
+> do middleware, gerando laço nas rotas pt-BR sem prefixo. Em **`next dev`** e na
+> **Vercel** o rewrite é interno e `/` responde 200. É um detalhe do runtime
+> standalone avulso, alheio ao código i18n.
 
-## 6. Versionamento e rastreabilidade
-- **`matrixVersion`** na spec + carimbo **`versaoMatriz`** em todos os exports: JSON (`utils.ts`), TXT e relatório imprimível/PDF.
-- **CHANGELOG** com o **mapa de ids (antigo → novo) — V18**: entrega da engenharia (Fase 5); descreve o **estado-alvo** e é atualizado a cada publicação.
-- **Chave de estado do navegador versionada** (`maria-assessment-state-v2`), com limpeza de chaves obsoletas e **não-migração** da v1 (`page.tsx`).
-- **DOCX do guia fora do repo** (`.gitignore`): o artefato versionado é `gate/enunciados-guia-v46.json`, **regenerável** por `scripts/extract-enunciados-guia.py` sempre que o DOCX mudar (ex.: F9/índices).
+### Modelo de conteúdo: campo-canônico + `i18n`
 
----
-*Ressalva: a MARIAH não aprova nem reprova protocolos e não substitui a deliberação do CEP; permanece em caráter preliminar, com validação empírica prospectiva (Apêndice F do Guia).*
+Duas fontes de texto, deliberadamente separadas:
+
+1. **Casca de UI e narrativa das páginas** → `messages/pt-BR.json`, acessada por
+   `useTranslations()` / `getTranslations()` (`t()`, `t.rich()`, plural ICU).
+   É a "casca" da interface; **não** contém conteúdo da matriz.
+2. **Conteúdo da matriz** (enunciados, dicas, nomes de eixo/bloco, rótulos de
+   nível, requisitos) → permanece **canônico pt-BR na spec**
+   (`spec/mariah-spec.json`, exposto por `src/components/maria/data.ts`). Cada nó
+   pode ganhar, no futuro, um campo **opcional** `i18n: { "<locale>": { "<campo>": "…" } }`.
+   O acesso a esse conteúdo se dá pelo helper **`label(node, campo, locale)`**
+   (em `data.ts`), com **fallback ao canônico pt-BR** quando não houver tradução.
+
+Nesta branch **nenhum nó tem `i18n`** — logo `label()` é comprovadamente um
+no-op (ver gate abaixo). A **religação** dos componentes a `label()` (e o
+threading de locale no `utils.ts` para nomes de eixo/bloco computados) ocorre na
+branch de tradução `feat/i18n-es`, em bloco, junto das traduções reais.
+
+### Regra de ouro (B7)
+
+Números, pesos, cortes (`58/127/208`; `64/141/230`), somas de bloco (`62/77`),
+teto (`297`), **ids de questão** e **`matrixVersion`** **nunca** entram em
+arquivos de mensagem nem em campos `i18n` como texto traduzível. Nenhuma chave de
+persistência (`localStorage['maria-assessment-state-v2']`), export (`.json`) ou
+gate deriva de string traduzível — as respostas são chaveadas por **id**.
+
+### Critério de verificação: DOM-texto idêntico
+
+"Nada muda" é verificado, não afirmado:
+
+- **`scripts/parity-locale.py`** — normaliza as 4 rotas pré-renderizadas
+  (nós de texto + `<title>`/`meta description` + hrefs de conteúdo, ignorando
+  scripts/estilos e assets hasheados) e compara com a **baseline NDTI congelada**
+  em `gate/baseline-ndti/` (gerada no 1º commit da branch, **imutável**).
+  `python3 scripts/parity-locale.py check` deve dar **4/4 OK** com a flag off.
+- **`scripts/i18n-identity.ts`** (roda no `npm run gate`) — prova que
+  `label()` é no-op sobre a **allowlist de 344 entradas** de conteúdo traduzível:
+  `label(node, campo, 'pt-BR')` e `label(node, campo, 'es')` (com `i18n` ausente)
+  retornam ambos o canônico. A allowlist (332 base + `description`×4 +
+  `motivoEliminatorio`×8; `exibicaoCondicional.descricao`×4 na base;
+  `referenciaNormativa`, `obs`, `opcoes`, ids e números **fora**) está
+  documentada no cabeçalho do script.
+- **`scripts/i18n-no-literal.ts`** (roda no `npm run gate`) — guarda de regressão
+  com dois checks nomeados. **(A) zero-literal JSX:** nenhum literal de texto
+  pt-BR (acento ou palavra-domínio inequívoca) em `src/**/*.tsx` — a casca vem de
+  `messages/` via `t()`, o conteúdo da matriz vem de `data.ts` por expressão.
+  **(B) golden-rule:** números de corte/teto, ids de questão e `matrixVersion`
+  não viram texto traduzível — regra **completa** nos campos `i18n` da spec (B1)
+  e, nos `messages/*.json` (B2), falha por número de corte/`matrixVersion`
+  (ids de questão em narrativa de ajuda são âncoras legítimas — listadas como
+  aviso informativo, não bloqueiam). Os tokens proibidos são lidos da spec, não
+  fixados no script.
+- Telas do wizard (não pré-renderizadas) são conferidas por e2e no preview da
+  Vercel contra a vitrine.
+
+### `matrixVersion`
+
+`spec.matrixVersion` sobe quando o **schema** da matriz muda. A infra i18n levou
+`2.1.0 → 2.2.0` (o schema ganhou o campo `i18n` opcional; o **conteúdo** da
+matriz não mudou). Ao alterar, atualize **no mesmo commit**:
+`spec/mariah-spec.json`, `scripts/build-spec-v2.ts` (constante que ele grava) e a
+expectativa em `scripts/verify-math.ts` — cada commit deve ser reproduzível verde.
+
+### Gates (rodar antes de cada merge)
+
+```
+npm run verify      # matemática/estrutura da matriz (tsx)
+npm run parity      # paridade spec × guia (128/0)
+npm run gate        # vetores de nível/pontuação + i18n-identity (no-op de label) + i18n-no-literal (A: zero-literal JSX; B: golden-rule)
+npm run build       # build de produção
+python3 scripts/parity-locale.py check   # pt-BR idêntico à baseline NDTI (flag off)
+```
+
+### Fluxo de tradução futura (`feat/i18n-es`)
+
+1. Preencher `messages/<locale>.json` (casca de UI/narrativa) e os campos `i18n`
+   dos nós da spec (conteúdo da matriz), sem tocar em números/ids/`matrixVersion`.
+2. Religar os componentes a `label()` (e threading de locale no `utils.ts`).
+3. Ligar a flag `LOCALES_ENABLED=true` no ambiente desejado.
+4. Rodar os gates; o `parity-locale check` continua a proteger o pt-BR.

@@ -1,0 +1,87 @@
+TITLE: Validação Local pelos CEPs — MARIAH
+META-DESC: Protocolo opcional de validação local da MARIAH pelos Comitês de Ética em Pesquisa, descrito no Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).
+--
+[a href=#conteudo-principal]
+Pular para o conteúdo
+[a href=/]
+Voltar à MARIAH
+Validação Local pelos CEPs
+em revisão
+Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
+Protocolo opcional para que cada CEP verifique como a MARIAH se comporta na casuística de protocolos de pesquisa com inteligência artificial que efetivamente lhe são submetidos.
+Status:
+o
+Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
+está em fase de revisão pelo Grupo de Trabalho do Ministério da Saúde. Os arquivos abaixo correspondem à minuta atual e serão atualizados quando o guia for publicado oficialmente.
+Por que validar localmente
+A MARIAH é instrumento de apoio à deliberação do CEP — não norma vinculante. A adoção da matriz é escolha institucional de cada CEP, e a validação local segue o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar decisão central para fazê-lo. Quando o colegiado entender que vale a pena verificar como a matriz se comporta nos protocolos que lhe são submetidos, o protocolo da Validação Local (Caderno 2) oferece um roteiro prático.
+Há três razões para um CEP querer validar localmente:
+aprendizado institucional
+(descobrir quais perguntas estão sendo interpretadas de forma divergente entre avaliadores),
+qualificação dos pareceres
+(demonstrar aplicação consistente da MARIAH na sua casuística) e
+contribuição opcional à evolução do instrumento
+(compartilhar observações com o Grupo de Trabalho responsável pelo guia).
+As três frentes de validação
+Cada CEP pode rodar uma, duas ou as três frentes, em qualquer ordem. Todas compartilham a mesma unidade amostral: o protocolo de pesquisa com uso de inteligência artificial submetido ao CEP.
+Frente 1
+Concordância entre avaliadores
+Versão A · kappa de Cohen
+Dois membros do CEP aplicam a Versão A ao mesmo protocolo, de forma independente. A planilha calcula a concordância e o kappa, revelando quais eixos têm leitura divergente. Recomenda-se pelo menos 20 protocolos avaliados em paralelo.
+Frente 2
+Distribuição empírica
+Versão B · histograma por nível
+Examina como os protocolos avaliados pelo CEP se distribuem nos quatro níveis. Útil para conhecer o perfil da casuística e identificar concentrações próximas aos pontos de corte da Versão B.
+Frente 3
+Convergência A↔B
+Modo triagem · tabela de contingência
+Para protocolos avaliados pelas duas versões no modo triagem, verifica se A e B convergem para a mesma classificação. Discordâncias sistemáticas indicam inconsistência de leitura ou dimensões diferentes de risco captadas pelas duas versões.
+Recursos para começar
+Planilha-modelo
+Abas dedicadas a cada frente, com fórmulas pré-configuradas (kappa, distribuição, contingência) e painel-resumo. Funciona em Excel, LibreOffice Calc e Google Sheets.
+[a href=/planilha-validacao-local-mariah.xlsx download]
+Baixar planilha (.xlsx)
+Roteiro completo
+Seção de Validação Local (Caderno 2) com a justificativa de cada frente, recomendações operacionais, interpretação dos achados e canal opcional de compartilhamento com o Grupo de Trabalho.
+[a href=/guia-validacao-local-mariah.docx download]
+Baixar roteiro (.docx)
+Como integrar à MARIAH
+O software MARIAH oferece um botão
+"Exportar dados desta avaliação"
+na tela de resultados. Cada avaliação gera um arquivo
+.json
+estruturado contendo a classificação consolidada da Versão A, a pontuação por bloco da Versão B (quando aplicada) e os metadados do protocolo.
+Fluxo sugerido
+Cada avaliador aplica a MARIAH ao protocolo de forma independente e exporta o
+.json
+ao final.
+Antes de transcrever, substitua o campo
+idInterno
+pelo identificador interno do seu CEP (ex.:
+P-001
+).
+Transcreva os campos para as abas correspondentes da planilha-modelo (Protocolos, Versão A, Versão B). As instruções por aba estão dentro do próprio JSON, no campo
+comoUsar
+.
+A planilha calcula automaticamente os indicadores das três frentes e gera o painel-resumo para discussão em reunião plenária.
+Versões futuras da MARIAH poderão preencher a planilha diretamente. Por ora, a transcrição manual é deliberada: ela preserva a separação entre a ferramenta operacional e o instrumento de validação institucional do CEP.
+Compartilhar resultados (opcional)
+CEPs que decidirem compartilhar suas observações com o Grupo de Trabalho podem fazê-lo a qualquer momento por meio da Secretaria Executiva da INAEP. Não há prazo, formulário obrigatório ou contrapartida institucional — o compartilhamento é ato voluntário, e seu único propósito é informar a evolução futura do instrumento.
+Pode-se enviar a planilha completa, apenas os indicadores agregados ou uma nota narrativa do que o colegiado observou. CEPs com preocupação de confidencialidade institucional podem encaminhar apenas os indicadores agregados. Nenhum CEP será identificado em publicação sem consentimento expresso.
+Desenvolvido pelo
+Ministério da Saúde
+para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
+Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)
+Os dados preenchidos ficam somente neste navegador (armazenamento local do dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado, use “Nova avaliação” para apagá-los.
+©
+2026
+Ministério da Saúde — Governo Federal do Brasil
+[a href=/validacao]
+Validação Local pelos CEPs
+·
+[a href=/transparencia]
+Transparência metodológica
+·
+[a href=/instrucoes]
+Apêndice do guia
+(em revisão)

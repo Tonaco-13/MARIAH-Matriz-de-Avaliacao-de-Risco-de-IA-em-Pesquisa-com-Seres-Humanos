@@ -14,6 +14,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
 import RestartButton from './RestartButton';
@@ -45,25 +46,10 @@ type EntryFilterProps = {
 };
 
 const ENTRY_TYPES = [
-  {
-    title: 'Automação de decisão',
-    description:
-      'Qualquer sistema que produza classificações, escores, recomendações ou alertas que influenciem decisões.',
-    icon: '⚙️',
-  },
-  {
-    title: 'Geração de conteúdo',
-    description:
-      'Sistemas que produzem texto, dados sintéticos, imagens ou qualquer conteúdo que integre o protocolo.',
-    icon: '📝',
-  },
-  {
-    title: 'Intervenção',
-    description:
-      'Sistemas cuja saída orienta, modifica ou substitui etapas do protocolo.',
-    icon: '🔬',
-  },
-];
+  { icon: '⚙️', titleKey: 'entryFilter.type1Title', descKey: 'entryFilter.type1Desc' },
+  { icon: '📝', titleKey: 'entryFilter.type2Title', descKey: 'entryFilter.type2Desc' },
+  { icon: '🔬', titleKey: 'entryFilter.type3Title', descKey: 'entryFilter.type3Desc' },
+] as const;
 
 export default function EntryFilter({
   onPass,
@@ -77,6 +63,7 @@ export default function EntryFilter({
   onUsesDatabaseChange,
   version,
 }: EntryFilterProps) {
+  const t = useTranslations();
   // Local state: Pergunta 1 (aplicabilidade). Inicializa a partir do filterResult
   // do reducer para sobreviver a navegação (clique no step "Filtro" por outras telas).
   // Usa o padrão "Storing information from previous renders" (React docs) para
@@ -109,12 +96,12 @@ export default function EntryFilter({
                 </div>
                 <div>
                   <div className="flex items-baseline gap-2 flex-wrap">
-                    <h1 className="text-xl font-bold">MARIAH</h1>
+                    <h1 className="text-xl font-bold">{t('app.title')}</h1>
                     <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
-                      Versão preliminar
+                      {t('app.badgePreliminar')}
                     </span>
                   </div>
-                  <p className="text-teal-700 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+                  <p className="text-teal-700 text-xs">{t('app.subtitle')}</p>
                 </div>
               </div>
             </div>
@@ -127,11 +114,9 @@ export default function EntryFilter({
               <div className="mx-auto mb-4 p-3 bg-green-100 rounded-full w-fit">
                 <CheckCircle2 className="h-10 w-10 text-green-600" />
               </div>
-              <h2 className="text-xl font-semibold text-green-800 mb-2">A MARIAH não se aplica</h2>
+              <h2 className="text-xl font-semibold text-green-800 mb-2">{t('entryFilter.notApplicableTitle')}</h2>
               <p className="text-green-700 mb-6">
-                O sistema de IA não realiza automação de decisão, geração de conteúdo ou
-                intervenção no protocolo ou na condução do estudo. Portanto, a MARIAH não se aplica
-                a este protocolo.
+                {t('entryFilter.notApplicableBody')}
               </p>
               <Button
                 variant="outline"
@@ -139,7 +124,7 @@ export default function EntryFilter({
                 className="border-green-300 text-green-700 hover:bg-green-100"
               >
                 <RotateCcw className="mr-2 h-4 w-4" />
-                Iniciar nova avaliação
+                {t('entryFilter.notApplicableRestart')}
               </Button>
             </CardContent>
           </Card>
@@ -167,12 +152,12 @@ export default function EntryFilter({
               </div>
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <h1 className="text-xl font-bold">MARIAH</h1>
+                  <h1 className="text-xl font-bold">{t('app.title')}</h1>
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
-                    Versão preliminar
+                    {t('app.badgePreliminar')}
                   </span>
                 </div>
-                <p className="text-teal-700 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+                <p className="text-teal-700 text-xs">{t('app.subtitle')}</p>
               </div>
             </div>
           </div>
@@ -185,10 +170,9 @@ export default function EntryFilter({
           <StepIndicator currentStep="filter" version={version} onStepClick={onStepClick} />
         </div>
 
-        <h2 className="text-xl font-semibold mb-2">Passo 0 — Filtro de Entrada</h2>
+        <h2 className="text-xl font-semibold mb-2">{t('entryFilter.title')}</h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          Verifique se o sistema de IA se enquadra no escopo da MARIAH e se o protocolo utiliza banco
-          de dados (ativa a subseção da Res. CNS n.º 738/2024).
+          {t('entryFilter.subtitle')}
         </p>
 
         {/* Pergunta 1: Aplicabilidade */}
@@ -206,11 +190,10 @@ export default function EntryFilter({
               </div>
               <div className="flex-1">
                 <p className="text-xs font-semibold text-muted-foreground mb-1">
-                  PERGUNTA 1 — Aplicabilidade
+                  {t('entryFilter.q1Label')}
                 </p>
                 <p className="text-base font-medium leading-relaxed">
-                  O sistema de IA realiza automação de decisão, geração de conteúdo ou intervenção
-                  no protocolo ou na condução do estudo?
+                  {t('entryFilter.q1Question')}
                 </p>
               </div>
             </div>
@@ -226,7 +209,7 @@ export default function EntryFilter({
                 }
                 aria-pressed={applies === 'sim'} onClick={handleAppliesSim}
               >
-                Sim
+                {t('ui.sim')}
               </Button>
               <Button
                 size="lg"
@@ -234,13 +217,13 @@ export default function EntryFilter({
                 className="hover:bg-muted min-w-[140px]"
                 aria-pressed={applies === 'nao'} onClick={handleAppliesNao}
               >
-                Não
+                {t('ui.nao')}
               </Button>
             </div>
 
             {applies === 'sim' && (
               <p className="text-xs text-teal-700 mt-4 text-center">
-                ✓ MARIAH se aplica. Responda a segunda pergunta abaixo para prosseguir.
+                {t('entryFilter.q1Applies')}
               </p>
             )}
           </CardContent>
@@ -251,16 +234,16 @@ export default function EntryFilter({
           <div className="flex items-center gap-2 mb-3">
             <Info className="h-3.5 w-3.5 text-muted-foreground/70" />
             <h3 className="text-xs font-normal text-muted-foreground italic">
-              Antes de responder, veja o que cada termo significa
+              {t('entryFilter.typesHint')}
             </h3>
           </div>
           <div className="grid sm:grid-cols-3 gap-3">
             {ENTRY_TYPES.map((type) => (
-              <Card key={type.title} className="border-dashed bg-muted/20 shadow-none">
+              <Card key={type.titleKey} className="border-dashed bg-muted/20 shadow-none">
                 <CardContent className="py-3 px-4">
                   <div className="text-xl mb-1.5">{type.icon}</div>
-                  <h4 className="font-medium text-sm mb-1">{type.title}</h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{type.description}</p>
+                  <h4 className="font-medium text-sm mb-1">{t(type.titleKey)}</h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{t(type.descKey)}</p>
                 </CardContent>
               </Card>
             ))}
@@ -287,9 +270,9 @@ export default function EntryFilter({
               </div>
               <div className="flex-1">
                 <p className="text-xs font-semibold text-muted-foreground mb-1 flex items-center gap-2 flex-wrap">
-                  PERGUNTA 2 — Filtro de Banco de Dados
+                  {t('entryFilter.q2Label')}
                   <span className="bg-blue-50 text-blue-700 border border-blue-200 px-1.5 py-0 rounded text-[10px]">
-                    Res. CNS n.º 738/2024
+                    {t('entryFilter.q2Badge')}
                   </span>
                 </p>
                 <div className="flex items-start gap-2">
@@ -323,7 +306,7 @@ export default function EntryFilter({
                 aria-pressed={usesDatabase === true} onClick={() => onUsesDatabaseChange(true)}
               >
                 <CheckCircle2 className="mr-2 h-5 w-5" />
-                Sim
+                {t('ui.sim')}
               </Button>
               <Button
                 size="lg"
@@ -336,19 +319,18 @@ export default function EntryFilter({
                 }
                 aria-pressed={usesDatabase === false} onClick={() => onUsesDatabaseChange(false)}
               >
-                Não
+                {t('ui.nao')}
               </Button>
             </div>
 
             {applies === 'sim' && usesDatabase === true && (
               <p className="text-xs text-blue-700 mt-4 text-center">
-                ✓ Subseção ativada: Eixo 3.b (Versão A) ou Bloco 6.b (Versão B) serão incluídos na
-                avaliação.
+                {t('entryFilter.q2Activated')}
               </p>
             )}
             {applies === 'sim' && usesDatabase === false && (
               <p className="text-xs text-muted-foreground mt-4 text-center">
-                Avaliação seguirá com os eixos/blocos padrão (sem subseção Res 738).
+                {t('entryFilter.q2Standard')}
               </p>
             )}
           </CardContent>
@@ -358,11 +340,11 @@ export default function EntryFilter({
         <div className="flex justify-between items-center mb-8 flex-wrap gap-3">
           <Button variant="outline" onClick={onBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar
+            {t('ui.back')}
           </Button>
           <div className="flex items-center gap-2 flex-wrap">
             <ClearScopeButton
-              scopeLabel="esta página"
+              scopeLabel={t('ui.scopePage')}
               affectedCount={answeredCount}
               onClear={handleClearPage}
             />
@@ -374,7 +356,7 @@ export default function EntryFilter({
             disabled={!canProceed}
             onClick={() => onPass(usesDatabase === true)}
           >
-            Prosseguir para a avaliação
+            {t('entryFilter.proceed')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -384,7 +366,7 @@ export default function EntryFilter({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+            {t('app.footerShort')}
           </p>
         </div>
       </footer>

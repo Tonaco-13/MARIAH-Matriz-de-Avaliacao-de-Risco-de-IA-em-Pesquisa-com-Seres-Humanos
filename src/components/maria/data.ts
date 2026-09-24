@@ -14,7 +14,17 @@ export type MarcaVersion = 'A' | 'B';
 
 export type RiskLevel = 'I' | 'II' | 'III' | 'IV';
 
+/**
+ * Mapa de traduções opcional por nó de conteúdo (feat/i18n-architecture).
+ * Estrutura: { "<locale>": { "<campo>": "<texto traduzido>" } }.
+ * AUSENTE nesta branch (ZERO tradução); o acesso se dá por label() com
+ * fallback ao canônico pt-BR. Regra de ouro (B7): NUNCA carrega números,
+ * pesos, cortes, ids de questão ou matrixVersion — só texto de exibição.
+ */
+export type I18nMap = Record<string, Record<string, string>>;
+
 export type RiskLevelInfo = {
+  i18n?: I18nMap;
   level: RiskLevel;
   label: string;
   color: string;
@@ -47,6 +57,7 @@ export type ExibicaoCondicional = {
 };
 
 export type QualitativeQuestion = {
+  i18n?: I18nMap;
   id: string;
   pergunta: string;
   riskAnswer: 'sim' | 'nao';
@@ -81,6 +92,7 @@ export type QualitativeQuestion = {
 };
 
 export type QualitativeAxis = {
+  i18n?: I18nMap;
   id: string;
   nome: string;
   descricao: string;
@@ -100,6 +112,7 @@ export type QualitativeAxis = {
 };
 
 export type QuantitativeQuestion = {
+  i18n?: I18nMap;
   id: string;
   pergunta: string;
   riskAnswer: 'sim' | 'nao';
@@ -134,6 +147,7 @@ export type QuantitativeQuestion = {
 };
 
 export type QuantitativeBlock = {
+  i18n?: I18nMap;
   id: string;
   nome: string;
   descricao: string;
@@ -150,6 +164,7 @@ export type QuantitativeBlock = {
 };
 
 export type Requirement = {
+  i18n?: I18nMap;
   id: string;
   texto: string;
   nivel: RiskLevel;
@@ -207,6 +222,7 @@ export const DATABASE_FILTER_QUESTION = spec.databaseFilterQuestion;
 // ----- Context Characterization Questions -----
 
 export type ContextQuestion = {
+  i18n?: I18nMap;
   id: string;
   pergunta: string;
   dica: string;
@@ -226,3 +242,23 @@ export const CONTEXT_QUESTIONS = spec.contextQuestions as unknown as ContextQues
 
 /** Versão da matriz (para carimbo nos relatórios). */
 export const MATRIX_VERSION = spec.matrixVersion as string;
+
+/**
+ * Acesso a conteúdo textual da matriz com i18n opcional e fallback canônico.
+ * Ex.: label(q, 'pergunta', 'es') → q.i18n?.es?.pergunta ?? q.pergunta.
+ *
+ * Nesta branch (feat/i18n-architecture) nenhum nó tem `i18n`, então o helper
+ * SEMPRE retorna o canônico pt-BR — comportamento idêntico ao acesso direto.
+ * A religação dos componentes a `label()` (e o threading de locale no utils)
+ * ocorre na branch de tradução, junto das traduções reais. Disponibilizado
+ * aqui como infraestrutura, sem uso em runtime nesta branch.
+ */
+export function label<T extends { i18n?: I18nMap }>(
+  node: T,
+  field: Extract<keyof T, string>,
+  locale: string
+): string {
+  const translated = node.i18n?.[locale]?.[field];
+  if (typeof translated === 'string') return translated;
+  return node[field] as unknown as string;
+}

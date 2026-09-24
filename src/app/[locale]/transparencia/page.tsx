@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,13 +19,19 @@ import {
 } from 'lucide-react';
 import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
 
-export const metadata: Metadata = {
-  title: 'Transparência Metodológica — MARIAH',
-  description:
-    'Premissas e mecanismos de salvaguarda que sustentam a classificação de risco da MARIAH, organizados em três camadas (normativa, de elaboração e empírica pendente). Documentos técnicos para auditoria e crítica.',
-};
+type PageProps = { params: Promise<{ locale: string }> };
 
-export default function TransparenciaPage() {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'pages.transparencia' });
+  return { title: t('metaTitle'), description: t('metaDesc') };
+}
+
+export default async function TransparenciaPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations();
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
@@ -38,7 +45,7 @@ export default function TransparenciaPage() {
           >
             <Link href="/">
               <ArrowLeft className="mr-1.5 h-4 w-4" />
-              Voltar à MARIAH
+              {t('pages.voltar')}
             </Link>
           </Button>
           <div className="flex items-center justify-between gap-3 mb-3">
@@ -49,25 +56,23 @@ export default function TransparenciaPage() {
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
                   <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                    Transparência metodológica
+                    {t('pages.transparencia.title')}
                   </h1>
                   <Badge
                     variant="outline"
                     className="text-[10px] font-medium px-2 py-0.5 border-amber-300 text-amber-800 bg-amber-50 whitespace-nowrap"
                   >
-                    em revisão
+                    {t('pages.emRevisao')}
                   </Badge>
                 </div>
                 <p className="text-teal-700 text-sm mt-1">
-                  Premissas e salvaguardas da classificação de risco
+                  {t('pages.transparencia.subtitle')}
                 </p>
               </div>
             </div>
           </div>
           <p className="text-teal-600 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Documentos técnicos que explicitam as premissas sobre as quais a MARIAH classifica
-            o risco — para que estatísticos, metodologistas, integrantes de CEP e pesquisadores
-            possam auditar, criticar e compreender as decisões do instrumento.
+            {t('pages.transparencia.intro')}
           </p>
         </div>
       </header>
@@ -77,9 +82,11 @@ export default function TransparenciaPage() {
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-start gap-2 text-sm text-amber-900">
           <Info className="h-4 w-4 mt-0.5 shrink-0" />
           <p>
-            <span className="font-medium">Status:</span> o <em>Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos</em> está em fase de revisão pelo Grupo de Trabalho do
-            Ministério da Saúde. Os documentos abaixo correspondem à minuta atual e serão
-            atualizados quando o guia for publicado oficialmente.
+            {t.rich('pages.statusAviso', {
+              tipo: t('pages.tipoDocumentos'),
+              b: (chunks) => <span className="font-medium">{chunks}</span>,
+              em: (chunks) => <em>{chunks}</em>,
+            })}
           </p>
         </div>
       </div>
@@ -87,19 +94,14 @@ export default function TransparenciaPage() {
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         {/* Seção 1: Por que explicitar */}
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Por que explicitar as premissas</h2>
+          <h2 className="text-xl font-semibold">{t('pages.transparencia.s1Title')}</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            A MARIAH produz uma classificação de risco a partir de regras que foram adotadas
-            na elaboração da matriz, com base no referencial normativo e na literatura
-            sistematizada no próprio Guia. Tornar essas regras explícitas é condição para
-            que possam ser auditadas e criticadas. A documentação distingue, deliberadamente,
-            o que decorre da norma, o que foi decidido na construção do instrumento e o que
-            ainda depende de evidência empírica.
+            {t('pages.transparencia.s1p1')}
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            {MARIA_NAO_SUBSTITUI} A sua validação psicométrica é{' '}
-            <strong>prospectiva</strong>: ocorrerá à medida que os CEPs adotarem o instrumento
-            e conduzirem o protocolo descrito na Seção de Validação Local (Caderno 2 do Guia).
+            {MARIA_NAO_SUBSTITUI} {t.rich('pages.transparencia.s1p2', {
+              b: (chunks) => <strong>{chunks}</strong>,
+            })}
           </p>
         </section>
 
@@ -107,10 +109,9 @@ export default function TransparenciaPage() {
 
         {/* Seção 2: As três camadas */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">As três camadas de premissas</h2>
+          <h2 className="text-xl font-semibold">{t('pages.transparencia.s2Title')}</h2>
           <p className="text-sm text-muted-foreground">
-            As premissas da MARIAH organizam-se em três camadas, com graus distintos de
-            abertura à discussão.
+            {t('pages.transparencia.s2intro')}
           </p>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -121,19 +122,16 @@ export default function TransparenciaPage() {
                     <Scale className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Camada 1
+                    {t('pages.transparencia.camada1Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Normativa</CardTitle>
+                <CardTitle className="text-base">{t('pages.transparencia.camada1Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Não está em discussão
+                  {t('pages.transparencia.camada1Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Os quatro níveis de risco (I a IV) e o tratamento ordinal da escala seguem a
-                categorização do Conselho Nacional de Saúde, fixada pelas Resoluções CNS
-                n.º 466/2012, 510/2016 e 738/2024. Os eixos derivam do mapeamento normativo
-                e da literatura ética.
+                {t('pages.transparencia.camada1Body')}
               </CardContent>
             </Card>
 
@@ -144,19 +142,16 @@ export default function TransparenciaPage() {
                     <Layers className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Camada 2
+                    {t('pages.transparencia.camada2Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">De elaboração</CardTitle>
+                <CardTitle className="text-base">{t('pages.transparencia.camada2Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Aberta a sugestões do GT
+                  {t('pages.transparencia.camada2Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Decisões adotadas na construção da matriz: thresholds por eixo e regra do
-                máximo (Versão A); pesos, modelo aditivo e Cláusula de Prevalência Ética
-                (Versão B). Calibração teórica, conservadora e explícita — não derivada de
-                dados.
+                {t('pages.transparencia.camada2Body')}
               </CardContent>
             </Card>
 
@@ -167,18 +162,16 @@ export default function TransparenciaPage() {
                     <FlaskConical className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Camada 3
+                    {t('pages.transparencia.camada3Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Empírica pendente</CardTitle>
+                <CardTitle className="text-base">{t('pages.transparencia.camada3Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Objeto da Validação Local
+                  {t('pages.transparencia.camada3Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                A validação psicométrica é prospectiva e descentralizada, conduzida pelos CEPs
-                que adotarem o instrumento: confiabilidade interavaliador, distribuição
-                empírica nos níveis e convergência entre as Versões A e B.
+                {t('pages.transparencia.camada3Body')}
               </CardContent>
             </Card>
           </div>
@@ -188,12 +181,9 @@ export default function TransparenciaPage() {
 
         {/* Seção 3: Mecanismos de salvaguarda */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Mecanismos de salvaguarda automática</h2>
+          <h2 className="text-xl font-semibold">{t('pages.transparencia.s3Title')}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Sobre a lógica de gradiente da matriz, a MARIAH superpõe quatro mecanismos que a
-            interrompem: uma vez satisfeita determinada condição categórica, a classificação
-            passa a ser definida por critério deontológico — e não estatístico —, sobrescrevendo
-            o que a contagem ou a soma indicariam. São assimetrias deliberadas, de precaução.
+            {t('pages.transparencia.s3intro')}
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -204,18 +194,16 @@ export default function TransparenciaPage() {
                     <ShieldAlert className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Gatilho 1
+                    {t('pages.transparencia.g1Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Regra do Eixo 3.b</CardTitle>
+                <CardTitle className="text-base">{t('pages.transparencia.g1Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Versão A · Res. CNS n.º 738/2024
+                  {t('pages.transparencia.g1Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Em bancos de dados de pesquisa, uma única resposta de risco salta o Nível II
-                (1–2 → III; 3 ou mais → IV). Pela regra do máximo, eleva o nível final do
-                protocolo.
+                {t('pages.transparencia.g1Body')}
               </CardContent>
             </Card>
 
@@ -226,18 +214,16 @@ export default function TransparenciaPage() {
                     <ShieldAlert className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Gatilho 2
+                    {t('pages.transparencia.g2Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Cláusula de Prevalência Ética</CardTitle>
+                <CardTitle className="text-base">{t('pages.transparencia.g2Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Versão B · Bloco 4 (Decisão)
+                  {t('pages.transparencia.g2Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Se P4.1 ou P4.2 for marcada como “Sim” (decisão sem revisão humana ou dano
-                irreversível), o protocolo é forçado ao Nível IV, sobrescrevendo a soma total
-                dos blocos.
+                {t('pages.transparencia.g2Body')}
               </CardContent>
             </Card>
 
@@ -248,18 +234,16 @@ export default function TransparenciaPage() {
                     <Ban className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Gatilho 3
+                    {t('pages.transparencia.g3Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Eliminatória — cadeia de custódia</CardTitle>
+                <CardTitle className="text-base">{t('pages.transparencia.g3Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Versões A e B · Res. CNS n.º 738/2024
+                  {t('pages.transparencia.g3Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                A ausência de cadeia de custódia formalizada (Art. 27, VI) classifica o
-                protocolo como “não avaliável pela MARIAH” — uma recusa de classificação que
-                remete o caso à análise individualizada do colegiado.
+                {t('pages.transparencia.g3Body')}
               </CardContent>
             </Card>
 
@@ -270,19 +254,16 @@ export default function TransparenciaPage() {
                     <Ban className="h-4 w-4 text-teal-600" />
                   </div>
                   <Badge variant="outline" className="text-[10px] border-teal-300 text-teal-800">
-                    Gatilho 4
+                    {t('pages.transparencia.g4Badge')}
                   </Badge>
                 </div>
-                <CardTitle className="text-base">Eliminatória — novo consentimento</CardTitle>
+                <CardTitle className="text-base">{t('pages.transparencia.g4Title')}</CardTitle>
                 <CardDescription className="text-xs">
-                  Versões A e B · Lei n.º 14.874/2024 + LGPD
+                  {t('pages.transparencia.g4Desc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-xs text-muted-foreground leading-relaxed">
-                Em sistemas adaptativos (1.2 = Sim / P2.2 = Sim), a ausência de plano de novo
-                consentimento bloqueia o parecer — protocolo não avaliável no mérito. Não
-                altera a pontuação: é exigência legal, não compensável por pontos. Na Versão A
-                é a 2.10; na Versão B, a P2.8.
+                {t('pages.transparencia.g4Body')}
               </CardContent>
             </Card>
           </div>
@@ -292,20 +273,17 @@ export default function TransparenciaPage() {
 
         {/* Seção 4: Downloads */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Documentos para download</h2>
+          <h2 className="text-xl font-semibold">{t('pages.docsTitulo')}</h2>
           <Card>
             <CardContent className="py-5">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="h-4 w-4 text-teal-700" />
-                    <p className="font-medium text-sm">Nota Técnica de Premissas</p>
+                    <p className="font-medium text-sm">{t('pages.transparencia.notaTecnicaTitle')}</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Premissas da classificação de risco da MARIAH em três camadas (normativa,
-                    de elaboração e empírica pendente), com as principais decisões
-                    metodológicas, suas justificativas e a tabela de pontos de corte da
-                    Versão B.
+                    {t('pages.transparencia.notaTecnicaDesc')}
                   </p>
                   <Button
                     variant="default"
@@ -315,20 +293,17 @@ export default function TransparenciaPage() {
                   >
                     <a href="/nota-tecnica-premissas-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Baixar nota técnica (.docx)
+                      {t('pages.transparencia.baixarNota')}
                     </a>
                   </Button>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="h-4 w-4 text-teal-700" />
-                    <p className="font-medium text-sm">Suplemento de Salvaguardas</p>
+                    <p className="font-medium text-sm">{t('pages.transparencia.suplementoTitle')}</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Detalhamento dos quatro mecanismos de salvaguarda automática (Eixo 3.b,
-                    Cláusula de Prevalência Ética, eliminatória de cadeia de custódia e
-                    diligência impeditiva de novo consentimento): o que fazem, por que existem,
-                    como interagem com a matriz, cenários e crítica honesta.
+                    {t('pages.transparencia.suplementoDesc')}
                   </p>
                   <Button
                     variant="outline"
@@ -338,7 +313,7 @@ export default function TransparenciaPage() {
                   >
                     <a href="/suplemento-salvaguardas-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Baixar suplemento (.docx)
+                      {t('pages.transparencia.baixarSuplemento')}
                     </a>
                   </Button>
                 </div>
@@ -351,19 +326,18 @@ export default function TransparenciaPage() {
 
         {/* Seção 5: Observações e crítica */}
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Observações e crítica técnica</h2>
+          <h2 className="text-xl font-semibold">{t('pages.observacoesTitulo')}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            As decisões de elaboração estão abertas a sugestões editoriais e de mérito,
-            pois a matriz, nesta fase, não reflete a deliberação colegiada do Grupo de
-            Trabalho. Observações e críticas técnicas podem ser encaminhadas, a qualquer
-            momento, à CGREP pelo e-mail{' '}
-            <a
-              href="mailto:cgrep@saude.gov.br"
-              className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
-            >
-              cgrep@saude.gov.br
-            </a>
-            , e serão consideradas em ciclos futuros de revisão do Guia e da matriz.
+            {t.rich('pages.transparencia.s5p', {
+              mail: (chunks) => (
+                <a
+                  href="mailto:cgrep@saude.gov.br"
+                  className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
           </p>
         </section>
       </main>

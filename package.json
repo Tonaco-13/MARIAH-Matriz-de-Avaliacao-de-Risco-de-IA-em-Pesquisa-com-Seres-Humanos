@@ -1,6 +1,6 @@
 {
   "name": "maria",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos. Ferramenta para Comitês de Ética em Pesquisa (CEP) avaliarem riscos de sistemas de IA em protocolos de pesquisa.",
   "private": true,
   "scripts": {
@@ -10,7 +10,10 @@
     "lint": "eslint .",
     "verify": "tsx scripts/verify-math.ts",
     "parity": "tsx scripts/parity-check.ts",
-    "gate": "tsx scripts/gate-run.ts"
+    "parity:locale": "python3 scripts/parity-locale.py check",
+    "i18n:identity": "tsx scripts/i18n-identity.ts",
+    "i18n:no-literal": "tsx scripts/i18n-no-literal.ts",
+    "gate": "tsx scripts/gate-run.ts && tsx scripts/i18n-identity.ts && tsx scripts/i18n-no-literal.ts"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -24,9 +27,9 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
-    "jspdf": "^4.2.1",
     "lucide-react": "^0.525.0",
     "next": "^16.1.1",
+    "next-intl": "^4.14.5",
     "radix-ui": "^1.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

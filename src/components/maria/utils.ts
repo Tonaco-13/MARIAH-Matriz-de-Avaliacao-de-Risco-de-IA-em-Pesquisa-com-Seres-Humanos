@@ -645,9 +645,11 @@ export function generateReportHTML(
    * AMBAS as matrizes. O nível final consolidado é o mais alto entre A e B
    * (mais conservador). Auditoria combina itens não avaliados das duas matrizes.
    */
-  useAAsTriagem: boolean = false
+  useAAsTriagem: boolean = false,
+  /** Locale ativo (feat/i18n): define o lang do documento e a formatação da data. Default pt-BR. */
+  locale: string = 'pt-BR'
 ): string {
-  const date = new Date().toLocaleDateString('pt-BR', {
+  const date = new Date().toLocaleDateString(locale, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -783,7 +785,7 @@ export function generateReportHTML(
   }
 
   return `<!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="${locale}">
 <head>
   <meta charset="UTF-8">
   <title>MARIAH — Relatório de Avaliação de Risco em IA</title>
@@ -791,7 +793,7 @@ export function generateReportHTML(
     @media print { body { padding: 20px; } }
   </style>
 </head>
-<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:0 auto;padding:40px 20px;color:#1f2937;line-height:1.5">
+<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans','Noto Sans SC',sans-serif;max-width:800px;margin:0 auto;padding:40px 20px;color:#1f2937;line-height:1.5">
   <div style="border-bottom:3px solid #0C2C56;padding-bottom:16px;margin-bottom:24px">
     <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
       <h1 style="margin:0;font-size:24px;color:#0C2C56">MARIAH</h1>
@@ -850,7 +852,9 @@ export function generateReportText(
   quantitativeAnswers: QuantitativeAnswer,
   usesDatabase: boolean = false,
   /** Idem ao generateReportHTML — quando triagem A→B, gera relatório combinado. */
-  useAAsTriagem: boolean = false
+  useAAsTriagem: boolean = false,
+  /** Locale ativo (feat/i18n): formatação da data. Default pt-BR. */
+  locale: string = 'pt-BR'
 ): string {
   const lines: string[] = [];
   const isCombinedReport = useAAsTriagem && version === 'B';
@@ -865,7 +869,7 @@ export function generateReportText(
       ? 'Triagem (A → B) — Relatório Combinado'
       : version === 'A' ? 'A — Qualitativa' : 'B — Quantitativa'
   }`);
-  lines.push(`Data: ${new Date().toLocaleDateString('pt-BR')}`);
+  lines.push(`Data: ${new Date().toLocaleDateString(locale)}`);
   lines.push(`Utiliza banco de dados: ${usesDatabase ? 'Sim (Res 738)' : 'Não'}`);
   lines.push(`Versão da matriz: ${MATRIX_VERSION}`);
   lines.push('');

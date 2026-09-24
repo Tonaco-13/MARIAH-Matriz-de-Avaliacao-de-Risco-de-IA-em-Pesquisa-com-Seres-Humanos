@@ -1,0 +1,84 @@
+TITLE: Transparência Metodológica — MARIAH
+META-DESC: Premissas e mecanismos de salvaguarda que sustentam a classificação de risco da MARIAH, organizados em três camadas (normativa, de elaboração e empírica pendente). Documentos técnicos para auditoria e crítica.
+--
+[a href=#conteudo-principal]
+Pular para o conteúdo
+[a href=/]
+Voltar à MARIAH
+Transparência metodológica
+em revisão
+Premissas e salvaguardas da classificação de risco
+Documentos técnicos que explicitam as premissas sobre as quais a MARIAH classifica o risco — para que estatísticos, metodologistas, integrantes de CEP e pesquisadores possam auditar, criticar e compreender as decisões do instrumento.
+Status:
+o
+Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
+está em fase de revisão pelo Grupo de Trabalho do Ministério da Saúde. Os documentos abaixo correspondem à minuta atual e serão atualizados quando o guia for publicado oficialmente.
+Por que explicitar as premissas
+A MARIAH produz uma classificação de risco a partir de regras que foram adotadas na elaboração da matriz, com base no referencial normativo e na literatura sistematizada no próprio Guia. Tornar essas regras explícitas é condição para que possam ser auditadas e criticadas. A documentação distingue, deliberadamente, o que decorre da norma, o que foi decidido na construção do instrumento e o que ainda depende de evidência empírica.
+A MARIAH não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada.
+A sua validação psicométrica é
+prospectiva
+: ocorrerá à medida que os CEPs adotarem o instrumento e conduzirem o protocolo descrito na Seção de Validação Local (Caderno 2 do Guia).
+As três camadas de premissas
+As premissas da MARIAH organizam-se em três camadas, com graus distintos de abertura à discussão.
+Camada 1
+Normativa
+Não está em discussão
+Os quatro níveis de risco (I a IV) e o tratamento ordinal da escala seguem a categorização do Conselho Nacional de Saúde, fixada pelas Resoluções CNS n.º 466/2012, 510/2016 e 738/2024. Os eixos derivam do mapeamento normativo e da literatura ética.
+Camada 2
+De elaboração
+Aberta a sugestões do GT
+Decisões adotadas na construção da matriz: thresholds por eixo e regra do máximo (Versão A); pesos, modelo aditivo e Cláusula de Prevalência Ética (Versão B). Calibração teórica, conservadora e explícita — não derivada de dados.
+Camada 3
+Empírica pendente
+Objeto da Validação Local
+A validação psicométrica é prospectiva e descentralizada, conduzida pelos CEPs que adotarem o instrumento: confiabilidade interavaliador, distribuição empírica nos níveis e convergência entre as Versões A e B.
+Mecanismos de salvaguarda automática
+Sobre a lógica de gradiente da matriz, a MARIAH superpõe quatro mecanismos que a interrompem: uma vez satisfeita determinada condição categórica, a classificação passa a ser definida por critério deontológico — e não estatístico —, sobrescrevendo o que a contagem ou a soma indicariam. São assimetrias deliberadas, de precaução.
+Gatilho 1
+Regra do Eixo 3.b
+Versão A · Res. CNS n.º 738/2024
+Em bancos de dados de pesquisa, uma única resposta de risco salta o Nível II (1–2 → III; 3 ou mais → IV). Pela regra do máximo, eleva o nível final do protocolo.
+Gatilho 2
+Cláusula de Prevalência Ética
+Versão B · Bloco 4 (Decisão)
+Se P4.1 ou P4.2 for marcada como “Sim” (decisão sem revisão humana ou dano irreversível), o protocolo é forçado ao Nível IV, sobrescrevendo a soma total dos blocos.
+Gatilho 3
+Eliminatória — cadeia de custódia
+Versões A e B · Res. CNS n.º 738/2024
+A ausência de cadeia de custódia formalizada (Art. 27, VI) classifica o protocolo como “não avaliável pela MARIAH” — uma recusa de classificação que remete o caso à análise individualizada do colegiado.
+Gatilho 4
+Eliminatória — novo consentimento
+Versões A e B · Lei n.º 14.874/2024 + LGPD
+Em sistemas adaptativos (1.2 = Sim / P2.2 = Sim), a ausência de plano de novo consentimento bloqueia o parecer — protocolo não avaliável no mérito. Não altera a pontuação: é exigência legal, não compensável por pontos. Na Versão A é a 2.10; na Versão B, a P2.8.
+Documentos para download
+Nota Técnica de Premissas
+Premissas da classificação de risco da MARIAH em três camadas (normativa, de elaboração e empírica pendente), com as principais decisões metodológicas, suas justificativas e a tabela de pontos de corte da Versão B.
+[a href=/nota-tecnica-premissas-mariah.docx download]
+Baixar nota técnica (.docx)
+Suplemento de Salvaguardas
+Detalhamento dos quatro mecanismos de salvaguarda automática (Eixo 3.b, Cláusula de Prevalência Ética, eliminatória de cadeia de custódia e diligência impeditiva de novo consentimento): o que fazem, por que existem, como interagem com a matriz, cenários e crítica honesta.
+[a href=/suplemento-salvaguardas-mariah.docx download]
+Baixar suplemento (.docx)
+Observações e crítica técnica
+As decisões de elaboração estão abertas a sugestões editoriais e de mérito, pois a matriz, nesta fase, não reflete a deliberação colegiada do Grupo de Trabalho. Observações e críticas técnicas podem ser encaminhadas, a qualquer momento, à CGREP pelo e-mail
+[a href=mailto:cgrep@saude.gov.br]
+cgrep@saude.gov.br
+, e serão consideradas em ciclos futuros de revisão do Guia e da matriz.
+Desenvolvido pelo
+Ministério da Saúde
+para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
+Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)
+Os dados preenchidos ficam somente neste navegador (armazenamento local do dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado, use “Nova avaliação” para apagá-los.
+©
+2026
+Ministério da Saúde — Governo Federal do Brasil
+[a href=/validacao]
+Validação Local pelos CEPs
+·
+[a href=/transparencia]
+Transparência metodológica
+·
+[a href=/instrucoes]
+Apêndice do guia
+(em revisão)

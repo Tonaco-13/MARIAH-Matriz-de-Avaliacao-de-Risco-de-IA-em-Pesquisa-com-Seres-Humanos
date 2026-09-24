@@ -1,0 +1,54 @@
+TITLE: Instruções de Preenchimento — MARIAH
+META-DESC: Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIAH, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).
+--
+[a href=#conteudo-principal]
+Pular para o conteúdo
+[a href=/]
+Voltar à MARIAH
+Instruções de Preenchimento
+em revisão
+Caderno 2 do Guia — preenchimento das Versões A e B
+Guia operacional para responder a matriz, questão a questão: a resposta que indica risco, as orientações por item, as regras de consolidação e a leitura do resultado.
+Status:
+o
+Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
+está em fase de revisão pelo Grupo de Trabalho do Ministério da Saúde. Os documentos abaixo correspondem à minuta atual e serão atualizados quando o guia for publicado oficialmente.
+O que são estas instruções
+As instruções orientam o preenchimento das duas versões da matriz, questão a questão. Para cada item, indicam qual resposta sinaliza risco, trazem a orientação de preenchimento e explicam como o resultado é construído — consolidação por contagem (Versão A) e pontuação por blocos (Versão B), além das salvaguardas automáticas e dos pontos de corte.
+Foram elaboradas em correspondência direta com o conjunto de perguntas atualmente em uso no aplicativo, de modo que o avaliador encontre, no documento, exatamente os itens que vê na tela.
+A MARIAH não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada.
+Documentos para download
+Versão A — Qualitativa
+Preenchimento dos cinco eixos (e do Eixo 3.b, Res. 738): a resposta de risco e a orientação de cada questão, a regra de consolidação por contagem e a leitura do nível final.
+[a href=/instrucoes-preenchimento-versao-a-mariah.docx download]
+Baixar Versão A (.docx)
+Versão B — Quantitativa
+Preenchimento dos sete blocos (e do Bloco 6.b, Res. 738): pesos por questão, a Cláusula de Prevalência Ética, a mitigação bidirecional do Bloco 7 e os pontos de corte.
+[a href=/instrucoes-preenchimento-versao-b-mariah.docx download]
+Baixar Versão B (.docx)
+Documentos complementares sobre as premissas e as salvaguardas da matriz estão na página
+[a href=/transparencia]
+Transparência metodológica
+.
+Observações e crítica técnica
+As instruções acompanham a matriz, que está em revisão pelo Grupo de Trabalho; ajustes nas questões serão refletidos nestes documentos. Observações e críticas técnicas podem ser encaminhadas, a qualquer momento, à CGREP pelo e-mail
+[a href=mailto:cgrep@saude.gov.br]
+cgrep@saude.gov.br
+.
+Desenvolvido pelo
+Ministério da Saúde
+para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
+Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)
+Os dados preenchidos ficam somente neste navegador (armazenamento local do dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado, use “Nova avaliação” para apagá-los.
+©
+2026
+Ministério da Saúde — Governo Federal do Brasil
+[a href=/validacao]
+Validação Local pelos CEPs
+·
+[a href=/transparencia]
+Transparência metodológica
+·
+[a href=/instrucoes]
+Apêndice do guia
+(em revisão)

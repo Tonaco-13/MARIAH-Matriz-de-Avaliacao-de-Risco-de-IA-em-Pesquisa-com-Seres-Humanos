@@ -1,0 +1,362 @@
+[Normal] MINISTÉRIO DA SAÚDE
+[Normal] INSTÂNCIA NACIONAL DE ÉTICA EM PESQUISA — INAEP
+[Normal] GUIA DE USO ÉTICO DE INTELIGÊNCIA ARTIFICIAL
+EM PESQUISA COM SERES HUMANOS
+[Normal] GUIA INAEP — ORIENTAÇÕES PARA AVALIAÇÃO ÉTICA
+[Normal] Brasília — DF
+2026
+[Heading 1] NOTA EDITORIAL SOBRE ESTA REVISÃO
+[Normal] Esta versão reorganiza e reescreve o Caderno 1 do documento de trabalho da INAEP para conferir maior clareza institucional, maior precisão regulatória e melhor separação entre fundamento, requisito e instrumento de aplicação.
+[Normal] O conteúdo operacional da matriz foi retirado deste Guia e concentrado no módulo autônomo MARIAH. As listas de verificação, os exercícios e os instrumentos de aplicação integram o Caderno 2.
+=== TABLE START ===
+Regra adotada / O Caderno 1 estabelece a orientação e os fundamentos necessários para compreender e aplicar os requisitos. / O Caderno 2 traduz essas orientações em instrumentos de verificação. / A MARIAH organiza a identificação, a classificação e a documentação do risco. A decisão ética permanece humana, colegiada e fundamentada.
+=== TABLE END ===
+[Heading 1] COMO INTERPRETAR A LINGUAGEM DESTE GUIA
+=== TABLE START ===
+Expressão | Uso no Guia | Efeito esperado
+RECOMENDA-SE | Requisito decorrente do marco normativo aplicável ou condição considerada necessária para que o protocolo seja eticamente avaliável. | O protocolo recomenda-se demonstrar o atendimento ou justificar, quando juridicamente admissível, a não aplicabilidade.
+RECOMENDA-SE | Boa prática que fortalece proteção, transparência, qualidade, governança ou rastreabilidade. | A não adoção não implica automaticamente inadequação, mas pode exigir justificativa em contextos de maior risco.
+PODE | Alternativa admissível ou faculdade dependente do contexto. | A adoção é discricionária e recomenda-se ser compatível com a natureza e o risco da pesquisa.
+=== TABLE END ===
+=== TABLE START ===
+Fundamento / O uso dessas expressões não altera a hierarquia das leis, decretos, resoluções e demais normas vigentes. Quando o Guia traduz uma obrigação normativa em requisito operacional, a fonte correspondente recomenda-se que seja indicada na versão editorial final.
+=== TABLE END ===
+[Heading 1] APRESENTAÇÃO
+[Normal] A inteligência artificial (IA) já integra diferentes etapas das pesquisas com seres humanos desenvolvidas no Brasil, tanto nas Ciências da Saúde quanto nas Ciências Humanas e Sociais (CHS). Sistemas de apoio à análise e ao diagnóstico por imagem, modelos preditivos, ferramentas de processamento de linguagem natural, métodos de análise automatizada de textos, imagens e registros, sistemas generativos, técnicas de classificação e perfilamento e aplicações baseadas em dados sintéticos são exemplos de tecnologias que podem estar presentes em protocolos submetidos à apreciação dos Comitês de Ética em Pesquisa (CEPs).
+[Normal] A incorporação dessas tecnologias amplia as possibilidades científicas e metodológicas da pesquisa, mas também introduz questões específicas para a avaliação ética. Sistemas de IA podem modificar a forma como dados são coletados, combinados, processados, analisados e interpretados; produzir novas inferências sobre pessoas, grupos e comunidades; influenciar decisões; ampliar a escala e a velocidade do tratamento de informações; e possibilitar usos dos dados, modelos ou resultados que ultrapassem a finalidade inicialmente prevista no protocolo.
+[Normal] Essas características demandam atenção a dimensões que podem exigir critérios e instrumentos específicos ou complementares de avaliação ética, entre elas a origem, a qualidade e a representatividade dos dados; os vieses; a produção de inferências sensíveis; a explicabilidade e a transparência; a supervisão humana; o grau de autonomia dos sistemas; a possibilidade de reidentificação; os riscos individuais e coletivos; a governança dos dados; e o destino dos dados, modelos e resultados após o encerramento da pesquisa.
+[Normal] É nesse contexto que a Instância Nacional de Ética em Pesquisa (INAEP) apresenta este Guia, destinado a orientar pesquisadores, instituições e Comitês de Ética em Pesquisa na identificação, análise e tratamento das questões éticas relacionadas ao uso de inteligência artificial em pesquisas com seres humanos nas Ciências da Saúde e nas Ciências Humanas e Sociais.
+[Normal] O Guia parte dos princípios e referenciais que orientam a ética em pesquisa com seres humanos e os aplica às particularidades introduzidas pela IA. Seu propósito não é substituir a legislação, as normas éticas aplicáveis, as competências de outras autoridades ou a deliberação dos CEPs, mas oferecer orientações, critérios e instrumentos que apoiem a aplicação desses referenciais quando as características da tecnologia demandarem avaliação específica.
+[Normal] A utilização de inteligência artificial não constitui, por si só, uma categoria uniforme de risco. Uma mesma tecnologia pode apresentar implicações éticas distintas conforme a finalidade, a população envolvida, a natureza e a origem dos dados, o grau de autonomia do sistema, as inferências produzidas, a influência de seus resultados sobre decisões e as consequências potenciais para participantes, grupos e comunidades. Por essa razão, este Guia adota uma abordagem baseada no contexto de uso e na proporcionalidade do risco.
+[Normal] O Guia reconhece que a utilização de IA pode produzir questões éticas distintas nas Ciências da Saúde e nas Ciências Humanas e Sociais, sem estabelecer separação rígida entre os campos. Pesquisas interdisciplinares podem reunir características de ambas as áreas. A avaliação recomenda-se ser orientada pelas características concretas do protocolo e pelos riscos efetivamente envolvidos, e não exclusivamente pela área disciplinar em que a pesquisa esteja classificada.
+[Normal] Este Guia foi elaborado para o contexto brasileiro e considera a diversidade social, cultural, epidemiológica, étnica, linguística, econômica e territorial do País. Nesse cenário, o Sistema Único de Saúde (SUS) constitui contexto particularmente relevante para pesquisas que utilizem dados, serviços, infraestruturas ou populações vinculadas ao sistema público de saúde. A utilização de dados do SUS, assim como de outras bases públicas, institucionais ou digitais, requer atenção à proteção individual e aos possíveis efeitos das análises, classificações e inferências sobre grupos, comunidades e populações.
+[Normal] Este Guia possui caráter orientador e operacional. Seu objetivo é apoiar pesquisadores e instituições na elaboração de protocolos e auxiliar os CEPs na identificação, análise e avaliação proporcional dos riscos relacionados ao uso de IA em pesquisas com seres humanos. Não pretende transformar pesquisadores ou membros dos CEPs em especialistas em inteligência artificial, mas estabelecer quais informações são eticamente relevantes, quais questões devem ser examinadas e quais evidências podem ser necessárias para fundamentar a avaliação ética.
+[Normal] O propósito é qualificar e tornar mais consistente, proporcional e transparente o julgamento ético, sem substituí-lo por decisão automatizada ou exclusivamente técnica. Para apoiar esse processo, o Guia incorpora a MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos — como instrumento destinado a sistematizar a identificação e a classificação dos riscos e a orientar requisitos proporcionais às características do protocolo. A MARIAH não aprova nem reprova pesquisas.
+[Normal] O conjunto está organizado em três módulos complementares: Guia INAEP — Orientações para Avaliação Ética; Caderno Técnico — Instrumentos de Verificação e Aplicação; Caderno Referencial — Fundamentos Éticos, Conceituais, Normativos e Metodológicos; e MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos. Recomenda-se que os quatro módulos sejam utilizados de forma articulada, conforme a natureza, a complexidade e o nível de risco da pesquisa.
+[Normal] A inteligência artificial é um campo em rápida transformação. Por essa razão, este Guia se estrutura prioritariamente em torno de questões éticas e dimensões de risco que permanecem relevantes mesmo quando a tecnologia se modifica. A tecnologia pode apoiar a análise, mas não substitui a responsabilidade, a deliberação ou o julgamento ético.
+[Heading 1] COMO UTILIZAR O CONJUNTO DOCUMENTAL
+[Normal] Para a orientação institucional sobre os aspectos éticos a considerar, recomenda-se consultar este Guia. Para aplicação da classificação de risco, dos checklists e do registro da decisão, recomenda-se utilizar a MARIAH. Quando houver necessidade de compreender a fundamentação de uma recomendação, de um eixo de risco ou de uma salvaguarda, recomenda-se consultar o Caderno Referencial.
+[Normal] Figura 1 — Percurso recomendado de avaliação ética de pesquisas com IA
+[Normal] Fonte: elaboração própria, com base na abordagem de ciclo de vida adotada neste Guia e nas orientações da MHRA.
+[Normal] O Caderno Referencial possui função explicativa e não estabelece requisitos adicionais para a apreciação ética dos protocolos.
+[Heading 1] CAPÍTULO 1 — FINALIDADE, ÂMBITO E ABORDAGEM DA AVALIAÇÃO ÉTICA
+[Heading 2] 1.1 Finalidade
+[Normal] Este Guia orienta a elaboração e a avaliação ética de pesquisas com seres humanos que envolvam sistemas ou ferramentas de inteligência artificial. A orientação aplica-se tanto às pesquisas em que a IA constitui objeto de investigação quanto às pesquisas em que ela é utilizada como ferramenta, método de análise, componente de decisão, geradora de conteúdo ou mecanismo de produção de inferências.
+[Normal] Recomenda-se que a avaliação se concentre nos efeitos concretos da tecnologia sobre o protocolo e sobre as pessoas, grupos ou comunidades potencialmente afetados. A denominação comercial do sistema, a arquitetura técnica ou a área disciplinar, isoladamente, não determinam o nível de atenção ética.
+[Heading 2] 1.2 Âmbito de aplicação
+[Normal] Recomenda-se considerar este Guia quando a pesquisa utilizar IA para, entre outras finalidades:
+[List Bullet] analisar, classificar, predizer ou interpretar dados relacionados a pessoas;
+[List Bullet] produzir, transformar ou resumir conteúdo que integre o protocolo, os instrumentos de pesquisa, o consentimento ou os resultados;
+[List Bullet] apoiar ou automatizar decisões que possam afetar participantes;
+[List Bullet] desenvolver, treinar, ajustar, testar ou validar modelos ou sistemas de IA;
+[List Bullet] produzir dados sintéticos utilizados como parte da evidência científica;
+[List Bullet] processar textos, imagens, áudios, registros clínicos, dados administrativos ou dados provenientes de ambientes digitais;
+[List Bullet] produzir inferências sobre atributos individuais ou coletivos.
+[Heading 2] 1.3 Modalidades de pesquisa relacionada à inteligência artificial
+[Normal] Para fins de triagem e definição das informações necessárias à avaliação, recomenda-se identificar se o protocolo envolve: (a) pesquisa relacionada à saúde que utiliza dados e métodos de IA; (b) pesquisa conduzida com ferramentas ou tecnologias de IA; ou (c) pesquisa sobre o desenvolvimento, treinamento, teste, validação ou desempenho de ferramentas e tecnologias de IA. As modalidades podem coexistir no mesmo protocolo e não determinam, isoladamente, o nível de risco.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / • a modalidade ou as modalidades de uso da IA presentes no estudo; / • a função desempenhada pela IA em cada etapa da pesquisa; / • se a IA atua sobre dados, instrumentos, interação com participantes, produção de inferências ou decisões; / • se a ferramenta utilizada foi desenvolvida especificamente para a pesquisa ou fornecida por terceiro.
+O CEP verifica / • se todos os usos relevantes da IA foram declarados, inclusive os considerados auxiliares; / • se a modalidade informada corresponde ao uso efetivamente descrito no protocolo; / • se o enquadramento permite identificar participantes formais, pessoas indiretamente afetadas, grupos e comunidades potencialmente impactados.
+=== TABLE END ===
+[Heading 2] 1.4 Abordagem orientada pelo contexto de uso
+[Normal] Recomenda-se que o protocolo defina o contexto de uso da IA antes da análise de risco. A mesma tecnologia pode apresentar riscos distintos conforme a finalidade, a população, a fonte de dados, o grau de autonomia, o ambiente de aplicação e a possibilidade de intervenção humana.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / qual é a finalidade específica da IA no estudo; / qual pergunta ou tarefa o sistema executa; / em que etapa da pesquisa a IA é utilizada; / quem recebe e utiliza a saída produzida; / se a saída influencia decisão sobre participante, grupo ou comunidade; / se existe intervenção humana antes de qualquer consequência relevante.
+=== TABLE END ===
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se o papel da IA está descrito de forma suficientemente clara para permitir avaliação ética; / se o contexto de uso real coincide com o contexto em que o sistema foi desenvolvido ou validado; / se a influência do sistema sobre decisões foi explicitada; / se a descrição permite identificar quem pode ser afetado pela utilização da IA.
+=== TABLE END ===
+=== TABLE START ===
+Sinal de alerta / o protocolo menciona IA apenas de forma genérica, sem descrever sua função; / o pesquisador descreve o sistema como 'apoio' sem esclarecer quanto ele influencia a decisão; / o uso de IA aparece somente em anexo técnico, sem integração com a análise ética do protocolo.
+=== TABLE END ===
+[Heading 2] 1.5 Proporcionalidade
+[Normal] Recomenda-se que a profundidade da avaliação seja proporcional ao risco. O uso de IA não deve, por si só, gerar exigências idênticas para todos os protocolos. A MARIAH é o instrumento destinado a apoiar essa classificação e a documentar os fatores de risco relevantes.
+[Normal] Protocolos de menor risco podem requerer apenas identificação clara do uso da IA, transparência e proteção adequada dos dados. Protocolos de maior risco podem exigir validação contextual, análise de desempenho por subgrupos, supervisão humana efetiva, documentação ampliada de governança, monitoramento e salvaguardas adicionais.
+=== TABLE START ===
+Fundamento / O documento de origem estabelece que perguntas éticas estáveis — representatividade dos dados, supervisão humana, destino do modelo e proteção dos participantes — recomenda-se que orientar a avaliação mesmo diante da rápida mudança das arquiteturas de IA. A revisão mantém essa racionalidade, substituindo a linguagem ensaística por critérios operacionais.
+=== TABLE END ===
+[Heading 1] CAPÍTULO 2 — CONCEITOS ESSENCIAIS PARA A AVALIAÇÃO DE SISTEMAS DE IA
+[Normal] Este capítulo reúne apenas os conceitos necessários para a avaliação ética. A compreensão técnica aprofundada de arquiteturas e algoritmos não é pressuposto para a atuação do CEP. O objetivo é permitir que pesquisador e avaliador utilizem linguagem comum e identifiquem as informações necessárias à análise.
+[Heading 2] 2.1 Sistema, modelo e saída
+[Normal] Para fins deste Guia, um sistema de IA processa dados ou informações e produz saídas como classificações, probabilidades, escores, recomendações, previsões ou conteúdos. Recomenda-se que a avaliação ética considere o sistema em seu contexto de uso, e não apenas o modelo matemático isolado.
+=== TABLE START ===
+Elemento | Pergunta regulatória essencial | Implicação ética
+Entrada | Quais dados ou informações alimentam o sistema? | Determina qualidade, representatividade, privacidade, consentimento e risco de reidentificação.
+Processamento/modelo | Como o sistema transforma as entradas em saídas relevantes para a pesquisa? | Determina opacidade, possibilidade de auditoria, generalização e risco de erro.
+Saída | Que classificação, predição, recomendação ou conteúdo é produzido? | Determina possíveis danos, inferências, decisões e necessidade de supervisão.
+=== TABLE END ===
+[Heading 2] 2.2 Treinamento, validação e teste
+[Normal] Quando a pesquisa desenvolve ou avalia modelo de IA, o protocolo RECOMENDA-SE distinguir, conforme aplicável, dados utilizados para treinamento, validação e teste. A apresentação de desempenho apenas sobre dados utilizados para treinar o sistema não demonstra capacidade de generalização.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / origem e características dos conjuntos de dados; / critérios de seleção e exclusão; / procedimentos relevantes de pré-processamento; / se houve uso de dados sintéticos; / estratégia de separação entre treino, validação e teste, quando aplicável; / métricas de desempenho pertinentes ao contexto de uso.
+=== TABLE END ===
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se o desempenho apresentado foi obtido em dados independentes quando isso for necessário para sustentar a finalidade proposta; / se os dados utilizados são adequados à população e ao contexto da pesquisa; / se limitações de generalização são explicitadas.
+=== TABLE END ===
+[Heading 2] 2.3 Famílias de sistemas e riscos associados
+=== TABLE START ===
+Tipo de uso | Exemplos no documento de origem | Questões prioritárias
+Classificação e predição | modelos de risco, apoio diagnóstico, classificação de imagens | representatividade, validação, impacto da decisão, supervisão e erro.
+Processamento de linguagem | análise de prontuários, textos, documentos e discursos | privacidade, inferências, contextualização, vieses e confidencialidade.
+IA generativa | produção de texto, síntese, geração de dados sintéticos | alucinação, integridade científica, rastreabilidade, confidencialidade e verificação humana.
+Sistemas adaptativos | modelos sujeitos a atualização ou retreinamento | controle de versão, deriva, revalidação e necessidade de nova avaliação ética.
+Aprendizagem federada e técnicas de privacidade | processamento distribuído de dados | governança, risco residual de reidentificação e responsabilidade entre instituições.
+=== TABLE END ===
+[Heading 2] 2.4 Dados sintéticos
+[Normal] Quando dados sintéticos forem utilizados, recomenda-se que o protocolo os identifique expressamente e descreva sua função no estudo. Dados sintéticos não devem ser apresentados como dados observacionais reais. Quando integrarem o desenvolvimento ou a validação de um sistema, recomenda-se que o pesquisador demonstre sua adequação à finalidade científica.
+=== TABLE START ===
+Sinal de alerta / dados sintéticos descritos apenas como mecanismo de 'anonimização' sem avaliação de seus limites; / resultados gerados artificialmente apresentados como evidência empírica coletada de participantes; / ausência de verificação humana de conteúdo produzido por IA generativa.
+=== TABLE END ===
+[Heading 1] CAPÍTULO 3 — DIMENSÕES CRÍTICAS DE RISCO
+[Normal] Recomenda-se que a avaliação de sistemas de IA considere, de forma articulada, viés, explicabilidade e transparência, supervisão humana, impacto sobre participantes e grupos, e ciclo de vida do sistema. Essas dimensões constituem fundamentos centrais da MARIAH.
+[Heading 2] 3.1 Viés, representatividade e equidade
+[Normal] Recomenda-se que o protocolo avalie se os dados e o desempenho do sistema são adequados às pessoas, aos grupos e aos contextos afetados pela pesquisa. Métricas agregadas podem ocultar desempenho desigual entre subgrupos. Recomenda-se que a equidade seja considerada também como dimensão de segurança: diferenças relevantes de desempenho podem produzir riscos concretos, especialmente quando a IA influencia decisões clínicas, assistenciais, de seleção, classificação ou priorização.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / composição e origem da base de dados; / características relevantes da população representada; / avaliação de desempenho por subgrupos quando pertinente; / limitações de representatividade conhecidas; / medidas previstas para reduzir ou monitorar disparidades.
+=== TABLE END ===
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se a população do estudo é comparável àquela utilizada no desenvolvimento ou validação; / se subgrupos potencialmente vulneráveis ou sub-representados foram considerados; / se o protocolo distingue ausência de evidência de viés de evidência de ausência de viés.
+=== TABLE END ===
+=== TABLE START ===
+Sinal de alerta / apresentação apenas de acurácia global; / modelo importado sem justificativa de transferibilidade ao contexto brasileiro; / ausência de análise de subgrupos em pesquisa cujo resultado possa distribuir benefícios ou riscos de forma desigual.
+=== TABLE END ===
+[Heading 2] 3.2 Explicabilidade e transparência
+[Normal] A profundidade da explicação necessária depende da função da IA e das consequências de sua saída. A avaliação ética não exige acesso irrestrito ao código-fonte em todos os casos, mas requer informação suficiente para compreender o papel do sistema, suas limitações e as condições nas quais suas saídas podem ser contestadas.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / nível de explicabilidade disponível e adequado ao contexto de uso; / limitações conhecidas das técnicas de explicação utilizadas; / informações necessárias para que o responsável humano interprete e conteste a saída; / forma de comunicação aos participantes quando a IA tiver impacto relevante sobre sua participação ou seus dados.
+=== TABLE END ===
+=== TABLE START ===
+Fundamento / O documento de origem ressalta que mapas de saliência e outras técnicas de explicação não demonstram causalidade e não equivalem, por si só, à interpretabilidade clínica ou ética. A explicação recomenda-se que seja adequada ao usuário e ao contexto.
+=== TABLE END ===
+[Heading 2] 3.3 Supervisão humana efetiva
+[Normal] A presença formal de pessoa responsável não é suficiente quando ela não dispõe de informação, competência, tempo, autoridade ou possibilidade real de discordar do sistema. Recomenda-se que a supervisão humana seja efetiva e compatível com a magnitude das consequências. O protocolo RECOMENDA-SE explicitar quem exerce a supervisão, em que momento ela ocorre, quais informações sustentam a revisão humana e como se procede diante de discordância entre a saída algorítmica e o julgamento humano, considerando inclusive o risco de viés de automação.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / quem exerce a supervisão; / qual qualificação é necessária; / em que momento ocorre a revisão; / como a discordância é registrada e tratada; / o que ocorre quando o sistema falha ou produz resultado incompatível com outras evidências.
+=== TABLE END ===
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se há possibilidade real de intervenção antes de consequências relevantes; / se o responsável humano compreende suficientemente as limitações do sistema; / se o desenho operacional favorece a contestação em vez da aceitação automática.
+=== TABLE END ===
+=== TABLE START ===
+Sinal de alerta / supervisão descrita apenas como 'médico responsável' ou 'pesquisador responsável', sem processo de revisão; / decisão de alta consequência sem possibilidade real de contestação; / uso de IA em contexto de sobrecarga ou automação que favoreça viés de automação.
+=== TABLE END ===
+[Heading 2] 3.4 Ciclo de vida, atualização e deriva
+[Normal] A aceitabilidade ética de um sistema de IA não deve ser tratada como propriedade estática. O desempenho pode variar conforme população, dados, fluxo de trabalho, ambiente institucional e condições reais de uso, e pode se modificar ao longo do tempo. Quando o sistema puder mudar durante a pesquisa, recomenda-se que o protocolo estabeleça identificação e controle de versão, critérios de monitoramento, mecanismos para detectar falhas ou deterioração de desempenho e procedimentos para atualização, recalibração, retreinamento ou substituição. Mudanças capazes de alterar riscos, benefícios, equidade, privacidade, autonomia, supervisão humana ou consequências de erro RECOMENDA-SE ser avaliadas quanto à necessidade de comunicação ou emenda ao CEP.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / versão do sistema utilizada; / se o sistema é estático ou adaptativo; / eventos que podem alterar seu desempenho; / critérios mínimos de desempenho; / procedimentos diante de deriva de dados ou desempenho; / destino do sistema ao encerramento da pesquisa.
+=== TABLE END ===
+[Heading 2] 3.4.1 Monitoramento, mudanças e rastreabilidade
+[Normal] Recomenda-se que a avaliação ética acompanhe o ciclo de vida da IA no protocolo. Quando proporcional ao risco e à finalidade da pesquisa, o protocolo RECOMENDA-SE prever mecanismos que permitam identificar qual sistema, versão ou configuração foi utilizado; monitorar desempenho durante a execução; reconhecer resultados inesperados ou deterioração relevante; e estabelecer respostas previamente definidas quando novas informações modificarem o perfil de risco.
+[Normal] Recomenda-se que o CEP verifique se alterações técnicas ou contextuais aparentemente limitadas podem modificar de forma eticamente relevante a interação com participantes, a autonomia decisória, o desempenho em grupos específicos, a supervisão humana, a relação risco-benefício ou as salvaguardas previstas.
+[Normal] A existência de registro, autorização, certificação ou outro enquadramento regulatório do sistema não substitui a avaliação ética de sua utilização no protocolo específico.
+[Heading 2] 3.5 Pessoas, grupos e comunidades afetados além dos participantes formais
+[Normal] Recomenda-se que a avaliação ética considere não apenas as pessoas cujos dados são diretamente utilizados ou que interagem com a equipe de pesquisa, mas também aquelas que possam ser classificadas, perfiladas, representadas ou afetadas pelas inferências, decisões, produtos ou usos posteriores do sistema. A ausência de enquadramento formal como participante não torna eticamente irrelevantes os riscos previsíveis de discriminação, estigmatização, exclusão, vigilância, manipulação, representação inadequada ou distribuição injusta de benefícios e ônus.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / • quem pode ser afetado direta ou indiretamente pelas saídas, inferências ou reutilizações do sistema; / • quais danos individuais, coletivos, sociais, culturais, econômicos ou territoriais são razoavelmente previsíveis; / • como grupos potencialmente afetados foram considerados na concepção, validação e comunicação da pesquisa; / • quais medidas reduzem riscos de estigmatização, discriminação, perfilamento indevido e representação inadequada.
+O CEP verifica / • se a análise de risco ultrapassa a proteção individual e alcança impactos coletivos e societais pertinentes; / • se dados públicos, anonimizados ou secundários foram indevidamente tratados como eticamente neutros; / • se a pesquisa pode deslocar riscos para grupos que não consentiram nem possuem canal direto de contestação; / • se o valor social alegado é compatível com a distribuição de riscos, benefícios e poder decisório.
+Sinal de alerta / • o protocolo afirma não haver participantes apenas porque utiliza dados públicos, secundários ou anonimizados; / • inferências sensíveis ou classificações coletivas são produzidas sem identificação dos grupos afetados; / • impactos sociais ou culturais previsíveis são tratados exclusivamente como problema de proteção de dados.
+=== TABLE END ===
+[Heading 1] CAPÍTULO 4 — CONTEXTO BRASILEIRO E INTERESSE PÚBLICO
+[Normal] Recomenda-se que a avaliação ética de pesquisas com IA considere o contexto brasileiro, sua diversidade populacional, territorial, social e epidemiológica e as desigualdades que podem afetar a produção e a interpretação dos dados.
+[Heading 2] 4.1 Adequação ao contexto brasileiro
+[Normal] Sistemas desenvolvidos ou validados em outros contextos não devem ser presumidos adequados à população brasileira. Recomenda-se que o protocolo justifique a transferibilidade do modelo ou apresentar validação compatível com a finalidade proposta.
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se a população e o ambiente de desenvolvimento são comparáveis ao contexto da pesquisa; / se diferenças de infraestrutura, idioma, cultura, epidemiologia ou composição populacional podem alterar o desempenho; / se existe risco de reforço de desigualdades já presentes nos dados.
+=== TABLE END ===
+[Heading 2] 4.2 SUS e dados de interesse público
+[Normal] Nas pesquisas que utilizem dados, serviços, infraestruturas ou populações vinculadas ao Sistema Único de Saúde, a utilização de IA recomenda-se observar a proteção dos participantes, a governança dos dados, a finalidade da pesquisa, a equidade e o interesse público.
+[Normal] A abrangência e a diversidade dos dados produzidos no SUS ampliam o potencial científico da pesquisa e, simultaneamente, aumentam a responsabilidade sobre uso, compartilhamento, reutilização e destino dos produtos derivados desses dados.
+=== TABLE START ===
+Sinal de alerta / transferência de dados ou modelos derivados de dados públicos sem definição de finalidade, responsabilidade e destino; / uso de infraestrutura estrangeira ou de terceiros sem descrição da cadeia de processamento; / ausência de análise de impacto sobre grupos ou territórios sub-representados.
+=== TABLE END ===
+[Heading 2] 4.3 Saúde digital, interoperabilidade e soberania de dados
+[Normal] Quando a pesquisa estiver inserida em ecossistemas de saúde digital, plataformas interoperáveis ou redes nacionais de dados, o protocolo RECOMENDA-SE explicitar os fluxos de dados e as responsabilidades institucionais relevantes. A interoperabilidade não elimina as obrigações de finalidade, segurança, rastreabilidade e proteção.
+[Heading 1] CAPÍTULO 5 — REFERÊNCIAS INTERNACIONAIS E PRINCÍPIOS INCORPORADOS
+[Normal] A análise internacional realizada no documento de origem contribui para a construção dos critérios utilizados neste Guia e na MARIAH. Nesta versão regulatória, a descrição país a país é substituída por uma síntese das contribuições incorporadas ao modelo brasileiro.
+=== TABLE START ===
+Referência/experiência | Contribuição incorporada | Aplicação no Guia/MARIAH
+OMS | governança ética, supervisão humana, proteção de participantes e atenção às limitações dos sistemas | princípios gerais; supervisão; transparência; responsabilidade.
+Canadá | avaliação de impacto algorítmico e separação entre risco e mitigação | estrutura proporcional; rastreabilidade; regra crítica.
+Austrália/NHMRC | orientação para avaliação de pesquisa envolvendo IA | adequação da informação apresentada ao comitê e avaliação proporcional.
+Estados Unidos/FDA | contexto de uso, influência do modelo e ciclo de vida | caracterização do uso; monitoramento; influência da IA na decisão.
+União Europeia e proteção de dados | governança, transparência e proteção de dados em sistemas de IA | dados, finalidade, riscos e documentação.
+Ásia — referências analisadas no original | contestabilidade, desempenho, proteção de participantes e avaliação de dispositivos | supervisão, validação, direitos e requisitos por contexto.
+=== TABLE END ===
+[Normal] Essas referências não substituem o marco brasileiro. Elas funcionam como fontes de comparação e apoio metodológico. Os requisitos aplicáveis ao protocolo devem ser fundamentados nas normas brasileiras vigentes e nas responsabilidades do sistema de ética em pesquisa.
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se referência internacional citada pelo pesquisador é compatível com o contexto brasileiro; / se certificação, aprovação ou desempenho em outro país está sendo indevidamente utilizado como substituto da avaliação ética local; / se salvaguardas adotadas no exterior foram adaptadas à população e às normas brasileiras.
+=== TABLE END ===
+[Heading 1] CAPÍTULO 6 — INTEGRIDADE CIENTÍFICA, AUTORIA E USO DE IA NA PRODUÇÃO DA PESQUISA
+[Normal] O uso de IA na elaboração, análise ou documentação de uma pesquisa não desloca a responsabilidade humana. O pesquisador responsável permanece responsável pela integridade do protocolo, dos dados, das análises, das referências e dos resultados apresentados.
+[Heading 2] 6.1 Declaração do uso de IA
+[Normal] Recomenda-se que o protocolo declare o uso de IA quando ela contribuir de modo relevante para a produção de conteúdo, análise, geração de dados, formulação de hipóteses, elaboração de instrumentos ou outras etapas que possam afetar a integridade científica ou a proteção dos participantes.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / ferramenta ou sistema utilizado, quando relevante; / finalidade do uso; / etapa da pesquisa em que foi empregado; / responsável humano pela revisão e validação; / medidas de verificação de referências, fatos, cálculos, dados ou conteúdo gerado.
+=== TABLE END ===
+[Heading 2] 6.2 Autoria e responsabilidade humana
+[Normal] Sistemas de IA não devem substituir a atribuição de responsabilidade humana pelo conteúdo científico. A responsabilidade ética e científica não pode ser transferida ao sistema utilizado.
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se há pessoa responsável por cada etapa relevante do protocolo; / se a equipe dispõe de competência para verificar as saídas da IA; / se o uso de IA não obscurece a cadeia de responsabilidade.
+=== TABLE END ===
+[Heading 2] 6.3 Alucinação, fabricação e negligência
+[Normal] Conteúdo gerado por IA RECOMENDA-SE ser verificado antes de integrar o protocolo ou os materiais submetidos ao CEP. Referências inexistentes, afirmações normativas incorretas, dados sintéticos apresentados como reais e hipóteses não verificadas podem comprometer a validade científica e, consequentemente, a justificativa ética da exposição de participantes a riscos.
+=== TABLE START ===
+Sinal de alerta / referências bibliográficas não verificáveis; / afirmações normativas sem fonte oficial; / texto de consentimento produzido por IA sem revisão substantiva; / dados ou imagens gerados artificialmente sem identificação clara; / delegação de julgamento científico ou ético à ferramenta.
+=== TABLE END ===
+[Heading 2] 6.4 Recomenda-se que o protocolo contenha — e o CEP verifica
+=== TABLE START ===
+Tema | Recomenda-se que o protocolo apresente | Recomenda-se que o CEP verifique
+Uso de IA | declaração da ferramenta, função e etapa | se a declaração é completa e compatível com o uso real.
+Verificação humana | responsável e processo de revisão | se a revisão é substantiva e suficiente.
+Dados sintéticos | identificação, finalidade e validação | se não foram confundidos com dados reais.
+Referências e normas | mecanismo de conferência | se as fontes relevantes são verificáveis.
+Responsabilidade | pessoa responsável por decisões e conteúdo | se a cadeia de responsabilidade permanece humana e definida.
+=== TABLE END ===
+[Heading 1] CAPÍTULO 7 — GOVERNANÇA DE DADOS E PROTEÇÃO DE PARTICIPANTES
+[Normal] A governança de dados é uma dimensão central da avaliação ética de pesquisas com IA. Recomenda-se que o protocolo permita identificar a origem dos dados, as finalidades de tratamento, os agentes responsáveis, os fluxos de compartilhamento, os mecanismos de segurança e o destino dos dados e dos modelos derivados.
+[Heading 2] 7.1 Origem, finalidade e papéis
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / origem de cada conjunto de dados; / finalidade de uso no estudo e no treinamento ou ajuste do sistema; / Controlador e Operador, quando aplicável; / instituições e terceiros que terão acesso; / infraestrutura utilizada para armazenamento ou processamento; / destino dos dados, parâmetros e modelo após a pesquisa.
+=== TABLE END ===
+[Heading 2] 7.2 Bancos de dados, uso futuro e consentimento
+[Normal] Quando a pesquisa utilizar banco de dados, recomenda-se que o protocolo demonstre o enquadramento aplicável segundo a origem do banco, a finalidade da utilização e as normas brasileiras pertinentes. Eventual dispensa de obtenção ou documentação de novo consentimento deve indicar a hipótese normativa aplicável e apresentar justificativa ética e metodológica, sem ser presumida apenas em razão da origem do banco.
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se os instrumentos institucionais aplicáveis foram apresentados; / se o uso futuro está coberto pelo consentimento anterior ou pela hipótese normativa invocada; / se a anonimização ou pseudonimização descrita é adequada ao risco de reidentificação; / se a finalidade da pesquisa é compatível com o uso proposto.
+=== TABLE END ===
+[Heading 2] 7.3 Reidentificação, inferência e segurança
+[Normal] A ausência de identificadores diretos não elimina automaticamente o risco de reidentificação. Sistemas de IA podem combinar variáveis e produzir inferências capazes de revelar informações sensíveis. O protocolo RECOMENDA-SE considerar o risco técnico e contextual de reidentificação e inferência.
+=== TABLE START ===
+Sinal de alerta / uso do termo 'anonimizado' sem descrição do procedimento; / grandes conjuntos de dados com múltiplas variáveis indiretas capazes de reidentificação; / transferência a terceiros sem definição de finalidade e responsabilidade; / uso de serviço externo de IA que retenha ou reutilize dados do protocolo.
+=== TABLE END ===
+[Heading 2] 7.4 Transferência internacional e soberania de dados
+[Normal] Quando houver transferência internacional ou processamento em infraestrutura localizada fora do Brasil, recomenda-se que o protocolo descreva o fluxo, a finalidade, os agentes envolvidos, as salvaguardas e o destino dos dados e do modelo resultante.
+[Heading 2] 7.5 Tecnologias de preservação de privacidade
+[Normal] Aprendizagem federada, privacidade diferencial, criptografia homomórfica e outras arquiteturas de preservação de privacidade podem reduzir determinados riscos, mas não devem ser tratadas como garantias absolutas. Recomenda-se que o protocolo descreva o mecanismo adotado e o risco residual relevante.
+=== TABLE START ===
+Fundamento / O documento de origem destaca que técnicas de privacidade modificam a arquitetura do tratamento, mas não eliminam automaticamente riscos de inversão, reidentificação ou responsabilidade institucional. O CEP avalia a suficiência da salvaguarda no contexto concreto.
+=== TABLE END ===
+[Heading 2] 7.6 Direitos dos participantes e destino do modelo
+[Normal] Recomenda-se que o protocolo esclareça como serão tratados os direitos dos participantes durante a pesquisa e, quando pertinente, após o treinamento do modelo. A retirada de dados pode ter limitações técnicas quando o sistema já foi treinado; recomenda-se que essas limitações sejam explicadas e avaliadas de forma transparente.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / como o participante poderá exercer direitos sobre seus dados; / como será tratada eventual retirada do consentimento; / se o modelo continuará a incorporar padrões aprendidos a partir dos dados retirados; / se há mecanismo de eliminação, reprocessamento ou outra medida aplicável; / qual será o destino final do modelo e de seus parâmetros.
+=== TABLE END ===
+[Heading 1] CAPÍTULO 8 — ESPECIFICIDADES POR NATUREZA DA PESQUISA
+[Normal] As especificidades não constituem exceções à avaliação geral. Elas determinam quais dimensões de risco exigem maior atenção. Pesquisas das Ciências da Saúde e pesquisas das Ciências Humanas e Sociais podem compartilhar princípios e, ao mesmo tempo, demandar perguntas diferentes.
+[Heading 2] 8.1 Ciências da Saúde: impacto assistencial e SaMD
+[Normal] Quando a IA puder influenciar diagnóstico, prognóstico, tratamento, monitoramento, triagem ou outra decisão de natureza assistencial, recomenda-se que o protocolo descreva o impacto potencial da saída do sistema e o papel da supervisão humana.
+[Normal] Quando o sistema se enquadrar como Software as a Medical Device (SaMD), a avaliação ética e a avaliação sanitária têm funções complementares. A apreciação pelo CEP não substitui a competência da autoridade sanitária, e a existência de enquadramento regulatório não substitui a avaliação ética da pesquisa.
+[Normal] Em sistemas de IA com impacto assistencial, recomenda-se que o CEP considerar ainda se o desempenho foi demonstrado em população e contexto pertinentes; se há possibilidade de desempenho diferencial entre grupos; se a supervisão humana é efetiva; e se o protocolo prevê monitoramento e gestão de mudanças quando o sistema puder ser atualizado durante o estudo.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / finalidade do sistema e sua função na pesquisa; / fase de desenvolvimento ou avaliação; / impacto clínico ou assistencial potencial; / desempenho relevante no contexto de uso; / mecanismo de supervisão e contestação; / enquadramento regulatório aplicável, quando pertinente; / plano para falha, resultado inesperado ou necessidade de intervenção imediata.
+=== TABLE END ===
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se a decisão assistencial permanece adequadamente supervisionada; / se o protocolo distingue pesquisa, uso assistencial e finalidade regulatória; / se os riscos decorrentes de erro ou mau funcionamento foram avaliados; / se requisitos de governança de dados continuam atendidos.
+=== TABLE END ===
+=== TABLE START ===
+Sinal de alerta / sistema descrito como 'experimental' sendo utilizado de forma assistencial sem delimitação; / alta autonomia em decisão de consequência grave sem revisão humana efetiva; / uso de desempenho obtido em população distinta sem validação contextual.
+=== TABLE END ===
+[Heading 2] 8.2 Ciências Humanas e Sociais: inferências, grupos e risco coletivo
+[Normal] Nas Ciências Humanas e Sociais, recomenda-se que a avaliação não se limite à natureza dos dados de origem. O processamento algorítmico pode produzir inferências sobre identidade, comportamento, relações, crenças, posição social, saúde, pertencimento ou outros atributos que não estavam explicitamente presentes nos dados coletados.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / origem dos dados e condições de acesso; / o que o sistema pretende inferir, classificar ou agrupar; / se as inferências envolvem atributos sensíveis; / base ética e jurídica para o tratamento dessas inferências; / grupos potencialmente afetados, inclusive além dos participantes formais; / risco de estigmatização, discriminação ou representação inadequada; / destino do modelo e possibilidade de usos secundários.
+=== TABLE END ===
+=== TABLE START ===
+Recomenda-se que o CEP verifique / se consentimento ou justificativa de dispensa cobre as inferências produzidas, e não apenas os dados de origem; / se dados publicamente acessíveis estão sendo tratados como eticamente neutros sem análise do contexto; / se há riscos coletivos que não são capturados pela proteção individual; / se o modelo poderá ser reutilizado em contexto discriminatório ou não previsto.
+=== TABLE END ===
+=== TABLE START ===
+Sinal de alerta / dados públicos processados para produzir inferências sensíveis sem análise específica; / classificação de risco mínimo baseada apenas no fato de os dados serem públicos ou anonimizados; / ausência de identificação dos grupos sociais afetados pelas inferências; / publicação aberta do modelo sem avaliação de usos secundários potencialmente danosos.
+=== TABLE END ===
+[Normal] Nas CHS, recomenda-se examinar de modo específico a adequação contextual e linguística dos dados e modelos; as relações de poder entre pesquisadores, plataformas, instituições e comunidades; a transformação de discursos, imagens, vínculos e comportamentos em categorias automatizadas; a possibilidade de vigilância, manipulação ou apagamento de significados; e a eventual apropriação de dados, conhecimentos ou expressões culturais. Recomenda-se que a análise não reduza essas questões à legalidade do acesso aos dados.
+=== TABLE START ===
+O CEP verifica adicionalmente nas CHS / • se as categorias produzidas pelo sistema preservam contexto, linguagem, historicidade e significado social; / • se comunidades ou grupos vulnerabilizados participam de forma pertinente da identificação de riscos e benefícios; / • se o uso de bases digitais, redes sociais ou plataformas respeita expectativas razoáveis de privacidade e integridade contextual; / • se há risco de colonialismo de dados, extração assimétrica de valor, reforço de desigualdades ou reutilização incompatível com os interesses dos grupos de origem.
+=== TABLE END ===
+[Heading 2] 8.3 Pesquisas interdisciplinares
+[Normal] Quando o protocolo reunir características das Ciências da Saúde e das Ciências Humanas e Sociais, recomenda-se que o CEP aplique cumulativamente as perguntas pertinentes aos diferentes contextos. A classificação disciplinar não deve reduzir a atenção a um risco efetivamente presente.
+[Heading 1] CAPÍTULO 9 — INTEGRAÇÃO COM A MARIAH E OS INSTRUMENTOS DE APLICAÇÃO
+[Normal] Este Guia estabelece os fundamentos, os critérios e as informações eticamente relevantes. A MARIAH e seus instrumentos de aplicação estruturam a verificação, a classificação e a documentação dos riscos.
+=== TABLE START ===
+Módulo | Função principal | Pergunta que responde
+Guia INAEP | estabelece escopo, princípios, conceitos e critérios de avaliação | O que se recomenda considerado e por quê?
+MARIAH — Instrumentos de Aplicação | converte os critérios em itens verificáveis e materiais de apoio | O que o protocolo recomenda-se apresentar e o que o CEP verifica?
+MARIAH | classifica e documenta o risco de forma proporcional | Qual é o perfil e o nível de risco e quais requisitos decorrem dele?
+=== TABLE END ===
+[Heading 2] 9.1 Aplicação da MARIAH
+[Normal] Recomenda-se que a MARIAH seja aplicada nos termos de seu módulo próprio. O Caderno 1 não reproduz a matriz, suas pontuações ou suas regras de cálculo, a fim de evitar duplicidade e divergência entre versões.
+[Normal] Sempre que uma questão tratada neste Guia corresponder a dimensão avaliada pela MARIAH, recomenda-se que a decisão seja registrada no instrumento de risco e, quando necessário, fundamentada no parecer do CEP.
+[Heading 2] 9.2 Registro da decisão ética
+[Normal] Recomenda-se que o parecer seja suficientemente claro para demonstrar quais riscos foram identificados, quais informações sustentaram a análise, quais requisitos foram atendidos, quais pendências permanecem e quais razões fundamentaram a decisão.
+=== TABLE START ===
+Recomenda-se que o CEP registre / o contexto de uso da IA; / o nível de risco obtido na MARIAH, quando aplicável; / as dimensões de risco de maior relevância; / os requisitos ou salvaguardas necessários; / eventuais divergências técnicas ou éticas relevantes; / a fundamentação de diligência, condicionamento ou recusa.
+=== TABLE END ===
+[Heading 2] 9.3 Supervisão ética longitudinal e eventos que exigem nova apreciação
+[Normal] A aprovação ética inicial não encerra a supervisão quando o sistema, os dados, a finalidade ou o contexto de uso puderem mudar de modo relevante. Recomenda-se que o protocolo defina os eventos que exigem emenda, comunicação ou nova apreciação pelo CEP, de forma proporcional ao risco e sem confundir atualização meramente técnica com modificação capaz de alterar direitos, riscos, benefícios ou a validade científica.
+=== TABLE START ===
+Recomenda-se submeter à apreciação do CEP, conforme o risco / • troca do modelo, do fornecedor ou de componente que altere função, desempenho, explicabilidade ou governança; / • inclusão de novas bases de dados, populações, variáveis sensíveis ou fontes digitais; / • alteração de finalidade, contexto de uso, autonomia, usuário da saída ou influência sobre decisões; / • retreinamento, ajuste substancial, deriva relevante ou queda de desempenho, inclusive por subgrupos; / • novo uso, compartilhamento, abertura ou transferência do modelo, dos parâmetros ou dos produtos derivados; / • identificação de dano, discriminação, reidentificação, incidente de segurança ou uso não previsto.
+=== TABLE END ===
+[Heading 2] 9.4 Responsabilidades compartilhadas e limites da competência do CEP
+[Normal] A proteção ética em pesquisas relacionadas à IA constitui responsabilidade distribuída ao longo do ciclo de vida. O pesquisador responsável, a instituição proponente, os responsáveis pela governança e pelo acesso aos dados, os desenvolvedores ou fornecedores, os patrocinadores, os financiadores e outras instâncias competentes recomenda-se ter atribuições identificadas. Essa distribuição não reduz a competência do CEP nem transfere a ele funções técnicas, sanitárias, administrativas ou de proteção de dados pertencentes a outras autoridades.
+=== TABLE START ===
+Recomenda-se que o protocolo apresente / • matriz de responsabilidades pelas decisões, dados, validação, segurança, monitoramento, resposta a incidentes e encerramento; / • dependências de fornecedores e limites de acesso a informações técnicas ou contratuais; / • instâncias complementares de supervisão e os mecanismos de comunicação entre elas; / • responsável por assegurar o cumprimento das condições aprovadas pelo CEP durante todo o estudo.
+=== TABLE END ===
+[Heading 2] 9.5 Uso de inteligência artificial no apoio às atividades do CEP
+[Normal] Ferramentas de IA podem ser utilizadas em atividades auxiliares de organização, capacitação ou pré-análise, desde que sua utilização seja institucionalmente autorizada, transparente, segura e submetida à supervisão humana. A IA não pode deliberar, votar, emitir decisão autônoma, substituir a apreciação colegiada ou assumir responsabilidade pelo parecer. Recomenda-se que o conteúdo do protocolo não seja inserido em serviço externo que retenha, reutilize ou utilize os dados para treinamento sem garantia institucional adequada de confidencialidade, segurança e finalidade.
+=== TABLE START ===
+Salvaguardas para o uso de IA pelo CEP / • autorização institucional e definição prévia das finalidades permitidas; / • proteção da confidencialidade dos protocolos, pareceres e dados pessoais ou comerciais; / • registro da ferramenta, versão, finalidade, usuário e etapa em que houve apoio automatizado; / • verificação humana substantiva de fatos, referências, normas, inferências e sugestões produzidas; / • avaliação de viés de automação, adequação linguística e contextual e representatividade das fontes; / • proibição de decisão autônoma e preservação da deliberação humana, colegiada e fundamentada; / • monitoramento periódico de desempenho, incidentes, erros e efeitos sobre a qualidade da revisão.
+Sinal de alerta / • uso não declarado de ferramenta pública ou comercial para analisar protocolo confidencial; / • aceitação de recomendação automatizada sem conferência humana documentada; / • dependência de modelo treinado em normas, idiomas ou contextos incompatíveis com o SNEPSH; / • substituição da capacitação dos membros ou da discussão colegiada por respostas geradas automaticamente.
+=== TABLE END ===
+[Heading 1] ANEXO A — SÍNTESE DOS REQUISITOS DO CADERNO 1
+=== TABLE START ===
+Dimensão | Informação mínima esperada
+Contexto de uso | finalidade, função, autonomia, influência sobre decisão e população afetada
+Dados | origem, qualidade, representatividade, finalidade, agentes e fluxo
+Validação | treino/validação/teste, desempenho e adequação contextual
+Viés e equidade | desempenho por subgrupos, limitações e medidas de controle
+Explicabilidade | informação suficiente para compreensão e contestação
+Supervisão humana | responsável, competência, tempo, intervenção e registro da discordância
+Ciclo de vida | versão, atualização, deriva, retreinamento e destino
+Integridade científica | declaração de uso de IA, verificação humana e responsabilidade
+Governança de dados | consentimento, bancos de dados, transferências, segurança e direitos
+Ciências da Saúde | impacto assistencial, SaMD, falha e supervisão
+CHS | inferências sensíveis, grupos afetados, risco coletivo e usos secundários
+=== TABLE END ===
+[Heading 1] ANEXO B — SINAIS DE ALERTA CONSOLIDADOS
+[List Bullet] uso de IA não declarado ou descrito apenas genericamente;
+[List Bullet] ausência de contexto de uso definido;
+[List Bullet] desempenho apresentado apenas em dados de treinamento;
+[List Bullet] ausência de análise de representatividade ou subgrupos quando pertinente;
+[List Bullet] supervisão humana apenas nominal;
+[List Bullet] alta consequência sem possibilidade real de contestação;
+[List Bullet] dados sintéticos apresentados como dados reais;
+[List Bullet] referências ou afirmações normativas não verificadas;
+[List Bullet] anonimização declarada sem método descrito;
+[List Bullet] transferência a terceiros ou para o exterior sem fluxo e responsabilidade definidos;
+[List Bullet] modelo importado aplicado ao contexto brasileiro sem análise de transferibilidade;
+[List Bullet] CHS com inferências sensíveis tratadas como risco mínimo apenas porque os dados de origem são públicos;
+[List Bullet] SaMD ou sistema assistencial com impacto relevante sem delimitação de competência regulatória e de supervisão.
+[List Bullet] ausência de identificação de pessoas, grupos ou comunidades afetados além dos participantes formais;
+[List Bullet] mudança relevante de modelo, base, finalidade ou contexto sem avaliação da necessidade de emenda;
+[List Bullet] responsabilidades fragmentadas ou atribuídas genericamente ao CEP;
+[List Bullet] uso de IA pelo CEP sem autorização, registro, proteção da confidencialidade e verificação humana;
+[List Bullet] redução de riscos coletivos, sociais ou culturais a questões exclusivamente técnicas ou de proteção de dados.
+[Heading 1] ANEXO C — FUNDAMENTOS NORMATIVOS E TÉCNICOS A SEREM MANTIDOS NA EDIÇÃO FINAL
+[Normal] Recomenda-se que a edição final preserve a rastreabilidade das orientações aos marcos e referências já utilizados no documento de origem. Entre os principais conjuntos de fontes citados no texto original encontram-se:
+[List Bullet] Lei nº 14.874/2024 e Decreto nº 12.651/2025;
+[List Bullet] Lei Geral de Proteção de Dados Pessoais — LGPD;
+[List Bullet] Resoluções CNS nº 466/2012, nº 510/2016 e nº 738/2024;
+[List Bullet] normas e orientações setoriais aplicáveis a SaMD e uso de IA na medicina, quando pertinentes ao protocolo;
+[List Bullet] Política de Integridade na Atividade Científica do CNPq, conforme citada no documento de origem;
+[List Bullet] referências da Organização Mundial da Saúde e demais experiências internacionais utilizadas na fundamentação da MARIAH;
+[List Bullet] referências técnicas sobre explicabilidade, viés, aprendizagem federada, privacidade e avaliação clínica citadas no documento original.
+[Heading 1] REFERÊNCIAS COMPLEMENTARES INCORPORADAS
+[List Bullet] UNITED KINGDOM. National Commission into the Regulation of AI in Healthcare. National Commission into the Regulation of AI in Healthcare: recommendations for a future regulatory framework. London: Department of Health and Social Care; Medicines and Healthcare products Regulatory Agency, 10 Sept. 2026. Disponível em: https://www.gov.uk/government/publications/national-commission-into-the-regulation-of-ai-in-healthcare-recommendations-for-a-future-regulatory-framework/national-commission-into-the-regulation-of-ai-in-healthcare-recommendations-for-a-future-regulatory-framework. Acesso em: 10 set. 2026.
+[List Bullet] WORLD HEALTH ORGANIZATION. Artificial intelligence-related health research: ethics review and oversight. Geneva: WHO, 2026. Disponível em: https://iris.who.int/handle/10665/386761. Acesso em: 28 ago. 2026.
+[List Bullet] MALPANI, Rohit et al. Ethics oversight of health-related research should be contemporaneous in the age of artificial intelligence. The Lancet Digital Health, 2026. DOI: https://doi.org/10.1016/j.landig.2026.101085.
+[List Bullet] KERASIDOU, Angeliki et al. Ethics Review of AI Research: An Approach to Reviewing and Revising Existing Governance Structures. Research Ethics, v. 22, 2026. DOI: https://doi.org/10.1177/17470161251406299.
+[List Bullet] ETO, Tamiko et al. Streamlining IRB review of AI human subjects research (AIHSR): the three-stage framework. Frontiers in Systems Biology, v. 6, 2026. DOI: https://doi.org/10.3389/fsysb.2026.1804193.
+[List Bullet] MOODLEY, Keymanthri; MALPANI, Rohit; REIS, Andreas Alois. How will ‘Chat-IRB’ impact research ethics review in LMICs? Journal of Medical Ethics, 2025. DOI: https://doi.org/10.1136/jme-2025-111452.
+[Heading 1] REFERÊNCIAS CRUZADAS ENTRE OS DOCUMENTOS
+[Normal] As referências abaixo orientam a navegação entre as três peças.
+[List Bullet] Contexto de uso, proporcionalidade e dimensões críticas — MARIAH para aplicação operacional; Caderno Referencial para fundamentação conceitual e metodológica.
+[List Bullet] Integridade científica e IA generativa — Caderno Referencial para aprofundamento; MARIAH para verificação.
+[List Bullet] Governança de dados e direitos dos participantes — Caderno Referencial para fundamentação normativa e técnica; MARIAH para classificação e documentação.
+[List Bullet] Ciências da Saúde e SaMD — MARIAH para fatores de risco; Caderno Referencial para suporte técnico e regulatório.
+[List Bullet] Ciências Humanas e Sociais — MARIAH para inferências sensíveis, riscos coletivos e usos secundários; Caderno Referencial para fundamentação específica.

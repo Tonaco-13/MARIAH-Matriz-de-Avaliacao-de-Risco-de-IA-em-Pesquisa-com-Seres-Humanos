@@ -10,6 +10,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { AlertTriangle, Shield, BookOpen } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type HelpPanelProps = {
   open: boolean;
@@ -34,6 +35,7 @@ export default function HelpPanel({
   pontos,
   riskAnswer,
 }: HelpPanelProps) {
+  const t = useTranslations();
   return (
     <Sheet open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
       <SheetContent side="right" className="sm:max-w-md overflow-y-auto">
@@ -45,12 +47,12 @@ export default function HelpPanel({
             {efeito === 'mitigacao' ? (
               <Badge className="bg-teal-100 text-teal-700 border border-teal-200 text-xs">
                 <Shield className="h-3 w-3 mr-1" />
-                Mitigação
+                {t('help.mitigacao')}
               </Badge>
             ) : efeito === 'risco' ? (
               <Badge className="bg-red-100 text-red-700 border border-red-200 text-xs">
                 <AlertTriangle className="h-3 w-3 mr-1" />
-                Risco
+                {t('help.risco')}
               </Badge>
             ) : null}
           </div>
@@ -58,7 +60,7 @@ export default function HelpPanel({
             {questionText}
           </SheetTitle>
           <SheetDescription className="sr-only">
-            Explicação detalhada da questão {questionId}
+            {t('help.ariaDescription', { id: questionId })}
           </SheetDescription>
         </SheetHeader>
 
@@ -66,7 +68,7 @@ export default function HelpPanel({
           {/* Fundamentação */}
           <div>
             <h4 className="text-sm font-semibold text-muted-foreground mb-2">
-              Por que esta questão importa
+              {t('help.whyTitle')}
             </h4>
             <p className="text-sm leading-relaxed">{dica}</p>
           </div>
@@ -77,12 +79,15 @@ export default function HelpPanel({
           {riskAnswer && (
             <div>
               <h4 className="text-sm font-semibold text-muted-foreground mb-2">
-                Resposta de risco
+                {t('help.riskAnswerTitle')}
               </h4>
               <div className="flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4 text-red-500" />
                 <span className="text-sm">
-                  Responder <strong className="text-red-600">&quot;{riskAnswer === 'sim' ? 'Sim' : 'Não'}&quot;</strong> aumenta o nível de risco.
+                  {t.rich('help.riskAnswerText', {
+                    answer: riskAnswer === 'sim' ? t('ui.sim') : t('ui.nao'),
+                    b: (chunks) => <strong className="text-red-600">{chunks}</strong>,
+                  })}
                 </span>
               </div>
             </div>
@@ -94,20 +99,26 @@ export default function HelpPanel({
               <Separator />
               <div>
                 <h4 className="text-sm font-semibold text-muted-foreground mb-2">
-                  Efeito na pontuação
+                  {t('help.scoreTitle')}
                 </h4>
                 {efeito === 'mitigacao' ? (
                   <div className="flex items-center gap-2 bg-teal-50 border border-teal-200 rounded-lg px-3 py-2">
                     <Shield className="h-4 w-4 text-teal-600" />
                     <span className="text-sm text-teal-700">
-                      Responder &quot;Sim&quot; <strong>subtrai {Math.abs(pontos)} pontos</strong> da pontuação total.
+                      {t.rich('help.mitigacaoText', {
+                        pts: String(Math.abs(pontos)),
+                        b: (chunks) => <strong>{chunks}</strong>,
+                      })}
                     </span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
                     <AlertTriangle className="h-4 w-4 text-red-500" />
                     <span className="text-sm text-red-700">
-                      Resposta de risco <strong>adiciona {Math.abs(pontos)} pontos</strong> à pontuação total.
+                      {t.rich('help.riscoText', {
+                        pts: String(Math.abs(pontos)),
+                        b: (chunks) => <strong>{chunks}</strong>,
+                      })}
                     </span>
                   </div>
                 )}
@@ -121,7 +132,7 @@ export default function HelpPanel({
               <Separator />
               <div>
                 <h4 className="text-sm font-semibold text-muted-foreground mb-2">
-                  Referência normativa
+                  {t('help.refTitle')}
                 </h4>
                 <div className="flex items-start gap-2 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
                   <BookOpen className="h-4 w-4 text-blue-600 shrink-0 mt-0.5" />
