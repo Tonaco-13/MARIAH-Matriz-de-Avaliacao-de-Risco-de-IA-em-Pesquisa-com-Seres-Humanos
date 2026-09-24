@@ -1,47 +1,60 @@
-# QUADRO VIVO — ciclo i18n (feat/i18n-architecture)
+# QUADRO VIVO — ciclo i18n-es (feat/i18n-es)
 
-**Última atualização:** 2026-09-21 16:35 · Kimi (arquitetura) — passos 6–8 verificados e aceitos (LOG #9–#12)
-**Fase atual:** 🟡 **Passo 9 (DoD + pacote de auditoria)** — antes: P8 (i18n-no-literal, 2 checks) + chore version 2.2.0, nesta ordem (LOG #12).
+**Última atualização:** 2026-09-24 15:05 · Kimi (arquitetura/engenharia sob regime excepcional, LOG #41) — Lote 6 entregue (LOG #44), aguardando commit do Operador.
+**Fase atual:** 🟢 **Lotes 5 e 6 concluídos** — /es funcional com flag on (merge + banner de cortesia). Restam: leva institucional §4.2 (Direção) → lote final `--strict` → auditoria do Z → decisão de publicação.
+**Regime até 26/09:** Kimi executa código; Operador (Fabiano) revisa e commita (LOG #41). Claude retorna 26/09.
 
 ## Pendências abertas
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| P2 | Disposição de `consentimento-re-consentimento.patch` e `public/inaep-logo.png` | Operador + Z | 2026-09-20 | Aceite, emenda 2.2 |
-| P8 | `scripts/i18n-no-literal.ts` no gate com **2 checks nomeados**: (A) zero-literal JSX (B2); (B) golden-rule em messages/i18n (B1/B7) | Engenharia | 2026-09-21 | LOG #7/#8/#12 |
-| P9 | `package.json` version 2.1.0 → **2.2.0** em commit `chore` próprio (após P8) | Engenharia | 2026-09-21 | LOG #12 |
+| P2 | Disposição de `consentimento-re-consentimento.patch`, `public/inaep-logo.png` e docx em `upload/` (3 untracked confirmados) | Operador + Z | 2026-09-20 | Aceite E2, emenda 2.2; LOG #40 |
+| RET | footer.*, home.*, pages.*, results.validacaoDesc (162/420 chaves) — **LIBERADO** pela decisão §4.2; em execução como Lote 7 (despacho de 2026-09-24, commits C1–C3) | Engenharia | 2026-09-22 | LOG #47; DESPACHO leva-institucional 2026-09-24 |
+| RET | footer.*, home.*, pages.*, results.validacaoDesc — **RETIDOS** até decisão §4.2 (162/335 chaves ausentes) | Engenharia (bloqueado na Direção) | 2026-09-22 | LOG #27/#28/#40 |
 
 ## Pendências fechadas
 
 | # | Pendência | Fechamento |
 |---|---|---|
 | P1 | `_guia_decisao/` versionado | ✅ `96477fb` |
-| P4 | inventory-strings | ✅ proposta aceita (LOG #7/#8) → virou P8 |
-| P5 | Allowlist 344 sancionada | ✅ LOG #8 |
-| P6 | Datas locale-aware | ✅ `2e9667d` (`utils.ts:652/872`), verificado pela arquitetura |
-| P7 | Atomicidade bump 2.2.0 | ✅ `3c4e9c2` |
+| P4–P7 | Ciclo infra i18n | ✅ LOG #12 |
+| Passo 9 + DoD infra | Pacote Z + auditoria | ✅ LOG #15–#18 (Z: APROVA 10/10) |
+| Passo 0 feat/i18n-es | Glossário v0.2.0 + key-parity no gate | ✅ LOG #20/#21 |
+| Lotes 1–3 (messages es) | app/ui, entryFilter/contextForm/restart/clearScope, assessment/help | ✅ LOG #24/#26/#28 (es.json 123/335) |
+| Religação 3a/1 + 3a/2 | wizard + Results on-screen | ✅ LOG #30/#32 |
+| Guarda B1 preservação + i18n-identity contrato | dentes provados | ✅ LOG #34/#37 |
+| Spec es completa (Eixo 1 → nós comuns) | 344/344 traduzidas, 0 fallback, B1 344 preservados | ✅ LOG #37/#40 (`d99211a`…`ae873fe`) |
+| results.* (50 chaves) + âncoras locale-aware | placeholders ICU íntegros; âncoras verbatim × glossário | ✅ LOG #40 (`c4c9303`, `eb05b04`) |
+| Lote 5 (relatório/exports locale-aware + cortesia nos exports + Check C) | namespace `report` 78 chaves pt+es; pt-BR byte-idêntico por snapshot; Check C com dentes provados | ✅ LOG #43 |
+| Lote 6 (merge de messages + banner global cortesia + /es alcançável) | smoke flag-on OK; fallback Opção A ao vivo; flag permanece OFF por padrão | ✅ LOG #44 |
+| §4.2 | Nomes institucionais INAEP/SINEP/título do Guia + diretriz "tudo INAEP/SINEP" | ✅ DECIDIDO pela Direção (LOG #47): Leitura A; minutas com "Investigación" (→ glossário v0.3.0 `proposto`, revisão formal do Z pendente); placeholder "Ex: CEP/CONEP" corrigido agora (C3 + baseline NDTI) |
 
-## Passos da branch
+## Trilha da branch feat/i18n-es
 
-1. ✅ Baseline NDTI congelada — `d7e10d5`
-2. ✅ Estrutura next-intl + flag runtime — `c2b0706`
-3. ✅ 4a componentes — `cde3470`…`1b4a995`
-4. ✅ 4b páginas + zero-literal — `8a874de`, `c233095`
-5. ✅ Passo 5 enxuto (contrato-spec + identidade 344 + bump atômico) — `3c4e9c2`
-6. ✅ MAINTENANCE.md — `4e2d22f` · ✅ jspdf removido + CHANGELOG [2.2.0] — `93321f5` · ✅ relatório locale-aware — `2e9667d` · ✅ build duplo flag off↔on provado em runtime
-7. 🔨 **Passo 9**: P8 (i18n-no-literal, 2 checks) → P9 (version 2.2.0) → DoD completo → pacote do Z (**passa pela arquitetura antes** — LOG #12.3)
-8. ⬜ Auditoria de conformidade do Z → veredito
-9. ⬜ Decisão de publicação: **Direção**
+1. ✅ Passo 0: glossário v0.2.0 (`0d087c8`) + key-parity no gate (`9ae0837`)
+2. ✅ Lotes messages 1–3 (`a2b2250`, `7444ef6`, `59dc1a9`) · Opção A sancionada (`4595966`)
+3. ✅ Religação on-screen (`01691f9`, `52f0955`) + identity-contrato (`fb77772`) + B1-preservação (`e8a2e53`)
+4. ✅ Spec es: Eixo 1 (`dddcbde`) → Eixo 2 (`d99211a`) → … → nós comuns (`ae873fe`) — **344/344**
+5. ✅ results.* (`c4c9303`) + âncoras (`eb05b04`)
+6. ✅ Merge main→branch (`7a13ece`): fix do relatório (PR #30: C.3–C.8 + seção 'Não se aplica') absorvido e adaptado a `label(q,'pergunta',locale)` — LOG #42
+7. ✅ **Lote 5** (relatório/exports locale-aware via `createTranslator` + cortesia nos exports + Check C âncoras×glossário) — LOG #43
+8. ✅ **Lote 6** (merge es→pt-BR no `request.ts` + banner global de cortesia no layout + /es alcançável com flag on) — LOG #44
+9. ⬜ **Lote 7 — leva institucional (§4.2 decidido, LOG #47):** glossário v0.3.0 + 162 chaves + reconciliação footerDev + placeholder pt/es + baseline NDTI (despacho 2026-09-24) → key-parity `--strict`
+10. ⬜ Auditoria de conformidade do Z (camadas A2 1–4, retroversão) → veredito
+11. ⬜ Decisão de publicação: **Direção** (merge em `main` VEDADO até lá)
 
-## Semáforo dos gates
+## Semáforo dos gates (re-rodados pela arquitetura no Lote 6, 2026-09-24 — working tree pré-commit)
 
 | Gate | Estado |
 |---|---|
-| `verify` | 🟢 105/105 — re-rodado pela arquitetura em `2e9667d` |
+| `verify` | 🟢 105/105 |
 | `parity` | 🟢 128/0 |
-| `gate` (vetores + i18n-identity) | 🟢 64/64 + 344/344 — re-rodado pela arquitetura |
-| `parity:locale` | 🟢 4/4 (flag off) reportado por bloco |
-| Build duplo flag off↔on | 🟢 provado em runtime (OFF: gated 307→pt-BR; ON: gated 200) |
+| `gate` (vetores) | 🟢 64/64 Δ=0 |
+| `i18n-identity` | 🟢 344 traduzidas / 0 fallback |
+| `i18n-no-literal` (A+B1+B2+C) | 🟢 zero-literal JSX · 344 campos B1 preservados · messages OK · âncoras 3/3 verbatim |
+| `i18n-key-parity` (padrão) | 🟢 0 órfãs · 162 ausentes = aviso (Opção A; strict reprova até o lote final) |
+| `parity:locale` (flag off) | 🟢 4/4 pt-BR DOM-idêntico à baseline NDTI |
+| Build | 🟢 |
 
 ---
 *Quem mudar qualquer linha deste quadro registra `aviso` ou `decisão` no LOG citando a linha.*

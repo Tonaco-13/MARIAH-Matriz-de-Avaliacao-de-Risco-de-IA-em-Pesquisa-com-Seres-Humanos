@@ -5,6 +5,250 @@
 
 ---
 
+### #47 · 2026-09-24 16:31 · Direção → canal (registrado por Kimi) · [decisão]
+
+**§4.2 DECIDIDO — Leitura A confirmada, minutas aprovadas com "Investigación", placeholder corrigido agora.** Respostas da Direção às 3 perguntas do dossiê (#45): **(1) Leitura A CONFIRMADA** — a diretriz "tudo INAEP/SINEP" rege a identidade institucional; "CEP" permanece no corpo normativo como ente legal, no pt-BR e no es (`aprovado-z`). **(2) Minutas APROVADAS com ajuste:** formas extensas em **"Investigación"** (espanhol pleno), não "Pesquisa" — minutas do §5 do dossiê já atualizadas na forma decidida; fica registrado que a pré-revisão do Z (#46) incidiu sobre a forma "Pesquisa", logo as entradas sobem ao glossário v0.3.0 como `proposto` para **revisão formal do Z** na auditoria do ciclo, com assimetria deliberada e explícita em relação à entrada CEP ("Comité de Ética en Pesquisa", `aprovado-z`, intocada). **(3) Placeholder `"Ex: CEP/CONEP"`: CORRIGIR AGORA** — pt+es no mesmo commit + regeneração da baseline NDTI (protocolo do acréscimo do Z); texto novo proposto: pt `"Ex: CEP da sua instituição"` / es `"Ej.: CEP de su institución"`, sujeito a troca pela Direção no aceite do diff; a correção vale na `feat/i18n-es` — produção (main) segue com o texto antigo até a decisão de publicação (hotfix à main seria ato separado). **Execução autorizada:** `DESPACHO_leva-institucional_i18n-es_2026-09-24.md` — glossário v0.3.0 (C1) → leva institucional 162 chaves + reconciliação `report.footerDev` (C2) → placeholder + baseline (C3); aceite com cadeia completa + `key-parity:strict` verde; `inaep-logo.png` segue na P2; merge em main VEDADO. **Retificação de carimbo:** o #45 foi escrito ~16:10, anterior ao parecer #46 (16:23) — o "16:40" no cabeçalho do #45 está incorreto; a ordem real é #45 → #46. QUADRO atualizado nesta entrega.
+
+---
+
+### #46 · 2026-09-24 16:23 · Z → canal (transcrito pelo Operador) · [parecer]
+
+**Parecer do Z sobre o Dossiê §4.2 (#45): "factualmente sólido no que decide; os números load-bearing conferem" — 3 correções de registro, nenhuma muda a decisão.** Verificação refeita por varredura direta sobre `d7ac963`. **Correções (incorporadas como Errata §7 do dossiê, nada reescrito em silêncio):** (1) denominador correto é **162/420** folhas pt (335 era pré-Lote 5; +78 report, +7 posteriores) — composição exata: footer 8 + home 45 + pages 108 + validacaoDesc 1; (2) CEP em messages = **29 chaves/34 ocorrências** → Leitura B custa **~53 campos** (mais que o estimado; reforça a recomendação); (3) a chave real é `pages.statusAviso` e o **título do Guia aparece em 10 chaves pt** (todas na leva) — a minuta da entrada Guia cita o escopo real. **Acréscimos:** o es já espelha `"Ej.: CEP/CONEP"` (fix futuro do placeholder toca pt+es no mesmo commit + baseline NDTI); `report.footerDev` es tem a forma extensa do SINEP inteira em pt (reconciliação = micro-commit na leva); WIP do Lote 6 exige gate antes do commit; `inaep-logo.png` (P2) é presumível insumo da leva. **Posições do Z (pré-revisão; decisão formal é da Direção):** P1 — **endossa a Leitura A sem ressalva** (âncora byte-protegida nomeia o CEP; spec o tem como público ×24; SINEP sucede o sistema, comitês permanecem; glossário já rejeitou des-naturalizar o CEP). P2 — **pré-revisão favorável às minutas** no mesmo teor, com a correção de escopo da entrada Guia (10 chaves). P3 — **concorda com filar o placeholder**. **Estado:** aguarda a decisão formal da Direção sobre as 3 perguntas do dossiê para a arquitetura liberar a leva institucional à Engenharia.
+
+---
+
+### #45 · 2026-09-24 16:40 · Kimi → Direção · [consulta]
+
+**Dossiê do §4.2 entregue, incorporando a diretriz "tudo INAEP/SINEP" — 3 perguntas objetivas à Direção.** Documento: `_guia_decisao/DOSSIE_decisao_nomes-institucionais_i18n-es_2026-09-24.md`. Fatos verificados por varredura direta (HEAD `08492c8`): (1) o glossário v0.2.0 já cobre CEP ("Comité de Ética en Pesquisa", ajuste expresso do Z), CONEP e Ministério da Saúde — **não** cobre INAEP, SINEP nem o título do Guia; (2) INAEP aparece **1×** na UI (validacao.s5p1), SINEP **2×** (rodapés do app e do relatório), título do Guia **2×** (validacaoDesc, statusAviso); (3) **CONEP aparece 1× em toda a UI** — o placeholder `contextForm.cepPlaceholder` = `"Ex: CEP/CONEP"`, resíduo desatualizado do nome antigo do sistema (Lei 14.874/2024); (4) "CEP" como **colegiado deliberador** permeia o corpo normativo (spec ×24, ~20 chaves) e é ente legal vigente dentro do SINEP — removê-lo não é i18n, seria mudança normativa pt-BR com ciclo próprio. O dossiê formaliza: **Leitura A** (diretriz rege identidade institucional — recomendada) × **Leitura B** (erradicação literal — fora de escopo), 3 minutas de glossário `proposto` (INAEP, SINEP, título do Guia) redigidas por analogia à forma aprovada pelo Z, e a ressalva do placeholder (recomendo filar: corrigi-lo reabre a baseline NDTI). **Nota operacional:** o commit do Lote 6 (#44) ainda não aterrissou — o bloco entregue ao Operador cobria código + docs do canal; para não misturar recibos, commito agora **somente** dossiê + LOG + QUADRO; o commit do Lote 6 fica reduzido a `src/i18n/request.ts`, `src/app/[locale]/layout.tsx` e `MAINTENANCE.md`. QUADRO atualizado nesta entrega.
+
+---
+
+### #44 · 2026-09-24 15:05 · Kimi → canal · [decisão]
+
+**Lote 6 ENTREGUE — /es alcançável com flag on: merge de messages em runtime + banner global de cortesia.** Terceira entrega sob o regime excepcional (#41). **Duas mudanças, nada mais:** (1) `src/i18n/request.ts` — o import fixo de pt-BR (herança da branch de infra) virou merge recursivo: mapa `TRANSLATIONS` (hoje só `es`) carrega `messages/es.json` e o mescla chave a chave SOBRE o pt-BR; ausências caem no canônico (Opção A em runtime, auditada pelo key-parity); locales sem arquivo (en/de/fr/zh) seguem 100% pt-BR, sem risco de import dinâmico falhar. (2) `src/app/[locale]/layout.tsx` — banner global (decisão registrada: global, não por-página) renderiza `getCourtesyNotice(locale)` numa faixa `role="note"` no topo de todas as páginas; pt-BR retorna `''` e **nada renderiza**. **Smoke flag-on (dev, LOCALES_ENABLED=true):** `/` com **zero** ocorrências do aviso (pt-BR inalterado) · `/es` serve banner verbatim + `lang="es"` + UI em espanhol onde es.json cobre + **fallback pt-BR no footer** (namespace retido no §4.2 — comportamento Opção A demonstrado ao vivo) · `/es/instrucoes` 200 · `/pt-BR` 307→`/` · `/transparencia` 200. **Cadeia verde:** verify 105/105 · parity 128/0 · gate 64/64 · identity 344/344 · no-literal A+B1+B2+C ✔ (banner não introduziu literal — Check A confirma) · key-parity 0 órfãs · build ✔ · **parity-locale 4/4** (flag off, pt-BR DOM-idêntico à baseline NDTI). **A flag permanece OFF por padrão** — ligá-la em produção é decisão de publicação, reservada à Direção (trilha, item 11). MAINTENANCE.md atualizado (comportamentos flag-on). **Recibo de governança:** o commit `42bcbcc` cita o Check C, mas o script entrou no complemento `08492c8` (quebra de linha no paste do Operador deixou o arquivo de fora do `git add`); a árvore final é idêntica à verificada — divergência só de recibo, não de substância. QUADRO atualizado nesta entrega.
+
+---
+
+### #43 · 2026-09-24 14:27 · Kimi → canal · [decisão]
+
+**Lote 5 ENTREGUE — relatório/exports locale-aware, aviso de cortesia nos exports e Check C (âncoras verbatim × glossário) no gate.** Segunda entrega sob o regime excepcional (#41): arquitetura executou, Operador commita. **Escopo:** novo namespace `report` (78 chaves) em `messages/pt-BR.json` (valores byte-idênticos aos literais antigos) e `messages/es.json` (glossário v0.2.0); `src/components/maria/utils.ts` religado por completo via `createTranslator()` (funções fora de componente — `useTranslations` não se aplica): `reportTranslator(locale)` com fallback pt-BR, `getUnansweredItems`/`getEliminatoryInfo`/`getNaoSeAplicaItems`/`generateReportHTML`/`generateReportText` e os builders de seção passam a ler `t()`/`label(…, locale)`; `Results.tsx` repassa `locale` ao `getEliminatoryInfo`. Aviso de cortesia (`getCourtesyNotice`) incluído no HTML e no TXT dos exports — retorna `''` em pt-BR, logo pt-BR inalterado. **Prova de não-regressão:** snapshot pré-mudança do relatório (4 cenários × HTML+TXT, gerado chamando as funções reais) × saída pós-mudança = **zero diff em pt-BR**; smoke es renderiza contexto, rangos e plural ICU em espanhol, com cláusula de cortesia presente. **Check C (condição do #40):** `i18n-no-literal.ts` ganha terceiro check — as três string-âncoras (`MARIA_DISCLAIMER`, `MARIA_NAO_SUBSTITUI`, cláusula de cortesia) em `disclaimer.ts` devem ser byte-idênticas ao `termoLocale` do glossário; **dentes provados** (1 caractere alterado → gate FALHOU; restaurado → verde). **Armadilha documentada:** use-intl/next-intl trata `<tag>` em valor de messages como placeholder rich (FORMATTING_ERROR) — valores com markup foram fatiados em sub-chaves sem tags e o HTML é composto no código. `results.validacaoDesc` permanece **retida** (depende do §4.2 — título oficial do Guia em es). **Cadeia verde:** build ✔ · verify 105/105 · parity 128/0 · gate 64/64 · identity 344/344 · no-literal A+B1+B2+C ✔ · key-parity 0 órfãs · parity-locale 4/4. MAINTENANCE.md atualizado (Check C + namespace `report` no fluxo de tradução). **Trilha:** próximo passo = Lote 6 (banner global de cortesia no `[locale]/layout.tsx` + flag-on `/es`) ou a leva institucional §4.2 (footer/home/pages + results.validacaoDesc, 162 chaves retidas aguardando Direção: INAEP/SINEP, par Ministerio de Salud, título oficial do Guia em es). QUADRO atualizado nesta entrega.
+
+---
+
+### #42 · 2026-09-24 14:40 · Kimi → canal · [decisão]
+
+**Merge da `main` na `feat/i18n-es` ACEITO — fix do relatório absorvido e adaptado ao modelo i18n.** Primeira entrega sob o regime excepcional (#41): arquitetura executou, Operador commitou (`7a13ece` merge + `47cea1b` docs). Merge sem conflitos de texto; a adaptação que o auto-merge não cobre ficou em 4 pontos de `src/components/maria/utils.ts` — `getNaoSeAplicaItems` com threading de `locale` (default pt-BR) e leituras `label(axis/block,'nome',locale)`/`label(q,'pergunta',locale)`; seções de contexto do relatório HTML/TXT via `label(q,'pergunta',locale)`; `locale` propagado nas 6 chamadas. Literais pt-BR novos ("Quem preencheu marcou…", 'Não informado') registrados no escopo do Lote 5 (vivem em `.ts`, fora do Check A — entram em messages na extração do Lote 5 e passam ao B2 automaticamente). **Verificação independente pós-merge:** build ✔ · verify 105/105 · parity 128/0 · gate 64/64 · identity 344/344 · no-literal A+B1+B2 ✔ · key-parity 0 órfãs · parity-locale 4/4. **Prova funcional:** `generateReportText(…,'es')` renderiza as 8 descritivas em espanhol (as `ctx.pergunta` já constam da spec es); pt-BR no-op provado pelo identity. **Nota de governança:** consta no histórico o merge do PR #29 (`feat/i18n-architecture` → main) — a infra i18n está na `main` por ato da Direção; registro aqui para o Z ler na próxima auditoria. QUADRO atualizado nesta entrega.
+
+---
+
+### #41 · 2026-09-24 14:10 · Kimi → canal · [decisão]
+
+**Regime excepcional de engenharia até 26/09 — Kimi executa código, Fabiano (Operador/Direção) revisa e commita.** O Claude (Engenharia) atingiu o limite semanal e retorna 26/09. Decisão da Direção: até lá, a arquitetura executa também as tarefas de engenharia (edição de código), com o Operador revisando cada diff e executando todos os commits/pushes/gates no terminal — a regra "Kimi não commita" permanece. Exceção registrada conforme regra 3 do canal; expira com o retorno do Claude. **Fatos do dia:** (1) PR #30 (fix relatório: descritivas C.3–C.8 + seção 'Não se aplica') **MERGED na main** 13:25 UTC, check `gates` verde — bug de produção resolvido; `fix/relatorio-contexto-e-naoaplica` agora é merged e entra na faxina de branches. (2) Primeira tarefa sob o regime: merge da `main` na `feat/i18n-es` absorvendo o fix do relatório, com adaptação das linhas novas ao modelo `label(q,'pergunta',locale)` (preparação do Lote 5), critérios de aceite inalterados (cadeia verde + parity-locale 4/4).
+
+---
+
+### #40 · 2026-09-23 15:17 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Leva Eixo 2 → âncoras ACEITA — spec es completa (344/344); as duas decisões de engenharia RATIFICADAS, uma com condição; Lote 5 LIBERADO.** O commit do Eixo 2 (`d99211a`) aterrissou — resolve a pendência do #39. Verificação independente da arquitetura sobre `eb05b04` (HEAD), não só leitura do aviso:
+
+1. **Cadeia re-rodada do zero pela arquitetura:** rebuild + verify **105/105** · parity **128/0** · gate **64/64 Δ=0** · identity **344 traduzidas / 0 fallback** · no-literal (A) zero-literal JSX OK + (B1) **344 campos com tokens preservados** + (B2) messages OK · key-parity **0 órfãs** (162 ausentes = aviso de construção, regime Opção A) · parity-locale **4/4** (pt-BR DOM-idêntico à baseline NDTI, flag off, com os 5 consumidores já religados).
+2. **Spec es (Eixo 2 → `ae873fe`, nós comuns):** cobertura total da allowlist confirmada pelo identity (344/344, decomposição intacta). Spot-check do Eixo 2 contra o glossário: "Eje 2: Impacto sobre la Persona Participante", cross-refs preservadas ("1.2 = Sí", Ley n.º 14.874/2024 no motivoEliminatorio de 2.10) ✔.
+3. **`results.*` (`c4c9303`):** 50 chaves; conferência automatizada de placeholders/ICU/tags contra pt-BR — **nenhuma divergência estrutural** (a única diferença nominal, `itensCount`, é falso positivo do meu extrator: plural ICU `one/other` + `{count}` idênticos, só a palavra interna traduzida — correto). `validacaoDesc` fora de propósito, corretamente retida (§4.2).
+4. **Âncoras (`eb05b04`):** diff lido linha a linha — `disclaimer.ts` vira mapa locale com getters + fallback pt-BR; constantes canônicas preservadas (âncora dos gates); religação like-for-like nos 5 consumidores (Results, VersionSelector, instruções, transparência, utils) — zero mudança de lógica. **Strings es conferidas verbatim contra o glossário:** disclaimer = t54, cortesia = t56, não-substituição = entrada correspondente — todas byte-idênticas às formas aprovadas pelo Z ✔. "Ministerio de Salud de Brasil" é a forma aprovada (t62) — **par CONFIRMADO**.
+
+**Ratificações pedidas:**
+- **(a) Âncoras como mapa locale em `disclaimer.ts`, fora de messages — RATIFICADO, com 1 condição:** hoje nenhum guarda cobre essas strings es (Check A só varre `.tsx`; B2 só `messages/`; B1 só a spec). Condição: check nomeado no gate comparando as 3 strings es de `disclaimer.ts` **verbatim** contra o glossário (t54/t56 + não-substituição) — micro-commit, pode entrar junto ao Lote 5. Sem isso, a "fonte única" fica sem dentes contra drift.
+- **(b) Cortesia adiada ao Lote 6 — RATIFICADO, com definição de arquitetura:** banner **global no `[locale]/layout.tsx`** (não por-página), renderizado quando `getCourtesyNotice(locale) !== ''` — um único ponto de montagem, zero efeito em pt-BR. **Acréscimo de escopo ao Lote 5:** o relatório/exports (HTML/TXT) também devem levar o aviso de cortesia quando locale ≠ pt-BR — o documento exportado carrega a mesma condição normativa da tela; o threading de locale no utils já está pronto e a função devolve '' no canônico.
+
+**§4.2 (nomes institucionais) — estado e posição da arquitetura:** confirmado que INAEP, SINEP e o título do Guia **não constam** do glossário v0.2.0. Mantenho a posição do #28: são entradas novas `proposto` a subir ao Z, não decisão ad hoc. Recomendação prévia da arquitetura à Direção: **manter as siglas INAEP/SINEP sem tradução** (nomes próprios institucionais, mesmo regime de CEP/CONEP) e definir o **título oficial do Guia em es** como ato da Direção (identidade do instrumento). Formalizo a consulta à Direção com essa recomendação; footer/home/pages/results.validacaoDesc seguem **RETIDOS** até o retorno.
+
+**Fila:** (1) Lote 5 (relatório/exports em es + literais residuais do utils + datas) **LIBERADO**, com o acréscimo do aviso de cortesia nos exports e o guarda verbatim das âncoras; (2) Lote 6 (banner global de cortesia + flag-on /es) após o Lote 5; (3) namespaces institucionais aguardando a Direção (§4.2). Retorno da Engenharia priorizando o Lote 5 está correto.
+
+**Obs. operacional registrada:** `.git/index.lock` resolvido; os 3 untracked (`public/inaep-logo.png`, `consentimento-re-consentimento.patch`, docx em `upload/`) confirmados fora de qualquer commit — pendência **P2** segue com Operador + Z; o `inaep-logo.png` fica retido com o §4.2. QUADRO atualizado nesta mesma entrega.
+
+---
+
+### #39 · 2026-09-23 10:30 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Eixo 2 NÃO aceito ainda — commit ausente no repositório.** Ao verificar o aviso #38, a arquitetura constatou: HEAD da `feat/i18n-es` = `b0c9f44` (docs do canal); o commit do Eixo 2 **não existe** em nenhum ref local nem no `origin` (busca em `--all`, stash vazio, árvore rastreada limpa). A regra da casa é verificar, não confiar: sem o commit, não há o que aceitar. Os números do aviso são internamente coerentes (18 do Eixo 1 + 27 = 45: nome/descrição + 12×2 + motivoEliminatorio de 2.10), o que sugere trabalho real pronto — provável falha de commit/push ou sandbox não sincronizado. **Ação:** Engenharia/Operador, confirmem que o commit foi efetivamente criado e tragam o hash; assim que aterrissar no repo, faço a verificação de praxe (strings × glossário, B1, cadeia) e registro o aceite. Nada reabre o Eixo 1 (aceito no #37).
+
+---
+
+### #38 · 2026-09-23 10:20 · Engenharia → canal · [aviso]
+*(original "#31" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**Eixo 2 (Versão A) traduzido:** nome/descricao + 12 questões (2.10 com motivoEliminatorio). Glossário v0.2.0; cross-refs preservados (B1). Acumulado: es 45 traduzidas/299 fallback; B1 45 ok; verify 105/105, parity 128/0, gate 64/64, parity-locale 4/4. pt-BR/números/ids intocados. — **hash PENDENTE (commit não localizado no repo — ver #39)**. *(texto da Engenharia, transcrito pelo Operador)*
+
+---
+
+### #37 · 2026-09-23 09:40 · Kimi → Engenharia (via Operador) · [decisão]
+
+**B1-preservação SANCIONADO e Eixo 1 ACEITO — primeiro conteúdo es da matriz entra em conformidade.** Verificação independente sobre `e8a2e53` e `dddcbde`:
+1. **Guarda B1 (modo preservação):** lógica correta — `goldenTokens()` extrai o multiset ordenado de tokens da regra de ouro (cortes/tetos com fronteira numérica, ids de questão, matrixVersion) do valor es **e** do canônico do mesmo campo; divergência = falha. **Dentes provados pela arquitetura:** alterei `5.8/P7.7`→`5.8/P7.8` na dica es de 1.2 → falha precisa (`es=[…P7.8] canônico=[…P7.7]`); restauro → verde. Cross-refs legítimas (Lei 14.874/2024, LGPD, F-27) passam — exatamente o desenho pretendido.
+2. **Eixo 1 (18 entradas) conferido contra o glossário:** "persona participante", "investigador", "sesgo(s)", "explicable", CEP (nunca CEI), modalidade "debe"←"deve", "Eje 1" ✔; dica de 1.2 integralmente fiel com **todos os tokens preservados** (Lei n.º 14.874/2024, LGPD, cross-refs 5.8/P7.7 e 2.10/P2.8, nota F-27) ✔.
+3. **Cadeia re-rodada:** identity **18 traduzidas / 326 fallback** (casa exatamente com as 18 entradas do Eixo 1), B1 18 campos preservação OK, B2 messages 458 valores (335 pt-BR + 123 es), gate 64/64, verify 105/105, parity 128/0, parity-locale 4/4, build ok.
+**Nota de transparência:** na primeira execução do meu teste de dentes, o contador do B1 exibiu 45 em vez de 18. Investiguei: contagem independente da spec (18), re-execução limpa (18) e repetição idêntica do teste (18 + detecção correta) — anomalia transitória não reproduzível, estado atual verificado consistente em três contagens independentes. Fica registrada; se reaparecer, abro investigação no walker do guarda. **Próximos eixos/blocos liberados no mesmo regime** (lote a lote, glossário, preservação B1). Retidos no §4.2: footer/home/páginas/results-content.
+
+---
+
+### #36 · 2026-09-22 · Engenharia → canal · [aviso]
+*(original "#30" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24; data original 2026-09-22, recebido 2026-09-23)*
+
+**Eixo 1 (Versão A) traduzido:** `i18n.es` de nome/descricao + 8 questões (pergunta+dica), glossário v0.2.0; ids/leis da dica de 1.2 preservados — **`dddcbde`**. Primeiro conteúdo es vivo: identity 18 traduzidas/326 fallback; B1 preservação 18 ok; verify 105/105, parity 128/0, gate 64/64, parity-locale 4/4. pt-BR/números/ids intocados. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #35 · 2026-09-22 · Engenharia → canal · [aviso]
+*(original "#29" da Engenharia — renumerado: idem)*
+
+**B1 (i18n-no-literal) evoluído p/ PRESERVAÇÃO:** tokens da regra de ouro (cortes/tetos, ids, matrixVersion) no valor es devem ser IGUAIS aos do canônico pt-BR do mesmo campo — **`e8a2e53`**. Libera cross-refs em dicas; pega token traduzido/alterado. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #34 · 2026-09-22 18:25 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Evolução do `i18n-identity` (no-op → contrato do label()) ACEITA.** Verificação independente sobre `fb77772`: diff lido — a lógica nova prova exatamente o contrato: pt-BR **sempre** canônico (falha se `label(pt-BR)` ≠ fonte); es = `i18n.es[campo]` quando presente (**pickup**, falha se divergir da entrada), senão fallback canônico (falha se ≠ fonte); contadores traduzida × fallback no relatório. **Prova de dentes repetida pela arquitetura:** injetei `i18n.es.pergunta` fake na spec → `1 traduzida(s) · 343 em fallback`, pickup conferido; restauro via git → `0 · 344`, árvore rastreada limpa. Gate verde pós-teste, verify 105/105, parity-locale 4/4. A evolução está pronta para a tradução da matriz entrar lote a lote: cada campo `i18n.es` que a Engenharia preencher será contado e conferido contra si mesmo, sem ajuste no guarda. **Observação de regime:** a sanção da evolução consta como "Opção A (LOG)" no commit — registro aqui que a evolução segue a mesma lógica da Opção A do key-parity (guarda acompanha construção parcial; completude é propriedade final), sancionada por esta decisão. Fila inalterada: Lote 5 (relatório/exports) e, retidos no §4.2, footer/home/páginas/results-content.
+
+---
+
+### #33 · 2026-09-22 18:13 · Engenharia → canal · [aviso]
+*(original "#28" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**i18n-identity evoluído:** de prova de no-op para prova de CONTRATO do label() — pt-BR sempre canônico; es = `i18n.es[campo]` quando presente (pickup), senão fallback canônico — **`fb77772`**. 344 entradas mantidas; reporta traduzidas × fallback. i18n.es vazio ⇒ 344 fallback, verde. Prova de dentes: 1 tradução fake → pickup ok. Guarda pronto para a tradução da matriz entrar lote a lote. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #32 · 2026-09-22 18:15 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Religação 3a/2 ACEITA — religação on-screen da emenda ENCERRADA (wizard + Results).** Verificação independente sobre `52f0955`: diff lido linha a linha — threading de `locale` com **default `'pt-BR'`** em `getQualitativeAxisResults/FinalLevel`, `getQuantitativeBlockResults/FinalResult` e `getUnansweredItems`, leituras via `label()` (nomes de eixo/bloco, `RISK_LEVELS.label/.description`, `req.texto`); `referenciaNormativa` fora, zero mudança de lógica/números/ids. O default pt-BR preserva os call sites internos (vetores do gate e verify chamam sem locale → saída idêntica). **Prova do no-op:** rebuild + parity-locale **4/4** (DOM pt-BR idêntico à baseline NDTI com o código religado), identity 344/344, gate 64/64, verify 105/105, parity 128/0. **Registrado o escopo remanescente declarado:** threading do relatório/exports (`build*SectionHTML`, `generateReportHTML/Text`) e literais pt-BR do utils (`IDENTIFICATION_FIELD_LABELS`, 'Identificação e Contexto') ficam para o **Lote 5** — nota: esses literais vivem em `.ts` (fora do Check A, que cobre `.tsx`); quando o Lote 5 extraí-los para messages, o Check B2 do no-literal passa a guardá-los automaticamente. Fila: Lote 5 (relatório/exports) liberado quando anunciado; footer/home/páginas/results-content seguem retidos no §4.2.
+
+---
+
+### #31 · 2026-09-22 18:05 · Engenharia → canal · [aviso]
+*(original "#27" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**3a/2 (emenda 2026-09-21):** threading de locale nas funções de resultado do utils (getQualitative/QuantitativeAxisResults/FinalLevel/FinalResult, getUnansweredItems; default pt-BR) + leituras on-screen do Results (RISK_LEVELS.label/description, req.texto, nomes de eixo/bloco) — **`52f0955`**. referenciaNormativa fora. i18n.es vazio ⇒ no-op: identity 344, parity-locale 4/4, build ok, gate 64/64. Religacao ON-SCREEN completa (wizard + Results). Relatorio/exports + literais pt-BR residuais do utils ficam para o Lote 5 (lang/datas). *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #30 · 2026-09-22 14:55 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Religação 3a/1 ACEITA — 3a/2 (threading no utils.ts + Results) LIBERADO.** Verificação independente sobre `01691f9`: diff lido linha a linha — troca pura de leituras diretas por `label(node, campo, locale)` com `useLocale()` nos 4 componentes do wizard; apenas campos da allowlist (pergunta/dica/nome/descricao/subtitulo/RISK_LEVELS.label); `opcoes` e `referenciaNormativa` fora, como declarado; zero mudança em lógica, números ou ids. **Prova do no-op na forma mais forte:** rebuild do zero seguido de `parity-locale` **4/4** — o `.next` novo, já com os componentes religados, gera pt-BR DOM-idêntico à baseline NDTI; identity 344/344, gate verde, verify 105/105, parity 128/0. O refactor é estritamente o da emenda 2026-09-21. Para o 3a/2: mesmo critério de aceite — diff restrito a threading de locale + leituras `label()`, gates verdes e parity-locale 4/4 pós-build. Os lotes retidos (footer/home/páginas/results) continuam aguardando a consulta §4.2 formal.
+
+---
+
+### #29 · 2026-09-22 14:47 · Engenharia → canal · [aviso]
+*(original "#26" da Engenharia — renumerado: numeração da Engenharia 2 atrás do canal desde o #24)*
+
+**3a/1 (emenda 2026-09-21):** religação dos componentes do wizard a `label(node,campo,locale)` — Qual/QuantitativeAssessment, EntryFilter, ContextForm — **`01691f9`**. opcoes/referenciaNormativa fora (allowlist). i18n.es vazio ⇒ no-op provado: identity 344, parity-locale 4/4, build ok, gate 64/64. Falta 3a/2: threading de locale no utils.ts (nomes de eixo/bloco no Results/exports) + leituras diretas do Results (label/description/req.texto). *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #28 · 2026-09-22 14:45 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Lote 3 ACEITO.** Verificação independente sobre `59dc1a9` (48 chaves novas, es.json 123/335): estrutura idêntica ao pt-BR (38+10 chaves, zero divergência), **todos os placeholders ICU/rich preservados** (conferência automatizada token a token: nenhum divergente); terminologia conforme glossário — "Nivel" como cadeia única (zero "etapa/fase", §3.1), "Cláusula de Primacía Ética" na forma exata, família "no evaluable" (nunca "reprobado"), "eliminatoria", "diligencia" como termo normativo (distinto de preenchimento — sem colisão), "dictamen", "Eje {n}"/"Bloque {n}" com ids intactos; números apenas os da fonte (elevação especial 0/1-2/3+, faixas com `{min}`/`{max}` parametrizados — bem feito, não hardcoded). "No aplicable" (adjetivo, badge) corretamente distinto de "No se aplica" (opção de resposta). Cadeia re-rodada verde: gate (0 órfãs), verify 105/105, parity 128/0, parity-locale 4/4. **Sobre o §4.2 (footer/home/páginas/results retidos):** posição prévia da arquitetura — "Ministerio de Salud de Brasil" JÁ está no glossário (aprovado-z, rege o disclaimer); **INAEP, SINEP e título do Guia NÃO constam do glossário v0.2.0** — são nomes institucionais com consequência operacional (identidade do instrumento), portanto prováveis entradas novas `status: proposto` a subir ao Z, não decisão ad hoc. Aguardo a consulta formal com a redação proposta dos 4 itens para decidir.
+
+---
+
+### #27 · 2026-09-22 14:34 · Engenharia → canal · [aviso]
+*(original "#25" da Engenharia — renumerado: numeração da Engenharia segue 2 atrás do canal desde a colisão do #24)*
+
+**Lote 3 (es):** `assessment` + `help` — glossário v0.2.0 — **`59dc1a9`**. Cláusula de Primacía Ética, no evaluable, eliminatoria, diligencia (não diligenciar), dictamen, Nivel, eje/bloque, ICU preservado. es.json 123/335; key-parity padrão: ausentes = aviso, 0 órfã. Cadeia verde. Restam bloqueados no §4.2: footer, home, páginas e results (citam INAEP/SINEP/Ministério/título do Guia). Aguardo a decisão dos 4 itens para prosseguir. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #26 · 2026-09-22 14:40 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Lote 2 ACEITO.** Verificação independente sobre `7444ef6` (44 chaves novas, es.json 75/335): (1) **tríade de escopo com os três verbos canônicos literais** do glossário ("automatizan decisiones / generan contenido / intervienen en la conducción del estudio") em `q1Question`, e negação paralela em `notApplicableBody` ✔ (approved-list §3.7); (2) **"cumplimentada(s)"** em restart/clearScope — zero formas de "diligenciar" ✔ (§3.5); (3) **"triaje"**, "eje/bloque", "descriptivas", CEP/CONEP — todos na forma aprovada, zero "CEI" ✔; (4) **ICU plural preservado** estruturalmente (mesmas chaves `one`/`other`, placeholders `{count}`/`{scope}`/`{titleScope}` intactos, `<b>` rich text preservado) ✔; (5) modalidade correta ("obligatorios" para obrigatórios); números presentes são só os da fonte (Res. 738/2024, placeholder 1500) — zero corte/teto/versão. Cadeia re-rodada: gate verde (key-parity avisa 260 ausentes, 0 órfãs), verify 105/105, parity 128/0, parity-locale 4/4. **footer/home/páginas seguem RETIDOS** — correto da Engenharia segurar; aguardo a consulta §4.2 para decidir antes do próximo lote.
+
+---
+
+### #25 · 2026-09-22 14:29 · Engenharia → canal · [aviso]
+*(original "#23" da Engenharia — renumerado: colisão com o #23 do canal, ver #24)*
+
+**Lote 2 (es):** `entryFilter`, `contextForm`, `restart`, `clearScope` — glossário v0.2.0 — **`7444ef6`**. Tríade de escopo, cumplimentación (não diligenciar), triaje, eje/bloque, ICU plural preservado. es.json 75/335; key-parity padrão: ausentes = aviso, 0 órfã. Cadeia verde. footer/home/páginas seguem retidos até a decisão do §4.2. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #24 · 2026-09-22 14:35 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Opção A SANCIONADA e Lote 1 ACEITO — próximo lote (footer/home) LIBERADO, aguardando a consulta §4.2 anunciada.** Verificação independente da arquitetura sobre `4595966` e `a2b2250`: (1) **Diff da Opção A correto** — órfã sempre em `failures`; ausente vai para `warnings` no padrão e `failures` só com `--strict`/`I18N_KEYS_STRICT=1`; completude B2 plena preservada como propriedade final (lote final + auditoria do Z). Reconciliação legítima: es parcial é estado de construção, não de entrega. (2) **Lote 1 conferido string a string contra o glossário v0.2.0** (31/335): nome expandido MARIAH, "Versión preliminar", "No se aplica" (forma exata aprovada), "eje/bloque", "Versión A/B", singular em "Evaluación de Riesgo" — todos conformes; zero "CEI", zero "diligenciar", zero deslize de modalidade; placeholder ICU `{label}` preservado; nenhum número/id/versão em es.json (o próprio no-literal B2 confirmou). (3) **Cadeia re-rodada:** gate padrão verde com aviso (304 ausentes, 0 órfãs), strict reprova ausentes como esperado nesta fase, verify 105/105, parity 128/0, parity-locale 4/4. **Nota de governança:** a numeração da Engenharia (#21/#22) colidiu com o #21 da arquitetura; transcritos como #22/#23 (renumeração registrada — regra do canal: correção = mensagem nova, nada se apaga).
+
+---
+
+### #23 · 2026-09-22 14:24 · Engenharia → canal · [aviso]
+*(original "#22" da Engenharia — renumerado: colisão com o #21 da arquitetura, ver #24)*
+
+**Lote 1 (es):** `messages/es.json` namespaces `app` + `ui`, conforme glossário v0.2.0 — **`a2b2250`**. es.json parcial por desenho (31/335); key-parity padrão: 304 ausentes = aviso, 0 órfã. Cadeia verde. Próximo: footer/home (traz consulta §4.2). *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura)*
+
+---
+
+### #22 · 2026-09-22 14:23 · Engenharia → canal · [aviso]
+*(original "#21" da Engenharia — renumerado: colisão com o #21 da arquitetura, ver #24)*
+
+**Reconciliação key-parity × lotes (Opção A, decidida pela Direção):** órfã sempre reprova; ausente = aviso no gate padrão, reprova só no `--strict` (lote final + auditoria). `scripts/i18n-key-parity.ts` + `npm run i18n:key-parity:strict` — **`4595966`**. *(texto da Engenharia, transcrito pelo Operador; hash preenchido pela arquitetura; classificação original "[decisão registrada]" ajustada para [aviso] — decisões de regime são registradas pela arquitetura/Direção, aqui sancionada no #24)*
+
+---
+
+### #21 · 2026-09-22 14:25 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Passo 0 da `feat/i18n-es` VERIFICADO independentemente e ACEITO — Lote 1 (`ui.*`) LIBERADO.** Verificação da arquitetura sobre `9ae0837` (não só leitura do aviso): (1) glossário `spec/i18n/glossario-es.json` v0.2.0 com **64/64 `aprovado-z`**, versionado em `0d087c8` **antes** de qualquer tradução — condição 2.2 do Z cumprida na ordem correta (glossário → guarda → conteúdo); parte do glossário da pendência P2 resolvida. (2) Guarda B2 `i18n-key-parity.ts` está na cadeia do `gate` e tem **dentes provados pela arquitetura**: injetei um `es.json` descartável com 329 chaves ausentes + 1 órfã → exit 1 com as duas classes acusadas; removido → exit 0. Lógica correta: compara topologia de chaves contra pt-BR (referência), não compara valores, não lê números da matriz (B7 preservada no próprio guarda). (3) Cadeia re-rodada na branch: verify **105/105**, parity **128/0**, gate verde com key-parity armado (0 locales), parity-locale **4/4** (pt-BR DOM-idêntico à baseline). Lembrete para o Lote 1: o 1º commit de `messages/es.json` já nasce gated — chave ausente ou órfã quebra o build do gate; e a cada lote, `parity:locale` após build (B6). Dúvida terminológica fora do glossário → parar e consultar (memorando §4.2).
+
+---
+
+### #20 · 2026-09-22 14:13 · Engenharia → canal · [aviso]
+
+**feat/i18n-es aberta do HEAD da infra. Passo 0 cumprido (despacho §3 / condições 6.1 e 2.2 do Z):** (1) `spec/i18n` versionado — glossario-es.json v0.2.0 (aprovado-z, 64 termos), glossario-es.md e anexo-normativo-es.md — **`0d087c8`**; (2) guarda B2 no gate — `scripts/i18n-key-parity.ts` compara chaves de cada `messages/<locale>` contra pt-BR (ausente/órfã = falha); hoje 0 locales, verde e armado; o 1º commit de es.json passa a ser gated — **`9ae0837`**. Cadeia verde: verify 105/105, parity 128/0, gate 64/64 + identity 344 + no-literal + key-parity, parity-locale 4/4. Sem tocar pt-BR/números/ids. Próximo: Lote 1 (ui.* em es). *(texto da Engenharia, transcrito pelo Operador; hashes preenchidos pela arquitetura na transcrição)*
+
+---
+
+### #19 · 2026-09-22 11:00 · Kimi → Engenharia (via Operador) · [decisão]
+
+**`feat/i18n-es` AUTORIZADA — despacho da Direção emitido** (`DESPACHO_direcao_i18n-es_2026-09-22.md`). Pré-condições do memorando satisfeitas: infra APROVA pelo Z (10/10, #17) + sinal da Direção. O `MEMORANDO_execucao_i18n-es_2026-09-21.md` deixa de ser borrador e vale como ordem integral (incluída a emenda da religação `label()`/threading de locale). **Incorporadas as 4 condições vinculantes do Z (relatório §6):** (1) B2 pleno — paridade de chaves pt-BR×es como check no gate **antes do 1º commit de conteúdo**; (2) **Passo 0:** commitar `spec/i18n/` (glossario-es v0.2.0 + anexo borrador) antes de qualquer tradução — resolve a parte do glossário da pendência P2; (3) relatório de conformidade do es no path A1 `spec/i18n/relatorios/`; (4) camadas A2 1–4 completas com retroversão pelo Z. Base: HEAD da `feat/i18n-architecture` (housekeeping docs-only inócuo). Merge em `main` segue vedado. Sequência de lotes e regime conforme memorando §4.
+
+---
+
+### #18 · 2026-09-22 10:40 · Kimi → canal · [decisão]
+
+**Item 10 do DoD FECHADO — ciclo da infra i18n ENCERRADO (10/10).** A arquitetura conferiu o relatório do Z contra os 4 bloqueantes com superfície nesta branch: **B2** (fonte única, sem órfãs), **B6** (parity 4/4 sobre baseline imutável), **B7** (golden-rule verde, guarda deriva tokens da spec), **B9** (lang/redirects/headers limpos nos dois regimes) — todos cobertos na seção 5 do relatório com 0 achados, e as 7 seções do A1 estão completas. As afirmações verificáveis localmente foram re-conferidas pela arquitetura na transcrição: diff housekeeping `68fa106..b54953b` = exatamente 4 arquivos/317 inserções em `_guia_decisao/`; sha256 dos 3 artefatos batem; trilha = 18 substantivos + 1 alias + 3 housekeeping (22 total). Relatório arquivado em `_guia_decisao/RELATORIO_Z_conformidade_i18n-infra_2026-09-22.md`. **Efeitos (memorando §5 + relatório §6):** `feat/i18n-es` **desbloqueada** — com as 4 condições vinculantes (B2 pleno como CI desde o 1º commit; glossário-es versionado antes da tradução; relatórios por locale no path A1; camadas A2 1–4 completas). **Merge em `main` segue vedado** sem autorização expressa da Direção. Pendência remanescente do ciclo: **P2** (disposição dos untracked, Operador + Z).
+
+---
+
+### #17 · 2026-09-22 10:36 · Z → canal · [decisão]
+
+**Relatório de conformidade da infra i18n EMITIDO — veredito APROVA sem ressalvas (item 10 do DoD: 10/10).** O Z re-executou a cadeia completa de forma independente no ambiente do operador (Node 20): verify 105/105 · parity 128/0 · gate 64/64 + identity 344/344 + no-literal OK · parity:locale 4/4 · runtime duplo (OFF: gated 307→pt-BR; ON: 200 com lang correto) · headers sem hreflang/cookie/content-language nos dois regimes · dentes do guarda 6/6. Hashes dos 3 artefatos conferidos byte a byte; zero achados B/G/M. Condições para feat/i18n-es: B2 pleno como CI desde o 1º commit de conteúdo; glossário-es versionado antes da tradução; relatórios por locale no path A1. Merge em main segue vedado (Direção). Artefato: `_guia_decisao/RELATORIO_Z_conformidade_i18n-infra_2026-09-22.md`. *(relatório do Z, transcrito pelo Operador — texto sugerido pelo próprio Z, conferido e formatado pela arquitetura)*
+
+---
+
+### #16 · 2026-09-22 10:12 · Kimi → canal · [decisão]
+
+**Ciclo da infra i18n FECHADO; pacote liberado para o Z.** Ao transcrever o #15, a arquitetura conferiu o delta e encontrou **um residual**: o comentário inline da cadeia (§7) ainda dizia "19 commits". Corrigido pela própria arquitetura como housekeeping (`0b9e685`, docs-only), junto com a precisão do §1 (HEAD **substantivo** = `68fa106`; housekeeping acima sem efeito sobre evidências). Zero ocorrências de "19 commits" restantes. Não houve re-conferência de gates (LOG #13 §6 mantido) — apenas a correção factual. **Estado final:** DoD 9/9 executáveis reproduzidos; HEAD da branch `0b9e685` (housekeeping) sobre `68fa106` (alias) sobre 18 substantivos. O pacote `PACOTE_auditoria_Z_i18n_2026-09-21.md` está íntegro e segue ao Z pela Direção. Resta o item 10: relatório de conformidade do Z (7 seções do A1), veredito "aprova".
+
+---
+
+### #15 · 2026-09-22 10:09 · Engenharia → canal · [aviso]
+
+**Ciclo da infra i18n fechado do lado da Engenharia, cumprido o LOG #14:** (1) alias `npm run parity:locale` = `python3 scripts/parity-locale.py check`, sem aninhar no gate (gate é lógica pura; parity-locale consome o `.next`) — **`68fa106`**; (2) pacote de auditoria do Z versionado em `_guia_decisao/PACOTE_auditoria_Z_i18n_2026-09-21.md` (`12134ad`), com as correções factuais do #14 (18 commits substantivos; HEAD=`68fa106`). DoD: 9/9 executáveis reproduzidos em verde; resta o item 10 (relatório do Z). Cadeia verde no commit. *(texto da Engenharia, transcrito pelo Operador; hashes preenchidos pela arquitetura na transcrição)*
+
+---
+
+### #14 · 2026-09-22 10:05 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Executa os 2 micro-ajustes do LOG #13, nesta ordem, antes do pacote seguir ao Z:**
+
+1. **Alias `parity:locale`** — micro-commit único `chore(i18n): alias npm run parity:locale` adicionando ao `package.json`: `"parity:locale": "python3 scripts/parity-locale.py check"`. Sem aninhar no `gate` (passo explícito após o build, conforme decisão #13). Gates verdes após o commit (o alias não toca código, mas confirma).
+2. **Correção factual no pacote** — em `PACOTE_auditoria_Z_i18n_2026-09-21.md`: trocar "19 commits" por **"18 commits"** nos dois pontos (§1 "Trilha auditável" e §7 comentário da cadeia) e atualizar o **HEAD no §1** para o novo hash após o commit do alias.
+
+Cumpridos os dois, avisa no canal (#15) e o pacote segue **direto ao Z** — a arquitetura já conferiu e não re-confere (LOG #13 §6). Fecha-se assim o ciclo da infra i18n: DoD 9/9 executáveis reproduzidos, restando só o ato do Z (item 10).
+
+---
+
+### #13 · 2026-09-22 09:50 · Kimi → Engenharia (via Operador) · [decisão]
+
+**Pacote de auditoria Z CONFERIDO contra o DoD (memorando §4) — APROVADO com 2 micro-ajustes formais.** Verificação independente (não só leitura): rebuild + re-execução completa pela arquitetura — verify **105/105**, parity **128/0**, gate **64/64** + identity **344/344** + no-literal OK, parity-locale **4/4**, build duplo runtime reproduzido (OFF: gated **307**→pt-BR; ON: gated **200**; `lang` correto por rota). Hashes sha256 dos 3 artefatos conferem byte a byte; baseline NDTI intacta (único commit `d7e10d5`); diff do `verify-math.ts` = apenas a linha `MATRIX_VERSION`, atômica no bump (`3c4e9c2`); spec com **0** campos `i18n`. DoD: 9/9 itens executáveis cumpridos e reproduzidos; item 10 é o ato do Z. Detalhes em `VERIFICACAO_arquitetura_pacote-Z_2026-09-22.md`. **Micro-ajustes antes do envio:** (1) o pacote diz "19 commits" em §1/§7, mas `main..HEAD` e a própria lista do §7 têm **18** — corrigir; (2) **sancionada** a recomendação do §5: criar o alias `npm run parity:locale` (micro-commit) e manter `parity-locale` como **passo explícito após o build**, sem aninhar no `gate`; atualizar o HEAD no §1 do pacote no mesmo ajuste. Cumpridos os dois, segue direto ao Z, sem re-conferência da arquitetura.
+
+---
+
 ### #12 · 2026-09-21 16:35 · Kimi → Engenharia (via Operador) · [decisão]
 
 **Passos 6–8 verificados independentemente e aceitos** (commits `4e2d22f`, `93321f5`, `2e9667d` conferidos; verify 105/105 e gate 344/344 re-rodados pela arquitetura; jspdf fora do package.json; MAINTENANCE com a seção i18n; datas locale-aware em `utils.ts:652/872` — **P6 fechado**). Respostas aos dois pontos:

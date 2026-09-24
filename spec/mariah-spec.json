@@ -9,7 +9,13 @@
       "bgColor": "bg-green-50",
       "borderColor": "border-green-300",
       "textColor": "text-green-700",
-      "description": "Risco baixo — requisitos mínimos de documentação e transparência."
+      "description": "Risco baixo — requisitos mínimos de documentação e transparência.",
+      "i18n": {
+        "es": {
+          "label": "Bajo",
+          "description": "Riesgo bajo — requisitos mínimos de documentación y transparencia."
+        }
+      }
     },
     "II": {
       "level": "II",
@@ -18,7 +24,13 @@
       "bgColor": "bg-amber-50",
       "borderColor": "border-amber-300",
       "textColor": "text-amber-700",
-      "description": "Risco moderado — exige descrição do sistema e conformidade com a LGPD."
+      "description": "Risco moderado — exige descrição do sistema e conformidade com a LGPD.",
+      "i18n": {
+        "es": {
+          "label": "Moderado",
+          "description": "Riesgo moderado — exige la descripción del sistema y la conformidad con la LGPD."
+        }
+      }
     },
     "III": {
       "level": "III",
@@ -27,7 +39,13 @@
       "bgColor": "bg-orange-50",
       "borderColor": "border-orange-300",
       "textColor": "text-orange-700",
-      "description": "Risco alto — exige validação técnica, análise por subgrupos e supervisão humana efetiva."
+      "description": "Risco alto — exige validação técnica, análise por subgrupos e supervisão humana efetiva.",
+      "i18n": {
+        "es": {
+          "label": "Alto",
+          "description": "Riesgo alto — exige validación técnica, análisis por subgrupos y supervisión humana efectiva."
+        }
+      }
     },
     "IV": {
       "level": "IV",
@@ -36,7 +54,13 @@
       "bgColor": "bg-red-50",
       "borderColor": "border-red-300",
       "textColor": "text-red-700",
-      "description": "Risco crítico — exige parecer técnico externo, monitoramento contínuo e notificação à ANVISA quando aplicável."
+      "description": "Risco crítico — exige parecer técnico externo, monitoramento contínuo e notificação à ANVISA quando aplicável.",
+      "i18n": {
+        "es": {
+          "label": "Crítico",
+          "description": "Riesgo crítico — exige dictamen técnico externo, monitoreo continuo y notificación a la ANVISA cuando corresponda."
+        }
+      }
     }
   },
   "thresholdsBase": {
@@ -55,18 +79,36 @@
     "id": "db-filter",
     "pergunta": "O protocolo utiliza banco de dados — próprio, de outra pesquisa ou de instituição externa?",
     "dica": "Este filtro ativa a subseção Res. CNS n.º 738/2024 (Eixo 3.b na Versão A e Bloco 6.b na Versão B). Bancos abrangem dados coletados fora do escopo direto de cada participante desta pesquisa. Não marque \"Sim\" quando o protocolo coleta dados exclusivamente no escopo da pesquisa com cada participante.",
-    "referenciaNormativa": "Res. CNS n.º 738/2024 — Arts. 3.º, 9.º, 12, 20, 24, 27"
+    "referenciaNormativa": "Res. CNS n.º 738/2024 — Arts. 3.º, 9.º, 12, 20, 24, 27",
+    "i18n": {
+      "es": {
+        "pergunta": "¿El protocolo utiliza un banco de datos —propio, de otra investigación o de una institución externa?",
+        "dica": "Este filtro activa la subsección Res. CNS n.º 738/2024 (Eje 3.b en la Versión A y Bloque 6.b en la Versión B). Los bancos abarcan datos recolectados fuera del alcance directo de cada persona participante de esta investigación. No marque «Sí» cuando el protocolo recolecta datos exclusivamente en el alcance de la investigación con cada persona participante."
+      }
+    }
   },
   "contextQuestions": [
     {
       "id": "contexto1",
       "pergunta": "Qual é a pergunta que o sistema de IA foi desenvolvido para responder neste protocolo?",
-      "dica": "Descreva a pergunta principal que o sistema de IA busca responder no contexto do estudo. Ex.: \"O sistema prevê o risco de readmissão hospitalar em 30 dias para pacientes com insuficiência cardíaca?\""
+      "dica": "Descreva a pergunta principal que o sistema de IA busca responder no contexto do estudo. Ex.: \"O sistema prevê o risco de readmissão hospitalar em 30 dias para pacientes com insuficiência cardíaca?\"",
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es la pregunta que el sistema de IA fue desarrollado para responder en este protocolo?",
+          "dica": "Describa la pregunta principal que el sistema de IA busca responder en el contexto del estudio. Ej.: «¿El sistema prevé el riesgo de reingreso hospitalario en 30 días para pacientes con insuficiencia cardíaca?»"
+        }
+      }
     },
     {
       "id": "contexto2",
       "pergunta": "O sistema responde a essa pergunta de forma autônoma ou subsidia uma decisão tomada por um ser humano?",
-      "dica": "Indique se o sistema toma a decisão de forma autônoma (sem intervenção humana obrigatória) ou se fornece subsídios para que um profissional tome a decisão final."
+      "dica": "Indique se o sistema toma a decisão de forma autônoma (sem intervenção humana obrigatória) ou se fornece subsídios para que um profissional tome a decisão final.",
+      "i18n": {
+        "es": {
+          "pergunta": "¿El sistema responde a esa pregunta de forma autónoma o subsidia una decisión tomada por un ser humano?",
+          "dica": "Indique si el sistema toma la decisión de forma autónoma (sin intervención humana obligatoria) o si aporta insumos para que un profesional tome la decisión final."
+        }
+      }
     },
     {
       "id": "C.3",
@@ -78,13 +120,25 @@
         "pseudonimizados",
         "anonimizados",
         "combinação por etapa do estudo"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el estado de identificación de los datos personales utilizados en este protocolo?",
+          "dica": "El estado de identificación modula la lectura del Eje 3 / Bloque 6 y condiciona la pregunta C.5 (momento de la anonimización)."
+        }
+      }
     },
     {
       "id": "C.4",
       "pergunta": "Qual é o volume aproximado de registros de participantes utilizados neste protocolo?",
       "dica": "Volume informa a avaliação de reidentificação (3.5 / P6.3) e o potencial de uso em treinamento. Não há faixa 'segura' — o CEP lê o número no contexto.",
-      "tipoEntrada": "numero"
+      "tipoEntrada": "numero",
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el volumen aproximado de registros de participantes utilizados en este protocolo?",
+          "dica": "El volumen informa la evaluación de reidentificación (3.5 / P6.3) y el potencial de uso en entrenamiento. No hay un rango «seguro» — el CEP lee el número en el contexto."
+        }
+      }
     },
     {
       "id": "C.5",
@@ -97,7 +151,13 @@
         "não haverá anonimização",
         "não se aplica"
       ],
-      "condicional": "exibir somente se C.3 ≠ 'anonimizados'"
+      "condicional": "exibir somente se C.3 ≠ 'anonimizados'",
+      "i18n": {
+        "es": {
+          "pergunta": "¿En qué momento ocurre la anonimización de los datos en relación con el acceso por parte de los investigadores?",
+          "dica": "Si la anonimización la realizan los investigadores tras el acceso, hay una etapa de tratamiento de datos identificables que exige salvaguardas y justificación —léase en conjunto con el Eje 3.b / Bloque 6.b y con la ficha F-17."
+        }
+      }
     },
     {
       "id": "C.6",
@@ -108,7 +168,13 @@
         "ferramenta de análise sobre dados da pesquisa",
         "objeto de desenvolvimento (treinamento de modelo)",
         "ambos"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el papel del sistema de IA en este protocolo?",
+          "dica": "La IA como objeto de desarrollo eleva los riesgos de reutilización, inferencia y gobernanza. El CEP registra la distinción en el dictamen; la modulación del nivel de riesgo, de adoptarse algún día, exigirá una validación propia (v2.1)."
+        }
+      }
     },
     {
       "id": "C.7",
@@ -120,7 +186,13 @@
         "aplicações futuras ou uso amplo",
         "compartilhamento com terceiros",
         "não se aplica (IA apenas como ferramenta)"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Cuál es el destino previsto del modelo de IA utilizado o desarrollado en este protocolo?",
+          "dica": "Si el destino es un uso futuro/amplio o la compartición, léase en conjunto con 3.3/P6.4 (consentimiento para entrenamiento) y con el Eje 3.b / Bloque 6.b."
+        }
+      }
     },
     {
       "id": "C.8",
@@ -131,7 +203,13 @@
         "não haverá compartilhamento",
         "sim, sob Termo de Anuência/Acordo Institucional",
         "sim, outra forma (descrever)"
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "pergunta": "¿Habrá compartición del banco de datos, total o parcial, con terceros además de las instituciones participantes del protocolo?",
+          "dica": "Si hay compartición, léase en conjunto con 3.b.5/P6.b.5 (acuerdo formal — F-21) y 3.2/P6.2 (transferencia internacional)."
+        }
+      }
     }
   ],
   "qualitativeAxes": [
@@ -144,51 +222,105 @@
           "id": "1.1",
           "pergunta": "O sistema toma decisões ou emite recomendações sem intervenção humana obrigatória antes da execução?",
           "riskAnswer": "sim",
-          "dica": "Sem revisão humana obrigatória antes da execução, não há barreira de segurança entre a recomendação do sistema e a ação sobre o participante — um erro chega ao participante sem filtro. Quanto maior a autonomia decisória, maior o risco."
+          "dica": "Sem revisão humana obrigatória antes da execução, não há barreira de segurança entre a recomendação do sistema e a ação sobre o participante — um erro chega ao participante sem filtro. Quanto maior a autonomia decisória, maior o risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema toma decisiones o emite recomendaciones sin intervención humana obligatoria antes de la ejecución?",
+              "dica": "Sin revisión humana obligatoria antes de la ejecución, no hay barrera de seguridad entre la recomendación del sistema y la acción sobre la persona participante — un error llega a la persona participante sin filtro. Cuanto mayor la autonomía decisoria, mayor el riesgo."
+            }
+          }
         },
         {
           "id": "1.2",
           "pergunta": "O sistema é adaptativo — aprende ou se atualiza com novos dados durante a condução do estudo ou após o seu encerramento?",
           "riskAnswer": "sim",
-          "dica": "Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8)."
+          "dica": "Sistemas que aprendem ou se atualizam durante o estudo podem mudar de comportamento ao longo do tempo, gerando resultados diferentes dos validados no início — o que introduz incerteza sobre o que o participante de fato receberá. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8).",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es adaptativo — aprende o se actualiza con nuevos datos durante la conducción del estudio o después de su finalización?",
+              "dica": "Los sistemas que aprenden o se actualizan durante el estudio pueden cambiar de comportamiento a lo largo del tiempo, generando resultados distintos de los validados al inicio — lo que introduce incertidumbre sobre lo que la persona participante de hecho recibirá. Un sistema adaptativo altera, durante el estudio, el propio objeto sobre el cual la persona participante consintió. El protocolo debe definir un umbral de cambio (de desempeño o de comportamiento del sistema) que, al ser superado, dispara la obtención de nuevo consentimiento y la comunicación al CEP. Sin ese plan, el consentimiento obtenido al inicio pierde validez continua (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa). Nota (F-27): la verificación abarca actualizaciones, recalibraciones y sustituciones del sistema, durante el estudio o después de su finalización; si el aprendizaje continúa después de la finalización, verificar 5.8/P7.7 (reentrenamiento autorizado) y el plan de nuevo consentimiento (2.10/P2.8)."
+            }
+          }
         },
         {
           "id": "1.3",
           "pergunta": "Em caso de falha ou erro do sistema, o dano ao participante seria de difícil reversão?",
           "riskAnswer": "sim",
-          "dica": "Quando o erro do sistema produz dano de difícil reversão (ex.: conduta cirúrgica indevida), o risco é maior do que em danos reparáveis, porque a correção posterior não restaura o participante ao estado anterior."
+          "dica": "Quando o erro do sistema produz dano de difícil reversão (ex.: conduta cirúrgica indevida), o risco é maior do que em danos reparáveis, porque a correção posterior não restaura o participante ao estado anterior.",
+          "i18n": {
+            "es": {
+              "pergunta": "En caso de falla o error del sistema, ¿el daño a la persona participante sería de difícil reversión?",
+              "dica": "Cuando el error del sistema produce un daño de difícil reversión (ej.: conducta quirúrgica indebida), el riesgo es mayor que en daños reparables, porque la corrección posterior no restaura a la persona participante al estado anterior."
+            }
+          }
         },
         {
           "id": "1.4",
           "pergunta": "O sistema foi desenvolvido e validado fora do contexto em que será utilizado neste protocolo?",
           "riskAnswer": "sim",
-          "dica": "Um sistema desenvolvido e validado em outro contexto (outra população, outro cenário assistencial) pode não manter o desempenho na realidade deste protocolo, gerando erros não detectados na validação original."
+          "dica": "Um sistema desenvolvido e validado em outro contexto (outra população, outro cenário assistencial) pode não manter o desempenho na realidade deste protocolo, gerando erros não detectados na validação original.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema fue desarrollado y validado fuera del contexto en que será utilizado en este protocolo?",
+              "dica": "Un sistema desarrollado y validado en otro contexto (otra población, otro escenario asistencial) puede no mantener el desempeño en la realidad de este protocolo, generando errores no detectados en la validación original."
+            }
+          }
         },
         {
           "id": "1.5",
           "pergunta": "O pesquisador tem acesso às informações necessárias para contestar a recomendação do sistema?",
           "riskAnswer": "nao",
-          "dica": "Se o profissional não tem acesso às informações necessárias para contestar a recomendação, a supervisão humana é apenas simbólica — existe no papel, mas não barra um erro. É a ausência desse acesso que eleva o risco."
+          "dica": "Se o profissional não tem acesso às informações necessárias para contestar a recomendação, a supervisão humana é apenas simbólica — existe no papel, mas não barra um erro. É a ausência desse acesso que eleva o risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El investigador tiene acceso a la información necesaria para cuestionar la recomendación del sistema?",
+              "dica": "Si el profesional no tiene acceso a la información necesaria para cuestionar la recomendación, la supervisión humana es apenas simbólica — existe en el papel, pero no frena un error. Es la ausencia de ese acceso lo que eleva el riesgo."
+            }
+          }
         },
         {
           "id": "1.6",
           "pergunta": "O protocolo define claramente o que acontece quando a decisão do sistema diverge do julgamento humano?",
           "riskAnswer": "nao",
-          "dica": "Sem regra definida para quando a decisão do sistema diverge do julgamento humano, cria-se uma zona cinzenta de responsabilidade que pode atrasar a correção e prejudicar o participante."
+          "dica": "Sem regra definida para quando a decisão do sistema diverge do julgamento humano, cria-se uma zona cinzenta de responsabilidade que pode atrasar a correção e prejudicar o participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define claramente qué ocurre cuando la decisión del sistema diverge del juicio humano?",
+              "dica": "Sin una regla definida para cuando la decisión del sistema diverge del juicio humano, se crea una zona gris de responsabilidad que puede retrasar la corrección y perjudicar a la persona participante."
+            }
+          }
         },
         {
           "id": "1.7",
           "pergunta": "O sistema é explicável — é possível compreender por que chegou a determinado resultado?",
           "riskAnswer": "nao",
-          "dica": "Sistemas opacos (caixa-preta) dificultam identificar vieses e erros e atribuir responsabilidade. A falta de explicabilidade reduz a capacidade de supervisão — é o que caracteriza o risco aqui."
+          "dica": "Sistemas opacos (caixa-preta) dificultam identificar vieses e erros e atribuir responsabilidade. A falta de explicabilidade reduz a capacidade de supervisão — é o que caracteriza o risco aqui.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es explicable — es posible comprender por qué llegó a determinado resultado?",
+              "dica": "Los sistemas opacos (caja negra) dificultan identificar sesgos y errores y atribuir responsabilidad. La falta de explicabilidad reduce la capacidad de supervisión — es lo que caracteriza el riesgo aquí."
+            }
+          }
         },
         {
           "id": "1.8",
           "pergunta": "O sistema foi submetido a testes de desempenho documentados antes do uso no protocolo?",
           "riskAnswer": "nao",
-          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de que o sistema é seguro e eficaz no contexto proposto; o protocolo passa a depender de um desempenho presumido, não demonstrado."
+          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de que o sistema é seguro e eficaz no contexto proposto; o protocolo passa a depender de um desempenho presumido, não demonstrado.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema fue sometido a pruebas de desempeño documentadas antes del uso en el protocolo?",
+              "dica": "Sin pruebas de desempeño documentadas antes del uso, no hay evidencia de que el sistema sea seguro y eficaz en el contexto propuesto; el protocolo pasa a depender de un desempeño presumido, no demostrado."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 1: Naturaleza y Autonomía del Sistema",
+          "descricao": "Evalúa el grado de autonomía del sistema, su capacidad adaptativa y los riesgos asociados a su naturaleza técnica."
+        }
+      }
     },
     {
       "id": "eixo2",
@@ -199,55 +331,109 @@
           "id": "2.1",
           "pergunta": "O sistema influencia diretamente decisões clínicas ou terapêuticas sobre o participante?",
           "riskAnswer": "sim",
-          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se traduz em conduta inadequada sobre o participante — o impacto potencial sobre a pessoa é maior."
+          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se traduz em conduta inadequada sobre o participante — o impacto potencial sobre a pessoa é maior.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema influye directamente en decisiones clínicas o terapéuticas sobre la persona participante?",
+              "dica": "Cuando el sistema influye directamente en decisiones clínicas o terapéuticas, un error se traduce en una conducta inadecuada sobre la persona participante — el impacto potencial sobre la persona es mayor."
+            }
+          }
         },
         {
           "id": "2.2",
           "pergunta": "O sistema pode causar dano físico ao participante em caso de erro?",
           "riskAnswer": "sim",
-          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança e supervisão."
+          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança e supervisão.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño físico a la persona participante en caso de error?",
+              "dica": "La posibilidad de daño físico en caso de error es la forma más grave de impacto y exige mecanismos robustos de seguridad y supervisión."
+            }
+          }
         },
         {
           "id": "2.3",
           "pergunta": "O sistema pode causar dano psíquico, social ou econômico ao participante em caso de erro?",
           "riskAnswer": "sim",
-          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são eticamente relevantes, sobretudo quando afetam a vida social, o emprego ou a renda do participante."
+          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são eticamente relevantes, sobretudo quando afetam a vida social, o emprego ou a renda do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño psíquico, social o económico a la persona participante en caso de error?",
+              "dica": "Los daños no físicos — psíquicos, sociales o económicos — también son éticamente relevantes, sobre todo cuando afectan la vida social, el empleo o los ingresos de la persona participante."
+            }
+          }
         },
         {
           "id": "2.4",
           "pergunta": "O protocolo envolve populações vulneráveis: crianças, gestantes, idosos, pessoas com deficiência, povos indígenas ou comunidades em situação de vulnerabilidade socioeconômica?",
           "riskAnswer": "sim",
-          "dica": "Populações vulneráveis (crianças, gestantes, idosos, pessoas com deficiência, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pois podem ter menor capacidade de compreender riscos ou contestar decisões."
+          "dica": "Populações vulneráveis (crianças, gestantes, idosos, pessoas com deficiência, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pois podem ter menor capacidade de compreender riscos ou contestar decisões.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo involucra poblaciones vulnerables: niños, gestantes, personas mayores, personas con discapacidad, pueblos indígenas o comunidades en situación de vulnerabilidad socioeconómica?",
+              "dica": "Las poblaciones vulnerables (niños, gestantes, personas mayores, personas con discapacidad, pueblos indígenas, vulnerabilidad socioeconómica) exigen protección adicional, pues pueden tener menor capacidad de comprender riesgos o de cuestionar decisiones."
+            }
+          }
         },
         {
           "id": "2.5",
           "pergunta": "O sistema infere características sensíveis do participante: raça/cor, etnia, condição de saúde, orientação sexual, que não foram explicitamente coletadas?",
           "riskAnswer": "sim",
-          "dica": "Inferir características sensíveis (raça/cor, etnia, saúde, orientação sexual) que não foram explicitamente coletadas contraria a autonomia informativa do participante e pode gerar discriminação."
+          "dica": "Inferir características sensíveis (raça/cor, etnia, saúde, orientação sexual) que não foram explicitamente coletadas contraria a autonomia informativa do participante e pode gerar discriminação.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema infiere características sensibles de la persona participante: raza/color, etnia, condición de salud, orientación sexual, que no fueron explícitamente recolectadas?",
+              "dica": "Inferir características sensibles (raza/color, etnia, salud, orientación sexual) que no fueron explícitamente recolectadas contraría la autonomía informativa de la persona participante y puede generar discriminación."
+            }
+          }
         },
         {
           "id": "2.6",
           "pergunta": "Os efeitos de um erro do sistema sobre o participante são reversíveis?",
           "riskAnswer": "nao",
-          "dica": "A pergunta verifica a reversibilidade: quando os efeitos de um erro NÃO são reversíveis, o risco aumenta de forma significativa, pois não há reparação integral possível."
+          "dica": "A pergunta verifica a reversibilidade: quando os efeitos de um erro NÃO são reversíveis, o risco aumenta de forma significativa, pois não há reparação integral possível.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los efectos de un error del sistema sobre la persona participante son reversibles?",
+              "dica": "La pregunta verifica la reversibilidad: cuando los efectos de un error NO son reversibles, el riesgo aumenta de forma significativa, pues no hay reparación integral posible."
+            }
+          }
         },
         {
           "id": "2.7",
           "pergunta": "O TCLE informa ao participante, de forma compreensível, que um sistema de IA será utilizado no protocolo e qual é o seu papel?",
           "riskAnswer": "nao",
-          "dica": "Se o TCLE não informa, de forma compreensível, que um sistema de IA será usado e qual o seu papel, viola-se a transparência e a autonomia — o participante consente sem saber a que está consentindo."
+          "dica": "Se o TCLE não informa, de forma compreensível, que um sistema de IA será usado e qual o seu papel, viola-se a transparência e a autonomia — o participante consente sem saber a que está consentindo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El TCLE informa a la persona participante, de forma comprensible, que un sistema de IA será utilizado en el protocolo y cuál es su papel?",
+              "dica": "Si el TCLE no informa, de forma comprensible, que un sistema de IA será usado y cuál es su papel, se viola la transparencia y la autonomía — la persona participante consiente sin saber a qué está consintiendo."
+            }
+          }
         },
         {
           "id": "2.8",
           "pergunta": "O protocolo prevê mecanismo para que o participante retire o consentimento, com exclusão de seus dados das bases do estudo e garantia de não utilização em treinamentos ou retreinamentos futuros?",
           "riskAnswer": "nao",
-          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco."
+          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un mecanismo para que la persona participante retire el consentimiento, con exclusión de sus datos de las bases del estudio y garantía de no utilización en entrenamientos o reentrenamientos futuros?",
+              "dica": "La retirada del consentimiento es un derecho de la persona participante (Ley n.º 14.874/2024; LGPD, art. 8.º, §5.º, y art. 18). En modelos ya entrenados, la remoción retroactiva de la influencia de un dato específico tiene límites técnicos: el modelo no almacena los datos, sino pesos estadísticos aprendidos, y las técnicas de desaprendizaje automático aún son incipientes. Por ello, el protocolo debe garantizar tres compromisos verificables: (1) exclusión de los datos de la persona participante de las bases del estudio y bloqueo de su uso en cualquier entrenamiento o reentrenamiento futuro; (2) declaración clara de esos límites técnicos en el TCLE, en lenguaje comprensible; (3) salvaguardas de no memorización — curaduría y minimización de los datos antes del entrenamiento y pruebas documentadas de que el modelo no reproduce ni filtra datos de participantes. La ausencia de un mecanismo con esos tres compromisos configura riesgo."
+            }
+          }
         },
         {
           "id": "2.9",
           "pergunta": "O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?",
           "riskAnswer": "nao",
-          "dica": "A ausência de descrição sobre como os resultados da IA serão comunicados ao participante compromete a transparência e o exercício da autonomia. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024)."
+          "dica": "A ausência de descrição sobre como os resultados da IA serão comunicados ao participante compromete a transparência e o exercício da autonomia. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024).",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe cómo los resultados generados por la IA serán comunicados a la persona participante, cuando corresponda?",
+              "dica": "La ausencia de descripción sobre cómo los resultados de la IA serán comunicados a la persona participante compromete la transparencia y el ejercicio de la autonomía. Incluye el derecho de la persona participante a la devolución de los resultados de la investigación y a la información sobre eventual repercusión en su condición de salud, cuando corresponda (LGPD; Ley n.º 14.874/2024)."
+            }
+          }
         },
         {
           "id": "2.10",
@@ -258,21 +444,46 @@
           "hasNaOption": true,
           "dica": "Sistema adaptativo é aquele que continua aprendendo ou muda de comportamento durante o estudo — por exemplo, um modelo que se reajusta com novos dados (aprendizado contínuo), em vez de permanecer \"congelado\" após a validação. Por que novo consentimento: o participante consentiu com um sistema que funcionava de certo modo; se ele muda de forma relevante, mudam os riscos e a própria natureza do que foi aceito — então a autonomia exige informá-lo e obter novo consentimento. Por isso se pede um plano com limiar de mudança definido, procedimento e responsável. Item de diligência com efeito impeditivo: NÃO altera a pontuação do Eixo 2 (não eleva o nível), mas a ausência do plano bloqueia o parecer — protocolo não avaliável no mérito —, em convergência com a P2.8 da Versão B. Aplicável quando o sistema é adaptativo (1.2 = Sim); marque \"Não se aplica\" quando 1.2 = Não. A obtenção de novo consentimento é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e, por isso, não é compensável por pontos.",
           "motivoEliminatorio": "ausência de plano de novo consentimento para sistema adaptativo (1.2 = Sim). A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e não é compensável por pontuação. O dossiê deve ser devolvido para complementação (diligência obrigatória); persistindo a ausência, o protocolo não recebe parecer de aprovação.",
-          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD"
+          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el sistema es adaptativo (1.2 = Sí): ¿el protocolo presenta un plan de nuevo consentimiento — con umbral definido, procedimiento y responsable — para el caso de que el sistema se actualice o cambie de comportamiento durante el estudio?",
+              "dica": "Un sistema adaptativo es aquel que continúa aprendiendo o cambia de comportamiento durante el estudio — por ejemplo, un modelo que se reajusta con nuevos datos (aprendizaje continuo), en vez de permanecer «congelado» tras la validación. Por qué nuevo consentimiento: la persona participante consintió con un sistema que funcionaba de cierto modo; si cambia de forma relevante, cambian los riesgos y la propia naturaleza de lo que se aceptó — entonces la autonomía exige informarla y obtener nuevo consentimiento. Por eso se pide un plan con umbral de cambio definido, procedimiento y responsable. Ítem de diligencia con efecto impeditivo: NO altera la puntuación del Eje 2 (no eleva el nivel), pero la ausencia del plan bloquea el dictamen — protocolo no evaluable en el mérito —, en convergencia con la P2.8 de la Versión B. Aplicable cuando el sistema es adaptativo (1.2 = Sí); marque «No se aplica» cuando 1.2 = No. La obtención de nuevo consentimiento es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y, por ello, no es compensable por puntos.",
+              "motivoEliminatorio": "ausencia de plan de nuevo consentimiento para sistema adaptativo (1.2 = Sí). La obtención de nuevo consentimiento ante un cambio relevante del sistema es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y no es compensable por puntuación. El dosier debe ser devuelto para complementación (diligencia obligatoria); si persiste la ausencia, el protocolo no recibe dictamen de aprobación."
+            }
+          }
         },
         {
           "id": "2.11",
           "pergunta": "Os resultados da pesquisa podem gerar estigmatização de grupos ou populações?",
           "riskAnswer": "sim",
-          "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo."
+          "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los resultados de la investigación pueden generar estigmatización de grupos o poblaciones?",
+              "dica": "Evaluar el daño incluso sin identificación individual: la estigmatización deriva de la atribución de características al grupo."
+            }
+          }
         },
         {
           "id": "2.12",
           "pergunta": "Há risco de discriminação de indivíduos ou grupos como consequência do uso dos resultados produzidos pelo sistema?",
           "riskAnswer": "sim",
-          "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso."
+          "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Hay riesgo de discriminación de individuos o grupos como consecuencia del uso de los resultados producidos por el sistema?",
+              "dica": "Distinguir de 4.3/P3.6: la equidad mide el desempeño desigual del modelo; esta pregunta mide el daño discriminatorio derivado del uso."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 2: Impacto sobre la Persona Participante",
+          "descricao": "Evalúa los potenciales daños físicos, psíquicos, sociales y económicos a la persona participante, así como la protección de poblaciones vulnerables."
+        }
+      }
     },
     {
       "id": "eixo3",
@@ -283,83 +494,167 @@
           "id": "3.1",
           "pergunta": "O sistema processa dados pessoais sensíveis: saúde (inclusive saúde mental), genética, biometria, dados de localização, raça, etnia, religião, vida sexual?",
           "riskAnswer": "sim",
-          "dica": "O processamento de dados pessoais sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD; o risco à privacidade é inerentemente maior."
+          "dica": "O processamento de dados pessoais sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD; o risco à privacidade é inerentemente maior.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema procesa datos personales sensibles: salud (incluida la salud mental), genética, biometría, datos de localización, raza, etnia, religión, vida sexual?",
+              "dica": "El procesamiento de datos personales sensibles (salud, genética, biometría, raza/color, etnia, religión, vida sexual) exige protección reforzada y base legal específica en la LGPD; el riesgo para la privacidad es inherentemente mayor."
+            }
+          }
         },
         {
           "id": "3.2",
           "pergunta": "Os dados são transferidos ou processados em servidores fora do Brasil?",
           "riskAnswer": "sim",
-          "dica": "Transferir ou processar dados em servidores fora do Brasil exige avaliar a adequação do país de destino e adotar salvaguardas adicionais, pois reduz a governança nacional sobre os dados."
+          "dica": "Transferir ou processar dados em servidores fora do Brasil exige avaliar a adequação do país de destino e adotar salvaguardas adicionais, pois reduz a governança nacional sobre os dados.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos son transferidos o procesados en servidores fuera de Brasil?",
+              "dica": "Transferir o procesar datos en servidores fuera de Brasil exige evaluar la adecuación del país de destino y adoptar salvaguardas adicionales, pues reduce la gobernanza nacional sobre los datos."
+            }
+          }
         },
         {
           "id": "3.3",
           "pergunta": "O consentimento obtido cobre explicitamente o uso dos dados para treinamento ou retreinamento de modelos de IA?",
           "riskAnswer": "nao",
-          "dica": "Consentimento genérico não basta para treinar ou retreinar modelos: é preciso consentimento específico e informado para esse uso. A ausência dele é o que configura o risco."
+          "dica": "Consentimento genérico não basta para treinar ou retreinar modelos: é preciso consentimento específico e informado para esse uso. A ausência dele é o que configura o risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El consentimiento obtenido cubre explícitamente el uso de los datos para entrenamiento o reentrenamiento de modelos de IA?",
+              "dica": "El consentimiento genérico no basta para entrenar o reentrenar modelos: se requiere consentimiento específico e informado para ese uso. Su ausencia es lo que configura el riesgo."
+            }
+          }
         },
         {
           "id": "3.4",
           "pergunta": "O protocolo demonstra conformidade com a LGPD: base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?",
           "riskAnswer": "nao",
-          "dica": "Sem base legal identificada, finalidade declarada e Encarregado (DPO) indicado, o protocolo não demonstra conformidade com a LGPD, expondo participantes e instituição a riscos legais e éticos."
+          "dica": "Sem base legal identificada, finalidade declarada e Encarregado (DPO) indicado, o protocolo não demonstra conformidade com a LGPD, expondo participantes e instituição a riscos legais e éticos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo demuestra conformidad con la LGPD: base legal identificada, finalidad declarada, Encargado de Datos (DPO) indicado?",
+              "dica": "Sin base legal identificada, finalidad declarada y Encargado (DPO) indicado, el protocolo no demuestra conformidad con la LGPD, exponiendo a las personas participantes y a la institución a riesgos legales y éticos."
+            }
+          }
         },
         {
           "id": "3.5",
           "pergunta": "Existe risco real de reidentificação dos participantes a partir dos dados utilizados ou gerados pelo sistema?",
           "riskAnswer": "sim",
-          "dica": "Quando há risco real de reidentificação a partir dos dados usados ou gerados, a promessa de anonimato fica comprometida e os danos potenciais à privacidade aumentam."
+          "dica": "Quando há risco real de reidentificação a partir dos dados usados ou gerados, a promessa de anonimato fica comprometida e os danos potenciais à privacidade aumentam.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Existe riesgo real de reidentificación de las personas participantes a partir de los datos utilizados o generados por el sistema?",
+              "dica": "Cuando hay riesgo real de reidentificación a partir de los datos usados o generados, la promesa de anonimato queda comprometida y los daños potenciales a la privacidad aumentan."
+            }
+          }
         },
         {
           "id": "3.6",
           "pergunta": "O protocolo prevê plano de resposta a incidentes de segurança envolvendo os dados processados pela IA?",
           "riskAnswer": "nao",
-          "dica": "Sem plano de resposta a incidentes de segurança, um vazamento ou acesso indevido pode não ser contido a tempo, agravando os danos aos participantes."
+          "dica": "Sem plano de resposta a incidentes de segurança, um vazamento ou acesso indevido pode não ser contido a tempo, agravando os danos aos participantes.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un plan de respuesta a incidentes de seguridad que involucren los datos procesados por la IA?",
+              "dica": "Sin un plan de respuesta a incidentes de seguridad, una filtración o un acceso indebido puede no ser contenido a tiempo, agravando los daños a las personas participantes."
+            }
+          }
         },
         {
           "id": "3.7",
           "pergunta": "Os dados de treinamento do modelo foram coletados com consentimento compatível com o uso previsto neste protocolo?",
           "riskAnswer": "nao",
-          "dica": "Se os dados de treinamento foram coletados para outra finalidade, podem não ter base legal para uso em IA neste protocolo, caracterizando uso secundário inadequado."
+          "dica": "Se os dados de treinamento foram coletados para outra finalidade, podem não ter base legal para uso em IA neste protocolo, caracterizando uso secundário inadequado.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento del modelo fueron recolectados con un consentimiento compatible con el uso previsto en este protocolo?",
+              "dica": "Si los datos de entrenamiento fueron recolectados para otra finalidad, pueden no tener base legal para su uso en IA en este protocolo, caracterizando un uso secundario inadecuado."
+            }
+          }
         },
         {
           "id": "3.8",
           "pergunta": "O protocolo descreve como os dados serão armazenados, por quanto tempo e como serão descartados ao final do estudo?",
           "riskAnswer": "nao",
-          "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados depois de encerrado o estudo."
+          "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados depois de encerrado o estudo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe cómo se almacenarán los datos, por cuánto tiempo y cómo se eliminarán al final del estudio?",
+              "dica": "La ausencia de una política de almacenamiento, retención y eliminación abre espacio para el uso indebido de los datos después de finalizado el estudio."
+            }
+          }
         },
         {
           "id": "3.9",
           "pergunta": "O protocolo restringe o acesso aos dados identificáveis ao estritamente necessário, com controle de acesso por perfil e identificação dos responsáveis?",
           "riskAnswer": "nao",
-          "dica": "A resposta deve indicar quem acessa, com qual perfil e sob qual registro."
+          "dica": "A resposta deve indicar quem acessa, com qual perfil e sob qual registro.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo restringe el acceso a los datos identificables a lo estrictamente necesario, con control de acceso por perfil e identificación de los responsables?",
+              "dica": "La respuesta debe indicar quién accede, con qué perfil y bajo qué registro."
+            }
+          }
         },
         {
           "id": "3.10",
           "pergunta": "O protocolo prevê registro (log) auditável das operações de tratamento de dados e de inferência realizadas pelo sistema?",
           "riskAnswer": "nao",
-          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização. Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável."
+          "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização. Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un registro (log) auditable de las operaciones de tratamiento de datos y de inferencia realizadas por el sistema?",
+              "dica": "Log auditable = registro íntegro, con fecha y atribuible de las operaciones, consultable en fiscalización. Nota (F-26): cuando el sistema genere inferencias clínicas, diagnósticas o predictivas (ver 2.1/P5.1), el log debe permitir rastrear, por decisión: identificador de la inferencia, versión/configuración del modelo, datos de entrada (o referencia pseudonimizada a ellos), salida del sistema y operador humano responsable."
+            }
+          }
         },
         {
           "id": "3.11",
           "pergunta": "O protocolo descreve o ambiente computacional de processamento e seus controles mínimos de segurança (isolamento, criptografia e, quando houver, certificações)?",
           "riskAnswer": "nao",
-          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição. Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4."
+          "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição. Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe el entorno computacional de procesamiento y sus controles mínimos de seguridad (aislamiento, cifrado y, cuando corresponda, certificaciones)?",
+              "dica": "No exigir una certificación específica: exigir la descripción del entorno y de los controles. La certificación es evidencia, no condición. Nota (F-28): cuando el procesamiento dependa de un proveedor externo (nube, servicio de IA o modelo de terceros), la descripción del entorno incluye las condiciones contractuales de uso de los datos por el proveedor: prohibición de reutilización, entrenamiento o retención para finalidad propia; garantías de confidencialidad; y portabilidad/salida (vendor lock-in), proporcionales al riesgo. Verificar 3.2/P6.2 y 3.3/P6.4."
+            }
+          }
         },
         {
           "id": "3.12",
           "pergunta": "Os dados do protocolo serão vinculados (linkage) a outras bases de dados, próprias ou externas?",
           "riskAnswer": "sim",
           "dica": "Se houver linkage, a avaliação de reidentificação (3.5 / P6.3) deve considerar explicitamente o cruzamento das bases envolvidas.",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos del protocolo serán vinculados (linkage) a otras bases de datos, propias o externas?",
+              "dica": "Si hay linkage, la evaluación de reidentificación (3.5 / P6.3) debe considerar explícitamente el cruce de las bases involucradas."
+            }
+          }
         },
         {
           "id": "3.13",
           "pergunta": "Para sistemas com processamento de linguagem natural, grandes modelos de linguagem ou geração de dados sintéticos: há testes documentados de robustez contra memorização e extração de dados de treinamento (ataques de extração ou de inferência de pertencimento)?",
           "riskAnswer": "nao",
           "dica": "Aplicável apenas a PLN/LLM/dados sintéticos (N/A nos demais casos).",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "Para sistemas con procesamiento de lenguaje natural, grandes modelos de lenguaje o generación de datos sintéticos: ¿hay pruebas documentadas de robustez contra la memorización y la extracción de datos de entrenamiento (ataques de extracción o de inferencia de pertenencia)?",
+              "dica": "Aplicable solo a PLN/LLM/datos sintéticos (N/A en los demás casos)."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 3: Sensibilidad y Gobernanza de los Datos",
+          "descricao": "Evalúa el grado de sensibilidad de los datos procesados, la conformidad con la LGPD y los mecanismos de protección de datos."
+        }
+      }
     },
     {
       "id": "eixo3b",
@@ -373,7 +668,13 @@
           "id": "3.b.1",
           "pergunta": "O protocolo identifica o Controlador do banco de dados (art. 3.º, IV da Res. CNS n.º 738/2024), com cargo, função e instituição vinculada?",
           "riskAnswer": "nao",
-          "dica": "Identifica o Controlador do banco (Arts. 3.º, IV e 9.º da Res. CNS n.º 738/2024), com cargo, função e instituição. Sem isso, não há cadeia de custódia formalizada sobre os dados. No Eixo 3.b (Salvaguarda da Res. 738), uma única resposta de risco já leva o eixo ao Nível III — não há categoria intermediária para bancos de dados."
+          "dica": "Identifica o Controlador do banco (Arts. 3.º, IV e 9.º da Res. CNS n.º 738/2024), com cargo, função e instituição. Sem isso, não há cadeia de custódia formalizada sobre os dados. No Eixo 3.b (Salvaguarda da Res. 738), uma única resposta de risco já leva o eixo ao Nível III — não há categoria intermediária para bancos de dados.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo identifica al Controlador del banco de datos (art. 3.º, IV de la Res. CNS n.º 738/2024), con cargo, función e institución vinculada?",
+              "dica": "Identifica al Controlador del banco (Arts. 3.º, IV y 9.º de la Res. CNS n.º 738/2024), con cargo, función e institución. Sin ello, no hay cadena de custodia formalizada sobre los datos. En el Eje 3.b (Salvaguarda de la Res. 738), una única respuesta de riesgo ya lleva el eje al Nivel III — no hay categoría intermedia para bancos de datos."
+            }
+          }
         },
         {
           "id": "3.b.2",
@@ -381,26 +682,50 @@
           "riskAnswer": "nao",
           "eliminatorio": true,
           "hasNaOption": true,
-          "dica": "Verifica o Termo de Anuência Institucional (Art. 27, VI da Res. CNS n.º 738/2024), assinado pelo responsável (dirigente ou pessoa por ele delegada) da instituição de onde os dados provêm — exigível apenas para banco constituído fora do âmbito de pesquisa (origem não-investigativa: prontuários, registros, bases administrativas). Salvaguarda de Inavaliabilidade: nesse caso, sua ausência torna o protocolo \"não avaliável pela MARIAH\" (§7.3.6), sobrescrevendo a classificação e exigindo análise individualizada do CEP. Marque \"Não se aplica\" quando o banco foi constituído no âmbito de pesquisa — inclusive reuso de banco de pesquisa anterior do próprio pesquisador —, hipótese regida pelo Art. 24 (Termo de Compromisso de Uso de Dados), que não exige Anuência."
+          "dica": "Verifica o Termo de Anuência Institucional (Art. 27, VI da Res. CNS n.º 738/2024), assinado pelo responsável (dirigente ou pessoa por ele delegada) da instituição de onde os dados provêm — exigível apenas para banco constituído fora do âmbito de pesquisa (origem não-investigativa: prontuários, registros, bases administrativas). Salvaguarda de Inavaliabilidade: nesse caso, sua ausência torna o protocolo \"não avaliável pela MARIAH\" (§7.3.6), sobrescrevendo a classificação e exigindo análise individualizada do CEP. Marque \"Não se aplica\" quando o banco foi constituído no âmbito de pesquisa — inclusive reuso de banco de pesquisa anterior do próprio pesquisador —, hipótese regida pelo Art. 24 (Termo de Compromisso de Uso de Dados), que não exige Anuência.",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el banco fue constituido fuera del ámbito de investigación (origen no investigativo: historias clínicas, registros, bases administrativas): ¿hay Término de Anuencia Institucional (Art. 27, VI de la Res. CNS n.º 738/2024) firmado por el responsable (directivo o persona por él delegada) de la institución que posee los datos?",
+              "dica": "Verifica el Término de Anuencia Institucional (Art. 27, VI de la Res. CNS n.º 738/2024), firmado por el responsable (directivo o persona por él delegada) de la institución de donde provienen los datos — exigible solo para banco constituido fuera del ámbito de investigación (origen no investigativo: historias clínicas, registros, bases administrativas). Salvaguarda de Inevaluabilidad: en ese caso, su ausencia torna el protocolo «no evaluable por la MARIAH» (§7.3.6), sobrescribiendo la clasificación y exigiendo un análisis individualizado del CEP. Marque «No se aplica» cuando el banco fue constituido en el ámbito de investigación — incluido el reuso de un banco de investigación anterior del propio investigador —, hipótesis regida por el Art. 24 (Término de Compromiso de Uso de Datos), que no exige Anuencia."
+            }
+          }
         },
         {
           "id": "3.b.3",
           "pergunta": "O Termo de Compromisso de Uso de Dados (Arts. 24, V e 27, V), assinado pelos pesquisadores, consta do dossiê do protocolo?",
           "riskAnswer": "nao",
-          "dica": "Confirma o Termo de Compromisso de Uso de Dados, assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024), que assumem responsabilidade sobre finalidade, confidencialidade e descarte. É distinto do Termo de Anuência (3.b.2): o Compromisso é dos pesquisadores; a Anuência, do responsável (dirigente ou pessoa por ele delegada) da instituição detentora. No Eixo 3.b, uma única resposta de risco já eleva o eixo ao Nível III."
+          "dica": "Confirma o Termo de Compromisso de Uso de Dados, assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024), que assumem responsabilidade sobre finalidade, confidencialidade e descarte. É distinto do Termo de Anuência (3.b.2): o Compromisso é dos pesquisadores; a Anuência, do responsável (dirigente ou pessoa por ele delegada) da instituição detentora. No Eixo 3.b, uma única resposta de risco já eleva o eixo ao Nível III.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El Término de Compromiso de Uso de Datos (Arts. 24, V y 27, V), firmado por los investigadores, consta en el dosier del protocolo?",
+              "dica": "Confirma el Término de Compromiso de Uso de Datos, firmado por los investigadores (Arts. 24, V y 27, V de la Res. CNS n.º 738/2024), que asumen responsabilidad sobre finalidad, confidencialidad y eliminación. Es distinto del Término de Anuencia (3.b.2): el Compromiso es de los investigadores; la Anuencia, del responsable (directivo o persona por él delegada) de la institución que posee los datos. En el Eje 3.b, una única respuesta de riesgo ya eleva el eje al Nivel III."
+            }
+          }
         },
         {
           "id": "3.b.4",
           "pergunta": "Se há pedido de dispensa de TCLE para uso futuro de dados: o protocolo identifica a origem do banco e indica expressamente a hipótese invocada da Res. CNS n.º 738/2024, e a fundamenta? Para banco constituído fora do âmbito da pesquisa (art. 27), a única via é a anonimização pelo Controlador (art. 20, § 5.º). Para banco constituído no âmbito da pesquisa, o art. 25 admite quatro situações: (i) dados coletados originalmente sem identificação do participante; (ii) consentimento prévio do participante, manifestado em TCLE de pesquisa anterior, para uso em pesquisas futuras, na forma do art. 40, X, da Lei n.º 14.874/2024; (iii) compartilhamento de dados anonimizados pelo Controlador; (iv) anonimização irreversível dos dados no protocolo original, hipótese em que o dado deixa de ser dado pessoal (art. 12 da LGPD).",
           "riskAnswer": "nao",
           "dica": "A dispensa de TCLE para uso futuro não é automática: exige enquadramento na hipótese cabível segundo a origem do banco (Res. CNS n.º 738/2024). Banco constituído fora do âmbito da pesquisa → única via é a anonimização pelo Controlador (art. 20, § 5.º). Banco constituído no âmbito da pesquisa → art. 25, quatro situações. Justificativa genérica não basta.",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "Si hay una solicitud de dispensa del TCLE para uso futuro de datos: ¿el protocolo identifica el origen del banco e indica expresamente la hipótesis invocada de la Res. CNS n.º 738/2024, y la fundamenta? Para banco constituido fuera del ámbito de la investigación (art. 27), la única vía es la anonimización por el Controlador (art. 20, § 5.º). Para banco constituido en el ámbito de la investigación, el art. 25 admite cuatro situaciones: (i) datos recolectados originalmente sin identificación de la persona participante; (ii) consentimiento previo de la persona participante, manifestado en TCLE de una investigación anterior, para uso en investigaciones futuras, en la forma del art. 40, X, de la Ley n.º 14.874/2024; (iii) compartición de datos anonimizados por el Controlador; (iv) anonimización irreversible de los datos en el protocolo original, hipótesis en que el dato deja de ser dato personal (art. 12 de la LGPD).",
+              "dica": "La dispensa del TCLE para uso futuro no es automática: exige el encuadre en la hipótesis correspondiente según el origen del banco (Res. CNS n.º 738/2024). Banco constituido fuera del ámbito de la investigación → la única vía es la anonimización por el Controlador (art. 20, § 5.º). Banco constituido en el ámbito de la investigación → art. 25, cuatro situaciones. Una justificación genérica no basta."
+            }
+          }
         },
         {
           "id": "3.b.5",
           "pergunta": "Se o protocolo é multicêntrico, envolve mais de uma instituição ou prevê compartilhamento do banco com terceiros: há acordo formal de compartilhamento ou controladoria conjunta formalizada em Termo de Acordo Institucional (art. 3.º, XVI e § 2.º do art. 12)?",
           "riskAnswer": "nao",
-          "dica": "Em pesquisa multicêntrica, a controladoria conjunta dos dados deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III."
+          "dica": "Em pesquisa multicêntrica, a controladoria conjunta dos dados deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). No Eixo 3.b, uma única resposta de risco já leva o eixo ao Nível III.",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el protocolo es multicéntrico, involucra a más de una institución o prevé la compartición del banco con terceros: ¿hay un acuerdo formal de compartición o controladoría conjunta formalizada en Término de Acuerdo Institucional (art. 3.º, XVI y § 2.º del art. 12)?",
+              "dica": "En investigación multicéntrica, la controladoría conjunta de los datos debe estar formalizada en Término de Acuerdo Institucional (Art. 3.º, XVI y §2.º del Art. 12 de la Res. CNS n.º 738/2024). En el Eje 3.b, una única respuesta de riesgo ya lleva el eje al Nivel III."
+            }
+          }
         },
         {
           "id": "3.b.4.1",
@@ -436,7 +761,19 @@
                   }
                 ]
               }
-            ]
+            ],
+            "i18n": {
+              "es": {
+                "descricao": "Mostrar cuando hay solicitud de dispensa (3.b.4 ≠ N/A) y acceso a datos identificables (C.3/C.5)."
+              }
+            }
+          },
+          "i18n": {
+            "es": {
+              "pergunta": "Si hay una solicitud de dispensa del TCLE con acceso a datos identificables: ¿el acceso es indispensable para alcanzar los objetivos científicos de la investigación, o la misma finalidad podría lograrse mediante datos previamente anonimizados o pseudonimizados por la institución custodia?",
+              "dica": "Si la finalidad es alcanzable sin datos identificables y el protocolo aun así los requiere, el CEP lo devuelve para justificación o redireccionamiento a la anonimización por el Controlador (art. 20, § 5.º).",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
           }
         },
         {
@@ -457,7 +794,19 @@
                 "operador": "diferente",
                 "valor": "na"
               }
-            ]
+            ],
+            "i18n": {
+              "es": {
+                "descricao": "Mostrar solo cuando hay solicitud de dispensa del TCLE (3.b.4 ≠ «no se aplica»)."
+              }
+            }
+          },
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo cumple acumulativamente todos los criterios para la dispensa del TCLE en investigación con IA sobre bancos de datos? (i) datos secundarios obtenidos lícitamente; (ii) investigación retrospectiva, sin contacto con las personas participantes; (iii) imposibilidad práctica de obtención del TCLE debidamente justificada; (iv) riesgo mínimo para las personas participantes; (v) acceso a datos identificables limitado a lo estrictamente necesario, preferentemente datos pseudonimizados/anonimizados por la institución custodia; (vi) entorno seguro de procesamiento, con controles de acceso, auditoría y gobernanza; (vii) evaluación documentada del riesgo de reidentificación y de inferencia derivado del uso de la IA; (viii) inexistencia de decisiones o intervenciones individualizadas sobre las personas participantes con base en los resultados de la IA; (ix) finalidad científica delimitada, prohibido el entrenamiento de modelos de propósito general sin nueva apreciación ética.",
+              "dica": "El checklist no gradúa riesgo: verifica la admisibilidad de la dispensa. La puntuación del protocolo sigue por los demás bloques.",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
           }
         },
         {
@@ -468,9 +817,22 @@
           "eliminatorio": true,
           "naoPontuavel": true,
           "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
+          "refEliminatoria": "Res. CNS n.º 738/2024",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta una declaración del Controlador con el compromiso de anonimización de los datos antes de la puesta a disposición del banco?",
+              "dica": "Documento obligatorio del dosier de sumisión; la verificación es de presencia y validez de la declaración.",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 3.b: Bancos de Datos de Investigación (Res. CNS n.º 738/2024)",
+          "descricao": "Subsección aplicable cuando el protocolo utiliza bancos de datos (propios, de otra investigación o de institución externa). Deriva de la Resolución CNS n.º 738/2024 y complementa el Eje 3. Puede elevar el nivel consolidado del protocolo."
+        }
+      }
     },
     {
       "id": "eixo4",
@@ -481,51 +843,105 @@
           "id": "4.1",
           "pergunta": "Os dados de treinamento do modelo incluem representação adequada da diversidade da população-alvo deste protocolo — raça, etnia, gênero, faixa etária, região geográfica?",
           "riskAnswer": "nao",
-          "dica": "Se os dados de treinamento não representam a diversidade da população-alvo (raça/cor, etnia, gênero, idade, região), o modelo pode produzir resultados enviesados e discriminatórios para os subgrupos sub-representados."
+          "dica": "Se os dados de treinamento não representam a diversidade da população-alvo (raça/cor, etnia, gênero, idade, região), o modelo pode produzir resultados enviesados e discriminatórios para os subgrupos sub-representados.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento del modelo incluyen una representación adecuada de la diversidad de la población objetivo de este protocolo — raza, etnia, género, franja etaria, región geográfica?",
+              "dica": "Si los datos de entrenamiento no representan la diversidad de la población objetivo (raza/color, etnia, género, edad, región), el modelo puede producir resultados sesgados y discriminatorios para los subgrupos subrepresentados."
+            }
+          }
         },
         {
           "id": "4.2",
           "pergunta": "O modelo foi desenvolvido fora do Brasil para uso em população brasileira sem validação local documentada?",
           "riskAnswer": "sim",
-          "dica": "Um modelo desenvolvido fora do Brasil e usado em população brasileira sem validação local pode não refletir o perfil epidemiológico e socioeconômico nacional, degradando o desempenho real."
+          "dica": "Um modelo desenvolvido fora do Brasil e usado em população brasileira sem validação local pode não refletir o perfil epidemiológico e socioeconômico nacional, degradando o desempenho real.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El modelo fue desarrollado fuera de Brasil para uso en población brasileña sin validación local documentada?",
+              "dica": "Un modelo desarrollado fuera de Brasil y usado en población brasileña sin validación local puede no reflejar el perfil epidemiológico y socioeconómico nacional, degradando el desempeño real."
+            }
+          }
         },
         {
           "id": "4.3",
           "pergunta": "O protocolo apresenta avaliação de desempenho do modelo por subgrupos populacionais relevantes?",
           "riskAnswer": "nao",
-          "dica": "Sem avaliação de desempenho por subgrupos populacionais relevantes, disparidades que afetam grupos específicos passam despercebidas — o desempenho médio pode esconder falhas localizadas."
+          "dica": "Sem avaliação de desempenho por subgrupos populacionais relevantes, disparidades que afetam grupos específicos passam despercebidas — o desempenho médio pode esconder falhas localizadas.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta una evaluación del desempeño del modelo por subgrupos poblacionales relevantes?",
+              "dica": "Sin una evaluación del desempeño por subgrupos poblacionales relevantes, las disparidades que afectan a grupos específicos pasan desapercibidas — el desempeño medio puede ocultar fallas localizadas."
+            }
+          }
         },
         {
           "id": "4.4",
           "pergunta": "O modelo foi treinado predominantemente em dados de populações de alta renda ou de países do hemisfério norte?",
           "riskAnswer": "sim",
-          "dica": "Modelos treinados predominantemente em populações de alta renda ou do hemisfério norte podem não representar a realidade socioeconômica e epidemiológica brasileira."
+          "dica": "Modelos treinados predominantemente em populações de alta renda ou do hemisfério norte podem não representar a realidade socioeconômica e epidemiológica brasileira.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El modelo fue entrenado predominantemente con datos de poblaciones de altos ingresos o de países del hemisferio norte?",
+              "dica": "Los modelos entrenados predominantemente con poblaciones de altos ingresos o del hemisferio norte pueden no representar la realidad socioeconómica y epidemiológica brasileña."
+            }
+          }
         },
         {
           "id": "4.5",
           "pergunta": "O protocolo descreve os dados usados no treinamento do modelo: origem, período de coleta, critérios de inclusão e exclusão?",
           "riskAnswer": "nao",
-          "dica": "A descrição de origem, período de coleta e critérios de inclusão/exclusão dos dados de treinamento é o que permite avaliar a qualidade e a representatividade do modelo; sua ausência impede esse julgamento."
+          "dica": "A descrição de origem, período de coleta e critérios de inclusão/exclusão dos dados de treinamento é o que permite avaliar a qualidade e a representatividade do modelo; sua ausência impede esse julgamento.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe los datos usados en el entrenamiento del modelo: origen, período de recolección, criterios de inclusión y exclusión?",
+              "dica": "La descripción de origen, período de recolección y criterios de inclusión/exclusión de los datos de entrenamiento es lo que permite evaluar la calidad y la representatividad del modelo; su ausencia impide ese juicio."
+            }
+          }
         },
         {
           "id": "4.6",
           "pergunta": "Os dados de teste do modelo são independentes dos dados de treinamento?",
           "riskAnswer": "nao",
-          "dica": "Se os dados de teste não são independentes dos de treinamento, o desempenho relatado tende a ser superestimado e não se confirma no uso real."
+          "dica": "Se os dados de teste não são independentes dos de treinamento, o desempenho relatado tende a ser superestimado e não se confirma no uso real.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de prueba del modelo son independientes de los datos de entrenamiento?",
+              "dica": "Si los datos de prueba no son independientes de los de entrenamiento, el desempeño reportado tiende a ser sobreestimado y no se confirma en el uso real."
+            }
+          }
         },
         {
           "id": "4.7",
           "pergunta": "O protocolo prevê monitoramento de degradação de desempenho do modelo ao longo do tempo (deriva de dados-data drift) caso seja utilizado em contexto de aplicação continuada?",
           "riskAnswer": "nao",
-          "dica": "Em uso continuado, sem monitorar a deriva de dados (data drift) o modelo pode degradar silenciosamente, gerando resultados cada vez menos confiáveis sem que a equipe perceba."
+          "dica": "Em uso continuado, sem monitorar a deriva de dados (data drift) o modelo pode degradar silenciosamente, gerando resultados cada vez menos confiáveis sem que a equipe perceba.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé el monitoreo de la degradación del desempeño del modelo a lo largo del tiempo (deriva de datos-data drift) en caso de ser utilizado en un contexto de aplicación continuada?",
+              "dica": "En uso continuado, sin monitorear la deriva de datos (data drift) el modelo puede degradarse silenciosamente, generando resultados cada vez menos confiables sin que el equipo lo perciba."
+            }
+          }
         },
         {
           "id": "4.8",
           "pergunta": "O desempenho do modelo foi validado em contexto assistencial comparável ao SUS ou ao sistema de saúde em que será utilizado?",
           "riskAnswer": "nao",
-          "dica": "Validação em contexto diferente não garante desempenho adequado no cenário real de uso; a aderência ao contexto assistencial (ex.: SUS) é o que sustenta a transferibilidade."
+          "dica": "Validação em contexto diferente não garante desempenho adequado no cenário real de uso; a aderência ao contexto assistencial (ex.: SUS) é o que sustenta a transferibilidade.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El desempeño del modelo fue validado en un contexto asistencial comparable al SUS o al sistema de salud en que será utilizado?",
+              "dica": "La validación en un contexto diferente no garantiza un desempeño adecuado en el escenario real de uso; la adherencia al contexto asistencial (ej.: SUS) es lo que sustenta la transferibilidad."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 4: Representatividad y Transferibilidad",
+          "descricao": "Evalúa si los datos de entrenamiento representan adecuadamente a la población objetivo y si el modelo fue validado en el contexto de uso."
+        }
+      }
     },
     {
       "id": "eixo5",
@@ -536,51 +952,105 @@
           "id": "5.1",
           "pergunta": "O protocolo garante que um pesquisador habilitado revisa e pode contestar toda decisão gerada pelo sistema antes de sua execução?",
           "riskAnswer": "nao",
-          "dica": "Sem revisão humana obrigatória (human-in-the-loop) que possa contestar a decisão antes da execução, o participante fica exposto a erros sem barreira de segurança."
+          "dica": "Sem revisão humana obrigatória (human-in-the-loop) que possa contestar a decisão antes da execução, o participante fica exposto a erros sem barreira de segurança.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo garantiza que un investigador habilitado revisa y puede cuestionar toda decisión generada por el sistema antes de su ejecución?",
+              "dica": "Sin una revisión humana obligatoria (human-in-the-loop) que pueda cuestionar la decisión antes de la ejecución, la persona participante queda expuesta a errores sin barrera de seguridad."
+            }
+          }
         },
         {
           "id": "5.2",
           "pergunta": "O sistema opera como único determinante de uma decisão — sem revisão humana obrigatória?",
           "riskAnswer": "sim",
-          "dica": "Quando o sistema opera como único determinante da decisão, sem revisão humana obrigatória, atinge-se o maior nível de risco para o participante."
+          "dica": "Quando o sistema opera como único determinante da decisão, sem revisão humana obrigatória, atinge-se o maior nível de risco para o participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema opera como único determinante de una decisión — sin revisión humana obligatoria?",
+              "dica": "Cuando el sistema opera como único determinante de la decisión, sin revisión humana obligatoria, se alcanza el mayor nivel de riesgo para la persona participante."
+            }
+          }
         },
         {
           "id": "5.3",
           "pergunta": "O protocolo define responsabilidade humana clara em caso de erro ou dano decorrente do uso do sistema?",
           "riskAnswer": "nao",
-          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que enfraquece a proteção do participante."
+          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que enfraquece a proteção do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define una responsabilidad humana clara en caso de error o daño derivado del uso del sistema?",
+              "dica": "Sin una responsabilidad humana clara en caso de error o daño, se instala una zona de impunidad que debilita la protección de la persona participante."
+            }
+          }
         },
         {
           "id": "5.4",
           "pergunta": "A equipe responsável pelo estudo tem competência técnica suficiente para interpretar os resultados do sistema e identificar falhas?",
           "riskAnswer": "nao",
-          "dica": "Sem competência técnica para interpretar resultados e identificar falhas, a equipe não exerce supervisão real sobre o sistema."
+          "dica": "Sem competência técnica para interpretar resultados e identificar falhas, a equipe não exerce supervisão real sobre o sistema.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El equipo responsable del estudio tiene competencia técnica suficiente para interpretar los resultados del sistema e identificar fallas?",
+              "dica": "Sin competencia técnica para interpretar resultados e identificar fallas, el equipo no ejerce una supervisión real sobre el sistema."
+            }
+          }
         },
         {
           "id": "5.5",
           "pergunta": "O sistema fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que influenciaram aquele resultado?",
           "riskAnswer": "nao",
-          "dica": "Sem uma explicação compreensível junto a cada resultado, a supervisão humana e a detecção de vieses ficam prejudicadas."
+          "dica": "Sem uma explicação compreensível junto a cada resultado, a supervisão humana e a detecção de vieses ficam prejudicadas.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema proporciona, junto a cada resultado, una explicación comprensible sobre los factores que influyeron en ese resultado?",
+              "dica": "Sin una explicación comprensible junto a cada resultado, la supervisión humana y la detección de sesgos se ven perjudicadas."
+            }
+          }
         },
         {
           "id": "5.6",
           "pergunta": "O protocolo prevê monitoramento contínuo do desempenho do sistema após o início do uso, com critérios definidos para interrupção?",
           "riskAnswer": "nao",
-          "dica": "Sem monitoramento contínuo e critérios definidos de interrupção, o sistema pode degradar sem detecção, mantendo participantes expostos. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado."
+          "dica": "Sem monitoramento contínuo e critérios definidos de interrupção, o sistema pode degradar sem detecção, mantendo participantes expostos. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un monitoreo continuo del desempeño del sistema tras el inicio del uso, con criterios definidos para la interrupción?",
+              "dica": "Sin un monitoreo continuo y criterios definidos de interrupción, el sistema puede degradarse sin detección, manteniendo a las personas participantes expuestas. Nota (F-25): el plan debe nombrar el mínimo esperado — métrica(s) de desempeño (incluyendo, cuando corresponda, estratificadas por subgrupo, ver 4.3/P3.6), umbral de alerta, periodicidad de medición y responsable — y prever una respuesta proporcional graduada al deterioro (alerta → restricción de uso → suspensión), con escalamiento documentado."
+            }
+          }
         },
         {
           "id": "5.7",
           "pergunta": "Existe procedimento documentado para o caso de falha, indisponibilidade ou resultado inconsistente do sistema durante o estudo?",
           "riskAnswer": "nao",
-          "dica": "Sem procedimento documentado para falha, indisponibilidade ou resultado inconsistente, decisões passam a ser improvisadas em momentos críticos."
+          "dica": "Sem procedimento documentado para falha, indisponibilidade ou resultado inconsistente, decisões passam a ser improvisadas em momentos críticos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Existe un procedimiento documentado para el caso de falla, indisponibilidad o resultado inconsistente del sistema durante el estudio?",
+              "dica": "Sin un procedimiento documentado para falla, indisponibilidad o resultado inconsistente, las decisiones pasan a ser improvisadas en momentos críticos."
+            }
+          }
         },
         {
           "id": "5.8",
           "pergunta": "O protocolo prevê como e quando o modelo será retreinado, e quem autoriza essa atualização?",
           "riskAnswer": "nao",
-          "dica": "Sem definir como, quando e quem autoriza o retreinamento, o comportamento do sistema pode mudar de forma imprevisível ao longo do estudo. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório."
+          "dica": "Sem definir como, quando e quem autoriza o retreinamento, o comportamento do sistema pode mudar de forma imprevisível ao longo do estudo. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé cómo y cuándo el modelo será reentrenado, y quién autoriza esa actualización?",
+              "dica": "Sin definir cómo, cuándo y quién autoriza el reentrenamiento, el comportamiento del sistema puede cambiar de forma imprevisible a lo largo del estudio. Nota (F-24): se acepta como evidencia un plan de gestión de cambios preaprobado que evalúe el impacto de actualizaciones, recalibraciones o sustituciones sobre las personas participantes, los resultados y los riesgos éticos, y defina un criterio para distinguir una alteración menor de un cambio que exige comunicación o enmienda ética al CEP (umbrales predeterminados) — sin perjuicio del plan de nuevo consentimiento (2.10/P2.8), que permanece eliminatorio."
+            }
+          }
         }
-      ]
+      ],
+      "i18n": {
+        "es": {
+          "nome": "Eje 5: Supervisión Humana y Explicabilidad",
+          "descricao": "Evalúa la existencia de mecanismos de supervisión humana, explicabilidad del sistema y procedimientos de contingencia."
+        }
+      }
     }
   ],
   "quantitativeBlocks": [
@@ -594,52 +1064,100 @@
           "pergunta": "O protocolo descreve com precisão o sistema de IA utilizado — nome, versão, fabricante ou desenvolvedor, e finalidade?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "A descrição precisa do sistema (nome, versão, fabricante/desenvolvedor, finalidade) é a base para a avaliação ética e para a responsabilização; sem ela, não há o que auditar."
+          "dica": "A descrição precisa do sistema (nome, versão, fabricante/desenvolvedor, finalidade) é a base para a avaliação ética e para a responsabilização; sem ela, não há o que auditar.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe con precisión el sistema de IA utilizado — nombre, versión, fabricante o desarrollador, y finalidad?",
+              "dica": "La descripción precisa del sistema (nombre, versión, fabricante/desarrollador, finalidad) es la base para la evaluación ética y para la responsabilización; sin ella, no hay qué auditar."
+            }
+          }
         },
         {
           "id": "P1.2",
           "pergunta": "O protocolo justifica a escolha do sistema de IA em relação a alternativas metodológicas disponíveis?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Justificar a escolha do sistema frente a alternativas metodológicas demonstra que o uso de IA é necessário e proporcional, não arbitrário."
+          "dica": "Justificar a escolha do sistema frente a alternativas metodológicas demonstra que o uso de IA é necessário e proporcional, não arbitrário.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo justifica la elección del sistema de IA en relación con alternativas metodológicas disponibles?",
+              "dica": "Justificar la elección del sistema frente a alternativas metodológicas demuestra que el uso de IA es necesario y proporcional, no arbitrario."
+            }
+          }
         },
         {
           "id": "P1.3",
           "pergunta": "A equipe responsável inclui ao menos um membro com competência técnica para interpretar os resultados do sistema e identificar falhas?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Sem ao menos um membro com competência técnica para interpretar resultados e identificar falhas, a supervisão da equipe é insuficiente."
+          "dica": "Sem ao menos um membro com competência técnica para interpretar resultados e identificar falhas, a supervisão da equipe é insuficiente.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El equipo responsable incluye al menos un miembro con competencia técnica para interpretar los resultados del sistema e identificar fallas?",
+              "dica": "Sin al menos un miembro con competencia técnica para interpretar resultados e identificar fallas, la supervisión del equipo es insuficiente."
+            }
+          }
         },
         {
           "id": "P1.4",
           "pergunta": "O protocolo descreve o estágio de desenvolvimento do sistema — Descoberta (Discovery), Translação (Translation) ou Implantação (Deployment)?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Informar o estágio de desenvolvimento (Descoberta, Translação ou Implantação) é o que permite calibrar a incerteza esperada sobre o desempenho do sistema."
+          "dica": "Informar o estágio de desenvolvimento (Descoberta, Translação ou Implantação) é o que permite calibrar a incerteza esperada sobre o desempenho do sistema.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe la etapa de desarrollo del sistema — Descubrimiento (Discovery), Traslación (Translation) o Implementación (Deployment)?",
+              "dica": "Informar la etapa de desarrollo (Descubrimiento, Traslación o Implementación) es lo que permite calibrar la incertidumbre esperada sobre el desempeño del sistema."
+            }
+          }
         },
         {
           "id": "P1.5",
           "pergunta": "O protocolo apresenta o contexto de uso definido — papel do sistema, escopo da decisão e fontes de evidência complementares?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Delimitar papel do sistema, escopo da decisão e fontes de evidência complementares é o que define o alcance e os riscos do uso; sem isso, o uso fica indefinido."
+          "dica": "Delimitar papel do sistema, escopo da decisão e fontes de evidência complementares é o que define o alcance e os riscos do uso; sem isso, o uso fica indefinido.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta el contexto de uso definido — papel del sistema, alcance de la decisión y fuentes de evidencia complementarias?",
+              "dica": "Delimitar el papel del sistema, el alcance de la decisión y las fuentes de evidencia complementarias es lo que define el alcance y los riesgos del uso; sin ello, el uso queda indefinido."
+            }
+          }
         },
         {
           "id": "P1.6",
           "pergunta": "O TCLE menciona de forma compreensível que um sistema de IA será utilizado e qual é o seu papel no estudo?",
           "riskAnswer": "nao",
           "pontos": 3,
-          "dica": "Mencionar no TCLE, de forma compreensível, que um sistema de IA será usado e qual o seu papel é requisito ético de transparência e autonomia."
+          "dica": "Mencionar no TCLE, de forma compreensível, que um sistema de IA será usado e qual o seu papel é requisito ético de transparência e autonomia.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El TCLE menciona de forma comprensible que un sistema de IA será utilizado y cuál es su papel en el estudio?",
+              "dica": "Mencionar en el TCLE, de forma comprensible, que un sistema de IA será usado y cuál es su papel es un requisito ético de transparencia y autonomía."
+            }
+          }
         },
         {
           "id": "P1.7",
           "pergunta": "O protocolo foi submetido a consulta ou parecer técnico externo sobre o uso do sistema de IA?",
           "riskAnswer": "nao",
           "pontos": 4,
-          "dica": "Um parecer técnico externo adiciona uma camada de verificação independente sobre o uso do sistema, reduzindo pontos cegos da equipe proponente."
+          "dica": "Um parecer técnico externo adiciona uma camada de verificação independente sobre o uso do sistema, reduzindo pontos cegos da equipe proponente.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo fue sometido a consulta o dictamen técnico externo sobre el uso del sistema de IA?",
+              "dica": "Un dictamen técnico externo añade una capa de verificación independiente sobre el uso del sistema, reduciendo puntos ciegos del equipo proponente."
+            }
+          }
         }
       ],
-      "maxPontos": 22
+      "maxPontos": 22,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 1: Proyecto",
+          "descricao": "Evalúa la calidad de la documentación del protocolo y la preparación del equipo para el uso del sistema de IA."
+        }
+      }
     },
     {
       "id": "bloco2",
@@ -652,7 +1170,13 @@
           "riskAnswer": "sim",
           "pontos": 3,
           "dica": "Sistemas que decidem ou recomendam sem intervenção humana obrigatória antes da execução elevam o risco, pois removem a barreira de segurança entre recomendação e ação.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema toma decisiones o emite recomendaciones sin intervención humana obligatoria antes de la ejecución?",
+              "dica": "Los sistemas que deciden o recomiendan sin intervención humana obligatoria antes de la ejecución elevan el riesgo, pues eliminan la barrera de seguridad entre recomendación y acción."
+            }
+          }
         },
         {
           "id": "P2.2",
@@ -660,7 +1184,13 @@
           "riskAnswer": "sim",
           "pontos": 3,
           "dica": "Sistemas adaptativos podem mudar de comportamento ao aprender com novos dados durante o estudo, introduzindo incerteza sobre os resultados gerados. Sistema adaptativo altera, durante o estudo, o próprio objeto sobre o qual o participante consentiu. O protocolo deve definir um limiar de mudança (de desempenho ou de comportamento do sistema) que, quando ultrapassado, dispara a obtenção de novo consentimento e a comunicação ao CEP. Sem esse plano, o consentimento obtido no início perde validade contínua (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa). Nota (F-27): a verificação abrange atualizações, recalibrações e substituições do sistema, durante o estudo ou após o seu encerramento; se o aprendizado continua após o encerramento, verificar 5.8/P7.7 (retreinamento autorizado) e o plano de novo consentimento (2.10/P2.8).",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es adaptativo — aprende o se actualiza con nuevos datos durante la conducción del estudio o después de su finalización?",
+              "dica": "Los sistemas adaptativos pueden cambiar de comportamiento al aprender con nuevos datos durante el estudio, introduciendo incertidumbre sobre los resultados generados. Un sistema adaptativo altera, durante el estudio, el propio objeto sobre el cual la persona participante consintió. El protocolo debe definir un umbral de cambio (de desempeño o de comportamiento del sistema) que, al ser superado, dispara la obtención de nuevo consentimiento y la comunicación al CEP. Sin ese plan, el consentimiento obtenido al inicio pierde validez continua (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa). Nota (F-27): la verificación abarca actualizaciones, recalibraciones y sustituciones del sistema, durante el estudio o después de su finalización; si el aprendizaje continúa después de la finalización, verificar 5.8/P7.7 (reentrenamiento autorizado) y el plan de nuevo consentimiento (2.10/P2.8)."
+            }
+          }
         },
         {
           "id": "P2.3",
@@ -668,35 +1198,65 @@
           "riskAnswer": "sim",
           "pontos": 3,
           "dica": "Sistemas caixa-preta, sem explicação dos fatores de cada resultado, impedem supervisão eficaz e a identificação de vieses.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema opera como caja negra: sin posibilidad de explicar los factores que determinaron cada resultado?",
+              "dica": "Los sistemas de caja negra, sin explicación de los factores de cada resultado, impiden una supervisión eficaz y la identificación de sesgos."
+            }
+          }
         },
         {
           "id": "P2.4",
           "pergunta": "O sistema foi submetido a testes de desempenho documentados antes do uso no protocolo?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de segurança e eficácia no contexto proposto."
+          "dica": "Sem testes de desempenho documentados antes do uso, não há evidência de segurança e eficácia no contexto proposto.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema fue sometido a pruebas de desempeño documentadas antes del uso en el protocolo?",
+              "dica": "Sin pruebas de desempeño documentadas antes del uso, no hay evidencia de seguridad y eficacia en el contexto propuesto."
+            }
+          }
         },
         {
           "id": "P2.5",
           "pergunta": "O sistema é explicável: fornece, junto a cada resultado, uma explicação compreensível sobre os fatores que o influenciaram?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A explicação compreensível junto a cada resultado é o que viabiliza uma supervisão humana eficaz; sua ausência caracteriza o risco."
+          "dica": "A explicação compreensível junto a cada resultado é o que viabiliza uma supervisão humana eficaz; sua ausência caracteriza o risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es explicable: proporciona, junto a cada resultado, una explicación comprensible sobre los factores que lo influyeron?",
+              "dica": "La explicación comprensible junto a cada resultado es lo que viabiliza una supervisión humana eficaz; su ausencia caracteriza el riesgo."
+            }
+          }
         },
         {
           "id": "P2.6",
           "pergunta": "O protocolo define claramente o que acontece quando a decisão do sistema diverge do julgamento humano?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem regra para quando a decisão do sistema diverge do julgamento humano, cria-se zona cinzenta de responsabilidade."
+          "dica": "Sem regra para quando a decisão do sistema diverge do julgamento humano, cria-se zona cinzenta de responsabilidade.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define claramente qué ocurre cuando la decisión del sistema diverge del juicio humano?",
+              "dica": "Sin una regla para cuando la decisión del sistema diverge del juicio humano, se crea una zona gris de responsabilidad."
+            }
+          }
         },
         {
           "id": "P2.7",
           "pergunta": "O protocolo descreve a arquitetura do sistema — tipo de modelo, dados de entrada e saída, método de treinamento?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A descrição da arquitetura (tipo de modelo, dados de entrada e saída, método de treinamento) é a base da avaliação técnica; sem ela, o sistema não é auditável."
+          "dica": "A descrição da arquitetura (tipo de modelo, dados de entrada e saída, método de treinamento) é a base da avaliação técnica; sem ela, o sistema não é auditável.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe la arquitectura del sistema — tipo de modelo, datos de entrada y salida, método de entrenamiento?",
+              "dica": "La descripción de la arquitectura (tipo de modelo, datos de entrada y salida, método de entrenamiento) es la base de la evaluación técnica; sin ella, el sistema no es auditable."
+            }
+          }
         },
         {
           "id": "P2.8",
@@ -707,10 +1267,23 @@
           "hasNaOption": true,
           "dica": "Sistema adaptativo é aquele que continua aprendendo ou muda de comportamento durante o estudo — por exemplo, um modelo que se reajusta com novos dados (aprendizado contínuo), em vez de permanecer \"congelado\" após a validação. Por que novo consentimento: o participante consentiu com um sistema que funcionava de certo modo; se ele muda de forma relevante, mudam os riscos e a própria natureza do que foi aceito — então a autonomia exige informá-lo e obter novo consentimento. Por isso se pede um plano com limiar de mudança definido, procedimento e responsável. Item de diligência com efeito impeditivo (NÃO pontua — não altera o escore nem o teto). Aplicável quando o sistema é adaptativo (P2.2 = Sim); marque \"Não se aplica\" quando P2.2 = Não. A obtenção de novo consentimento é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e, por isso, não é compensável por pontos no modelo aditivo. Ausente o plano, o dossiê é devolvido para complementação (mesmo mecanismo do Termo de Anuência ausente, P6.b.2); persistindo a falta, o protocolo não recebe parecer de aprovação.",
           "motivoEliminatorio": "ausência de plano de novo consentimento para sistema adaptativo (P2.2 = Sim). A obtenção de novo consentimento diante de mudança relevante do sistema é exigência legal (Lei n.º 14.874/2024 — consentimento prévio; LGPD — autodeterminação informativa) e não é compensável por pontuação. O dossiê deve ser devolvido para complementação (diligência obrigatória); persistindo a ausência, o protocolo não recebe parecer de aprovação.",
-          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD"
+          "refEliminatoria": "Lei n.º 14.874/2024 · LGPD",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el sistema es adaptativo (P2.2 = Sí): ¿el protocolo presenta un plan de nuevo consentimiento — con umbral definido, procedimiento y responsable — para el caso de que el sistema se actualice o cambie de comportamiento durante el estudio?",
+              "dica": "Un sistema adaptativo es aquel que continúa aprendiendo o cambia de comportamiento durante el estudio — por ejemplo, un modelo que se reajusta con nuevos datos (aprendizaje continuo), en vez de permanecer «congelado» tras la validación. Por qué nuevo consentimiento: la persona participante consintió con un sistema que funcionaba de cierto modo; si cambia de forma relevante, cambian los riesgos y la propia naturaleza de lo que se aceptó — entonces la autonomía exige informarla y obtener nuevo consentimiento. Por eso se pide un plan con umbral de cambio definido, procedimiento y responsable. Ítem de diligencia con efecto impeditivo (NO puntúa — no altera la puntuación ni el techo). Aplicable cuando el sistema es adaptativo (P2.2 = Sí); marque «No se aplica» cuando P2.2 = No. La obtención de nuevo consentimiento es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y, por ello, no es compensable por puntos en el modelo aditivo. Ausente el plan, el dosier es devuelto para complementación (mismo mecanismo del Término de Anuencia ausente, P6.b.2); si persiste la falta, el protocolo no recibe dictamen de aprobación.",
+              "motivoEliminatorio": "ausencia de plan de nuevo consentimiento para sistema adaptativo (P2.2 = Sí). La obtención de nuevo consentimiento ante un cambio relevante del sistema es una exigencia legal (Ley n.º 14.874/2024 — consentimiento previo; LGPD — autodeterminación informativa) y no es compensable por puntuación. El dosier debe ser devuelto para complementación (diligencia obligatoria); si persiste la ausencia, el protocolo no recibe dictamen de aprobación."
+            }
+          }
         }
       ],
-      "maxPontos": 17
+      "maxPontos": 17,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 2: Sistema",
+          "descricao": "Evalúa las características técnicas del sistema de IA, incluyendo autonomía, adaptabilidad y transparencia."
+        }
+      }
     },
     {
       "id": "bloco3",
@@ -722,52 +1295,100 @@
           "pergunta": "O modelo foi desenvolvido fora do Brasil para uso em população brasileira sem validação local documentada?",
           "riskAnswer": "sim",
           "pontos": 2,
-          "dica": "Modelos desenvolvidos fora do Brasil e usados em população brasileira sem validação local podem não ser adequados à realidade nacional."
+          "dica": "Modelos desenvolvidos fora do Brasil e usados em população brasileira sem validação local podem não ser adequados à realidade nacional.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El modelo fue desarrollado fuera de Brasil para uso en población brasileña sin validación local documentada?",
+              "dica": "Los modelos desarrollados fuera de Brasil y usados en población brasileña sin validación local pueden no ser adecuados a la realidad nacional."
+            }
+          }
         },
         {
           "id": "P3.2",
           "pergunta": "Os dados de treinamento do modelo foram coletados predominantemente em populações de alta renda ou do hemisfério norte?",
           "riskAnswer": "sim",
           "pontos": 2,
-          "dica": "Dados de treinamento de populações de alta renda ou do hemisfério norte podem não representar o perfil socioeconômico e epidemiológico brasileiro."
+          "dica": "Dados de treinamento de populações de alta renda ou do hemisfério norte podem não representar o perfil socioeconômico e epidemiológico brasileiro.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento del modelo fueron recolectados predominantemente en poblaciones de altos ingresos o del hemisferio norte?",
+              "dica": "Los datos de entrenamiento de poblaciones de altos ingresos o del hemisferio norte pueden no representar el perfil socioeconómico y epidemiológico brasileño."
+            }
+          }
         },
         {
           "id": "P3.3",
           "pergunta": "Os dados de treinamento incluem representação adequada da diversidade da população-alvo deste protocolo: raça/cor, etnia, orientação sexual, gênero, faixa etária, região geográfica?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem representação adequada da diversidade da população-alvo (raça/cor, etnia, orientação sexual, gênero, idade, região), o modelo pode gerar resultados enviesados e discriminatórios."
+          "dica": "Sem representação adequada da diversidade da população-alvo (raça/cor, etnia, orientação sexual, gênero, idade, região), o modelo pode gerar resultados enviesados e discriminatórios.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento incluyen una representación adecuada de la diversidad de la población objetivo de este protocolo: raza/color, etnia, orientación sexual, género, franja etaria, región geográfica?",
+              "dica": "Sin una representación adecuada de la diversidad de la población objetivo (raza/color, etnia, orientación sexual, género, edad, región), el modelo puede generar resultados sesgados y discriminatorios."
+            }
+          }
         },
         {
           "id": "P3.4",
           "pergunta": "Os dados de teste do modelo são independentes dos dados de treinamento?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Dados de teste não independentes dos de treinamento tendem a superestimar o desempenho do modelo."
+          "dica": "Dados de teste não independentes dos de treinamento tendem a superestimar o desempenho do modelo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de prueba del modelo son independientes de los datos de entrenamiento?",
+              "dica": "Los datos de prueba no independientes de los de entrenamiento tienden a sobreestimar el desempeño del modelo."
+            }
+          }
         },
         {
           "id": "P3.5",
           "pergunta": "O protocolo descreve os dados usados no treinamento: origem, período de coleta, critérios de inclusão e exclusão?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A descrição de origem, período e critérios de inclusão/exclusão dos dados de treinamento é essencial para avaliar a qualidade do modelo."
+          "dica": "A descrição de origem, período e critérios de inclusão/exclusão dos dados de treinamento é essencial para avaliar a qualidade do modelo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe los datos usados en el entrenamiento: origen, período de recolección, criterios de inclusión y exclusión?",
+              "dica": "La descripción de origen, período y criterios de inclusión/exclusión de los datos de entrenamiento es esencial para evaluar la calidad del modelo."
+            }
+          }
         },
         {
           "id": "P3.6",
           "pergunta": "O protocolo apresenta avaliação de desempenho do modelo por subgrupos populacionais relevantes?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem avaliação por subgrupos populacionais relevantes, disparidades de desempenho que afetam grupos específicos não são identificadas."
+          "dica": "Sem avaliação por subgrupos populacionais relevantes, disparidades de desempenho que afetam grupos específicos não são identificadas.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta una evaluación del desempeño del modelo por subgrupos poblacionales relevantes?",
+              "dica": "Sin una evaluación por subgrupos poblacionales relevantes, las disparidades de desempeño que afectan a grupos específicos no se identifican."
+            }
+          }
         },
         {
           "id": "P3.7",
           "pergunta": "O desempenho do modelo foi validado em contexto assistencial comparável ao SUS ou ao sistema de saúde em que será utilizado?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "A validação em contexto assistencial comparável (ex.: SUS) é o que assegura a adequação do modelo ao cenário real de uso."
+          "dica": "A validação em contexto assistencial comparável (ex.: SUS) é o que assegura a adequação do modelo ao cenário real de uso.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El desempeño del modelo fue validado en un contexto asistencial comparable al SUS o al sistema de salud en que será utilizado?",
+              "dica": "La validación en un contexto asistencial comparable (ej.: SUS) es lo que asegura la adecuación del modelo al escenario real de uso."
+            }
+          }
         }
       ],
-      "maxPontos": 14
+      "maxPontos": 14,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 3: Algoritmo",
+          "descricao": "Evalúa el origen y la representatividad de los datos de entrenamiento, así como la validación del modelo."
+        }
+      }
     },
     {
       "id": "bloco4",
@@ -780,24 +1401,49 @@
           "pergunta": "O sistema é o único determinante de uma decisão que afeta diretamente o participante — sem revisão humana obrigatória?",
           "riskAnswer": "sim",
           "pontos": 3,
-          "dica": "Verifica se o sistema é o único determinante de uma decisão que afeta o participante, sem revisão humana obrigatória — o que remove a barreira de segurança humana. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma, qualquer que seja a pontuação dos demais blocos."
+          "dica": "Verifica se o sistema é o único determinante de uma decisão que afeta o participante, sem revisão humana obrigatória — o que remove a barreira de segurança humana. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma, qualquer que seja a pontuação dos demais blocos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema es el único determinante de una decisión que afecta directamente a la persona participante — sin revisión humana obligatoria?",
+              "dica": "Verifica si el sistema es el único determinante de una decisión que afecta a la persona participante, sin revisión humana obligatoria — lo que elimina la barrera de seguridad humana. Salvaguarda Decisoria (Cláusula de Primacía Ética): responder «Sí» fuerza el protocolo al Nivel IV, sobrescribiendo la suma, cualquiera que sea la puntuación de los demás bloques."
+            }
+          }
         },
         {
           "id": "P4.2",
           "pergunta": "Em caso de erro do sistema, o dano ao participante seria irreversível ou de difícil reparação?",
           "riskAnswer": "sim",
           "pontos": 3,
-          "dica": "Avalia se um erro do sistema poderia causar dano irreversível ou de difícil reparação ao participante — o patamar mais alto de risco. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma."
+          "dica": "Avalia se um erro do sistema poderia causar dano irreversível ou de difícil reparação ao participante — o patamar mais alto de risco. Salvaguarda Decisória (Cláusula de Prevalência Ética): responder \"Sim\" força o protocolo ao Nível IV, sobrescrevendo a soma.",
+          "i18n": {
+            "es": {
+              "pergunta": "En caso de error del sistema, ¿el daño a la persona participante sería irreversible o de difícil reparación?",
+              "dica": "Evalúa si un error del sistema podría causar un daño irreversible o de difícil reparación a la persona participante — el nivel más alto de riesgo. Salvaguarda Decisoria (Cláusula de Primacía Ética): responder «Sí» fuerza el protocolo al Nivel IV, sobrescribiendo la suma."
+            }
+          }
         },
         {
           "id": "P4.3",
           "pergunta": "O pesquisador tem acesso às informações necessárias para contestar a recomendação do sistema antes de sua execução?",
           "riskAnswer": "nao",
           "pontos": 2,
-          "dica": "Sem acesso às informações necessárias para contestar a recomendação antes da execução, a supervisão humana é apenas simbólica — não consegue barrar um erro."
+          "dica": "Sem acesso às informações necessárias para contestar a recomendação antes da execução, a supervisão humana é apenas simbólica — não consegue barrar um erro.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El investigador tiene acceso a la información necesaria para cuestionar la recomendación del sistema antes de su ejecución?",
+              "dica": "Sin acceso a la información necesaria para cuestionar la recomendación antes de la ejecución, la supervisión humana es apenas simbólica — no logra frenar un error."
+            }
+          }
         }
       ],
-      "maxPontos": 8
+      "maxPontos": 8,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 4: Decisión",
+          "descricao": "Evalúa si el sistema es el único determinante de decisiones y la irreversibilidad de los daños potenciales. Este es un bloque CRÍTICO.",
+          "subtitulo": "⚠️ BLOQUE CRÍTICO — Cláusula de Primacía Ética"
+        }
+      }
     },
     {
       "id": "bloco5",
@@ -809,63 +1455,117 @@
           "pergunta": "O sistema influencia diretamente decisões clínicas ou terapêuticas sobre o participante?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se converte em conduta inadequada sobre o participante — maior potencial de dano."
+          "dica": "Quando o sistema influencia diretamente decisões clínicas ou terapêuticas, um erro se converte em conduta inadequada sobre o participante — maior potencial de dano.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema influye directamente en decisiones clínicas o terapéuticas sobre la persona participante?",
+              "dica": "Cuando el sistema influye directamente en decisiones clínicas o terapéuticas, un error se convierte en una conducta inadecuada sobre la persona participante — mayor potencial de daño."
+            }
+          }
         },
         {
           "id": "P5.2",
           "pergunta": "O sistema pode causar dano físico ao participante em caso de erro?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança."
+          "dica": "A possibilidade de dano físico em caso de erro é a forma mais grave de impacto e exige mecanismos robustos de segurança.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño físico a la persona participante en caso de error?",
+              "dica": "La posibilidad de daño físico en caso de error es la forma más grave de impacto y exige mecanismos robustos de seguridad."
+            }
+          }
         },
         {
           "id": "P5.3",
           "pergunta": "O sistema pode causar dano psíquico, social ou econômico ao participante em caso de erro?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são relevantes, sobretudo quando afetam a vida social ou a renda do participante."
+          "dica": "Danos não físicos — psíquicos, sociais ou econômicos — também são relevantes, sobretudo quando afetam a vida social ou a renda do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema puede causar daño psíquico, social o económico a la persona participante en caso de error?",
+              "dica": "Los daños no físicos — psíquicos, sociales o económicos — también son relevantes, sobre todo cuando afectan la vida social o los ingresos de la persona participante."
+            }
+          }
         },
         {
           "id": "P5.4",
           "pergunta": "O protocolo envolve populações vulneráveis — crianças, gestantes, idosos, povos indígenas ou pessoas em situação de vulnerabilidade socioeconômica?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Populações vulneráveis (crianças, gestantes, idosos, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pela menor capacidade de contestar decisões ou compreender riscos."
+          "dica": "Populações vulneráveis (crianças, gestantes, idosos, povos indígenas, vulnerabilidade socioeconômica) exigem proteção adicional, pela menor capacidade de contestar decisões ou compreender riscos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo involucra poblaciones vulnerables — niños, gestantes, personas mayores, pueblos indígenas o personas en situación de vulnerabilidad socioeconómica?",
+              "dica": "Las poblaciones vulnerables (niños, gestantes, personas mayores, pueblos indígenas, vulnerabilidad socioeconómica) exigen protección adicional, por la menor capacidad de cuestionar decisiones o comprender riesgos."
+            }
+          }
         },
         {
           "id": "P5.5",
           "pergunta": "O sistema infere características sensíveis do participante — raça, etnia, condição de saúde, orientação sexual — que não foram explicitamente coletadas?",
           "riskAnswer": "sim",
           "pontos": 6,
-          "dica": "Inferir características sensíveis não explicitamente coletadas (raça/cor, etnia, saúde, orientação sexual) contraria a autonomia informativa e pode gerar discriminação."
+          "dica": "Inferir características sensíveis não explicitamente coletadas (raça/cor, etnia, saúde, orientação sexual) contraria a autonomia informativa e pode gerar discriminação.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema infiere características sensibles de la persona participante — raza, etnia, condición de salud, orientación sexual — que no fueron explícitamente recolectadas?",
+              "dica": "Inferir características sensibles no explícitamente recolectadas (raza/color, etnia, salud, orientación sexual) contraría la autonomía informativa y puede generar discriminación."
+            }
+          }
         },
         {
           "id": "P5.6",
           "pergunta": "Os efeitos de um erro do sistema sobre o participante são reversíveis?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "A pergunta verifica a reversibilidade: efeitos NÃO reversíveis de um erro aumentam significativamente o risco, por não admitirem reparação integral."
+          "dica": "A pergunta verifica a reversibilidade: efeitos NÃO reversíveis de um erro aumentam significativamente o risco, por não admitirem reparação integral.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los efectos de un error del sistema sobre la persona participante son reversibles?",
+              "dica": "La pregunta verifica la reversibilidad: los efectos NO reversibles de un error aumentan significativamente el riesgo, por no admitir reparación integral."
+            }
+          }
         },
         {
           "id": "P5.7",
           "pergunta": "O protocolo descreve como os resultados gerados pela IA serão comunicados ao participante, quando aplicável?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "A ausência de descrição sobre como os resultados serão comunicados ao participante compromete a transparência. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024)."
+          "dica": "A ausência de descrição sobre como os resultados serão comunicados ao participante compromete a transparência. Inclui o direito do participante à devolutiva dos resultados da pesquisa e à informação sobre eventual repercussão em sua condição de saúde, quando aplicável (LGPD; Lei n.º 14.874/2024).",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe cómo los resultados generados por la IA serán comunicados a la persona participante, cuando corresponda?",
+              "dica": "La ausencia de descripción sobre cómo los resultados serán comunicados a la persona participante compromete la transparencia. Incluye el derecho de la persona participante a la devolución de los resultados de la investigación y a la información sobre eventual repercusión en su condición de salud, cuando corresponda (LGPD; Ley n.º 14.874/2024)."
+            }
+          }
         },
         {
           "id": "P5.8",
           "pergunta": "O protocolo prevê mecanismo para que o participante retire o consentimento, com exclusão de seus dados das bases do estudo e garantia de não utilização em treinamentos ou retreinamentos futuros?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco."
+          "dica": "A retirada de consentimento é direito do participante (Lei n.º 14.874/2024; LGPD, art. 8.º, §5.º, e art. 18). Em modelos já treinados, a remoção retroativa da influência de um dado específico tem limites técnicos: o modelo não armazena os dados, mas pesos estatísticos aprendidos, e as técnicas de desaprendizado de máquina ainda são incipientes. Por isso, o protocolo deve garantir três compromissos verificáveis: (1) exclusão dos dados do participante das bases do estudo e bloqueio de seu uso em qualquer treinamento ou retreinamento futuro; (2) declaração clara desses limites técnicos no TCLE, em linguagem compreensível; (3) salvaguardas de não-memorização — curadoria e minimização dos dados antes do treino e testes documentados de que o modelo não reproduz nem vaza dados de participantes. A ausência de mecanismo com esses três compromissos configura risco.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un mecanismo para que la persona participante retire el consentimiento, con exclusión de sus datos de las bases del estudio y garantía de no utilización en entrenamientos o reentrenamientos futuros?",
+              "dica": "La retirada del consentimiento es un derecho de la persona participante (Ley n.º 14.874/2024; LGPD, art. 8.º, §5.º, y art. 18). En modelos ya entrenados, la remoción retroactiva de la influencia de un dato específico tiene límites técnicos: el modelo no almacena los datos, sino pesos estadísticos aprendidos, y las técnicas de desaprendizaje automático aún son incipientes. Por ello, el protocolo debe garantizar tres compromisos verificables: (1) exclusión de los datos de la persona participante de las bases del estudio y bloqueo de su uso en cualquier entrenamiento o reentrenamiento futuro; (2) declaración clara de esos límites técnicos en el TCLE, en lenguaje comprensible; (3) salvaguardas de no memorización — curaduría y minimización de los datos antes del entrenamiento y pruebas documentadas de que el modelo no reproduce ni filtra datos de participantes. La ausencia de un mecanismo con esos tres compromisos configura riesgo."
+            }
+          }
         },
         {
           "id": "P5.9",
           "pergunta": "O protocolo define responsabilidade humana clara em caso de erro ou dano decorrente do uso do sistema?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que fragiliza a proteção do participante."
+          "dica": "Sem responsabilidade humana clara em caso de erro ou dano, instala-se uma zona de impunidade que fragiliza a proteção do participante.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo define una responsabilidad humana clara en caso de error o daño derivado del uso del sistema?",
+              "dica": "Sin una responsabilidad humana clara en caso de error o daño, se instala una zona de impunidad que fragiliza la protección de la persona participante."
+            }
+          }
         },
         {
           "id": "P5.10",
@@ -873,7 +1573,13 @@
           "riskAnswer": "sim",
           "pontos": 5,
           "dica": "Avaliar o dano mesmo sem identificação individual: estigmatização decorre da atribuição de características ao grupo.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los resultados de la investigación pueden generar estigmatización de grupos o poblaciones?",
+              "dica": "Evaluar el daño incluso sin identificación individual: la estigmatización deriva de la atribución de características al grupo."
+            }
+          }
         },
         {
           "id": "P5.11",
@@ -881,10 +1587,22 @@
           "riskAnswer": "sim",
           "pontos": 5,
           "dica": "Distinguir de 4.3/P3.6: equidade mede desempenho desigual do modelo; esta pergunta mede dano discriminatório decorrente do uso.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Hay riesgo de discriminación de individuos o grupos como consecuencia del uso de los resultados producidos por el sistema?",
+              "dica": "Distinguir de 4.3/P3.6: la equidad mide el desempeño desigual del modelo; esta pregunta mide el daño discriminatorio derivado del uso."
+            }
+          }
         }
       ],
-      "maxPontos": 62
+      "maxPontos": 62,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 5: Impacto",
+          "descricao": "Evalúa el impacto potencial del sistema sobre la persona participante, incluyendo daños físicos, psíquicos y sociales, y la protección de poblaciones vulnerables."
+        }
+      }
     },
     {
       "id": "bloco6",
@@ -896,56 +1614,104 @@
           "pergunta": "O sistema processa dados pessoais sensíveis: saúde (inclusive saúde mental), genética, biometria, dados de localização, raça, etnia, religião, vida sexual?",
           "riskAnswer": "sim",
           "pontos": 7,
-          "dica": "O processamento de dados sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD."
+          "dica": "O processamento de dados sensíveis (saúde, genética, biometria, raça/cor, etnia, religião, vida sexual) exige proteção reforçada e base legal específica na LGPD.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema procesa datos personales sensibles: salud (incluida la salud mental), genética, biometría, datos de localización, raza, etnia, religión, vida sexual?",
+              "dica": "El procesamiento de datos sensibles (salud, genética, biometría, raza/color, etnia, religión, vida sexual) exige protección reforzada y base legal específica en la LGPD."
+            }
+          }
         },
         {
           "id": "P6.2",
           "pergunta": "Os dados são transferidos ou processados em servidores fora do Brasil?",
           "riskAnswer": "sim",
           "pontos": 7,
-          "dica": "Transferir ou processar dados fora do Brasil exige avaliar a adequação do destino e adotar salvaguardas adicionais, reduzindo a governança nacional sobre os dados."
+          "dica": "Transferir ou processar dados fora do Brasil exige avaliar a adequação do destino e adotar salvaguardas adicionais, reduzindo a governança nacional sobre os dados.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos son transferidos o procesados en servidores fuera de Brasil?",
+              "dica": "Transferir o procesar datos fuera de Brasil exige evaluar la adecuación del destino y adoptar salvaguardas adicionales, reduciendo la gobernanza nacional sobre los datos."
+            }
+          }
         },
         {
           "id": "P6.3",
           "pergunta": "Existe risco real de reidentificação dos participantes a partir dos dados utilizados ou gerados pelo sistema?",
           "riskAnswer": "sim",
           "pontos": 7,
-          "dica": "Risco real de reidentificação compromete a promessa de anonimato e amplia os danos potenciais à privacidade e à segurança."
+          "dica": "Risco real de reidentificação compromete a promessa de anonimato e amplia os danos potenciais à privacidade e à segurança.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Existe riesgo real de reidentificación de las personas participantes a partir de los datos utilizados o generados por el sistema?",
+              "dica": "Un riesgo real de reidentificación compromete la promesa de anonimato y amplía los daños potenciales a la privacidad y a la seguridad."
+            }
+          }
         },
         {
           "id": "P6.4",
           "pergunta": "O consentimento obtido cobre explicitamente o uso dos dados para treinamento ou retreinamento de modelos de IA?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "Consentimento genérico não basta para treinar/retreinar modelos; é preciso consentimento específico e informado para esse uso."
+          "dica": "Consentimento genérico não basta para treinar/retreinar modelos; é preciso consentimento específico e informado para esse uso.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El consentimiento obtenido cubre explícitamente el uso de los datos para entrenamiento o reentrenamiento de modelos de IA?",
+              "dica": "El consentimiento genérico no basta para entrenar/reentrenar modelos; se requiere consentimiento específico e informado para ese uso."
+            }
+          }
         },
         {
           "id": "P6.5",
           "pergunta": "O protocolo demonstra conformidade com a LGPD — base legal identificada, finalidade declarada, Encarregado de Dados (DPO) indicado?",
           "riskAnswer": "nao",
           "pontos": 7,
-          "dica": "Sem base legal, finalidade declarada e Encarregado (DPO) indicado, o protocolo não demonstra conformidade com a LGPD, expondo a riscos legais e éticos."
+          "dica": "Sem base legal, finalidade declarada e Encarregado (DPO) indicado, o protocolo não demonstra conformidade com a LGPD, expondo a riscos legais e éticos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo demuestra conformidad con la LGPD — base legal identificada, finalidad declarada, Encargado de Datos (DPO) indicado?",
+              "dica": "Sin base legal, finalidad declarada y Encargado (DPO) indicado, el protocolo no demuestra conformidad con la LGPD, exponiendo a riesgos legales y éticos."
+            }
+          }
         },
         {
           "id": "P6.6",
           "pergunta": "O protocolo prevê plano de resposta a incidentes de segurança envolvendo os dados processados pela IA?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "Sem plano de resposta a incidentes, um vazamento ou acesso indevido pode não ser contido a tempo, agravando os danos."
+          "dica": "Sem plano de resposta a incidentes, um vazamento ou acesso indevido pode não ser contido a tempo, agravando os danos.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un plan de respuesta a incidentes de seguridad que involucren los datos procesados por la IA?",
+              "dica": "Sin un plan de respuesta a incidentes, una filtración o un acceso indebido puede no ser contenido a tiempo, agravando los daños."
+            }
+          }
         },
         {
           "id": "P6.7",
           "pergunta": "Os dados de treinamento do modelo foram coletados com consentimento compatível com o uso previsto neste protocolo?",
           "riskAnswer": "nao",
           "pontos": 6,
-          "dica": "Dados de treinamento coletados para outra finalidade podem não ter base legal para uso em IA neste protocolo."
+          "dica": "Dados de treinamento coletados para outra finalidade podem não ter base legal para uso em IA neste protocolo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos de entrenamiento del modelo fueron recolectados con un consentimiento compatible con el uso previsto en este protocolo?",
+              "dica": "Los datos de entrenamiento recolectados para otra finalidad pueden no tener base legal para su uso en IA en este protocolo."
+            }
+          }
         },
         {
           "id": "P6.8",
           "pergunta": "O protocolo descreve como os dados serão armazenados, por quanto tempo e como serão descartados ao final do estudo?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados após o estudo."
+          "dica": "A ausência de política de armazenamento, retenção e descarte abre espaço para uso indevido dos dados após o estudo.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe cómo se almacenarán los datos, por cuánto tiempo y cómo se eliminarán al final del estudio?",
+              "dica": "La ausencia de una política de almacenamiento, retención y eliminación abre espacio para el uso indebido de los datos después del estudio."
+            }
+          }
         },
         {
           "id": "P6.9",
@@ -953,7 +1719,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "A resposta deve indicar quem acessa, com qual perfil e sob qual registro.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo restringe el acceso a los datos identificables a lo estrictamente necesario, con control de acceso por perfil e identificación de los responsables?",
+              "dica": "La respuesta debe indicar quién accede, con qué perfil y bajo qué registro."
+            }
+          }
         },
         {
           "id": "P6.10",
@@ -961,7 +1733,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "Log auditável = registro íntegro, datado e atribuível das operações, consultável em fiscalização. Nota (F-26): quando o sistema gerar inferências clínicas, diagnósticas ou preditivas (ver 2.1/P5.1), o log deve permitir rastrear, por decisão: identificador da inferência, versão/configuração do modelo, dados de entrada (ou referência pseudonimizada a eles), saída do sistema e operador humano responsável.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un registro (log) auditable de las operaciones de tratamiento de datos y de inferencia realizadas por el sistema?",
+              "dica": "Log auditable = registro íntegro, con fecha y atribuible de las operaciones, consultable en fiscalización. Nota (F-26): cuando el sistema genere inferencias clínicas, diagnósticas o predictivas (ver 2.1/P5.1), el log debe permitir rastrear, por decisión: identificador de la inferencia, versión/configuración del modelo, datos de entrada (o referencia pseudonimizada a ellos), salida del sistema y operador humano responsable."
+            }
+          }
         },
         {
           "id": "P6.11",
@@ -969,7 +1747,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "Não exigir certificação específica: exigir descrição do ambiente e dos controles. Certificação é evidência, não condição. Nota (F-28): quando o processamento depender de provedor externo (nuvem, serviço de IA ou modelo de terceiro), a descrição do ambiente inclui as condições contratuais de uso dos dados pelo provedor: vedação de reuso, treinamento ou retenção para finalidade própria; garantias de confidencialidade; e portabilidade/saída (vendor lock-in), proporcionais ao risco. Verificar 3.2/P6.2 e 3.3/P6.4.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe el entorno computacional de procesamiento y sus controles mínimos de seguridad (aislamiento, cifrado y, cuando corresponda, certificaciones)?",
+              "dica": "No exigir una certificación específica: exigir la descripción del entorno y de los controles. La certificación es evidencia, no condición. Nota (F-28): cuando el procesamiento dependa de un proveedor externo (nube, servicio de IA o modelo de terceros), la descripción del entorno incluye las condiciones contractuales de uso de los datos por el proveedor: prohibición de reutilización, entrenamiento o retención para finalidad propia; garantías de confidencialidad; y portabilidad/salida (vendor lock-in), proporcionales al riesgo. Verificar 3.2/P6.2 y 3.3/P6.4."
+            }
+          }
         },
         {
           "id": "P6.12",
@@ -978,7 +1762,13 @@
           "pontos": 5,
           "dica": "Se houver linkage, a avaliação de reidentificação (3.5 / P6.3) deve considerar explicitamente o cruzamento das bases envolvidas.",
           "efeito": "risco",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "¿Los datos del protocolo serán vinculados (linkage) a otras bases de datos, propias o externas?",
+              "dica": "Si hay linkage, la evaluación de reidentificación (3.5 / P6.3) debe considerar explícitamente el cruce de las bases involucradas."
+            }
+          }
         },
         {
           "id": "P6.13",
@@ -987,10 +1777,22 @@
           "pontos": 7,
           "dica": "Aplicável apenas a PLN/LLM/dados sintéticos (N/A nos demais casos).",
           "efeito": "risco",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "Para sistemas con procesamiento de lenguaje natural, grandes modelos de lenguaje o generación de datos sintéticos: ¿hay pruebas documentadas de robustez contra la memorización y la extracción de datos de entrenamiento (ataques de extracción o de inferencia de pertenencia)?",
+              "dica": "Aplicable solo a PLN/LLM/datos sintéticos (N/A en los demás casos)."
+            }
+          }
         }
       ],
-      "maxPontos": 77
+      "maxPontos": 77,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 6: Datos",
+          "descricao": "Evalúa la sensibilidad de los datos, la conformidad con la LGPD y los mecanismos de protección y gobernanza."
+        }
+      }
     },
     {
       "id": "bloco6b",
@@ -1005,7 +1807,13 @@
           "pergunta": "O protocolo identifica o Controlador do banco de dados (art. 3º, IV da Res. CNS n.º 738/2024) com cargo, função e instituição vinculada?",
           "riskAnswer": "nao",
           "pontos": 7,
-          "dica": "Identifica o Controlador do banco (Arts. 3.º, IV e 9.º da Res. CNS n.º 738/2024), com cargo, função e instituição. Sem isso, não há cadeia de custódia formalizada sobre os dados. Item do Bloco 6.b (Res. 738), aplicável apenas quando o protocolo usa banco de dados; seus pontos somam ao escore."
+          "dica": "Identifica o Controlador do banco (Arts. 3.º, IV e 9.º da Res. CNS n.º 738/2024), com cargo, função e instituição. Sem isso, não há cadeia de custódia formalizada sobre os dados. Item do Bloco 6.b (Res. 738), aplicável apenas quando o protocolo usa banco de dados; seus pontos somam ao escore.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo identifica al Controlador del banco de datos (art. 3.º, IV de la Res. CNS n.º 738/2024) con cargo, función e institución vinculada?",
+              "dica": "Identifica al Controlador del banco (Arts. 3.º, IV y 9.º de la Res. CNS n.º 738/2024), con cargo, función e institución. Sin ello, no hay cadena de custodia formalizada sobre los datos. Ítem del Bloque 6.b (Res. 738), aplicable solo cuando el protocolo usa banco de datos; sus puntos suman al escore."
+            }
+          }
         },
         {
           "id": "P6.b.2",
@@ -1014,14 +1822,26 @@
           "pontos": 7,
           "dica": "Verifica o Termo de Anuência Institucional (Art. 27, VI da Res. CNS n.º 738/2024), assinado pelo responsável (dirigente ou pessoa por ele delegada) da instituição de onde os dados provêm — exigível apenas para banco constituído fora do âmbito de pesquisa (origem não-investigativa: prontuários, registros, bases administrativas). Salvaguarda de Inavaliabilidade: nesse caso, sua ausência torna o protocolo \"não avaliável pela MARIAH\" (§7.3.6), independentemente da pontuação total. Marque \"Não se aplica\" quando o banco foi constituído no âmbito de pesquisa — inclusive reuso de banco de pesquisa anterior do próprio pesquisador —, hipótese regida pelo Art. 24 (Termo de Compromisso de Uso de Dados), que não exige Anuência.",
           "eliminatorio": true,
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "Si el banco fue constituido fuera del ámbito de investigación (origen no investigativo: historias clínicas, registros, bases administrativas): ¿el Término de Anuencia Institucional (Art. 27, VI de la Res. CNS n.º 738/2024) está presente?",
+              "dica": "Verifica el Término de Anuencia Institucional (Art. 27, VI de la Res. CNS n.º 738/2024), firmado por el responsable (directivo o persona por él delegada) de la institución de donde provienen los datos — exigible solo para banco constituido fuera del ámbito de investigación (origen no investigativo: historias clínicas, registros, bases administrativas). Salvaguarda de Inevaluabilidad: en ese caso, su ausencia torna el protocolo «no evaluable por la MARIAH» (§7.3.6), independientemente de la puntuación total. Marque «No se aplica» cuando el banco fue constituido en el ámbito de investigación — incluido el reuso de un banco de investigación anterior del propio investigador —, hipótesis regida por el Art. 24 (Término de Compromiso de Uso de Datos), que no exige Anuencia."
+            }
+          }
         },
         {
           "id": "P6.b.3",
           "pergunta": "O Termo de Compromisso de Uso de Dados (Arts. 24, V e 27, V) está assinado pelos pesquisadores e anexado ao dossiê?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "Confirma o Termo de Compromisso de Uso de Dados, assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024). É distinto do Termo de Anuência (P6.b.2): o Compromisso é dos pesquisadores; a Anuência, do responsável (dirigente ou pessoa por ele delegada) da instituição detentora. Item do Bloco 6.b (Res. 738); seus pontos somam ao escore."
+          "dica": "Confirma o Termo de Compromisso de Uso de Dados, assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024). É distinto do Termo de Anuência (P6.b.2): o Compromisso é dos pesquisadores; a Anuência, do responsável (dirigente ou pessoa por ele delegada) da instituição detentora. Item do Bloco 6.b (Res. 738); seus pontos somam ao escore.",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El Término de Compromiso de Uso de Datos (Arts. 24, V y 27, V) está firmado por los investigadores y anexado al dosier?",
+              "dica": "Confirma el Término de Compromiso de Uso de Datos, firmado por los investigadores (Arts. 24, V y 27, V de la Res. CNS n.º 738/2024). Es distinto del Término de Anuencia (P6.b.2): el Compromiso es de los investigadores; la Anuencia, del responsable (directivo o persona por él delegada) de la institución que posee los datos. Ítem del Bloque 6.b (Res. 738); sus puntos suman al escore."
+            }
+          }
         },
         {
           "id": "P6.b.4",
@@ -1029,14 +1849,26 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "A dispensa de TCLE para uso futuro não é automática: exige enquadramento na hipótese cabível segundo a origem do banco (Res. CNS n.º 738/2024). Banco constituído fora do âmbito da pesquisa → única via é a anonimização pelo Controlador (art. 20, § 5.º). Banco constituído no âmbito da pesquisa → art. 25, quatro situações. Justificativa genérica não basta.",
-          "hasNaOption": true
+          "hasNaOption": true,
+          "i18n": {
+            "es": {
+              "pergunta": "Si hay una solicitud de dispensa del TCLE para uso futuro: ¿el protocolo identifica el origen del banco e indica expresamente la hipótesis invocada de la Res. CNS n.º 738/2024, y la fundamenta? Para banco constituido fuera del ámbito de la investigación (art. 27), la única vía es la anonimización por el Controlador (art. 20, § 5.º). Para banco constituido en el ámbito de la investigación, el art. 25 admite cuatro situaciones: (i) datos recolectados originalmente sin identificación de la persona participante; (ii) consentimiento previo de la persona participante, manifestado en TCLE de una investigación anterior, para uso en investigaciones futuras, en la forma del art. 40, X, de la Ley n.º 14.874/2024; (iii) compartición de datos anonimizados por el Controlador; (iv) anonimización irreversible de los datos en el protocolo original, hipótesis en que el dato deja de ser dato personal (art. 12 de la LGPD).",
+              "dica": "La dispensa del TCLE para uso futuro no es automática: exige el encuadre en la hipótesis correspondiente según el origen del banco (Res. CNS n.º 738/2024). Banco constituido fuera del ámbito de la investigación → la única vía es la anonimización por el Controlador (art. 20, § 5.º). Banco constituido en el ámbito de la investigación → art. 25, cuatro situaciones. Una justificación genérica no basta."
+            }
+          }
         },
         {
           "id": "P6.b.5",
           "pergunta": "Se o protocolo é multicêntrico, envolve mais de uma instituição ou prevê compartilhamento do banco com terceiros: há acordo formal de compartilhamento ou controladoria conjunta formalizada em Termo de Acordo Institucional (art. 3º, XVI e § 2º do art. 12)?",
           "riskAnswer": "nao",
           "pontos": 5,
-          "dica": "Em pesquisa multicêntrica, a controladoria conjunta deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). Item do Bloco 6.b (Res. 738); seus pontos somam ao escore."
+          "dica": "Em pesquisa multicêntrica, a controladoria conjunta deve estar formalizada em Termo de Acordo Institucional (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024). Item do Bloco 6.b (Res. 738); seus pontos somam ao escore.",
+          "i18n": {
+            "es": {
+              "pergunta": "Si el protocolo es multicéntrico, involucra a más de una institución o prevé la compartición del banco con terceros: ¿hay un acuerdo formal de compartición o controladoría conjunta formalizada en Término de Acuerdo Institucional (art. 3.º, XVI y § 2.º del art. 12)?",
+              "dica": "En investigación multicéntrica, la controladoría conjunta debe estar formalizada en Término de Acuerdo Institucional (Art. 3.º, XVI y §2.º del Art. 12 de la Res. CNS n.º 738/2024). Ítem del Bloque 6.b (Res. 738); sus puntos suman al escore."
+            }
+          }
         },
         {
           "id": "P6.b.4.1",
@@ -1073,7 +1905,19 @@
                   }
                 ]
               }
-            ]
+            ],
+            "i18n": {
+              "es": {
+                "descricao": "Mostrar cuando hay solicitud de dispensa (P6.b.4 ≠ N/A) y acceso a datos identificables (C.3/C.5)."
+              }
+            }
+          },
+          "i18n": {
+            "es": {
+              "pergunta": "Si hay una solicitud de dispensa del TCLE con acceso a datos identificables: ¿el acceso es indispensable para alcanzar los objetivos científicos de la investigación, o la misma finalidad podría lograrse mediante datos previamente anonimizados o pseudonimizados por la institución custodia?",
+              "dica": "Si la finalidad es alcanzable sin datos identificables y el protocolo aun así los requiere, el CEP lo devuelve para justificación o redireccionamiento a la anonimización por el Controlador (art. 20, § 5.º).",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
           }
         },
         {
@@ -1095,7 +1939,19 @@
                 "operador": "diferente",
                 "valor": "na"
               }
-            ]
+            ],
+            "i18n": {
+              "es": {
+                "descricao": "Mostrar solo cuando hay solicitud de dispensa del TCLE (P6.b.4 ≠ «no se aplica»)."
+              }
+            }
+          },
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo cumple acumulativamente todos los criterios para la dispensa del TCLE en investigación con IA sobre bancos de datos? (i) datos secundarios obtenidos lícitamente; (ii) investigación retrospectiva, sin contacto con las personas participantes; (iii) imposibilidad práctica de obtención del TCLE debidamente justificada; (iv) riesgo mínimo para las personas participantes; (v) acceso a datos identificables limitado a lo estrictamente necesario, preferentemente datos pseudonimizados/anonimizados por la institución custodia; (vi) entorno seguro de procesamiento, con controles de acceso, auditoría y gobernanza; (vii) evaluación documentada del riesgo de reidentificación y de inferencia derivado del uso de la IA; (viii) inexistencia de decisiones o intervenciones individualizadas sobre las personas participantes con base en los resultados de la IA; (ix) finalidad científica delimitada, prohibido el entrenamiento de modelos de propósito general sin nueva apreciación ética.",
+              "dica": "El checklist no gradúa riesgo: verifica la admisibilidad de la dispensa. La puntuación del protocolo sigue por los demás bloques.",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
           }
         },
         {
@@ -1107,10 +1963,24 @@
           "efeito": "diligencia",
           "eliminatorio": true,
           "motivoEliminatorio": "diligência/checklist de admissibilidade não atendido — protocolo devolvido para complementação (não avaliável no mérito). Não compensável por pontuação.",
-          "refEliminatoria": "Res. CNS n.º 738/2024"
+          "refEliminatoria": "Res. CNS n.º 738/2024",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta una declaración del Controlador con el compromiso de anonimización de los datos antes de la puesta a disposición del banco a los investigadores?",
+              "dica": "Documento obligatorio del dosier de sumisión; la verificación es de presencia y validez de la declaración.",
+              "motivoEliminatorio": "diligencia/checklist de admisibilidad no atendido — protocolo devuelto para complementación (no evaluable en el mérito). No compensable por puntuación."
+            }
+          }
         }
       ],
-      "maxPontos": 29
+      "maxPontos": 29,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 6.b: Bancos de Datos de Investigación (Res. CNS n.º 738/2024)",
+          "descricao": "Subsección aplicable cuando el protocolo utiliza banco de datos. Deriva de la Resolución CNS n.º 738/2024 y complementa el Bloque 6. La puntuación se suma al Bloque 6 para el cálculo final.",
+          "subtitulo": "Condicional — activada por el filtro de banco de datos en el Paso 0"
+        }
+      }
     },
     {
       "id": "bloco7",
@@ -1125,7 +1995,13 @@
           "pontos": 5,
           "hasNaOption": true,
           "dica": "SaMD (Software as a Medical Device) é software com finalidade médica — diagnóstico, prognóstico, monitoramento ou orientação terapêutica — regulado pela RDC ANVISA n.º 657/2022 (alinhada ao framework IMDRF). A consulta prévia (de enquadramento ou pré-submissão) é o mecanismo formal pelo qual a ANVISA se manifesta sobre se o sistema é dispositivo médico e qual a classe de risco. É especialmente importante quando o sistema gera saída que orienta ou dirige decisão clínica, está integrado a equipamento médico, processa imagens/sinais com IA para gerar recomendação, ou usa IA generativa em contexto clínico. Marque \"Não se aplica\" SOMENTE se o sistema comprovadamente não tem qualquer pretensão diagnóstica, prognóstica, terapêutica ou de orientação clínica (ex.: análise secundária retrospectiva sem feedback ao participante, gestão administrativa de pesquisa, pré-processamento de dados sem saída interpretativa). Qualquer dúvida razoável de enquadramento → a consulta deve ser feita.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo fue sometido a consulta previa con la ANVISA sobre el encuadre del sistema como SaMD?",
+              "dica": "SaMD (Software as a Medical Device) es software con finalidad médica —diagnóstico, pronóstico, monitoreo u orientación terapéutica— regulado por la RDC ANVISA n.º 657/2022 (alineada al marco IMDRF). La consulta previa (de encuadre o de presentación previa) es el mecanismo formal por el cual la ANVISA se manifiesta sobre si el sistema es dispositivo médico y cuál es su clase de riesgo. Es especialmente importante cuando el sistema genera una salida que orienta o dirige una decisión clínica, está integrado a un equipo médico, procesa imágenes/señales con IA para generar una recomendación, o usa IA generativa en contexto clínico. Marque «No se aplica» SOLO si el sistema comprobadamente no tiene pretensión diagnóstica, pronóstica, terapéutica ni de orientación clínica (p. ej.: análisis secundario retrospectivo sin retorno a la persona participante, gestión administrativa de investigación, preprocesamiento de datos sin salida interpretativa). Cualquier duda razonable de encuadre → la consulta debe realizarse."
+            }
+          }
         },
         {
           "id": "P7.2",
@@ -1133,7 +2009,13 @@
           "riskAnswer": "nao",
           "pontos": 5,
           "dica": "O engajamento com o fabricante/desenvolvedor durante o estudo dá acesso a informações técnicas relevantes para esclarecer dúvidas e tratar falhas — reduz a dependência de uma caixa-preta sem suporte.",
-          "efeito": "risco"
+          "efeito": "risco",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé la colaboración con el fabricante o desarrollador del sistema para el esclarecimiento de dudas técnicas durante el estudio?",
+              "dica": "La colaboración con el fabricante/desarrollador durante el estudio da acceso a información técnica relevante para aclarar dudas y tratar fallas —reduce la dependencia de una caja negra sin soporte."
+            }
+          }
         },
         {
           "id": "P7.3",
@@ -1141,7 +2023,13 @@
           "riskAnswer": "sim",
           "pontos": -10,
           "dica": "A revisão humana obrigatória antes da execução é a mitigação mais eficaz: reinsere a barreira de segurança entre a recomendação e a ação. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo garantiza que un investigador habilitado revise toda decisión generada por el sistema antes de su ejecución?",
+              "dica": "La revisión humana obligatoria antes de la ejecución es la mitigación más eficaz: reintroduce la barrera de seguridad entre la recomendación y la acción. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.4",
@@ -1149,7 +2037,13 @@
           "riskAnswer": "sim",
           "pontos": -8,
           "dica": "A explicação compreensível de cada resultado permite supervisão humana real, não apenas formal. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El sistema proporciona, junto a cada resultado, una explicación comprensible sobre los factores que influyeron en ese resultado?",
+              "dica": "La explicación comprensible de cada resultado permite una supervisión humana real, no solo formal. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.5",
@@ -1157,7 +2051,13 @@
           "riskAnswer": "sim",
           "pontos": -10,
           "dica": "Monitoramento contínuo com critérios definidos de interrupção permite detectar e conter perda de desempenho durante o uso. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero. Nota (F-25): o plano deve nomear o mínimo esperado — métrica(s) de desempenho (incluindo, quando aplicável, estratificadas por subgrupo, ver 4.3/P3.6), limiar de alerta, periodicidade de medição e responsável — e prever resposta proporcional graduada à deterioração (alerta → restrição de uso → suspensão), com escalonamento documentado.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé un monitoreo continuo del desempeño del sistema tras el inicio del uso, con criterios definidos para su interrupción?",
+              "dica": "El monitoreo continuo con criterios definidos de interrupción permite detectar y contener la pérdida de desempeño durante el uso. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero. Nota (F-25): el plan debe nombrar el mínimo esperado —métrica(s) de desempeño (incluyendo, cuando corresponda, estratificadas por subgrupo, ver 4.3/P3.6), umbral de alerta, periodicidad de medición y responsable— y prever una respuesta proporcional graduada al deterioro (alerta → restricción de uso → suspensión), con escalamiento documentado."
+            }
+          }
         },
         {
           "id": "P7.6",
@@ -1165,7 +2065,13 @@
           "riskAnswer": "sim",
           "pontos": -8,
           "dica": "Procedimento documentado para falha, indisponibilidade ou resultado inconsistente garante resposta segura quando o sistema falha. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Existe un procedimiento documentado para fallas, indisponibilidad o resultado inconsistente del sistema durante el estudio?",
+              "dica": "Un procedimiento documentado para falla, indisponibilidad o resultado inconsistente garantiza una respuesta segura cuando el sistema falla. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.7",
@@ -1173,7 +2079,13 @@
           "riskAnswer": "sim",
           "pontos": -8,
           "dica": "Definir como, quando e quem autoriza o retreinamento evita mudanças imprevisíveis no comportamento do sistema. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero. Nota (F-24): aceita-se como evidência plano de gestão de mudanças pré-aprovado que avalie o impacto de atualizações, recalibrações ou substituições sobre participantes, resultados e riscos éticos e defina critério para distinguir alteração menor de mudança que exige comunicação ou emenda ética ao CEP (limiares predeterminados) — sem prejuízo do plano de novo consentimento (2.10/P2.8), que permanece eliminatório.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé cómo y cuándo será reentrenado el modelo, y quién autoriza esa actualización?",
+              "dica": "Definir cómo, cuándo y quién autoriza el reentrenamiento evita cambios impredecibles en el comportamiento del sistema. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero. Nota (F-24): se acepta como evidencia un plan de gestión de cambios preaprobado que evalúe el impacto de actualizaciones, recalibraciones o sustituciones sobre las personas participantes, los resultados y los riesgos éticos, y que defina un criterio para distinguir una alteración menor de un cambio que exige comunicación o enmienda ética al CEP (umbrales predeterminados) —sin perjuicio del plan de nuevo consentimiento (2.10/P2.8), que permanece eliminatorio."
+            }
+          }
         },
         {
           "id": "P7.8",
@@ -1181,7 +2093,13 @@
           "riskAnswer": "sim",
           "pontos": -7,
           "dica": "Equipe com competência técnica para interpretar resultados e identificar falhas torna a supervisão efetiva. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El equipo responsable tiene competencia técnica suficiente para interpretar los resultados del sistema e identificar fallas?",
+              "dica": "Un equipo con competencia técnica para interpretar resultados e identificar fallas hace efectiva la supervisión. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.9",
@@ -1189,7 +2107,13 @@
           "riskAnswer": "sim",
           "pontos": -7,
           "dica": "Monitorar deriva de dados (data drift) previne a degradação silenciosa do desempenho ao longo do tempo. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo prevé el monitoreo de deriva de datos (data drift), es decir, la degradación del desempeño a lo largo del tiempo?",
+              "dica": "Monitorear la deriva de datos (data drift) previene la degradación silenciosa del desempeño a lo largo del tiempo. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.10",
@@ -1197,7 +2121,13 @@
           "riskAnswer": "sim",
           "pontos": -7,
           "dica": "Responsabilidade humana clara e identificada em caso de erro ou dano protege o participante e evita zona cinzenta de imputação. Item de mitigação (Bloco 7, bidirecional): \"Sim\" subtrai pontos; \"Não\" os mantém — o bloco tem piso de zero.",
-          "efeito": "mitigacao"
+          "efeito": "mitigacao",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo describe una responsabilidad humana clara e identificada en caso de error o daño derivado del sistema?",
+              "dica": "Una responsabilidad humana clara e identificada en caso de error o daño protege a la persona participante y evita una zona gris de imputación. Ítem de mitigación (Bloque 7, bidireccional): «Sí» resta puntos; «No» los mantiene —el bloque tiene piso de cero."
+            }
+          }
         },
         {
           "id": "P7.11",
@@ -1206,7 +2136,13 @@
           "pontos": -5,
           "dica": "Model Card ou documento equivalente com finalidade, métricas, limitações e contextos de uso.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta documentación estandarizada del modelo (por ejemplo, Model Card)?",
+              "dica": "Model Card o documento equivalente con finalidad, métricas, limitaciones y contextos de uso."
+            }
+          }
         },
         {
           "id": "P7.12",
@@ -1215,7 +2151,13 @@
           "pontos": -5,
           "dica": "Datasheet ou equivalente com origem, composição, coleta, pré-processamento e usos recomendados.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El protocolo presenta documentación estandarizada de la base de datos (por ejemplo, Datasheet for Datasets)?",
+              "dica": "Datasheet o equivalente con origen, composición, recolección, preprocesamiento y usos recomendados."
+            }
+          }
         },
         {
           "id": "P7.13",
@@ -1224,7 +2166,13 @@
           "pontos": -8,
           "dica": "RIPD do controlador ou avaliação de impacto algorítmico documentada valem como evidência; o peso maior (−8) reflete a abrangência da evidência.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿Se realizó una evaluación de impacto algorítmico o un Informe de Impacto a la Protección de Datos Personales (RIPD) para el uso previsto en este protocolo?",
+              "dica": "El RIPD del controlador o una evaluación de impacto algorítmico documentada valen como evidencia; el peso mayor (−8) refleja la amplitud de la evidencia."
+            }
+          }
         },
         {
           "id": "P7.14",
@@ -1233,109 +2181,217 @@
           "pontos": -5,
           "dica": "Licenças de código aberto ou de auditoria (incluindo Software Público) valem; código fechado com auditoria independente contratada também pode ser considerado pelo CEP.",
           "efeito": "evidencia",
-          "subbloco": "7C — evidências de transparência"
+          "subbloco": "7C — evidências de transparência",
+          "i18n": {
+            "es": {
+              "pergunta": "¿El código fuente del sistema será puesto a disposición abiertamente o bajo una licencia que permita la auditoría independiente?",
+              "dica": "Licencias de código abierto o de auditoría (incluido el Software Público) valen; el código cerrado con auditoría independiente contratada también puede ser considerado por el CEP."
+            }
+          }
         }
       ],
-      "maxPontos": 75
+      "maxPontos": 75,
+      "i18n": {
+        "es": {
+          "nome": "Bloque 7: Mitigación",
+          "descricao": "Evalúa consultas regulatorias y medidas de mitigación de riesgo. Puede reducir la puntuación total del protocolo.",
+          "subtitulo": "Bidireccional — las Consultas suman puntos; las Mitigaciones restan puntos"
+        }
+      }
     }
   ],
   "requirements": [
     {
       "id": "req-I-1",
       "texto": "Declaração de uso de IA no protocolo",
-      "nivel": "I"
+      "nivel": "I",
+      "i18n": {
+        "es": {
+          "texto": "Declaración de uso de IA en el protocolo"
+        }
+      }
     },
     {
       "id": "req-I-2",
       "texto": "Menção no TCLE de que um sistema algorítmico será utilizado e qual é o seu papel no estudo",
-      "nivel": "I"
+      "nivel": "I",
+      "i18n": {
+        "es": {
+          "texto": "Mención en el TCLE de que se utilizará un sistema algorítmico y cuál es su papel en el estudio"
+        }
+      }
     },
     {
       "id": "req-II-1",
       "texto": "Descrição do sistema e origem dos dados de treinamento",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Descripción del sistema y origen de los datos de entrenamiento"
+        }
+      }
     },
     {
       "id": "req-II-2",
       "texto": "Demonstração de conformidade com a LGPD",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Demostración de conformidad con la LGPD"
+        }
+      }
     },
     {
       "id": "req-II-3",
       "texto": "Indicação da base legal para o tratamento dos dados utilizados",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Indicación de la base legal para el tratamiento de los datos utilizados"
+        }
+      }
     },
     {
       "id": "req-III-1",
       "texto": "Documentação de validação técnica do sistema",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Documentación de validación técnica del sistema"
+        }
+      }
     },
     {
       "id": "req-III-2",
       "texto": "Análise de desempenho por subgrupos populacionais relevantes",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Análisis de desempeño por subgrupos poblacionales relevantes"
+        }
+      }
     },
     {
       "id": "req-III-3",
       "texto": "Comprovação de mecanismo de supervisão humana efetiva no circuito decisório (human-in-the-loop)",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Comprobación de un mecanismo de supervisión humana efectiva en el circuito decisorio (human-in-the-loop)"
+        }
+      }
     },
     {
       "id": "req-III-4",
       "texto": "Identificação do Encarregado de Dados da instituição responsável pelo estudo",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Identificación del Encargado de Datos de la institución responsable del estudio"
+        }
+      }
     },
     {
       "id": "req-IV-1",
       "texto": "Parecer técnico externo sobre o sistema",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Dictamen técnico externo sobre el sistema"
+        }
+      }
     },
     {
       "id": "req-IV-2",
       "texto": "Plano de monitoramento contínuo com critérios definidos de interrupção",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Plan de monitoreo continuo con criterios definidos de interrupción"
+        }
+      }
     },
     {
       "id": "req-IV-3",
       "texto": "Notificação à ANVISA quando o sistema se enquadrar como SaMD",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Notificación a la ANVISA cuando el sistema se encuadre como SaMD"
+        }
+      }
     },
     {
       "id": "req-IV-4",
       "texto": "Submissão do protocolo à apreciação de CEP acreditado para protocolos de risco elevado ou de CEP com habilitação específica em inteligência artificial.",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Sometimiento del protocolo a la apreciación de un CEP acreditado para protocolos de riesgo elevado o de un CEP con habilitación específica en inteligencia artificial."
+        }
+      }
     }
   ],
   "requirementsRes738": [
     {
       "id": "req-738-I-1",
       "texto": "Identificação do Controlador do banco de dados (Art. 3.º, IV da Res. CNS n.º 738/2024)",
-      "nivel": "I"
+      "nivel": "I",
+      "i18n": {
+        "es": {
+          "texto": "Identificación del Controlador del banco de datos (Art. 3.º, IV de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-II-1",
       "texto": "Termo de Compromisso de Uso de Dados assinado pelos pesquisadores (Arts. 24, V e 27, V da Res. CNS n.º 738/2024)",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Término de Compromiso de Uso de Datos firmado por los investigadores (Arts. 24, V y 27, V de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-II-2",
       "texto": "Termo de Anuência Institucional para bancos externos à pesquisa (Art. 27, VI da Res. CNS n.º 738/2024) — obrigatório/eliminatório",
-      "nivel": "II"
+      "nivel": "II",
+      "i18n": {
+        "es": {
+          "texto": "Término de Anuencia Institucional para bancos externos a la investigación (Art. 27, VI de la Res. CNS n.º 738/2024) — obligatorio/eliminatorio"
+        }
+      }
     },
     {
       "id": "req-738-III-1",
       "texto": "Fundamentação do enquadramento da dispensa de TCLE na hipótese cabível segundo a origem do banco (art. 20, § 5.º, ou art. 25 da Res. CNS n.º 738/2024)",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Fundamentación del encuadre de la dispensa del TCLE en la hipótesis aplicable según el origen del banco (art. 20, § 5.º, o art. 25 de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-III-2",
       "texto": "Termo de Acordo Institucional para controladoria conjunta em protocolos multicêntricos (Art. 3.º, XVI e §2.º do Art. 12 da Res. CNS n.º 738/2024)",
-      "nivel": "III"
+      "nivel": "III",
+      "i18n": {
+        "es": {
+          "texto": "Término de Acuerdo Institucional para controladoría conjunta en protocolos multicéntricos (Art. 3.º, XVI y §2.º del Art. 12 de la Res. CNS n.º 738/2024)"
+        }
+      }
     },
     {
       "id": "req-738-IV-1",
       "texto": "Diligência obrigatória (§7.3.6 do Capítulo 7 da Res. CNS n.º 738/2024) sempre que configurada ausência de cadeia de custódia formalizada",
-      "nivel": "IV"
+      "nivel": "IV",
+      "i18n": {
+        "es": {
+          "texto": "Diligencia obligatoria (§7.3.6 del Capítulo 7 de la Res. CNS n.º 738/2024) siempre que se configure ausencia de cadena de custodia formalizada"
+        }
+      }
     }
   ],
   "notasDominio": {

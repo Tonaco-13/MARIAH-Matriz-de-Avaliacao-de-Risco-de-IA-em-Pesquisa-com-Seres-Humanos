@@ -14,7 +14,7 @@
 |---|---|
 | Locale auditado | `pt-BR` (único preenchido; demais são rótulos de rota, gated) |
 | Branch | `feat/i18n-architecture` |
-| HEAD no envio ao Z | `68fa106` (alias `parity:locale`) — sobre `f3b35bd` (chore version) |
+| HEAD substantivo no envio ao Z | `68fa106` (alias `parity:locale`) — sobre `f3b35bd` (chore version); commits housekeeping (pacote e correções formais) acima, sem efeito sobre código, gates ou evidências |
 | Trilha auditável | `git log main..feat/i18n-architecture` — 18 commits substantivos (§7); alias e este pacote entram como housekeeping sobre o HEAD |
 | `matrixVersion` (spec) | **2.2.0** (bump de schema; conteúdo da matriz inalterado) |
 | `version` (package.json) | 2.2.0 (alinhado ao ciclo — cosmético; `f3b35bd`) |
@@ -112,7 +112,7 @@ Em cópia descartável, injetadas 6 violações; `i18n-no-literal` acusou todas 
 ```
 cd ~/Dev/MARIA
 git checkout feat/i18n-architecture
-git log --oneline main..HEAD          # 19 commits (trilha)
+git log --oneline main..HEAD          # 18 commits substantivos (+ housekeeping: alias, pacote, correções)
 npm ci
 npm run build
 npm run verify        # 105/105
