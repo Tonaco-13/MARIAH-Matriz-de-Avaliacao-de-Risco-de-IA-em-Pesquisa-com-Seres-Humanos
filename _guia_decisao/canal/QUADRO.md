@@ -1,7 +1,7 @@
 # QUADRO VIVO — ciclo i18n-es (feat/i18n-es)
 
-**Última atualização:** 2026-09-24 15:05 · Kimi (arquitetura/engenharia sob regime excepcional, LOG #41) — Lote 6 entregue (LOG #44), aguardando commit do Operador.
-**Fase atual:** 🟢 **Lotes 5 e 6 concluídos** — /es funcional com flag on (merge + banner de cortesia). Restam: leva institucional §4.2 (Direção) → lote final `--strict` → auditoria do Z → decisão de publicação.
+**Última atualização:** 2026-09-24 18:10 · Kimi — PR #31 (feat/i18n-es) e PR #32 (espelho do relatório) mergeados na main pela Direção (LOG #48); produção pt-BR intacta, flag de locales OFF.
+**Fase atual:** 🟢 **Infra i18n publicada na main** (espanhol ainda invisível — flag OFF). Restam: Lote 7 (leva institucional, 162 chaves) → `--strict` → auditoria do Z → decisão de ligar a flag (Direção).
 **Regime até 26/09:** Kimi executa código; Operador (Fabiano) revisa e commita (LOG #41). Claude retorna 26/09.
 
 ## Pendências abertas
@@ -9,8 +9,7 @@
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
 | P2 | Disposição de `consentimento-re-consentimento.patch`, `public/inaep-logo.png` e docx em `upload/` (3 untracked confirmados) | Operador + Z | 2026-09-20 | Aceite E2, emenda 2.2; LOG #40 |
-| RET | footer.*, home.*, pages.*, results.validacaoDesc (162/420 chaves) — **LIBERADO** pela decisão §4.2; em execução como Lote 7 (despacho de 2026-09-24, commits C1–C3) | Engenharia | 2026-09-22 | LOG #47; DESPACHO leva-institucional 2026-09-24 |
-| RET | footer.*, home.*, pages.*, results.validacaoDesc — **RETIDOS** até decisão §4.2 (162/335 chaves ausentes) | Engenharia (bloqueado na Direção) | 2026-09-22 | LOG #27/#28/#40 |
+| RET | footer.*, home.*, pages.*, results.validacaoDesc (162/420 chaves) — **LIBERADO** pela decisão §4.2; Lote 7 agora parte de merge de `origin/main` (`e2ea13e`) na branch antes de C1–C3 (LOG #48) | Engenharia | 2026-09-22 | LOG #47/#48; DESPACHO leva-institucional 2026-09-24 |
 
 ## Pendências fechadas
 
