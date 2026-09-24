@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
-import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, label } from './data';
+import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, CONTEXT_QUESTIONS, MATRIX_VERSION, label } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer, QuantitativeAnswer } from './utils';
 import {
@@ -26,7 +26,9 @@ import {
   getQuantitativeFinalResult,
   generateReportHTML,
   getUnansweredItems,
+  getNaoSeAplicaItems,
   getEliminatoryInfo,
+  isContextQuestionVisible,
   buildValidationExport,
   downloadValidationExport,
 } from './utils';
@@ -208,6 +210,19 @@ export default function Results({
     {}
   );
 
+  // Espelho do relatório: a tela de Resultados é o registro fiel do
+  // preenchimento — a impressão apenas reproduz o que já consta aqui.
+  // Caracterização completa do contexto (todas as descritivas visíveis,
+  // respeitando exibição condicional) e rastro das respostas "Não se aplica".
+  const contextItems = CONTEXT_QUESTIONS.filter((q) => isContextQuestionVisible(q, contextAnswers));
+  const naoSeAplicaItems = isCombinedReport
+    ? [
+        ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+        ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+      ]
+    : getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
+  const dataRegistro = new Date().toLocaleDateString(locale);
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white text-teal-700">
@@ -237,7 +252,40 @@ export default function Results({
           <StepIndicator currentStep="results" version={version} onStepClick={onStepClick} />
         </div>
 
-        {/* Context */}
+        {/* Identificação do Protocolo — espelho do relatório */}
+        <Card className="mb-6">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <ClipboardCheck className="h-4 w-4" />
+              {t('results.identTitulo')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 text-sm">
+              <div>
+                <span className="font-medium text-muted-foreground">{t('results.identTituloProjeto')}</span>
+                <p className="mt-1">{contextAnswers['titulo'] || t('results.naoInformado')}</p>
+              </div>
+              <Separator />
+              <div>
+                <span className="font-medium text-muted-foreground">{t('results.identInstituicao')}</span>
+                <p className="mt-1">{contextAnswers['instituicao'] || t('results.naoInformado')}</p>
+              </div>
+              <Separator />
+              <div>
+                <span className="font-medium text-muted-foreground">{t('results.identCep')}</span>
+                <p className="mt-1">{contextAnswers['cep_nome'] || t('results.naoInformado')}</p>
+              </div>
+              <Separator />
+              <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
+                <span>{t('results.geradoEm', { date: dataRegistro })}</span>
+                <span>{t('results.versaoMatrizRotulo', { version: MATRIX_VERSION })}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Context — caracterização completa (espelho do relatório) */}
         <Card className="mb-6">
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
@@ -252,15 +300,15 @@ export default function Results({
           </CardHeader>
           <CardContent>
             <div className="space-y-3 text-sm">
-              <div>
-                <span className="font-medium text-muted-foreground">{t('results.perguntaSistema')}</span>
-                <p className="mt-1">{contextAnswers['contexto1'] || t('results.naoInformado')}</p>
-              </div>
-              <Separator />
-              <div>
-                <span className="font-medium text-muted-foreground">{t('results.autonomiaSistema')}</span>
-                <p className="mt-1">{contextAnswers['contexto2'] || t('results.naoInformado')}</p>
-              </div>
+              {contextItems.map((q) => {
+                const ans = contextAnswers[q.id];
+                return (
+                  <div key={q.id}>
+                    <span className="font-medium text-muted-foreground">{label(q, 'pergunta', locale)}</span>
+                    <p className="mt-1">{ans && ans.trim() ? ans : t('results.naoInformado')}</p>
+                  </div>
+                );
+              })}
               <Separator />
               <div>
                 <span className="font-medium text-muted-foreground">{t('results.utilizaBanco')}</span>
@@ -682,6 +730,46 @@ export default function Results({
             )}
           </CardContent>
         </Card>
+
+        {/* Questões marcadas como "Não se aplica" — rastro auditável (espelho do relatório) */}
+        {naoSeAplicaItems.length > 0 && (
+          <Card className="mb-6 border-slate-300 bg-slate-50/40">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <FileText className="h-4 w-4 text-slate-600" />
+                <span>{t('results.naTitulo')}</span>
+                <Badge className="bg-slate-100 text-slate-700 border border-slate-300 text-[10px]">
+                  {t('results.naCount', { count: naoSeAplicaItems.length })}
+                </Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-3">
+                {t.rich('results.naDesc', {
+                  count: naoSeAplicaItems.length,
+                  b: (chunks) => <strong>{chunks}</strong>,
+                })}
+              </p>
+              <ul className="space-y-1.5">
+                {naoSeAplicaItems.map((it) => (
+                  <li key={it.id} className="text-xs text-slate-700 flex gap-2 items-start">
+                    <span className="font-mono text-[11px] bg-slate-100 text-slate-700 border border-slate-200 px-1 rounded shrink-0">
+                      {it.id}
+                    </span>
+                    <span className="leading-relaxed">
+                      {it.label}
+                      {it.eliminatorio && (
+                        <Badge className="ml-1.5 bg-red-50 text-red-700 border border-red-300 text-[10px]">
+                          {t('results.naTagEliminatorio')}
+                        </Badge>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Disclaimer */}
         <Card className="border-dashed bg-muted/30 mb-6">
