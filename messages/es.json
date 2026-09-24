@@ -141,7 +141,7 @@
     "instituicaoLabel": "Institución *",
     "instituicaoPlaceholder": "Ej.: Hospital Universitario XYZ",
     "cepLabel": "Nombre del CEP *",
-    "cepPlaceholder": "Ej.: CEP/CONEP",
+    "cepPlaceholder": "Ej.: CEP de su institución",
     "contextTitle": "Caracterización del Contexto de Uso",
     "contextSubtitle": "Estas preguntas son descriptivas y obligatorias. No generan puntuación, pero contextualizan la evaluación.",
     "placeholderNumero": "Ej.: 1500",
