@@ -1,54 +1,53 @@
 'use client'
 
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export function Footer() {
+  const t = useTranslations()
   const anoAtual = new Date().getFullYear()
 
   return (
     <footer className="w-full border-t border-border bg-muted/30 py-4 px-6">
       <div className="mx-auto max-w-4xl flex flex-col items-center gap-2 text-center text-sm text-muted-foreground">
         <p>
-          Desenvolvido pelo{' '}
-          <span className="font-medium text-foreground">
-            Ministério da Saúde
-          </span>{' '}
-          para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
+          {t.rich('footer.developedBy', {
+            ms: (chunks) => (
+              <span className="font-medium text-foreground">{chunks}</span>
+            ),
+          })}
         </p>
         <p className="text-xs">
-          Licenciado sob a Licença Pública Geral do Software Público Brasileiro
-          (LPG-SPB)
+          {t('footer.license')}
         </p>
         <p className="text-xs text-muted-foreground/80">
-          Os dados preenchidos ficam somente neste navegador (armazenamento local do
-          dispositivo) e não são enviados a nenhum servidor. Em computador compartilhado,
-          use “Nova avaliação” para apagá-los.
+          {t('footer.privacy')}
         </p>
         <p className="text-xs">
-          © {anoAtual} Ministério da Saúde — Governo Federal do Brasil
+          © {anoAtual} {t('footer.copyrightOrg')}
         </p>
         <p className="text-xs pt-1">
           <Link
             href="/validacao"
             className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
           >
-            Validação Local pelos CEPs
+            {t('footer.linkValidacao')}
           </Link>
           <span className="mx-1.5 text-muted-foreground/60">·</span>
           <Link
             href="/transparencia"
             className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
           >
-            Transparência metodológica
+            {t('footer.linkTransparencia')}
           </Link>
           <span className="mx-1.5 text-muted-foreground/60">·</span>
           <Link
             href="/instrucoes"
             className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
           >
-            Apêndice do guia
+            {t('footer.linkApendice')}
           </Link>
-          <span className="text-muted-foreground/80"> (em revisão)</span>
+          <span className="text-muted-foreground/80">{t('footer.emRevisao')}</span>
         </p>
       </div>
     </footer>

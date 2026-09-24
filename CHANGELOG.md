@@ -7,6 +7,40 @@ ratificadas pelo GT/INAEP; a paridade 1:1 guia × app é verificada no gate trip
 
 ---
 
+## [2.2.0] — infraestrutura de internacionalização (i18n) — 2026-09
+
+Branch `feat/i18n-architecture`. **Infraestrutura apenas — ZERO tradução; nada
+visível muda.** O bump de schema (`matrixVersion` 2.1.0 → 2.2.0) reflete o campo
+`i18n` opcional adicionado aos nós de conteúdo; o **conteúdo da matriz (números,
+pesos, cortes, ids, enunciados) permanece inalterado** — verify **105/105** ·
+parity **128/0** · gate **64/64 Δ=0**.
+
+- **next-intl 4** + estrutura `src/app/[locale]/` + `src/proxy.ts` (renome do
+  middleware no Next 16); `localePrefix: as-needed` (pt-BR sem prefixo). Flag
+  **`LOCALES_ENABLED`** lida em runtime no proxy: off (padrão) redireciona os
+  locales gated ao pt-BR e serve pt-BR normalmente; `localeDetection`,
+  `localeCookie` e `alternateLinks` desligados (sem cookie `NEXT_LOCALE`, sem
+  `hreflang`).
+- **Casca de UI e narrativa das páginas** extraídas para `messages/pt-BR.json`
+  (`t()`/`t.rich()`/plural ICU); componentes e as 3 páginas religados.
+  Conformidade zero-literal pt-BR em JSX (símbolos/unidades/ids e o disclaimer
+  canônico ficam à parte).
+- **Modelo campo-canônico + `i18n`**: o conteúdo da matriz permanece canônico
+  pt-BR na spec; campo **`i18n` opcional** por nó (ausente nesta branch) + helper
+  **`label(node, campo, locale)`** com fallback ao canônico. A religação dos
+  componentes a `label()` migra para `feat/i18n-es`.
+- **Relatório imprimível locale-aware**: `lang` dinâmico + font-stack com CJK e
+  datas conforme o locale ativo (fim das datas fixas `pt-BR`).
+- **Remoção do `jspdf`** (dependência morta — 0 imports em `src/`).
+- **Gates novos:** baseline NDTI congelada (`gate/baseline-ndti/`) +
+  `scripts/parity-locale.py` (pt-BR DOM-idêntico à baseline com a flag off — 4/4)
+  e `scripts/i18n-identity.ts` no `npm run gate` (prova `label()` no-op sobre a
+  allowlist de **344** entradas). `verify-math` fixa `versaoMatriz` = 2.2.0.
+
+Carimbo `versaoMatriz` = 2.2.0. Merge à `main` apenas com autorização da Direção.
+
+---
+
 ## [2.1.0] — notas de verificação MHRA (F-24 a F-28) — 2026-09
 
 Origem: proposta de perguntas a partir do relatório da National Commission / MHRA +

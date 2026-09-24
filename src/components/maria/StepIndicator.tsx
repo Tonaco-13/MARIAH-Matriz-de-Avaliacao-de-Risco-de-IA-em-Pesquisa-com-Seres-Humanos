@@ -1,22 +1,21 @@
 'use client';
 
 import { CheckCircle2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export type WizardStep = 'version' | 'filter' | 'context' | 'assessment' | 'results';
 
 type StepInfo = {
   id: WizardStep;
-  label: string;
-  shortLabel: string;
   number: number;
 };
 
 const STEPS: StepInfo[] = [
-  { id: 'version', label: 'Seleção da Versão', shortLabel: 'Versão', number: 1 },
-  { id: 'filter', label: 'Filtro de Entrada', shortLabel: 'Filtro', number: 2 },
-  { id: 'context', label: 'Caracterização do Contexto', shortLabel: 'Contexto', number: 3 },
-  { id: 'assessment', label: 'Avaliação de Risco', shortLabel: 'Avaliação', number: 4 },
-  { id: 'results', label: 'Resultado', shortLabel: 'Resultado', number: 5 },
+  { id: 'version', number: 1 },
+  { id: 'filter', number: 2 },
+  { id: 'context', number: 3 },
+  { id: 'assessment', number: 4 },
+  { id: 'results', number: 5 },
 ];
 
 type StepIndicatorProps = {
@@ -35,6 +34,7 @@ type StepIndicatorProps = {
 };
 
 export default function StepIndicator({ currentStep, version, onStepClick }: StepIndicatorProps) {
+  const t = useTranslations();
   const currentIndex = STEPS.findIndex((s) => s.id === currentStep);
   const showVersionBadge = !!version && currentStep !== 'version';
 
@@ -54,11 +54,11 @@ export default function StepIndicator({ currentStep, version, onStepClick }: Ste
             `}
             aria-label={
               version === 'A'
-                ? 'Você está na Versão A — Qualitativa'
-                : 'Você está na Versão B — Quantitativa'
+                ? t('ui.stepIndicator.versionBadgeAriaA')
+                : t('ui.stepIndicator.versionBadgeAriaB')
             }
           >
-            {version === 'A' ? 'Versão A — Qualitativa' : 'Versão B — Quantitativa'}
+            {version === 'A' ? t('app.versionLabelA') : t('app.versionLabelB')}
           </span>
         </div>
       )}
@@ -68,6 +68,9 @@ export default function StepIndicator({ currentStep, version, onStepClick }: Ste
           const isCompleted = idx < currentIndex;
           const isCurrent = idx === currentIndex;
           const isClickable = !!onStepClick && idx <= currentIndex;
+
+          const stepLabel = t(`ui.stepIndicator.${step.id}.label`);
+          const stepShort = t(`ui.stepIndicator.${step.id}.short`);
 
           // Cores comuns do círculo conforme estado.
           const circleClasses = isCompleted
@@ -102,8 +105,8 @@ export default function StepIndicator({ currentStep, version, onStepClick }: Ste
                   ${isClickable && !isCurrent ? 'group-hover:underline' : ''}
                 `}
               >
-                <span className="hidden sm:inline">{step.label}</span>
-                <span className="sm:hidden">{step.shortLabel}</span>
+                <span className="hidden sm:inline">{stepLabel}</span>
+                <span className="sm:hidden">{stepShort}</span>
               </span>
             </div>
           );
@@ -116,7 +119,7 @@ export default function StepIndicator({ currentStep, version, onStepClick }: Ste
                   type="button"
                   onClick={() => onStepClick(step.id)}
                   className="group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 rounded-md p-0.5 -m-0.5"
-                  aria-label={`Ir para o passo: ${step.label}`}
+                  aria-label={t('ui.stepIndicator.goToStep', { label: stepLabel })}
                   aria-current={isCurrent ? 'step' : undefined}
                   disabled={isCurrent}
                 >
@@ -126,7 +129,7 @@ export default function StepIndicator({ currentStep, version, onStepClick }: Ste
                 <div
                   className={onStepClick ? 'opacity-60 cursor-not-allowed' : ''}
                   aria-current={isCurrent ? 'step' : undefined}
-                  title={onStepClick ? 'Passo ainda não disponível' : undefined}
+                  title={onStepClick ? t('ui.stepIndicator.stepUnavailable') : undefined}
                 >
                   {stepContent}
                 </div>

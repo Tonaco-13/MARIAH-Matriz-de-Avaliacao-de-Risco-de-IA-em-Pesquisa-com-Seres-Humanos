@@ -15,6 +15,7 @@ import {
   CheckCircle2,
   Circle,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { RISK_LEVELS } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer } from './utils';
@@ -46,21 +47,6 @@ type QualitativeAssessmentProps = {
   onStepClick: (step: WizardStep) => void;
 };
 
-function getRiskLevelBadge(level: RiskLevel) {
-  const info = RISK_LEVELS[level];
-  const colorMap: Record<RiskLevel, string> = {
-    I: 'bg-green-100 text-green-700 border-green-200',
-    II: 'bg-amber-100 text-amber-700 border-amber-200',
-    III: 'bg-orange-100 text-orange-700 border-orange-200',
-    IV: 'bg-red-100 text-red-700 border-red-200',
-  };
-  return (
-    <Badge className={`${colorMap[level]} border`}>
-      Nível {level} — {info.label}
-    </Badge>
-  );
-}
-
 export default function QualitativeAssessment({
   answers,
   onAnswer,
@@ -72,6 +58,23 @@ export default function QualitativeAssessment({
   onClearScopeIds,
   onStepClick,
 }: QualitativeAssessmentProps) {
+  const t = useTranslations();
+
+  const getRiskLevelBadge = (lvl: RiskLevel) => {
+    const info = RISK_LEVELS[lvl];
+    const colorMap: Record<RiskLevel, string> = {
+      I: 'bg-green-100 text-green-700 border-green-200',
+      II: 'bg-amber-100 text-amber-700 border-amber-200',
+      III: 'bg-orange-100 text-orange-700 border-orange-200',
+      IV: 'bg-red-100 text-red-700 border-red-200',
+    };
+    return (
+      <Badge className={`${colorMap[lvl]} border`}>
+        {t('assessment.nivelBadge', { level: lvl, label: info.label })}
+      </Badge>
+    );
+  };
+
   const axesList = getApplicableAxes(usesDatabase);
   const [currentAxis, setCurrentAxis] = useState(0);
   const axis = axesList[Math.min(currentAxis, axesList.length - 1)];
@@ -139,12 +142,12 @@ export default function QualitativeAssessment({
               </div>
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <h1 className="text-xl font-bold">MARIAH</h1>
+                  <h1 className="text-xl font-bold">{t('app.title')}</h1>
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
-                    Versão preliminar
+                    {t('app.badgePreliminar')}
                   </span>
                 </div>
-                <p className="text-teal-700 text-xs">Versão A — Qualitativa</p>
+                <p className="text-teal-700 text-xs">{t('app.versionLabelA')}</p>
               </div>
             </div>
           </div>
@@ -160,8 +163,8 @@ export default function QualitativeAssessment({
         {/* Global progress */}
         <div className="mb-6">
           <div className="flex justify-between text-xs text-muted-foreground mb-1">
-            <span>Progresso geral</span>
-            <span>{totalAnswered}/{totalQuestions} questões respondidas</span>
+            <span>{t('assessment.progressoGeral')}</span>
+            <span>{t('assessment.questoesRespondidas', { answered: String(totalAnswered), total: String(totalQuestions) })}</span>
           </div>
           <Progress value={(totalAnswered / totalQuestions) * 100} className="h-2" />
         </div>
@@ -172,11 +175,12 @@ export default function QualitativeAssessment({
             const isRes738 = s.axis.condicionalBancoDados;
             // Label uses the axis ID suffix (1, 2, 3, 3.b, 4, 5) to stay in sync with the matrix.
             const idMatch = s.axis.id.match(/^eixo(\d+b?)$/);
-            const label = idMatch
+            const n = idMatch
               ? idMatch[1].includes('b')
-                ? `Eixo 3.b`
-                : `Eixo ${idMatch[1]}`
-              : `Eixo ${s.index + 1}`;
+                ? '3.b'
+                : idMatch[1]
+              : String(s.index + 1);
+            const label = t('assessment.a.eixoLabel', { n });
             return (
               <button
                 key={s.axis.id}
@@ -226,14 +230,14 @@ export default function QualitativeAssessment({
                   {axis.nome}
                   {axis.condicionalBancoDados && (
                     <Badge className="bg-blue-100 text-blue-700 border border-blue-200 text-xs">
-                      Res 738/2024
+                      {t('assessment.res738Badge')}
                     </Badge>
                   )}
                 </CardTitle>
                 <CardDescription className="text-sm mt-1">{axis.descricao}</CardDescription>
                 {axis.elevacaoEspecial === 'banco-dados' && (
                   <p className="text-xs mt-2 text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-100 inline-block">
-                    ⚠ Elevação especial: 0 → não eleva · 1-2 risco → Nível III · 3+ → Nível IV
+                    {t('assessment.a.elevacaoEspecial')}
                   </p>
                 )}
               </div>
@@ -249,7 +253,11 @@ export default function QualitativeAssessment({
                 <div className="flex items-center gap-2 text-sm">
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">
-                    Respostas de risco: <strong>{riskCount}</strong>/{visibleQuestoes.length}
+                    {t.rich('assessment.respostasRiscoResumo', {
+                      count: String(riskCount),
+                      total: String(visibleQuestoes.length),
+                      b: (chunks) => <strong>{chunks}</strong>,
+                    })}
                   </span>
                 </div>
               </div>
@@ -264,7 +272,7 @@ export default function QualitativeAssessment({
                 const currentAnswer = answers[q.id];
                 const isRisk = currentAnswer === q.riskAnswer;
                 const isNa = currentAnswer === 'na';
-                const riskLabel = q.riskAnswer === 'sim' ? 'Sim ⬆' : 'Não ⬆';
+                const riskLabel = q.riskAnswer === 'sim' ? t('assessment.riscoSim') : t('assessment.riscoNao');
                 const eliminatorioAtivado = q.eliminatorio && isRisk;
 
                 return (
@@ -288,7 +296,7 @@ export default function QualitativeAssessment({
                             <p className="text-sm leading-relaxed font-medium">{q.pergunta}</p>
                             {q.eliminatorio && (
                               <Badge className="mt-1 bg-red-100 text-red-700 border border-red-300 text-[10px]">
-                                ⛔ ELIMINATÓRIO
+                                {t('assessment.eliminatorioBadge')}
                               </Badge>
                             )}
                           </div>
@@ -317,7 +325,7 @@ export default function QualitativeAssessment({
                               }
                               aria-pressed={currentAnswer === 'sim'} onClick={() => onAnswer(q.id, 'sim')}
                             >
-                              Sim
+                              {t('ui.sim')}
                             </Button>
                             <Button
                               size="sm"
@@ -331,7 +339,7 @@ export default function QualitativeAssessment({
                               }
                               aria-pressed={currentAnswer === 'nao'} onClick={() => onAnswer(q.id, 'nao')}
                             >
-                              Não
+                              {t('ui.nao')}
                             </Button>
                             {q.hasNaOption && (
                               <Button
@@ -344,32 +352,35 @@ export default function QualitativeAssessment({
                                 }
                                 aria-pressed={currentAnswer === 'na'} onClick={() => onAnswer(q.id, 'na')}
                               >
-                                Não se aplica
+                                {t('ui.naoSeAplica')}
                               </Button>
                             )}
                           </div>
                           {q.naoPontuavel ? (
                             <span className="text-xs text-muted-foreground">
                               <span className="font-semibold text-slate-600">
-                                {q.eliminatorio ? 'Diligência impeditiva' : 'Registro / diligência'}
+                                {q.eliminatorio ? t('assessment.diligenciaImpeditiva') : t('assessment.registroDiligencia')}
                               </span>
                               {q.eliminatorio
-                                ? ' — não pontua, mas bloqueia o parecer se ausente'
-                                : ' — não altera a pontuação do eixo'}
+                                ? t('assessment.sufixoImpeditiva')
+                                : t('assessment.sufixoRegistro')}
                             </span>
                           ) : (
                             <span className="text-xs text-muted-foreground">
-                              Resposta de risco: <span className="font-semibold text-red-600">{riskLabel}</span>
+                              {t.rich('assessment.respostaRisco', {
+                                label: riskLabel,
+                                b: (chunks) => <span className="font-semibold text-red-600">{chunks}</span>,
+                              })}
                             </span>
                           )}
                           {isNa && (
                             <Badge className="bg-slate-100 text-slate-600 border border-slate-300 text-[10px]">
-                              Não aplicável — não conta como risco
+                              {t('assessment.naoAplicavelBadge')}
                             </Badge>
                           )}
                           {eliminatorioAtivado && (
                             <Badge className="bg-red-100 text-red-700 border border-red-400 text-[10px]">
-                              ⛔ Protocolo não avaliável — {q.refEliminatoria ?? '§7.3.6'}
+                              {t('assessment.naoAvaliavelBadge', { ref: q.refEliminatoria ?? '§7.3.6' })}
                             </Badge>
                           )}
                         </div>
@@ -386,11 +397,11 @@ export default function QualitativeAssessment({
         <div className="flex justify-between items-center flex-wrap gap-3">
           <Button variant="outline" onClick={handlePrev}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {currentAxis === 0 ? 'Voltar' : 'Eixo Anterior'}
+            {currentAxis === 0 ? t('ui.back') : t('assessment.a.eixoAnterior')}
           </Button>
           <div className="flex items-center gap-2 flex-wrap">
             <ClearScopeButton
-              scopeLabel="este eixo"
+              scopeLabel={t('ui.scopeEixo')}
               affectedCount={answeredCount}
               onClear={() => onClearScopeIds(axis.questoes.map((q) => q.id))}
             />
@@ -400,7 +411,7 @@ export default function QualitativeAssessment({
             className="bg-teal-700 hover:bg-teal-800"
             onClick={handleNext}
           >
-            {currentAxis < axesList.length - 1 ? 'Próximo Eixo' : 'Ver Resultado'}
+            {currentAxis < axesList.length - 1 ? t('assessment.a.proximoEixo') : t('assessment.verResultado')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -409,7 +420,7 @@ export default function QualitativeAssessment({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIAH — Versão A — Qualitativa
+            {t('assessment.a.footer')}
           </p>
         </div>
       </footer>

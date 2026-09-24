@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -13,13 +14,19 @@ import {
 } from 'lucide-react';
 import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
 
-export const metadata: Metadata = {
-  title: 'Instruções de Preenchimento — MARIAH',
-  description:
-    'Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIAH, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
-};
+type PageProps = { params: Promise<{ locale: string }> };
 
-export default function InstrucoesPage() {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'pages.instrucoes' });
+  return { title: t('metaTitle'), description: t('metaDesc') };
+}
+
+export default async function InstrucoesPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations();
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
@@ -33,7 +40,7 @@ export default function InstrucoesPage() {
           >
             <Link href="/">
               <ArrowLeft className="mr-1.5 h-4 w-4" />
-              Voltar à MARIAH
+              {t('pages.voltar')}
             </Link>
           </Button>
           <div className="flex items-center justify-between gap-3 mb-3">
@@ -44,25 +51,23 @@ export default function InstrucoesPage() {
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
                   <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                    Instruções de Preenchimento
+                    {t('pages.instrucoes.title')}
                   </h1>
                   <Badge
                     variant="outline"
                     className="text-[10px] font-medium px-2 py-0.5 border-amber-300 text-amber-800 bg-amber-50 whitespace-nowrap"
                   >
-                    em revisão
+                    {t('pages.emRevisao')}
                   </Badge>
                 </div>
                 <p className="text-teal-700 text-sm mt-1">
-                  Caderno 2 do Guia — preenchimento das Versões A e B
+                  {t('pages.instrucoes.subtitle')}
                 </p>
               </div>
             </div>
           </div>
           <p className="text-teal-600 max-w-2xl text-sm sm:text-base leading-relaxed">
-            Guia operacional para responder a matriz, questão a questão: a resposta que
-            indica risco, as orientações por item, as regras de consolidação e a leitura
-            do resultado.
+            {t('pages.instrucoes.intro')}
           </p>
         </div>
       </header>
@@ -72,9 +77,11 @@ export default function InstrucoesPage() {
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-start gap-2 text-sm text-amber-900">
           <Info className="h-4 w-4 mt-0.5 shrink-0" />
           <p>
-            <span className="font-medium">Status:</span> o <em>Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos</em> está em fase de revisão pelo Grupo de Trabalho do
-            Ministério da Saúde. Os documentos abaixo correspondem à minuta atual e serão
-            atualizados quando o guia for publicado oficialmente.
+            {t.rich('pages.statusAviso', {
+              tipo: t('pages.tipoDocumentos'),
+              b: (chunks) => <span className="font-medium">{chunks}</span>,
+              em: (chunks) => <em>{chunks}</em>,
+            })}
           </p>
         </div>
       </div>
@@ -82,18 +89,12 @@ export default function InstrucoesPage() {
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 space-y-8">
         {/* Seção 1: O que é */}
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">O que são estas instruções</h2>
+          <h2 className="text-xl font-semibold">{t('pages.instrucoes.s1Title')}</h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            As instruções orientam o preenchimento das duas versões da matriz, questão a
-            questão. Para cada item, indicam qual resposta sinaliza risco, trazem a
-            orientação de preenchimento e explicam como o resultado é construído —
-            consolidação por contagem (Versão A) e pontuação por blocos (Versão B), além
-            das salvaguardas automáticas e dos pontos de corte.
+            {t('pages.instrucoes.s1p1')}
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Foram elaboradas em correspondência direta com o conjunto de perguntas
-            atualmente em uso no aplicativo, de modo que o avaliador encontre, no documento,
-            exatamente os itens que vê na tela. {MARIA_NAO_SUBSTITUI}
+            {t('pages.instrucoes.s1p2')} {MARIA_NAO_SUBSTITUI}
           </p>
         </section>
 
@@ -101,19 +102,17 @@ export default function InstrucoesPage() {
 
         {/* Seção 2: Downloads */}
         <section className="space-y-4">
-          <h2 className="text-xl font-semibold">Documentos para download</h2>
+          <h2 className="text-xl font-semibold">{t('pages.docsTitulo')}</h2>
           <Card>
             <CardContent className="py-5">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="h-4 w-4 text-teal-700" />
-                    <p className="font-medium text-sm">Versão A — Qualitativa</p>
+                    <p className="font-medium text-sm">{t('app.versionLabelA')}</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Preenchimento dos cinco eixos (e do Eixo 3.b, Res. 738): a resposta de
-                    risco e a orientação de cada questão, a regra de consolidação por
-                    contagem e a leitura do nível final.
+                    {t('pages.instrucoes.versaoAdesc')}
                   </p>
                   <Button
                     variant="default"
@@ -123,19 +122,17 @@ export default function InstrucoesPage() {
                   >
                     <a href="/instrucoes-preenchimento-versao-a-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Baixar Versão A (.docx)
+                      {t('pages.instrucoes.baixarA')}
                     </a>
                   </Button>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="h-4 w-4 text-teal-700" />
-                    <p className="font-medium text-sm">Versão B — Quantitativa</p>
+                    <p className="font-medium text-sm">{t('app.versionLabelB')}</p>
                   </div>
                   <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
-                    Preenchimento dos sete blocos (e do Bloco 6.b, Res. 738): pesos por
-                    questão, a Cláusula de Prevalência Ética, a mitigação bidirecional do
-                    Bloco 7 e os pontos de corte.
+                    {t('pages.instrucoes.versaoBdesc')}
                   </p>
                   <Button
                     variant="outline"
@@ -145,7 +142,7 @@ export default function InstrucoesPage() {
                   >
                     <a href="/instrucoes-preenchimento-versao-b-mariah.docx" download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
-                      Baixar Versão B (.docx)
+                      {t('pages.instrucoes.baixarB')}
                     </a>
                   </Button>
                 </div>
@@ -153,15 +150,16 @@ export default function InstrucoesPage() {
             </CardContent>
           </Card>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            Documentos complementares sobre as premissas e as salvaguardas da matriz estão
-            na página{' '}
-            <Link
-              href="/transparencia"
-              className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
-            >
-              Transparência metodológica
-            </Link>
-            .
+            {t.rich('pages.instrucoes.docsComplementares', {
+              link: (chunks) => (
+                <Link
+                  href="/transparencia"
+                  className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
           </p>
         </section>
 
@@ -169,18 +167,18 @@ export default function InstrucoesPage() {
 
         {/* Seção 3: Observações */}
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold">Observações e crítica técnica</h2>
+          <h2 className="text-xl font-semibold">{t('pages.observacoesTitulo')}</h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            As instruções acompanham a matriz, que está em revisão pelo Grupo de Trabalho;
-            ajustes nas questões serão refletidos nestes documentos. Observações e críticas
-            técnicas podem ser encaminhadas, a qualquer momento, à CGREP pelo e-mail{' '}
-            <a
-              href="mailto:cgrep@saude.gov.br"
-              className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
-            >
-              cgrep@saude.gov.br
-            </a>
-            .
+            {t.rich('pages.instrucoes.s3p', {
+              mail: (chunks) => (
+                <a
+                  href="mailto:cgrep@saude.gov.br"
+                  className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
           </p>
         </section>
       </main>

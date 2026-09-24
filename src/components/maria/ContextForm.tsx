@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,9 +30,9 @@ import {
 } from '@/components/ui/tooltip';
 
 const IDENTIFICATION_FIELDS = [
-  { id: 'titulo', label: 'Título do Projeto' },
-  { id: 'instituicao', label: 'Instituição' },
-  { id: 'cep_nome', label: 'Nome do CEP' },
+  { id: 'titulo' },
+  { id: 'instituicao' },
+  { id: 'cep_nome' },
 ] as const;
 
 type ContextFormProps = {
@@ -58,6 +59,7 @@ export default function ContextForm({
   onStepClick,
   version,
 }: ContextFormProps) {
+  const t = useTranslations();
   // Só as descritivas visíveis (condicional resolvido) são obrigatórias/contabilizadas.
   const visibleContext = CONTEXT_QUESTIONS.filter((q) => isContextQuestionVisible(q, answers));
 
@@ -96,7 +98,7 @@ export default function ContextForm({
           inputMode="numeric"
           value={answers[q.id] || ''}
           onChange={(e) => onAnswer(q.id, e.target.value)}
-          placeholder="Ex: 1500"
+          placeholder={t('contextForm.placeholderNumero')}
           className="mt-1 max-w-xs"
           aria-label={q.pergunta}
         />
@@ -112,7 +114,7 @@ export default function ContextForm({
           className="mt-1 w-full max-w-md rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <option value="" disabled>
-            Selecione…
+            {t('contextForm.selecione')}
           </option>
           {(q.opcoes ?? []).map((o) => (
             <option key={o} value={o}>
@@ -150,7 +152,7 @@ export default function ContextForm({
         id={q.id}
         value={answers[q.id] || ''}
         onChange={(e) => onAnswer(q.id, e.target.value)}
-        placeholder="Sua resposta..."
+        placeholder={t('contextForm.respostaPlaceholder')}
         className="min-h-[100px] resize-y"
         aria-label={q.pergunta}
       />
@@ -168,12 +170,12 @@ export default function ContextForm({
               </div>
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <h1 className="text-xl font-bold">MARIAH</h1>
+                  <h1 className="text-xl font-bold">{t('app.title')}</h1>
                   <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap">
-                    Versão preliminar
+                    {t('app.badgePreliminar')}
                   </span>
                 </div>
-                <p className="text-teal-700 text-xs">Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos</p>
+                <p className="text-teal-700 text-xs">{t('app.subtitle')}</p>
               </div>
             </div>
           </div>
@@ -187,42 +189,42 @@ export default function ContextForm({
         </div>
 
         {/* Identification section */}
-        <h2 className="text-xl font-semibold mb-2">Identificação do Protocolo</h2>
+        <h2 className="text-xl font-semibold mb-2">{t('contextForm.identTitle')}</h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          Campos obrigatórios para identificar o protocolo avaliado.
+          {t('contextForm.identSubtitle')}
         </p>
 
         <Card className="border mb-8">
           <CardContent className="pt-6">
             <div className="space-y-4">
               <div>
-                <Label htmlFor="titulo">Título do Projeto *</Label>
+                <Label htmlFor="titulo">{t('contextForm.tituloLabel')}</Label>
                 <Input
                   id="titulo"
                   value={answers['titulo'] || ''}
                   onChange={(e) => onAnswer('titulo', e.target.value)}
-                  placeholder="Ex: Sistema de triagem por IA para emergências"
+                  placeholder={t('contextForm.tituloPlaceholder')}
                   className="mt-1"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="instituicao">Instituição *</Label>
+                  <Label htmlFor="instituicao">{t('contextForm.instituicaoLabel')}</Label>
                   <Input
                     id="instituicao"
                     value={answers['instituicao'] || ''}
                     onChange={(e) => onAnswer('instituicao', e.target.value)}
-                    placeholder="Ex: Hospital Universitário XYZ"
+                    placeholder={t('contextForm.instituicaoPlaceholder')}
                     className="mt-1"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="cep_nome">Nome do CEP *</Label>
+                  <Label htmlFor="cep_nome">{t('contextForm.cepLabel')}</Label>
                   <Input
                     id="cep_nome"
                     value={answers['cep_nome'] || ''}
                     onChange={(e) => onAnswer('cep_nome', e.target.value)}
-                    placeholder="Ex: CEP/CONEP"
+                    placeholder={t('contextForm.cepPlaceholder')}
                     className="mt-1"
                   />
                 </div>
@@ -232,9 +234,9 @@ export default function ContextForm({
         </Card>
 
         {/* Context questions section */}
-        <h2 className="text-xl font-semibold mb-2">Caracterização do Contexto de Uso</h2>
+        <h2 className="text-xl font-semibold mb-2">{t('contextForm.contextTitle')}</h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          Estas questões são descritivas e obrigatórias. Elas não geram pontuação, mas contextualizam a avaliação.
+          {t('contextForm.contextSubtitle')}
         </p>
 
         <div className="space-y-6">
@@ -272,11 +274,11 @@ export default function ContextForm({
         <div className="flex justify-between items-center mt-8 flex-wrap gap-3">
           <Button variant="outline" onClick={onBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar
+            {t('ui.back')}
           </Button>
           <div className="flex items-center gap-2 flex-wrap">
             <ClearScopeButton
-              scopeLabel="esta página"
+              scopeLabel={t('ui.scopePage')}
               affectedCount={answeredCount}
               onClear={onClearScope}
             />
@@ -287,7 +289,7 @@ export default function ContextForm({
             disabled={!allFilled}
             onClick={onNext}
           >
-            Continuar
+            {t('ui.continuar')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -296,7 +298,7 @@ export default function ContextForm({
       <footer className="border-t bg-muted/30 py-4 mt-auto">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs text-center text-muted-foreground">
-            MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+            {t('app.footerShort')}
           </p>
         </div>
       </footer>
