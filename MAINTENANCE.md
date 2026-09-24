@@ -91,7 +91,7 @@ gate deriva de string traduzível — as respostas são chaveadas por **id**.
   `referenciaNormativa`, `obs`, `opcoes`, ids e números **fora**) está
   documentada no cabeçalho do script.
 - **`scripts/i18n-no-literal.ts`** (roda no `npm run gate`) — guarda de regressão
-  com dois checks nomeados. **(A) zero-literal JSX:** nenhum literal de texto
+  com três checks nomeados. **(A) zero-literal JSX:** nenhum literal de texto
   pt-BR (acento ou palavra-domínio inequívoca) em `src/**/*.tsx` — a casca vem de
   `messages/` via `t()`, o conteúdo da matriz vem de `data.ts` por expressão.
   **(B) golden-rule:** números de corte/teto, ids de questão e `matrixVersion`
@@ -99,7 +99,12 @@ gate deriva de string traduzível — as respostas são chaveadas por **id**.
   e, nos `messages/*.json` (B2), falha por número de corte/`matrixVersion`
   (ids de questão em narrativa de ajuda são âncoras legítimas — listadas como
   aviso informativo, não bloqueiam). Os tokens proibidos são lidos da spec, não
-  fixados no script.
+  fixados no script. **(C) âncoras verbatim:** as três string-âncoras
+  (`MARIA_DISCLAIMER`, `MARIA_NAO_SUBSTITUI`, cláusula de cortesia) retornadas
+  por `getDisclaimer`/`getNaoSubstitui`/`getCourtesyNotice('es')` em
+  `disclaimer.ts` devem ser **byte-idênticas** ao `termoLocale` do glossário
+  (`spec/i18n/glossario-es.json`). Alterar a âncora sem atualizar o glossário
+  (ou vice-versa) quebra o gate.
 - Telas do wizard (não pré-renderizadas) são conferidas por e2e no preview da
   Vercel contra a vitrine.
 
@@ -116,7 +121,7 @@ expectativa em `scripts/verify-math.ts` — cada commit deve ser reproduzível v
 ```
 npm run verify      # matemática/estrutura da matriz (tsx)
 npm run parity      # paridade spec × guia (128/0)
-npm run gate        # vetores de nível/pontuação + i18n-identity (no-op de label) + i18n-no-literal (A: zero-literal JSX; B: golden-rule)
+npm run gate        # vetores de nível/pontuação + i18n-identity (no-op de label) + i18n-no-literal (A: zero-literal JSX; B: golden-rule; C: âncoras verbatim × glossário)
 npm run build       # build de produção
 python3 scripts/parity-locale.py check   # pt-BR idêntico à baseline NDTI (flag off)
 ```
@@ -125,6 +130,9 @@ python3 scripts/parity-locale.py check   # pt-BR idêntico à baseline NDTI (fla
 
 1. Preencher `messages/<locale>.json` (casca de UI/narrativa) e os campos `i18n`
    dos nós da spec (conteúdo da matriz), sem tocar em números/ids/`matrixVersion`.
+   O relatório/exports (HTML/TXT gerados em `utils.ts`) usa o namespace
+   **`report`** de `messages/` via `createTranslator()` — não `useTranslations`,
+   pois são funções fora de componente React.
 2. Religar os componentes a `label()` (e threading de locale no `utils.ts`).
 3. Ligar a flag `LOCALES_ENABLED=true` no ambiente desejado.
 4. Rodar os gates; o `parity-locale check` continua a proteger o pt-BR.
