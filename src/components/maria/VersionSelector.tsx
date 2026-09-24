@@ -14,10 +14,10 @@ import {
   CheckCircle2,
   ArrowLeftRight
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import type { MarcaVersion } from './data';
 import StepIndicator from './StepIndicator';
-import { MARIA_DISCLAIMER } from './disclaimer';
+import { getDisclaimer } from './disclaimer';
 
 type VersionSelectorProps = {
   onSelect: (version: MarcaVersion) => void;
@@ -26,6 +26,7 @@ type VersionSelectorProps = {
 
 export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSelectorProps) {
   const t = useTranslations();
+  const locale = useLocale();
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -252,7 +253,7 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
 
         <div className="flex items-start gap-2 text-xs text-muted-foreground">
           <FileText className="h-4 w-4 mt-0.5 shrink-0" />
-          <p>{MARIA_DISCLAIMER}</p>
+          <p>{getDisclaimer(locale)}</p>
         </div>
 
         <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">

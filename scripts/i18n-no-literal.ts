@@ -3,7 +3,7 @@
 //                   (feat/i18n-architecture, Passo 8 / P8)
 // ------------------------------------------------------------
 // Condição vinculante da Arquitetura: a "regra de ouro" (B7) e a extração de
-// texto para next-intl saem PROVADAS a cada gate, não afirmadas. Reúne DOIS
+// texto para next-intl saem PROVADAS a cada gate, não afirmadas. Reúne TRÊS
 // checks nomeados, num único arquivo, e roda no `npm run gate`:
 //
 //   (A) ZERO-LITERAL JSX  — nenhum literal de texto em pt-BR pode estar
@@ -20,11 +20,12 @@
 //   (B) GOLDEN-RULE       — números/pesos/cortes/ids/matrixVersion nunca viram
 //       texto traduzível. Duas superfícies:
 //         B1. Campos `i18n` da spec (camada de tradução do conteúdo da matriz):
-//             FALHA se qualquer valor contiver número de corte/teto da matriz,
-//             id de questão OU a matrixVersion. Regra COMPLETA — um id ou número
-//             num campo de tradução é sempre erro (ids são neutros de idioma;
-//             não se traduzem). Nesta branch não há campos `i18n`, então B1
-//             passa trivialmente e fica armada para feat/i18n-es.
+//             PRESERVAÇÃO — o conjunto de tokens da regra de ouro (números de
+//             corte/teto, ids de questão, matrixVersion) no valor traduzido deve
+//             ser IGUAL ao do canônico pt-BR do mesmo campo. Tradução preserva
+//             referências; introduzir, alterar ou remover um número/id é erro.
+//             (Dicas legitimamente citam ids/leis como cross-refs — o que se
+//             proíbe é traduzir/alterar esses tokens, não cita-los.)
 //         B2. Valores de messages/*.json (casca de UI): FALHA se contiver número
 //             de corte/teto da matriz OU a matrixVersion. NÃO falha por id de
 //             questão: a casca legitimamente ancora questões na narrativa de
@@ -33,6 +34,12 @@
 //             da spec, para não confundir com leis (14.874) ou versões (2.0) —
 //             são apenas CONTADAS (aviso informativo, não bloqueiam).
 //
+//   (C) ÂNCORAS VERBATIM  — as 3 strings-âncora do disclaimer (disclaimer,
+//       não-substituição, cortesia) vivem em disclaimer.ts, fora de messages/;
+//       o valor es no código deve ser VERBATIM ao `termoLocale` do glossário-es
+//       (âncora normativa aprovada pelo Z). Drift sem passar pelo glossário
+//       quebra o gate (condição da Arquitetura, LOG #40).
+//
 // Regra de ouro (B7): este script não fixa número/id/versão próprios — lê tudo
 // da spec (matrixVersion e ids reais) para proibir apenas o que a matriz define.
 // ============================================================
@@ -40,6 +47,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import * as ts from 'typescript';
+import { getCourtesyNotice, getDisclaimer, getNaoSubstitui } from '../src/components/maria/disclaimer';
 
 const ROOT = resolve(__dirname, '..');
 const SRC_DIR = join(ROOT, 'src');
@@ -154,27 +162,56 @@ function collectStrings(node: unknown, path: string, out: Array<{ path: string; 
   else if (node && typeof node === 'object') for (const [k, v] of Object.entries(node)) collectStrings(v, path ? `${path}.${k}` : k, out);
 }
 
-function collectI18nStrings(node: unknown, path: string, out: Array<{ path: string; value: string }>): void {
-  if (Array.isArray(node)) node.forEach((v, i) => collectI18nStrings(v, `${path}[${i}]`, out));
-  else if (node && typeof node === 'object') for (const [k, v] of Object.entries(node)) {
-    const p = path ? `${path}.${k}` : k;
-    if (k === 'i18n') collectStrings(v, p, out);
-    else collectI18nStrings(v, p, out);
+// Tokens da regra de ouro num texto: números de corte/teto, ids de questão e
+// matrixVersion — ordenados, para comparar es × canônico (preservação).
+function goldenTokens(s: string): string[] {
+  const out: string[] = [];
+  for (const n of FORBIDDEN_NUMBERS) {
+    const m = s.match(new RegExp(`(?<![\\d.,])${n}(?![\\d.,%])`, 'g'));
+    if (m) for (const x of m) out.push(`num:${x}`);
   }
+  for (const id of s.match(QUESTION_ID_RE) ?? []) out.push(`id:${id}`);
+  for (const v of s.match(new RegExp(MATRIX_VERSION.replace(/\./g, '\\.'), 'g')) ?? []) out.push(`ver:${v}`);
+  return out.sort();
+}
+
+// Visita cada campo traduzido sob uma chave `i18n`:
+// (path, locale, campo, valor_traduzido, valor_canônico).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function walkI18n(node: any, path: string, visit: (p: string, loc: string, field: string, esVal: unknown, canon: unknown) => void): void {
+  if (Array.isArray(node)) { node.forEach((v, i) => walkI18n(v, `${path}[${i}]`, visit)); return; }
+  if (!node || typeof node !== 'object') return;
+  if (node.i18n && typeof node.i18n === 'object') {
+    for (const [loc, fields] of Object.entries(node.i18n)) {
+      if (fields && typeof fields === 'object') {
+        for (const [field, val] of Object.entries(fields as Record<string, unknown>)) {
+          visit(path, loc, field, val, node[field]);
+        }
+      }
+    }
+  }
+  for (const [k, v] of Object.entries(node)) if (k !== 'i18n') walkI18n(v, path ? `${path}.${k}` : k, visit);
 }
 
 function checkB(): void {
-  // B1 — campos i18n da spec (regra COMPLETA: número, id ou versão)
-  const i18nStrings: Array<{ path: string; value: string }> = [];
-  collectI18nStrings(spec, '', i18nStrings);
-  for (const { path, value } of i18nStrings) {
-    const num = containsForbiddenNumber(value);
-    if (num !== null) failures.push(`[B1] spec ${path}: número de corte da matriz em campo i18n: ${num}`);
-    const ids = value.match(QUESTION_ID_RE);
-    if (ids) failures.push(`[B1] spec ${path}: id de questão em campo i18n: ${ids.join(', ')}`);
-    if (value.includes(MATRIX_VERSION)) failures.push(`[B1] spec ${path}: matrixVersion (${MATRIX_VERSION}) em campo i18n`);
-  }
-  console.log(`  (B1) golden-rule / campos i18n da spec: ${i18nStrings.length} valor(es) verificado(s)`);
+  // B1 — campos i18n da spec: PRESERVAÇÃO (sanção LOG). Os tokens da regra de
+  // ouro (números de corte/teto, ids de questão, matrixVersion) no valor
+  // traduzido devem ser IGUAIS aos do canônico pt-BR do mesmo campo — tradução
+  // preserva referências, nunca introduz/altera/remove número ou id.
+  let i18nChecked = 0;
+  walkI18n(spec, '', (path, loc, field, esVal, canon) => {
+    i18nChecked += 1;
+    if (typeof esVal !== 'string') {
+      failures.push(`[B1] spec ${path}.i18n.${loc}.${field}: valor não é string (${typeof esVal})`);
+      return;
+    }
+    const tEs = goldenTokens(esVal);
+    const tCanon = goldenTokens(typeof canon === 'string' ? canon : '');
+    if (JSON.stringify(tEs) !== JSON.stringify(tCanon)) {
+      failures.push(`[B1] spec ${path}.i18n.${loc}.${field}: tokens da regra de ouro divergem do canônico — ${loc}=[${tEs.join(', ')}] canônico=[${tCanon.join(', ')}]`);
+    }
+  });
+  console.log(`  (B1) golden-rule / campos i18n da spec: ${i18nChecked} campo(s) traduzido(s) verificado(s) (preservação vs. canônico)`);
 
   // B2 — messages/*.json (número/versão FALHAM; id real é aviso informativo)
   const msgFiles = walk(MESSAGES_DIR, '.json');
@@ -195,14 +232,50 @@ function checkB(): void {
 }
 
 // ============================================================
-console.log('=== i18n no-literal — guarda de regressão (Check A + Check B) ===');
+// CHECK C — âncoras do disclaimer × glossário (verbatim)
+// ------------------------------------------------------------
+// As 3 strings-âncora (disclaimer, não-substituição, cortesia) vivem em
+// disclaimer.ts — fora de messages/ e do Check B. O glossário-es é a âncora
+// normativa aprovada pelo Z: o valor es no código deve ser VERBATIM ao
+// `termoLocale` da entrada correspondente. Drift (edição direta no código sem
+// passar pelo glossário) faz o gate falhar. Condição da Arquitetura (LOG #40).
+// ============================================================
+function checkC(): void {
+  const GLOSSARIO_PATH = join(ROOT, 'spec', 'i18n', 'glossario-es.json');
+  const glossario = JSON.parse(readFileSync(GLOSSARIO_PATH, 'utf8')) as {
+    termos: Array<{ termoPtBr?: string; termoLocale?: string; status?: string }>;
+  };
+  const ANCORAS: Array<{ chaveGlossario: string; valorCodigo: string }> = [
+    { chaveGlossario: 'MARIA_DISCLAIMER (string-âncora)', valorCodigo: getDisclaimer('es') },
+    { chaveGlossario: 'MARIA_NAO_SUBSTITUI (string-âncora)', valorCodigo: getNaoSubstitui('es') },
+    { chaveGlossario: 'cláusula de cortesia (string-âncora)', valorCodigo: getCourtesyNotice('es') },
+  ];
+  let ok = 0;
+  for (const ancora of ANCORAS) {
+    const entrada = glossario.termos.find((t) => t.termoPtBr === ancora.chaveGlossario);
+    if (!entrada) {
+      failures.push(`[C] glossário-es: entrada "${ancora.chaveGlossario}" não encontrada`);
+      continue;
+    }
+    if (entrada.termoLocale !== ancora.valorCodigo) {
+      failures.push(`[C] ${ancora.chaveGlossario}: valor es no código diverge do glossário (verbatim exigido) — código="${ancora.valorCodigo.slice(0, 60)}…" glossário="${String(entrada.termoLocale).slice(0, 60)}…"`);
+      continue;
+    }
+    ok += 1;
+  }
+  console.log(`  (C) âncoras disclaimer × glossário: ${ok}/${ANCORAS.length} verbatim (es === termoLocale aprovado-z)`);
+}
+
+// ============================================================
+console.log('=== i18n no-literal — guarda de regressão (Check A + Check B + Check C) ===');
 console.log(`  matrixVersion (spec): ${MATRIX_VERSION} · ids reais na spec: ${REAL_IDS.size}`);
 checkA();
 checkB();
+checkC();
 
 if (failures.length > 0) {
   console.log(`\nFALHOU: ${failures.length} violação(ões) da regra:`);
   for (const f of failures.slice(0, 40)) console.log('  ✗ ' + f);
   process.exit(1);
 }
-console.log('\nOK: (A) sem literal pt-BR no JSX; (B) sem número/id/matrixVersion em campos i18n e sem número de corte/versão nos messages.');
+console.log('\nOK: (A) sem literal pt-BR no JSX; (B1) tokens da regra de ouro preservados (es === canônico) nos campos i18n; (B2) sem número de corte/versão nos messages; (C) âncoras do disclaimer verbatim ao glossário.');

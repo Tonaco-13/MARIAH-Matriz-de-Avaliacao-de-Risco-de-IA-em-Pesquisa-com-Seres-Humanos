@@ -12,7 +12,7 @@ import {
   Info,
   FileText,
 } from 'lucide-react';
-import { MARIA_NAO_SUBSTITUI } from '@/components/maria/disclaimer';
+import { getNaoSubstitui } from '@/components/maria/disclaimer';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -94,7 +94,7 @@ export default async function InstrucoesPage({ params }: PageProps) {
             {t('pages.instrucoes.s1p1')}
           </p>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            {t('pages.instrucoes.s1p2')} {MARIA_NAO_SUBSTITUI}
+            {t('pages.instrucoes.s1p2')} {getNaoSubstitui(locale)}
           </p>
         </section>
 

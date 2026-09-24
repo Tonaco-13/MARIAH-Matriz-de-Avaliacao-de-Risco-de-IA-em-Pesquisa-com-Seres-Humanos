@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Shield, ArrowRight, ArrowLeft, HelpCircle } from 'lucide-react';
-import { CONTEXT_QUESTIONS } from './data';
+import { CONTEXT_QUESTIONS, label } from './data';
 import type { MarcaVersion, ContextQuestion } from './data';
 import { isContextQuestionVisible } from './utils';
 
@@ -60,6 +60,7 @@ export default function ContextForm({
   version,
 }: ContextFormProps) {
   const t = useTranslations();
+  const locale = useLocale();
   // Só as descritivas visíveis (condicional resolvido) são obrigatórias/contabilizadas.
   const visibleContext = CONTEXT_QUESTIONS.filter((q) => isContextQuestionVisible(q, answers));
 
@@ -100,7 +101,7 @@ export default function ContextForm({
           onChange={(e) => onAnswer(q.id, e.target.value)}
           placeholder={t('contextForm.placeholderNumero')}
           className="mt-1 max-w-xs"
-          aria-label={q.pergunta}
+          aria-label={label(q, 'pergunta', locale)}
         />
       );
     }
@@ -110,7 +111,7 @@ export default function ContextForm({
           id={q.id}
           value={answers[q.id] || ''}
           onChange={(e) => onAnswer(q.id, e.target.value)}
-          aria-label={q.pergunta}
+          aria-label={label(q, 'pergunta', locale)}
           className="mt-1 w-full max-w-md rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <option value="" disabled>
@@ -127,7 +128,7 @@ export default function ContextForm({
     if (q.tipoEntrada === 'radio') {
       return (
         <fieldset className="mt-1">
-          <legend className="sr-only">{q.pergunta}</legend>
+          <legend className="sr-only">{label(q, 'pergunta', locale)}</legend>
           <div className="space-y-2">
             {(q.opcoes ?? []).map((o) => (
               <label key={o} className="flex items-start gap-2 text-sm cursor-pointer">
@@ -247,14 +248,14 @@ export default function ContextForm({
                   <span className="bg-teal-100 text-teal-700 px-2 py-0.5 rounded text-xs font-semibold shrink-0">
                     {badgeLabel(q.id)}
                   </span>
-                  <span className="leading-relaxed">{q.pergunta}</span>
+                  <span className="leading-relaxed">{label(q, 'pergunta', locale)}</span>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-0.5" />
                       </TooltipTrigger>
                       <TooltipContent className="max-w-sm">
-                        <p className="text-xs">{q.dica}</p>
+                        <p className="text-xs">{label(q, 'dica', locale)}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
@@ -262,7 +263,7 @@ export default function ContextForm({
               </CardHeader>
               <CardContent>
                 <Label htmlFor={q.id} className="sr-only">
-                  {q.pergunta}
+                  {label(q, 'pergunta', locale)}
                 </Label>
                 {renderField(q)}
               </CardContent>

@@ -14,12 +14,12 @@ import {
   ArrowLeft,
   ArrowRight,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
 import RestartButton from './RestartButton';
 import ClearScopeButton from './ClearScopeButton';
-import { DATABASE_FILTER_QUESTION } from './data';
+import { DATABASE_FILTER_QUESTION, label } from './data';
 import type { MarcaVersion } from './data';
 import {
   Tooltip,
@@ -64,6 +64,7 @@ export default function EntryFilter({
   version,
 }: EntryFilterProps) {
   const t = useTranslations();
+  const locale = useLocale();
   // Local state: Pergunta 1 (aplicabilidade). Inicializa a partir do filterResult
   // do reducer para sobreviver a navegação (clique no step "Filtro" por outras telas).
   // Usa o padrão "Storing information from previous renders" (React docs) para
@@ -277,7 +278,7 @@ export default function EntryFilter({
                 </p>
                 <div className="flex items-start gap-2">
                   <p className="text-base font-medium leading-relaxed flex-1">
-                    {DATABASE_FILTER_QUESTION.pergunta}
+                    {label(DATABASE_FILTER_QUESTION, 'pergunta', locale)}
                   </p>
                   <TooltipProvider>
                     <Tooltip>
@@ -285,7 +286,7 @@ export default function EntryFilter({
                         <HelpCircle className="h-4 w-4 text-muted-foreground shrink-0 cursor-help mt-1" />
                       </TooltipTrigger>
                       <TooltipContent className="max-w-sm">
-                        <p className="text-xs">{DATABASE_FILTER_QUESTION.dica}</p>
+                        <p className="text-xs">{label(DATABASE_FILTER_QUESTION, 'dica', locale)}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
