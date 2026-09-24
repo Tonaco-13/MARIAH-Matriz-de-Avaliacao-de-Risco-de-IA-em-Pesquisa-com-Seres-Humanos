@@ -3,6 +3,7 @@
 **Data:** 2026-09-24 · **Autor:** Kimi (arquitetura) · **Para:** Direção (Fabiano) · **Ref.:** LOG #28, #40; QUADRO §4.2/RET
 **Base verificada:** HEAD `08492c8` (feat/i18n-es) — ocorrências levantadas por varredura direta nesta data, não por memória.
 **Errata:** parecer do Z (2026-09-24, LOG #46) verificou o dossiê como factualmente sólido e registrou 3 correções de números/caminhos — ver **§7 Errata**. Nenhuma altera a decisão.
+**Decisão:** tomada pela Direção em 2026-09-24 (LOG #47) — ver **§8 Decisão da Direção**. Minutas do §5 já constam na forma decidida ("Investigación").
 
 ---
 
@@ -60,27 +61,27 @@ O próprio corpo documental do instrumento registra: o **SINEP**, instituído pe
 
 ## 5. Minutas das entradas de glossário (status: `proposto` → Z)
 
-Redigidas por analogia à forma aprovada pelo Z para CEP ("Comité de Ética **en Pesquisa**" — conserva o lexema português, nunca "CEI"). Se a Direção preferir formas plenas em espanhol ("Investigación"), as minutas são ajustadas antes de subir.
+**Formas ajustadas por ato da Direção (2026-09-24, LOG #47):** as formas extensas usam **"Investigación"** (espanhol pleno), e não "Pesquisa" por analogia ao CEP. Consequência registrada: haverá assimetria deliberada com a entrada CEP (`aprovado-z`, "Comité de Ética en Pesquisa" — **intocada**, fora do escopo desta decisão); a pré-revisão favorável do Z (#46) incidiu sobre as formas com "Pesquisa", portanto as entradas abaixo sobem como `proposto` para **revisão formal do Z** na forma decidida.
 
 ```json
 { "termoPtBr": "INAEP (Instância Nacional de Ética em Pesquisa)",
-  "termoLocale": "INAEP (Instancia Nacional de Ética en Pesquisa)",
-  "variantes": ["Instancia Nacional de Ética en Pesquisa (INAEP, Brasil)"],
+  "termoLocale": "INAEP (Instancia Nacional de Ética en Investigación)",
+  "variantes": ["Instancia Nacional de Ética en Investigación (INAEP, Brasil)"],
   "consequenciaOperacional": "Instância nacional vinculada ao Ministério da Saúde, autora do Guia e da MARIAH; identidade institucional do instrumento. Sigla não se traduz.",
   "status": "proposto" }
 ```
 ```json
 { "termoPtBr": "SINEP (Sistema Nacional de Ética em Pesquisa com Seres Humanos)",
-  "termoLocale": "SINEP (Sistema Nacional de Ética en Pesquisa con Seres Humanos)",
-  "variantes": ["Sistema Nacional de Ética en Pesquisa con Seres Humanos (SINEP, Brasil)"],
+  "termoLocale": "SINEP (Sistema Nacional de Ética en Investigación con Seres Humanos)",
+  "variantes": ["Sistema Nacional de Ética en Investigación con Seres Humanos (SINEP, Brasil)"],
   "consequenciaOperacional": "Sistema brasileiro de ética em pesquisa instituído pela Lei n.º 14.874/2024, sucessor do Sistema CEP/CONEP; nome do sistema na identidade do instrumento (rodapés, relatório). Sigla não se traduz.",
   "status": "proposto" }
 ```
 ```json
 { "termoPtBr": "Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (título oficial)",
-  "termoLocale": "Guía de Uso Ético de la Inteligencia Artificial en Pesquisa con Seres Humanos",
+  "termoLocale": "Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos",
   "variantes": [],
-  "consequenciaOperacional": "Título oficial do documento-mãe; citado em results.validacaoDesc e pages.transparencia.statusAviso. Identidade do instrumento — a forma es é ato da Direção.",
+  "consequenciaOperacional": "Título oficial do documento-mãe; citado em 10 chaves da leva institucional (results.validacaoDesc, pages.statusAviso e demais — Errata §7.3). Identidade do instrumento — a forma es é ato da Direção.",
   "status": "proposto" }
 ```
 
@@ -88,11 +89,21 @@ Redigidas por analogia à forma aprovada pelo Z para CEP ("Comité de Ética **e
 
 ## 6. Perguntas objetivas à Direção
 
-1. **Confirma a Leitura A** (diretriz rege a identidade institucional; "CEP" permanece no corpo normativo como ente legal, na forma es já aprovada pelo Z)?
-2. **Aprova as 3 minutas do §5** para subirem ao Z como `proposto` — ou ajusta alguma forma extensa (em especial: conservar "Pesquisa" por analogia ao CEP, ou preferir "Investigación")?
-3. **O placeholder `"Ex: CEP/CONEP"`**: filar para o próximo ciclo pt-BR (recomendado) ou corrigir agora com regeneração da baseline NDTI?
+1. **Confirma a Leitura A** (diretriz rege a identidade institucional; "CEP" permanece no corpo normativo como ente legal, na forma es já aprovada pelo Z)? → **CONFIRMADO (2026-09-24).**
+2. **Aprova as 3 minutas do §5** para subirem ao Z como `proposto` — ou ajusta alguma forma extensa? → **APROVADO com ajuste: formas extensas em "Investigación"** (minutas do §5 já na forma decidida; revisão formal do Z pendente na auditoria do ciclo).
+3. **O placeholder `"Ex: CEP/CONEP"`**: filar ou corrigir agora? → **CORRIGIR AGORA**, com regeneração da baseline NDTI e o espelho es (`"Ej.: …"`) no mesmo commit, na forma do acréscimo do Z (Errata §7).
 
 Com o (1) e (2) respondidos, a Engenharia executa a leva institucional (162 chaves) no mesmo regime dos lotes anteriores e o ciclo segue para o `--strict` e a auditoria do Z.
+
+---
+
+## 8. Decisão da Direção (2026-09-24, LOG #47)
+
+1. **Leitura A confirmada.** A diretriz "tudo INAEP/SINEP" rege a identidade institucional; "CEP" permanece no corpo normativo como ente legal, no pt-BR canônico e no es na forma `aprovado-z`.
+2. **Minutas aprovadas com "Investigación".** As 3 entradas sobem ao glossário como `proposto` (v0.3.0) nas formas do §5; a assimetria com a entrada CEP ("Comité de Ética en Pesquisa", `aprovado-z`, intocada) é deliberada e será submetida à revisão formal do Z.
+3. **Placeholder corrigido agora.** `contextForm.cepPlaceholder` sai de `"Ex: CEP/CONEP"` (o par CEP/CONEP nomeava o sistema antigo; não é exemplo de nome de comitê no regime SINEP). Texto novo proposto pela arquitetura: pt `"Ex: CEP da sua instituição"` · es `"Ej.: CEP de su institución"` — a Direção pode substituir por outra formulação no aceite do diff. O commit toca pt+es juntos e regenera a baseline NDTI. **Implicação registrada:** a correção vale na `feat/i18n-es`; a produção (main) segue com o placeholder antigo até a decisão de publicação — um hotfix à main seria ato separado da Direção.
+
+**Consequências operacionais:** glossário-es v0.3.0 (3 entradas `proposto`) → leva institucional (162 chaves: footer 8 + home 45 + pages 108 + validacaoDesc 1) + reconciliação de `report.footerDev` → placeholder pt+es + baseline NDTI regenerada → `i18n:key-parity:strict` verde (0 ausentes) → auditoria de conformidade do Z → decisão de publicação (Direção).
 
 ---
 
