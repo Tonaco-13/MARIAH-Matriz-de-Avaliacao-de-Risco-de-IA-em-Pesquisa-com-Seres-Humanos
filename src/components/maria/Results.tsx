@@ -287,7 +287,7 @@ export default function Results({
                   <p className="text-sm text-red-800">
                     {t.rich('results.hipoteseEliminatoria', {
                       id: eliminatoryQuestionId,
-                      motivo: getEliminatoryInfo(eliminatoryQuestionId).motivo,
+                      motivo: getEliminatoryInfo(eliminatoryQuestionId, locale).motivo,
                       b: (chunks) => <strong>{chunks}</strong>,
                     })}
                   </p>
