@@ -1,15 +1,14 @@
 # QUADRO VIVO — ciclo i18n-es (feat/i18n-es)
 
 **Última atualização:** 2026-09-24 19:05 · Kimi — Lote 7 ACEITO (LOG #53): messages es completas (430/430), strict verde. Espanhol tecnicamente completo na branch.
-**Fase atual:** 🟢 **Construção do espanhol encerrada.** Restam: micro-lote META (metadata do layout, C4) → auditoria de conformidade do Z → decisão de ligar a flag (Direção). Push dos 13 commits locais: Operador.
+**Fase atual:** 🟢 **Construção + C4 encerrados e aceitos (LOG #58).** Restam: veredito final do Z (pronto para emitir) → decisão de ligar a flag (Direção). Push dos 21 commits locais: Operador.
 **Regime até 26/09:** Kimi executa código; Operador (Fabiano) revisa e commita (LOG #41). Claude retorna 26/09.
 
 ## Pendências abertas
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| META | `metadata` hardcoded pt-BR no layout — **C4 APROVADO pela Direção (LOG #56), execução autorizada**; aceite = 5 condições do Z (#55 §6): strict 434/434, baseline diff só TITLE/META-DESC, head es = glossário, smoke flag-on, commit único + micro-commit do carimbo `aprovado-z` | Engenharia (execução) | 2026-09-24 | LOG #52–#56; MINUTA_C4 |
-| AUD | Auditoria de conformidade do Z — **parecer preliminar FAVORÁVEL (LOG #55)**: glossário 3/3 aprovado, retroversão verde, strict confirmado; veredito final imediato após o C4 (5 condições objetivas no parecer §6) | Z (pronto) — aguarda C4 | 2026-09-24 | LOG #54/#55; PEDIDO/RESPOSTA_Z auditoria |
+| AUD | Auditoria de conformidade do Z — parecer preliminar favorável (#55) + **C4 aceito com as 5 condições verificadas (#58)**; Z declarado pronto — veredito final é o próximo ato | Z | 2026-09-24 | LOG #54/#55/#58 |
 | ANX | Anexo Normativo es §1 ainda no paradigma "CEP/CONEP", sem INAEP/SINEP — atualizar no próximo ciclo de glossário (recomendação do Z, não bloqueante); incluir a regra operante registral×descritiva no `glossario-es.md` | Engenharia (próximo ciclo) | 2026-09-24 | LOG #55 §2.4 e registros conexos |
 
 ## Pendências fechadas
@@ -17,6 +16,7 @@
 | # | Pendência | Fechamento |
 |---|---|---|
 | RET | Leva institucional (172 chaves: footer/home/pages/validacaoDesc + 10 do PR #32) + placeholder pt/es | ✅ Lote 7, LOG #53 (`1d4a00d`, `9c4ddf0`, `83a361e`; strict 0/0) |
+| META | Metadata locale-aware do layout + carimbo glossário 67/67 `aprovado-z`; CONEP fora das keywords | ✅ C4, LOG #58 (`374ad04`, `774c604`; strict 434/434, baseline diff só META-DESC, smoke flag-on) |
 | P1 | `_guia_decisao/` versionado | ✅ `96477fb` |
 | P2 | Disposição dos 3 untracked (patch, logo INAEP, docx `upload/`) | ✅ LOG #50 — ciência do Z: patch descartado (supersededo, tripla prova), logo `599a287`, docx `3c8af18` |
 | P4–P7 | Ciclo infra i18n | ✅ LOG #12 |
