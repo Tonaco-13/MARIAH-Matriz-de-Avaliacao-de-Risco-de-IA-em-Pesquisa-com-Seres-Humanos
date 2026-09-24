@@ -19,15 +19,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
-  description: "Ferramenta de avaliação de risco para sistemas de IA em protocolos de pesquisa submetidos a Comitês de Ética em Pesquisa (CEP).",
-  keywords: ["MARIAH", "risco em IA", "inteligência artificial", "ética em pesquisa", "CEP", "CONEP"],
-  authors: [{ name: "Ministério da Saúde" }],
-  icons: {
-    icon: "/logo.svg",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  return {
+    title: t("siteTitle"),
+    description: t("siteDesc"),
+    keywords: t("siteKeywords").split(",").map((k) => k.trim()),
+    authors: [{ name: t("siteAuthor") }],
+    icons: {
+      icon: "/logo.svg",
+    },
+  };
+}
 
 // Nesta branch apenas pt-BR é prerenderizado estaticamente (ZERO tradução).
 // Idiomas gated são bloqueados pelo proxy (flag off) e, quando habilitados,

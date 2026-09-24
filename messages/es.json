@@ -484,5 +484,11 @@
       "s5p1": "Los CEPs que decidan compartir sus observaciones con el Grupo de Trabajo pueden hacerlo en cualquier momento por medio de la Secretaría Ejecutiva de la INAEP. No hay plazo, formulario obligatorio ni contrapartida institucional — compartir es acto voluntario, y su único propósito es informar la evolución futura del instrumento.",
       "s5p2": "Se puede enviar la planilla completa, solo los indicadores agregados o una nota narrativa de lo que el colegiado observó. Los CEPs con preocupación de confidencialidad institucional pueden enviar solo los indicadores agregados. Ningún CEP será identificado en publicación sin consentimiento expreso."
     }
+  },
+  "meta": {
+    "siteTitle": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+    "siteDesc": "Herramienta de apoyo a la evaluación ética de investigaciones con inteligencia artificial, desarrollada por la Instancia Nacional de Ética en Investigación (INAEP) para el Sistema Nacional de Ética en Investigación con Seres Humanos (SINEP).",
+    "siteKeywords": "MARIAH, riesgo en IA, inteligencia artificial, ética en investigación, CEP, SINEP, INAEP",
+    "siteAuthor": "Instancia Nacional de Ética en Investigación (INAEP) — Ministerio de Salud de Brasil"
   }
 }
