@@ -8,7 +8,8 @@
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| META | `metadata` hardcoded pt-BR em `src/app/[locale]/layout.tsx` — vaza pt no `<head>` do /es e `keywords` citam "CONEP" (resíduo da diretriz #47); TITLE/META-DESC integram a baseline → micro-lote C4 com baseline regenerada, antes da flag | Arquitetura (minuta) + Direção (aprova) | 2026-09-24 | LOG #52 nota 2, #53 |
+| META | `metadata` hardcoded pt-BR em `src/app/[locale]/layout.tsx` — vaza pt no `<head>` do /es e `keywords` citam "CONEP"; **minuta C4 entregue (LOG #54)** — aguarda aprovação da redação pt-BR pela Direção; execução antes da flag, com baseline regenerada | Direção (aprova) → Engenharia | 2026-09-24 | LOG #52 nota 2, #53, #54; MINUTA_C4 |
+| AUD | Auditoria de conformidade do Z (pedido formal entregue, LOG #54) — recomendação: após o C4, para cobrir o `<head>`; inclui revisão formal das 3 entradas `proposto` | Z | 2026-09-24 | LOG #54; PEDIDO_auditoria_Z |
 
 ## Pendências fechadas
 
