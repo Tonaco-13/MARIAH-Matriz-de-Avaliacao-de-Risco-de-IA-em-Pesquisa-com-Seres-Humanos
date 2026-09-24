@@ -8,14 +8,14 @@
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| P2 | ~~3 untracked~~ **Resolvida na prática (2026-09-24):** logo INAEP versionado (`599a287`), docx de `upload/` versionado (`3c8af18`), patch removido do disco — falta só o Z registrar ciência do descarte do patch | Operador + Z | 2026-09-20 → 2026-09-24 | LOG #40, #49 |
-| RET | footer.*, home.*, pages.*, results.validacaoDesc + 10 chaves do PR #32 (**172/430**) — **LIBERADO** pela decisão §4.2; branch já re-ancorada sobre `e2ea13e` (passo 0 cumprido pelo Operador) | Engenharia | 2026-09-22 | LOG #47–#49; DESPACHO leva-institucional 2026-09-24 (atualizado 18:20) |
+| RET | footer.*, home.*, pages.*, results.validacaoDesc + 10 chaves do PR #32 (**172/430**) — **LIBERADO** pela decisão §4.2; branch já re-ancorada sobre `e2ea13e` (passo 0 cumprido pelo Operador) | Engenharia | 2026-09-22 | LOG #47–#49; DESPACHO leva-institucional 2026-09-24 (atualizado 18:25) |
 
 ## Pendências fechadas
 
 | # | Pendência | Fechamento |
 |---|---|---|
 | P1 | `_guia_decisao/` versionado | ✅ `96477fb` |
+| P2 | Disposição dos 3 untracked (patch, logo INAEP, docx `upload/`) | ✅ LOG #50 — ciência do Z: patch descartado (supersededo, tripla prova), logo `599a287`, docx `3c8af18` |
 | P4–P7 | Ciclo infra i18n | ✅ LOG #12 |
 | Passo 9 + DoD infra | Pacote Z + auditoria | ✅ LOG #15–#18 (Z: APROVA 10/10) |
 | Passo 0 feat/i18n-es | Glossário v0.2.0 + key-parity no gate | ✅ LOG #20/#21 |
