@@ -523,6 +523,57 @@ export function getUnansweredItems(
   return items;
 }
 
+/**
+ * Item da matriz marcado como "Não se aplica" (na) por quem preencheu.
+ * Registrado no relatório para auditoria: torna explícita a escolha "na", que de
+ * outro modo ficaria indistinguível de "Sim"/"Não" na visão agregada. As
+ * eliminatórias recebem marcação própria (classe sensível: o "na" afasta a
+ * devolução por não-avaliabilidade).
+ */
+export type NaoSeAplicaItem = {
+  id: string;
+  scopeName: string;
+  label: string;
+  /** Diligência/questão eliminatória: o "na" afasta a hipótese eliminatória. */
+  eliminatorio: boolean;
+};
+
+/**
+ * Coleta as perguntas da matriz respondidas "Não se aplica" (na), respeitando
+ * aplicabilidade (Res 738) e exibição condicional — mesmo recorte de
+ * getUnansweredItems, mas para o valor 'na'.
+ */
+export function getNaoSeAplicaItems(
+  version: 'A' | 'B',
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false,
+  locale: string = 'pt-BR'
+): NaoSeAplicaItem[] {
+  const items: NaoSeAplicaItem[] = [];
+  if (version === 'A') {
+    for (const axis of getApplicableAxes(usesDatabase)) {
+      for (const q of axis.questoes) {
+        if (!isMatrixQuestionVisible(q, qualitativeAnswers, contextAnswers)) continue;
+        if (qualitativeAnswers[q.id] === 'na') {
+          items.push({ id: q.id, scopeName: label(axis, 'nome', locale), label: label(q, 'pergunta', locale), eliminatorio: !!q.eliminatorio });
+        }
+      }
+    }
+  } else {
+    for (const block of getApplicableBlocks(usesDatabase)) {
+      for (const q of block.questoes) {
+        if (!isMatrixQuestionVisible(q, quantitativeAnswers, contextAnswers)) continue;
+        if (quantitativeAnswers[q.id] === 'na') {
+          items.push({ id: q.id, scopeName: label(block, 'nome', locale), label: label(q, 'pergunta', locale), eliminatorio: !!q.eliminatorio });
+        }
+      }
+    }
+  }
+  return items;
+}
+
 // ----- Print/Export Helpers -----
 
 const LEVEL_COLORS: Record<RiskLevel, { bg: string; text: string; border: string }> = {
@@ -790,6 +841,43 @@ export function generateReportHTML(
       </div>`;
   }
 
+  // Caracterização do Contexto — todas as descritivas visíveis (C.1…C.8),
+  // respeitando exibição condicional. Antes só contexto1/contexto2 apareciam.
+  let contextItemsHtml = '';
+  for (const q of CONTEXT_QUESTIONS) {
+    if (!isContextQuestionVisible(q, contextAnswers)) continue;
+    const ans = contextAnswers[q.id];
+    contextItemsHtml += `
+    <p style="margin:0 0 8px;font-size:13px"><strong>${label(q, 'pergunta', locale)}</strong> ${ans && ans.trim() ? ans : 'Não informado'}</p>`;
+  }
+
+  // Questões marcadas como "Não se aplica" — rastro auditável da escolha 'na'.
+  let naoSeAplica: NaoSeAplicaItem[];
+  if (isCombinedReport) {
+    naoSeAplica = [
+      ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+      ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+    ];
+  } else {
+    naoSeAplica = getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
+  }
+  let naoSeAplicaSection = '';
+  if (naoSeAplica.length > 0) {
+    let naRows = '';
+    for (const it of naoSeAplica) {
+      const tag = it.eliminatorio
+        ? '<span style="background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5;padding:0 5px;border-radius:3px;font-size:10px;margin-left:6px;font-weight:600">diligência eliminatória — não-avaliabilidade afastada</span>'
+        : '';
+      naRows += `<li style="margin:3px 0;font-size:12px"><strong style="font-family:monospace;color:#374151">${it.id}</strong> — ${it.label}${tag}</li>`;
+    }
+    naoSeAplicaSection = `
+      <h3 style="margin:24px 0 10px;font-size:15px;color:#374151">Questões marcadas como "Não se aplica"</h3>
+      <div style="padding:14px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;color:#374151">
+        <p style="margin:0 0 8px">Quem preencheu marcou ${naoSeAplica.length} quest${naoSeAplica.length === 1 ? 'ão' : 'ões'} como <strong>"Não se aplica"</strong>. Registrado para auditoria: a escolha declara que o antecedente da pergunta não se verifica no protocolo. Nas questões eliminatórias (destacadas), o "Não se aplica" afasta a hipótese de não-avaliabilidade — recomenda-se que o CEP confirme o enquadramento.</p>
+        <ul style="padding-left:18px;margin:0">${naRows}</ul>
+      </div>`;
+  }
+
   return `<!DOCTYPE html>
 <html lang="${locale}">
 <head>
@@ -823,8 +911,7 @@ export function generateReportHTML(
 
   <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:20px">
     <h3 style="margin:0 0 10px;font-size:14px;color:#374151">Caracterização do Contexto</h3>
-    <p style="margin:0 0 8px;font-size:13px"><strong>Pergunta do sistema:</strong> ${contextAnswers['contexto1'] || 'Não informado'}</p>
-    <p style="margin:0 0 8px;font-size:13px"><strong>Autonomia do sistema:</strong> ${contextAnswers['contexto2'] || 'Não informado'}</p>
+    ${contextItemsHtml}
     <p style="margin:0;font-size:13px"><strong>Utiliza banco de dados:</strong> ${usesDatabase ? 'Sim — Eixo 3.b / Bloco 6.b ativados (Res. CNS n.º 738/2024)' : 'Não'}</p>
   </div>
 
@@ -835,6 +922,8 @@ export function generateReportHTML(
   <ul style="padding-left:20px">${reqItems}</ul>
 
   ${unansweredSection}
+
+  ${naoSeAplicaSection}
 
   <div style="margin-top:32px;padding:12px;background:#fffbeb;border:1px dashed #fbbf24;border-radius:6px;font-size:12px;color:#92400e">
     <strong>Aviso:</strong> ${getDisclaimer(locale)}
@@ -887,8 +976,13 @@ export function generateReportText(
   lines.push(`Nome do CEP: ${contextAnswers['cep_nome'] || 'Não informado'}`);
   lines.push('');
   lines.push('── CARACTERIZAÇÃO DO CONTEXTO ──');
-  lines.push(`Sistema de IA: ${contextAnswers['contexto1'] || 'Não informado'}`);
-  lines.push(`Contexto de uso: ${contextAnswers['contexto2'] || 'Não informado'}`);
+  // Todas as descritivas visíveis (C.1…C.8), respeitando exibição condicional.
+  for (const q of CONTEXT_QUESTIONS) {
+    if (!isContextQuestionVisible(q, contextAnswers)) continue;
+    const ans = contextAnswers[q.id];
+    lines.push(`${label(q, 'pergunta', locale)} ${ans && ans.trim() ? ans : 'Não informado'}`);
+  }
+  lines.push(`Utiliza banco de dados: ${usesDatabase ? 'Sim — Eixo 3.b / Bloco 6.b (Res. CNS n.º 738/2024)' : 'Não'}`);
   lines.push('');
 
   const renderQual = () => {
@@ -974,6 +1068,31 @@ export function generateReportText(
         lastScope = it.scopeName;
       }
       lines.push(`  • ${it.id} — ${it.label}`);
+    }
+  }
+
+  // Questões marcadas como "Não se aplica" — rastro auditável.
+  let naoSeAplicaTxt: NaoSeAplicaItem[];
+  if (isCombinedReport) {
+    naoSeAplicaTxt = [
+      ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+      ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+    ];
+  } else {
+    naoSeAplicaTxt = getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
+  }
+  if (naoSeAplicaTxt.length > 0) {
+    lines.push('');
+    lines.push('── QUESTÕES MARCADAS COMO "NÃO SE APLICA" ──');
+    lines.push(`${naoSeAplicaTxt.length} questão(ões) marcada(s) como "Não se aplica" por quem preencheu (registro de auditoria).`);
+    let lastScopeNa = '';
+    for (const it of naoSeAplicaTxt) {
+      if (it.scopeName !== lastScopeNa) {
+        lines.push('');
+        lines.push(`[${it.scopeName}]`);
+        lastScopeNa = it.scopeName;
+      }
+      lines.push(`  • ${it.id} — ${it.label}${it.eliminatorio ? '  [diligência eliminatória — não-avaliabilidade afastada]' : ''}`);
     }
   }
 
