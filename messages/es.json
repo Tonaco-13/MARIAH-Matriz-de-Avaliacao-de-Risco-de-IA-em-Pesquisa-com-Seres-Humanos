@@ -507,7 +507,7 @@
       "planilhaDesc": "Pestañas dedicadas a cada frente, con fórmulas preconfiguradas (kappa, distribución, contingencia) y panel-resumen. Funciona en Excel, LibreOffice Calc y Google Sheets.",
       "baixarPlanilha": "Descargar planilla (.xlsx)",
       "roteiroTitle": "Guion completo",
-      "roteiroDesc": "Sección de Validación Local (documento MARIAH) con la justificativa de cada frente, recomendaciones operacionales, interpretación de los hallazgos y canal opcional para compartir con el Grupo de Trabajo.",
+      "roteiroDesc": "Sección de Validación Local (documento MARIAH) con la justificación de cada frente, recomendaciones operacionales, interpretación de los hallazgos y canal opcional para compartir con el Grupo de Trabajo.",
       "baixarRoteiro": "Descargar guion (.docx)",
       "s4Title": "Cómo integrar a la MARIAH",
       "s4p1": "El software MARIAH ofrece un botón <b>\"Exportar los datos de esta evaluación\"</b> en la pantalla de resultados. Cada evaluación genera un archivo <code>.json</code> estructurado que contiene la clasificación consolidada de la Versión A, la puntuación por bloque de la Versión B (cuando aplicada) y los metadatos del protocolo.",
