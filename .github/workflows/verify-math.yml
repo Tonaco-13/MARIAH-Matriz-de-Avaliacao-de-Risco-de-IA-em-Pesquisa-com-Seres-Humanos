@@ -5,6 +5,7 @@ name: gates
 # mas garantem que dados, verificação, paridade numérica e paridade de
 # enunciados nunca divirjam num commit.
 #   - verify : estrutura, cortes, efeitos v2, M3, condicionais (verify-math)
+#              + cobertura da matriz e invariante com a auditoria (verify-coverage)
 #   - parity : enunciados spec × guia v46 (camada de strings — M1)
 #   - gate   : 31 vetores B + 33 V17 app × planilha camada 2 (Δ=0)
 
@@ -15,6 +16,7 @@ on:
       - 'src/components/maria/data.ts'
       - 'src/components/maria/utils.ts'
       - 'scripts/verify-math.ts'
+      - 'scripts/verify-coverage.ts'
       - 'scripts/parity-check.ts'
       - 'scripts/gate-run.ts'
       - 'spec/**'
@@ -24,6 +26,7 @@ on:
       - 'src/components/maria/data.ts'
       - 'src/components/maria/utils.ts'
       - 'scripts/verify-math.ts'
+      - 'scripts/verify-coverage.ts'
       - 'scripts/parity-check.ts'
       - 'scripts/gate-run.ts'
       - 'spec/**'
