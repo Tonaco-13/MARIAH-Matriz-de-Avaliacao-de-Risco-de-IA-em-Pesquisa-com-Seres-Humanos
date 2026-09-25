@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   FileQuestion,
   FileText,
+  HelpCircle,
   ChevronRight,
   ClipboardCheck,
   Download,
@@ -105,7 +106,16 @@ export default function Results({
       ? t('results.coberturaParcial', { respondidas: String(cov.respondidas), total: String(cov.total), taxa: String(cov.taxa), count: cov.semAvaliacao })
       : t('results.coberturaCompleta', { respondidas: String(cov.respondidas), total: String(cov.total) });
 
-  const LevelCard = ({ level, coverage }: { level: RiskLevel; coverage: CoverageStats }) => {
+  const LevelCard = ({
+    level,
+    coverage,
+    explicacao,
+  }: {
+    level: RiskLevel;
+    coverage: CoverageStats;
+    /** Qual regra explica o "(parcial)": A (só subestima) ou B (efeito nos dois sentidos). */
+    explicacao: 'A' | 'B';
+  }) => {
     const info = RISK_LEVELS[level];
     const bgMap: Record<RiskLevel, string> = {
       I: 'bg-green-50 border-green-300',
@@ -142,6 +152,21 @@ export default function Results({
           </div>
           <p className="text-sm text-muted-foreground max-w-md mx-auto">{label(info, 'description', locale)}</p>
           <p className="text-xs text-slate-700 max-w-md mx-auto mt-2">{coverageText(coverage)}</p>
+          {/* "(?)" do veredito parcial: disclosure nativo (clique/toque/teclado/leitor
+              de tela; sem hover). Explica o PORQUÊ — a linha acima dá os números e a
+              auditoria, a lista. Texto por versão: em A o branco só subestima; em B
+              (mitigação/evidência) o efeito vai nos dois sentidos. Só na tela. */}
+          {coverage.parcial && (
+            <details className="group max-w-md mx-auto mt-3 text-left">
+              <summary className="flex w-fit mx-auto cursor-pointer list-none items-center gap-1.5 rounded text-xs font-medium text-slate-700 underline decoration-dotted underline-offset-2 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-500 [&::-webkit-details-marker]:hidden">
+                <HelpCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                {t('results.parcialExplicacaoTitulo')}
+              </summary>
+              <p className="mt-2 rounded-md border border-slate-200 bg-white/70 p-3 text-xs leading-relaxed text-slate-700">
+                {explicacao === 'A' ? t('results.parcialExplicacaoA') : t('results.parcialExplicacaoB')}
+              </p>
+            </details>
+          )}
         </CardContent>
       </Card>
     );
@@ -470,7 +495,11 @@ export default function Results({
             </CardContent>
           </Card>
         ) : (
-          <LevelCard level={finalLevel} coverage={coverageDisplayed} />
+          <LevelCard
+            level={finalLevel}
+            coverage={coverageDisplayed}
+            explicacao={version === 'B' ? 'B' : 'A'}
+          />
         )}
 
         {/* Cláusula de Prevalência Ética warning */}
