@@ -1387,7 +1387,8 @@ export type CoberturaExport = { respondidas: number; total: number; parcial: boo
  *        tela e o relatório não mostravam). dataAvaliacao/idInterno em hora local.
  *        comoUsar (texto, sem mudança de schema) alinhado à planilha-modelo v2
  *        (25/09/2026): colunas próprias para Bloco 6.b, Cláusula de Prevalência e
- *        Não avaliável — deixa de orientar a soma manual do 6.b ao Bloco 6.
+ *        Não avaliável — deixa de orientar a soma manual do 6.b ao Bloco 6. Revisão
+ *        2.1: aba Versão A aceita NÃO AVALIÁVEL (kappa só com pares I–IV).
  *        Nota: o export passou a repassar contextAnswers aos cálculos; em caso-limite
  *        (resposta obsoleta de eliminatória oculta por C.3/C.5 — 3.b.4.1/P6.b.4.1),
  *        protocoloNaoAvaliavel/classificação agora coincidem com a tela, podendo
@@ -1597,7 +1598,7 @@ export function buildValidationExport(args: {
       nome: 'MARIAH',
       versaoMatriz: MATRIX_VERSION,
       observacao:
-        'Exportação gerada para uso na planilha-modelo de Validação Local descrita em apêndice próprio do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).',
+        'Exportação gerada para uso na planilha-modelo de Validação Local descrita no documento MARIAH (Seção de Validação Local), complementar ao Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos.',
     },
     protocolo: {
       idInterno: idPlaceholder,
@@ -1617,7 +1618,7 @@ export function buildValidationExport(args: {
       abasPlanilha: {
         protocolos: 'Use idInterno, dataAvaliacao, modoTriagem e usaBancoDeDados.',
         versaoA:
-          'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente. Lance apenas I, II, III ou IV: protocolo "NÃO AVALIÁVEL" não entra no cálculo de concordância.',
+          'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente. Lance I, II, III, IV ou "NÃO AVALIÁVEL" (quando classificacaoConsolidada = "NÃO AVALIÁVEL"): o kappa usa só os pares com nível I–IV, e a planilha mede à parte a concordância quanto à avaliabilidade.',
         versaoB:
           'Use idInterno e versaoB.blocos[*].pontuacao — uma coluna por bloco na aba «Versão B», incluindo a coluna «Bloco 6.b» quando usaBancoDeDados = true. Marque «Usa BD?» conforme usaBancoDeDados, «Cláusula de Prevalência?» = Sim quando clausulaPrevalencia = true e «Não avaliável?» = Sim quando classificacaoFinal = "NÃO AVALIÁVEL". A planilha (v2) calcula o total e o nível com as mesmas regras da MARIAH: confira que o nível da planilha coincide com versaoB.classificacaoFinal.',
         triagemAB:

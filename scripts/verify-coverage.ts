@@ -243,6 +243,8 @@ console.log('\n=== 14. Orientação do JSON alinhada à planilha-modelo v2 ===')
   assert('versaoB não orienta mais somar o 6.b ao Bloco 6', /some a pontua/i.test(txt), false);
   assert('versaoB cita as colunas da v2 (Bloco 6.b, Cláusula, Não avaliável)', ['Bloco 6.b', 'Cláusula de Prevalência?', 'Não avaliável?'].every((k) => txt.includes(k)), true);
   assert('export com banco traz o bloco6b para a coluna própria', exV2.versaoB.blocos.some((b) => b.id === 'bloco6b'), true);
+  assert('versaoA orienta lançar NÃO AVALIÁVEL (planilha 2.1)', exV2.comoUsar.abasPlanilha.versaoA.includes('"NÃO AVALIÁVEL"'), true);
+  assert('observação cita o documento MARIAH e o nome oficial do Guia', [exV2.software.observacao.includes('documento MARIAH'), exV2.software.observacao.includes('Guia de Uso Ético de Inteligência Artificial')], [true, true]);
 }
 
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);

@@ -6,19 +6,19 @@ Pular para o conteúdo
 [a href=/]
 Voltar à MARIAH
 Transparência metodológica
-em revisão
+revisão editorial
 Premissas e salvaguardas da classificação de risco
 Documentos técnicos que explicitam as premissas sobre as quais a MARIAH classifica o risco — para que estatísticos, metodologistas, integrantes de CEP e pesquisadores possam auditar, criticar e compreender as decisões do instrumento.
 Status:
 o
-Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
-está em fase de revisão pelo Grupo de Trabalho do Ministério da Saúde. Os documentos abaixo correspondem à minuta atual e serão atualizados quando o guia for publicado oficialmente.
+Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
+, o Caderno Referencial e a MARIAH foram aprovados pela Instância Nacional de Ética em Pesquisa (INAEP) em 16/09/2026 e estão em revisão editorial para publicação. Os documentos abaixo correspondem à versão aprovada e serão atualizados quando os documentos forem publicados oficialmente.
 Por que explicitar as premissas
 A MARIAH produz uma classificação de risco a partir de regras que foram adotadas na elaboração da matriz, com base no referencial normativo e na literatura sistematizada no próprio Guia. Tornar essas regras explícitas é condição para que possam ser auditadas e criticadas. A documentação distingue, deliberadamente, o que decorre da norma, o que foi decidido na construção do instrumento e o que ainda depende de evidência empírica.
 A MARIAH não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada.
 A sua validação psicométrica é
 prospectiva
-: ocorrerá à medida que os CEPs adotarem o instrumento e conduzirem o protocolo descrito na Seção de Validação Local (Caderno 2 do Guia).
+: ocorrerá à medida que os CEPs adotarem o instrumento e conduzirem o protocolo descrito na Seção de Validação Local do documento MARIAH.
 As três camadas de premissas
 As premissas da MARIAH organizam-se em três camadas, com graus distintos de abertura à discussão.
 Camada 1
@@ -61,10 +61,10 @@ Detalhamento dos quatro mecanismos de salvaguarda automática (Eixo 3.b, Cláusu
 [a href=/suplemento-salvaguardas-mariah.docx download]
 Baixar suplemento (.docx)
 Observações e crítica técnica
-As decisões de elaboração estão abertas a sugestões editoriais e de mérito, pois a matriz, nesta fase, não reflete a deliberação colegiada do Grupo de Trabalho. Observações e críticas técnicas podem ser encaminhadas, a qualquer momento, à CGREP pelo e-mail
+As decisões de elaboração permanecem abertas a sugestões editoriais e de mérito. A matriz aprovada pela INAEP passará por um período de uso e teste pelos CEPs, com consulta pública simultânea; as contribuições, de caráter informativo, serão sistematizadas para a versão seguinte do Guia e da matriz. Observações e críticas técnicas podem ser encaminhadas, a qualquer momento, à CGREP pelo e-mail
 [a href=mailto:cgrep@saude.gov.br]
 cgrep@saude.gov.br
-, e serão consideradas em ciclos futuros de revisão do Guia e da matriz.
+.
 Desenvolvido pelo
 Ministério da Saúde
 para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
@@ -80,5 +80,5 @@ Validação Local pelos CEPs
 Transparência metodológica
 ·
 [a href=/instrucoes]
-Apêndice do guia
-(em revisão)
+Instruções de preenchimento
+(revisão editorial)
