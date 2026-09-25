@@ -17,6 +17,7 @@ import {
 import { useTranslations, useLocale } from 'next-intl';
 import type { MarcaVersion } from './data';
 import StepIndicator from './StepIndicator';
+import LanguageSwitcher from './LanguageSwitcher';
 import { getDisclaimer } from './disclaimer';
 
 type VersionSelectorProps = {
@@ -47,7 +48,10 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
                 <p className="text-teal-700 text-sm">{t('app.subtitle')}</p>
               </div>
             </div>
-            <img src="/inaep-logo-sm.png" alt={t('home.inaepAlt')} className="h-14 sm:h-16 w-auto shrink-0 mt-2 -mr-2" />
+            <div className="flex flex-col items-end gap-2 shrink-0">
+              <img src="/inaep-logo-sm.png" alt={t('home.inaepAlt')} className="h-14 sm:h-16 w-auto mt-2 -mr-2" />
+              <LanguageSwitcher />
+            </div>
           </div>
           <p className="text-teal-600 max-w-2xl text-sm sm:text-base leading-relaxed">
             {t('home.intro')}
