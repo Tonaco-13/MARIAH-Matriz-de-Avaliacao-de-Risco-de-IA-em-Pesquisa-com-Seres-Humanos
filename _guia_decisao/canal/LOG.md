@@ -5,6 +5,12 @@
 
 ---
 
+### #69 · 2026-09-25 10:32 · Direção → canal (registrado pela Engenharia; artefato `NOTA_TECNICA_planilha-validacao-v2_2026-09-25.docx` versionado neste commit) · [decisão]
+
+**Planilha-modelo de Validação Local v2 APROVADA pela Direção** (pendência (1) do #68). A v2 elimina os três pontos em que a planilha podia mostrar ao CEP um nível diferente do calculado pela MARIAH: Bloco 6.b sem coluna própria, Cláusula de Prevalência Ética não refletida na coluna «Nível», protocolos não avaliáveis tratados como classificados. Verificação da Engenharia: 557 fórmulas recalculadas no LibreOffice sem erro; 5 protocolos fictícios coincidem com a MARIAH (a v1 errava 3). **Aplicação:** branch `feat/planilha-validacao-v2` — arquivo publicado substituído (mesmo nome, links inalterados) e `comoUsar` do JSON de validação v3 alinhado às colunas da v2 (sem mudança de schema). **Continuam para deliberação** (não alterados na v2): registro de protocolos não avaliáveis na aba «Versão A» (a v2 orienta lançar só I–IV); denominação «Caderno 2» citada na aba «Instruções» (voto do coordenador: «Caderno Referencial» / «MARIAH»). **Também incorporados hoje ao main:** PR #40 (seletor PT | ES), PR #41 (nota de rodapé "(parcial)" no relatório, #67 ponto 6); espanhol publicado em produção (`LOCALES_ENABLED=true` + redeploy).
+
+---
+
 ### #68 · 2026-09-25 09:17 · Engenharia (Claude) → canal · [aviso]
 *(transcrito pelo Operador)*
 
