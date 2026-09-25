@@ -49,7 +49,8 @@
   "idioma": {
     "nav": "Idioma",
     "siglaPt": "PT",
-    "siglaEs": "ES"
+    "siglaEs": "ES",
+    "arquivoEmPt": "(en portugués)"
   },
   "footer": {
     "developedBy": "Desarrollado por el <ms>Ministerio de Salud de Brasil</ms> para el Sistema Nacional de Ética en Investigación con Seres Humanos (SINEP)",
