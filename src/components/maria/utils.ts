@@ -1385,6 +1385,9 @@ export type CoberturaExport = { respondidas: number; total: number; parcial: boo
  *        de uma versão abandonada — ex.: A respondida, volta à seleção, escolhe B —
  *        marcavam a versão como aplicada e exportavam uma classificação que a
  *        tela e o relatório não mostravam). dataAvaliacao/idInterno em hora local.
+ *        comoUsar (texto, sem mudança de schema) alinhado à planilha-modelo v2
+ *        (25/09/2026): colunas próprias para Bloco 6.b, Cláusula de Prevalência e
+ *        Não avaliável — deixa de orientar a soma manual do 6.b ao Bloco 6.
  *        Nota: o export passou a repassar contextAnswers aos cálculos; em caso-limite
  *        (resposta obsoleta de eliminatória oculta por C.3/C.5 — 3.b.4.1/P6.b.4.1),
  *        protocoloNaoAvaliavel/classificação agora coincidem com a tela, podendo
@@ -1614,9 +1617,9 @@ export function buildValidationExport(args: {
       abasPlanilha: {
         protocolos: 'Use idInterno, dataAvaliacao, modoTriagem e usaBancoDeDados.',
         versaoA:
-          'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente.',
+          'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente. Lance apenas I, II, III ou IV: protocolo "NÃO AVALIÁVEL" não entra no cálculo de concordância.',
         versaoB:
-          'Use idInterno, versaoB.blocos[*].pontuacao (uma coluna por bloco) e versaoB.pontuacaoTotal. Com banco de dados (usaBancoDeDados = true), some a pontuação do bloco6b à do Bloco 6 — a planilha não tem coluna própria para o 6.b. Se clausulaPrevalencia = true, o nível é IV pela Cláusula de Prevalência Ética, qualquer que seja a pontuação: a coluna «Nível» da planilha (calculada só pela pontuação) não reflete essa elevação — registre a divergência. Se classificacaoFinal = "NÃO AVALIÁVEL", o protocolo não tem nível atribuído: não o inclua no cálculo da distribuição nem da convergência.',
+          'Use idInterno e versaoB.blocos[*].pontuacao — uma coluna por bloco na aba «Versão B», incluindo a coluna «Bloco 6.b» quando usaBancoDeDados = true. Marque «Usa BD?» conforme usaBancoDeDados, «Cláusula de Prevalência?» = Sim quando clausulaPrevalencia = true e «Não avaliável?» = Sim quando classificacaoFinal = "NÃO AVALIÁVEL". A planilha (v2) calcula o total e o nível com as mesmas regras da MARIAH: confira que o nível da planilha coincide com versaoB.classificacaoFinal.',
         triagemAB:
           'Quando modoTriagem = true, a planilha lê automaticamente das abas Versão A e Versão B.',
       },
