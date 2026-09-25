@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Shield, ArrowRight, ArrowLeft, HelpCircle } from 'lucide-react';
-import { CONTEXT_QUESTIONS, label } from './data';
+import { CONTEXT_QUESTIONS, CONTEXT_DESC_SUFFIX, isDescribableContextOption, label } from './data';
 import type { MarcaVersion, ContextQuestion } from './data';
 import { isContextQuestionVisible } from './utils';
 
@@ -65,11 +65,18 @@ export default function ContextForm({
   const visibleContext = CONTEXT_QUESTIONS.filter((q) => isContextQuestionVisible(q, answers));
 
   // Limpa respostas de descritivas que ficaram ocultas (ex.: C.5 ao mudar C.3 para
-  // 'anonimizados'), para não poluírem o export de auditoria.
+  // 'anonimizados'), para não poluírem o export de auditoria. Também limpa a
+  // descrição livre quando a opção "(descrever)" deixa de estar selecionada.
   useEffect(() => {
     for (const q of CONTEXT_QUESTIONS) {
-      if (!isContextQuestionVisible(q, answers) && (answers[q.id]?.length ?? 0) > 0) {
+      const visible = isContextQuestionVisible(q, answers);
+      if (!visible && (answers[q.id]?.length ?? 0) > 0) {
         onAnswer(q.id, '');
+      }
+      const descKey = `${q.id}${CONTEXT_DESC_SUFFIX}`;
+      const descNeeded = visible && isDescribableContextOption(answers[q.id]);
+      if (!descNeeded && (answers[descKey]?.length ?? 0) > 0) {
+        onAnswer(descKey, '');
       }
     }
   }, [answers, onAnswer]);
@@ -77,7 +84,15 @@ export default function ContextForm({
   const identificationFilled = IDENTIFICATION_FIELDS.every(
     (f) => answers[f.id]?.trim().length > 0
   );
-  const contextFilled = visibleContext.every((q) => answers[q.id]?.trim().length > 0);
+  // Opção "(descrever)" selecionada exige a descrição livre preenchida.
+  const contextFilled = visibleContext.every((q) => {
+    const ans = answers[q.id]?.trim();
+    if (!ans) return false;
+    if (isDescribableContextOption(ans)) {
+      return (answers[`${q.id}${CONTEXT_DESC_SUFFIX}`]?.trim().length ?? 0) > 0;
+    }
+    return true;
+  });
   const allFilled = identificationFilled && contextFilled;
 
   const identificationAnswered = IDENTIFICATION_FIELDS.filter(
@@ -126,6 +141,7 @@ export default function ContextForm({
       );
     }
     if (q.tipoEntrada === 'radio') {
+      const descKey = `${q.id}${CONTEXT_DESC_SUFFIX}`;
       return (
         <fieldset className="mt-1">
           <legend className="sr-only">{label(q, 'pergunta', locale)}</legend>
@@ -144,6 +160,18 @@ export default function ContextForm({
               </label>
             ))}
           </div>
+          {isDescribableContextOption(answers[q.id]) && (
+            <div className="mt-3">
+              <Label htmlFor={descKey}>{t('contextForm.descreverLabel')}</Label>
+              <Input
+                id={descKey}
+                value={answers[descKey] || ''}
+                onChange={(e) => onAnswer(descKey, e.target.value)}
+                placeholder={t('contextForm.descreverPlaceholder')}
+                className="mt-1"
+              />
+            </div>
+          )}
         </fieldset>
       );
     }

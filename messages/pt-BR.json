@@ -39,7 +39,9 @@
     "linkValidacao": "Validação Local pelos CEPs",
     "linkTransparencia": "Transparência metodológica",
     "linkApendice": "Apêndice do guia",
-    "emRevisao": " (em revisão)"
+    "emRevisao": " (em revisão)",
+    "linkEs": "Versión en español — traducción de cortesía",
+    "linkPt": "Versão em português — versão normativa"
   },
   "home": {
     "intro": "Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na avaliação ética, transparente e explicável, de pesquisas de intervenção em seres humanos que utilizam inteligência artificial.",
@@ -126,12 +128,14 @@
     "instituicaoLabel": "Instituição *",
     "instituicaoPlaceholder": "Ex: Hospital Universitário XYZ",
     "cepLabel": "Nome do CEP *",
-    "cepPlaceholder": "Ex: CEP/CONEP",
+    "cepPlaceholder": "Ex: CEP da sua instituição",
     "contextTitle": "Caracterização do Contexto de Uso",
     "contextSubtitle": "Estas questões são descritivas e obrigatórias. Elas não geram pontuação, mas contextualizam a avaliação.",
     "placeholderNumero": "Ex: 1500",
     "selecione": "Selecione…",
-    "respostaPlaceholder": "Sua resposta..."
+    "respostaPlaceholder": "Sua resposta...",
+    "descreverLabel": "Descreva a forma de compartilhamento *",
+    "descreverPlaceholder": "Descreva aqui"
   },
   "restart": {
     "aria": "Iniciar nova avaliação",
@@ -254,6 +258,9 @@
     "saibaMais": "Saiba mais",
     "arquivosAtualizados": "Os arquivos serão atualizados conforme a revisão do guia for concluída.",
     "imprimir": "Imprimir / Salvar PDF",
+    "registroTxt": "Registro completo (.txt)",
+    "registroCsv": "Registro completo (.csv)",
+    "registroJson": "Registro completo (.json)",
     "novaAvaliacao": "Nova Avaliação",
     "footer": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • {versao}",
     "identTitulo": "Identificação do Protocolo",
@@ -469,5 +476,11 @@
       "s5p1": "CEPs que decidirem compartilhar suas observações com o Grupo de Trabalho podem fazê-lo a qualquer momento por meio da Secretaria Executiva da INAEP. Não há prazo, formulário obrigatório ou contrapartida institucional — o compartilhamento é ato voluntário, e seu único propósito é informar a evolução futura do instrumento.",
       "s5p2": "Pode-se enviar a planilha completa, apenas os indicadores agregados ou uma nota narrativa do que o colegiado observou. CEPs com preocupação de confidencialidade institucional podem encaminhar apenas os indicadores agregados. Nenhum CEP será identificado em publicação sem consentimento expresso."
     }
+  },
+  "meta": {
+    "siteTitle": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
+    "siteDesc": "Ferramenta de apoio à avaliação ética de pesquisas com inteligência artificial, desenvolvida pela Instância Nacional de Ética em Pesquisa (INAEP) para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP).",
+    "siteKeywords": "MARIAH, risco em IA, inteligência artificial, ética em pesquisa, CEP, SINEP, INAEP",
+    "siteAuthor": "Instância Nacional de Ética em Pesquisa (INAEP) — Ministério da Saúde"
   }
 }

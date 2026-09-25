@@ -1,22 +1,29 @@
 # QUADRO VIVO — ciclo i18n-es (feat/i18n-es)
 
-**Última atualização:** 2026-09-24 15:05 · Kimi (arquitetura/engenharia sob regime excepcional, LOG #41) — Lote 6 entregue (LOG #44), aguardando commit do Operador.
-**Fase atual:** 🟢 **Lotes 5 e 6 concluídos** — /es funcional com flag on (merge + banner de cortesia). Restam: leva institucional §4.2 (Direção) → lote final `--strict` → auditoria do Z → decisão de publicação.
+**Última atualização:** 2026-09-24 19:05 · Kimi — Lote 7 ACEITO (LOG #53): messages es completas (430/430), strict verde. Espanhol tecnicamente completo na branch.
+**Fase atual:** 🟢🟢 **Construção COMPLETA: veredito Z APROVADO (#60) + fix C.8 (#62) + seletor C5 (#64) aceitos.** Falta o aditamento do Z (C.8+C5, pós-veredito) e a publicação é ato da Direção: checklist #59, etapas 2–6 (push → merge → flag → smoke → faxina).
 **Regime até 26/09:** Kimi executa código; Operador (Fabiano) revisa e commita (LOG #41). Claude retorna 26/09.
 
 ## Pendências abertas
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| P2 | Disposição de `consentimento-re-consentimento.patch`, `public/inaep-logo.png` e docx em `upload/` (3 untracked confirmados) | Operador + Z | 2026-09-20 | Aceite E2, emenda 2.2; LOG #40 |
-| RET | footer.*, home.*, pages.*, results.validacaoDesc (162/420 chaves) — **LIBERADO** pela decisão §4.2; em execução como Lote 7 (despacho de 2026-09-24, commits C1–C3) | Engenharia | 2026-09-22 | LOG #47; DESPACHO leva-institucional 2026-09-24 |
-| RET | footer.*, home.*, pages.*, results.validacaoDesc — **RETIDOS** até decisão §4.2 (162/335 chaves ausentes) | Engenharia (bloqueado na Direção) | 2026-09-22 | LOG #27/#28/#40 |
+| PUB | Publicação do espanhol — checklist de 7 etapas entregue; **desbloqueado pelo veredito APROVADO do Z (#60)**; falta o aditamento do Z cobrindo fix C.8 + C5 (mensagem pronta) e depois etapas 2–6 | Direção/Operador | 2026-09-24 | LOG #59/#60/#64; CHECKLIST_publicacao |
+| TYPES | 5 erros de TS latentes pré-existentes (utils.ts locale no parâmetro errado ×4; Results.tsx:337 string\|null a t.rich) — inócuos hoje, armadilha se questão condicionar às C.* | Engenharia (próximo ciclo) | 2026-09-24 | LOG #61/#62 |
+| HYG | `.zcodeignore` untracked (artefato de sessão do editor) — decidir ignore/descarte na faxina | Operador | 2026-09-24 | LOG #62 |
+| ANX | Anexo Normativo es §1 ainda no paradigma "CEP/CONEP", sem INAEP/SINEP — atualizar no próximo ciclo de glossário (recomendação do Z, não bloqueante); incluir a regra operante registral×descritiva no `glossario-es.md` | Engenharia (próximo ciclo) | 2026-09-24 | LOG #55 §2.4 e registros conexos |
 
 ## Pendências fechadas
 
 | # | Pendência | Fechamento |
 |---|---|---|
+| RET | Leva institucional (172 chaves: footer/home/pages/validacaoDesc + 10 do PR #32) + placeholder pt/es | ✅ Lote 7, LOG #53 (`1d4a00d`, `9c4ddf0`, `83a361e`; strict 0/0) |
+| META | Metadata locale-aware do layout + carimbo glossário 67/67 `aprovado-z`; CONEP fora das keywords | ✅ C4, LOG #58 (`374ad04`, `774c604`; strict 434/434, baseline diff só META-DESC, smoke flag-on) |
+| C5 | Seletor de idioma no footer (só com flag on) | ✅ LOG #64 (`bae0d6e`; strict 438/438, smokes flag-on/off pela arquitetura) |
+| C8fix | Fix C.8 "sim, outra forma (descrever)" abre campo livre obrigatório, espelhado no relatório | ✅ LOG #62 (`872241e`; strict 436/436, baseline intocada) |
+| AUD | Auditoria de conformidade do ciclo i18n-es | ✅ **VEREDITO APROVADO** — LOG #60, `RELATORIO_Z_conformidade_i18n-es_2026-09-24.md` |
 | P1 | `_guia_decisao/` versionado | ✅ `96477fb` |
+| P2 | Disposição dos 3 untracked (patch, logo INAEP, docx `upload/`) | ✅ LOG #50 — ciência do Z: patch descartado (supersededo, tripla prova), logo `599a287`, docx `3c8af18` |
 | P4–P7 | Ciclo infra i18n | ✅ LOG #12 |
 | Passo 9 + DoD infra | Pacote Z + auditoria | ✅ LOG #15–#18 (Z: APROVA 10/10) |
 | Passo 0 feat/i18n-es | Glossário v0.2.0 + key-parity no gate | ✅ LOG #20/#21 |
@@ -39,8 +46,8 @@
 6. ✅ Merge main→branch (`7a13ece`): fix do relatório (PR #30: C.3–C.8 + seção 'Não se aplica') absorvido e adaptado a `label(q,'pergunta',locale)` — LOG #42
 7. ✅ **Lote 5** (relatório/exports locale-aware via `createTranslator` + cortesia nos exports + Check C âncoras×glossário) — LOG #43
 8. ✅ **Lote 6** (merge es→pt-BR no `request.ts` + banner global de cortesia no layout + /es alcançável com flag on) — LOG #44
-9. ⬜ **Lote 7 — leva institucional (§4.2 decidido, LOG #47):** glossário v0.3.0 + 162 chaves + reconciliação footerDev + placeholder pt/es + baseline NDTI (despacho 2026-09-24) → key-parity `--strict`
-10. ⬜ Auditoria de conformidade do Z (camadas A2 1–4, retroversão) → veredito
+9. ✅ **Lote 7 — leva institucional ACEITO (LOG #53):** glossário v0.3.0 (`1d4a00d`) + 172 chaves (`9c4ddf0`) + placeholder pt/es (`83a361e`) → key-parity `--strict` **0/0**
+10. ✅ Auditoria de conformidade do Z → **VEREDITO FINAL: APROVADO** (LOG #60; `RELATORIO_Z_conformidade_i18n-es_2026-09-24.md`)
 11. ⬜ Decisão de publicação: **Direção** (merge em `main` VEDADO até lá)
 
 ## Semáforo dos gates (re-rodados pela arquitetura no Lote 6, 2026-09-24 — working tree pré-commit)
