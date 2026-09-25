@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
-export function Footer() {
+export function Footer({ localesEnabled = false }: { localesEnabled?: boolean }) {
   const t = useTranslations()
+  const locale = useLocale()
   const anoAtual = new Date().getFullYear()
 
   return (
@@ -49,6 +50,25 @@ export function Footer() {
           </Link>
           <span className="text-muted-foreground/80">{t('footer.emRevisao')}</span>
         </p>
+        {localesEnabled && (
+          <p className="text-xs">
+            {locale === 'es' ? (
+              <a
+                href="/"
+                className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+              >
+                {t('footer.linkPt')}
+              </a>
+            ) : (
+              <a
+                href="/es"
+                className="text-teal-700 hover:text-teal-800 hover:underline underline-offset-2"
+              >
+                {t('footer.linkEs')}
+              </a>
+            )}
+          </p>
+        )}
       </div>
     </footer>
   )

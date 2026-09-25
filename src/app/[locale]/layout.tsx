@@ -58,6 +58,10 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const t = await getTranslations();
   const courtesyNotice = getCourtesyNotice(locale);
+  // Mesma fonte de verdade do proxy.ts: a flag governa a exibição do seletor
+  // de idioma no footer. Lida aqui (componente de servidor) — nas rotas pt-BR
+  // (SSG) vale o valor do build; nas rotas gated (sob demanda), o do runtime.
+  const localesEnabled = process.env.LOCALES_ENABLED === "true";
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -75,7 +79,7 @@ export default async function LocaleLayout({
             <main id="conteudo-principal" tabIndex={-1} className="flex-1">
               {children}
             </main>
-            <Footer />
+            <Footer localesEnabled={localesEnabled} />
           </div>
           <Toaster />
         </NextIntlClientProvider>
