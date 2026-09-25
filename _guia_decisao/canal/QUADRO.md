@@ -8,8 +8,10 @@
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| C5 | **Seletor de idioma na UI** (footer, só com flag on; strict 436/436) — consulta da Direção respondida no #59: hoje NÃO existe; recomendado antes da flag. Aguarda decisão da Direção (checklist etapa 1) | Direção (decide) → Engenharia | 2026-09-24 | LOG #59; CHECKLIST_publicacao |
-| PUB | Publicação do espanhol — checklist de 7 etapas entregue (push → merge → flag Vercel → smoke → faxina de 21 branches merged); **desbloqueado pelo veredito APROVADO do Z (#60)** | Direção/Operador | 2026-09-24 | LOG #59/#60; CHECKLIST_publicacao |
+| C5 | **Seletor de idioma na UI** (footer, só com flag on) — consulta respondida no #59; **LIBERADO após o aceite do fix C.8 (#62)**; strict será recomputado (438/438 esperado: 436+2) | Engenharia (despacho com o Operador) | 2026-09-24 | LOG #59/#62; CHECKLIST_publicacao |
+| PUB | Publicação do espanhol — checklist de 7 etapas entregue; **desbloqueado pelo veredito APROVADO do Z (#60)**; pedir aditamento do Z cobrindo fix C.8 + C5 ao final | Direção/Operador | 2026-09-24 | LOG #59/#60/#62; CHECKLIST_publicacao |
+| TYPES | 5 erros de TS latentes pré-existentes (utils.ts locale no parâmetro errado ×4; Results.tsx:337 string\|null a t.rich) — inócuos hoje, armadilha se questão condicionar às C.* | Engenharia (próximo ciclo) | 2026-09-24 | LOG #61/#62 |
+| HYG | `.zcodeignore` untracked (artefato de sessão do editor) — decidir ignore/descarte na faxina | Operador | 2026-09-24 | LOG #62 |
 | ANX | Anexo Normativo es §1 ainda no paradigma "CEP/CONEP", sem INAEP/SINEP — atualizar no próximo ciclo de glossário (recomendação do Z, não bloqueante); incluir a regra operante registral×descritiva no `glossario-es.md` | Engenharia (próximo ciclo) | 2026-09-24 | LOG #55 §2.4 e registros conexos |
 
 ## Pendências fechadas
