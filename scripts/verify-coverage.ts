@@ -21,6 +21,8 @@ import {
   buildValidationExport,
   buildMirrorRecord,
   buildMirrorCSV,
+  generateReportHTML,
+  generateReportText,
 } from '../src/components/maria/utils';
 import type { QualitativeAnswer, QuantitativeAnswer } from '../src/components/maria/utils';
 
@@ -171,6 +173,21 @@ const mrEs = buildMirrorRecord({ ...argsTri, locale: 'es' });
 assert('es: linha de cobertura no idioma', mrEs.resultado.cobertura.texto.startsWith('Clasificado a partir de 30/112 preguntas'), true);
 const mrFull = buildMirrorRecord({ version: 'A', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fullA, quantitativeAnswers: {}, locale: 'pt-BR' });
 assert('completo: sem sufixo e linha a 100%', [mrFull.resultado.nivelFinalRotulo.includes('parcial'), mrFull.resultado.cobertura.texto.includes('(100%)')], [false, true]);
+
+console.log('\n=== 11. Espelho no combinado: HTML/TXT trazem o consolidado com a união A+B (como a tela) ===');
+const qaAllNao = Object.fromEntries(idsA.map((id) => [id, 'nao'])) as QualitativeAnswer;
+const qb10 = fillB(10);
+const covU = getCombinedCoverage(CTX, qaAllNao, qb10, false);
+const linhaU = `${covU.respondidas}/${covU.total}`;
+const html = generateReportHTML('B', CTX, qaAllNao, qb10, false, true, 'pt-BR');
+const txt = generateReportText('B', CTX, qaAllNao, qb10, false, true, 'pt-BR');
+const mrU = buildMirrorRecord({ version: 'B', useAAsTriagem: true, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: qaAllNao, quantitativeAnswers: qb10, locale: 'pt-BR' });
+assert(`união ${linhaU} presente no HTML, no TXT e no espelho`, [html.includes(linhaU), txt.includes(linhaU), mrU.resultado.cobertura.texto.includes(linhaU)], [true, true, true]);
+assert('TXT: linha "Consolidado: Nível … (parcial)"', /Consolidado: Nível (I|II|III|IV) — .+ \(parcial\)/.test(txt), true);
+assert('HTML: consolidado com "(parcial)"', /Consolidado:<\/strong> <span[^>]*>Nível (I|II|III|IV) \(parcial\)/.test(html), true);
+assert('CSV: rótulo "Cobertura" nas linhas de cobertura', (buildMirrorCSV(mrU).match(/;;Cobertura;/g) ?? []).length, 3);
+const htmlSingle = generateReportHTML('A', CTX, fullA, {}, false, false, 'pt-BR');
+assert('relatório não combinado não ganha bloco "Consolidado:"', htmlSingle.includes('Consolidado:'), false);
 
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
 if (failed > 0) process.exit(1);

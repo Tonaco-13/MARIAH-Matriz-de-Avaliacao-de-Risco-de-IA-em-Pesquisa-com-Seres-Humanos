@@ -369,6 +369,8 @@
     "resultadoFinalATxt": "── RESULTADO FINAL — VERSÃO A (TRIAGEM) ──",
     "resultadoFinalBTxt": "── RESULTADO FINAL — VERSÃO B (QUANTITATIVA) ──",
     "notaConsolidadoTxt": "Nota: o nível consolidado para os requisitos é o MAIS ALTO entre A e B.",
+    "consolidadoRotulo": "Consolidado:",
+    "coberturaRotulo": "Cobertura",
     "pontuacaoTotalTxt": "Pontuação total: {score}/{max}",
     "respostasRiscoTxt": "Respondidas: {respondidas}/{total} · Respostas de risco: {count} → Nível {level} ({label})",
     "footerGerado": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Gerado em {date}",
