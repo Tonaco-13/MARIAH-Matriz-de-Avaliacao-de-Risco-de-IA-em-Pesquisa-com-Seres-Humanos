@@ -1,10 +1,10 @@
 {
   "artefato": "glossario-es",
-  "versao": "0.3.0",
-  "data": "2026-09-24",
+  "versao": "0.4.0",
+  "data": "2026-09-25",
   "fonte": "pt-BR (spec/mariah-spec.json 2.1.0, src/components/maria/, disclaimer.ts)",
   "localeAlvo": "es",
-  "statusGeral": "aprovado-z (64/64 entradas; 19 entradas com ajuste do Z e 6 entradas novas — ver changelog 0.2.0 e RESPOSTA_Z_glossario-es_2026-09-20)",
+  "statusGeral": "aprovado-z (69/69 entradas — ver changelog 0.2.0 a 0.4.0; 0.4.0: PARECER_Z_glossario-cobertura_2026-09-25)",
   "regras": [
     "consequenciaOperacional fica SEMPRE em pt-BR — é o gabarito invariante de auditoria; não se traduz.",
     "Termo muda só por nova entrada versionada (ver changelog ao final); status aprovado-z é pré-condição da branch do idioma.",
@@ -703,6 +703,26 @@
       "variantes": [],
       "consequenciaOperacional": "Título oficial do documento-mãe; citado em 10 chaves da leva institucional (results.validacaoDesc, pages.statusAviso e demais — Errata §7.3). Identidade do instrumento — a forma es é ato da Direção.",
       "status": "aprovado-z"
+    },
+    {
+      "termoPtBr": "(parcial) — marcador da classificação",
+      "termoLocale": "(parcial)",
+      "variantes": [],
+      "consequenciaOperacional": "Marcador anexado ao nível (tela, badges da triagem, relatório HTML/TXT e registro-espelho) quando a classificação foi calculada com questões da matriz sem avaliação (cobertura < 100%). Convenção do branco por versão — A: questões em branco contam como «não risco» (em es, «no riesgo»); o nível pode estar subestimado e completar pode elevá-lo ou tornar o protocolo não avaliável pela MARIAH (eliminatória). B: branco vale zero; risco em branco deixa de somar e mitigação/evidência do Bloco 7 em branco deixa de abater — completar pode elevar OU reduzir o nível, ou tornar o protocolo não avaliável. Definição exibida no disclosure \"(?)\" do card do veredito (results.parcialExplicacaoA/B). Não altera o cálculo do nível. Ausente com cobertura 100% e na classificação suspensa.",
+      "referenciaNormativa": "results.nivelCardParcial, results.parcialExplicacaoA/B, report.parcialSufixo; utils.ts getMatrixCoverage",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo parecer do Z de 2026-09-25 (PARECER_Z_glossario-cobertura_2026-09-25, decisão 1). Cognato exato: grafia es = pt. Distinção léxica blindada: «no riesgo» (convenção de cálculo do branco, aspas angulares) jamais se confunde com \"sin riesgo\" (resposta efetiva sem risco — barra, legenda, ARIA)."
+    },
+    {
+      "termoPtBr": "cobertura (da classificação)",
+      "termoLocale": "cobertura",
+      "variantes": [],
+      "consequenciaOperacional": "Fração respondidas/total das questões visíveis da matriz (mesmo universo da seção de auditoria: recorte Res. 738, exibição condicional, 'na' conta como respondida), com taxa arredondada para baixo. Exibida na linha de cobertura, idêntica na tela e no relatório por design; exportada em versaoA/versaoB.cobertura e resultadoExibido.cobertura (JSON de validação v3) e no registro-espelho v2. 100% = classificação plena (sem \"(parcial)\"); no modo triagem combinado, cobertura da união A+B.",
+      "referenciaNormativa": "results/report.coberturaParcial, results/report.coberturaCompleta, report.coberturaRotulo; utils.ts CoverageStats",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo parecer do Z de 2026-09-25 (decisão 1). Cognato exato: grafia es = pt. Remissão \"véase la sección de auditoría\" mantida (decisão 4)."
     }
   ],
   "changelog": [
@@ -729,6 +749,12 @@
       "data": "2026-09-24",
       "autor": "Z (z.ai) — Auditor",
       "descricao": "Carimbo de aprovação (LOG #55 / RESPOSTA_Z_pedido-auditoria_i18n-es_2026-09-24, Deliberação 1): as 3 entradas institucionais da v0.3.0 passam de 'proposto' para 'aprovado-z', APROVADAS COMO ESTÃO (3/3) — formas intactas, nem um caractere. O Z retira expressamente o precedente 'nunca Investigación' do #46 no que extrapolava o escopo CEP/CONEP e fixa a regra operante: entes nomeados em cláusula normativa conservam a forma registral (CEP 'en Pesquisa', intocada); identidade institucional descritiva (autoria, sistema, título de obra) usa espanhol pleno ('Investigación'). Siglas permanecem intraduzíveis; a assimetria CEP × SINEP/INAEP é deliberada e documentada (dossiê §5/§8, decisão #47). Carimbo material executado pela Engenharia em micro-commit de docs (C4a)."
+    },
+    {
+      "versao": "0.4.0",
+      "data": "2026-09-25",
+      "autor": "Z (z.ai) — Auditor; carimbo material pela Engenharia",
+      "descricao": "2 entradas novas, APROVADAS pelo Z no parecer PARECER_Z_glossario-cobertura_2026-09-25 (decisão 1): \"(parcial)\" e \"cobertura (da classificação)\", termos normativo-metodológicos introduzidos pelos ciclos de acurácia do veredito (PRs #35, #36, #38). Formas es = pt (cognatos exatos). Registrada a distinção léxica «no riesgo» (convenção de cálculo do branco) × \"sin riesgo\" (resposta efetiva). Nenhuma entrada existente alterada. No mesmo parecer: 24 chaves de UI verificadas (22 APROVADAS, 2 com AJUSTE — results.parcialExplicacaoA/B: \"responder las preguntas pendientes\"), aplicadas no commit de i18n correspondente."
     }
   ]
 }
