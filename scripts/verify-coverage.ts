@@ -247,5 +247,20 @@ console.log('\n=== 14. Orientação do JSON alinhada à planilha-modelo v2 ===')
   assert('observação cita o documento MARIAH e o nome oficial do Guia', [exV2.software.observacao.includes('documento MARIAH'), exV2.software.observacao.includes('Guia de Uso Ético de Inteligência Artificial')], [true, true]);
 }
 
+console.log('\n=== 15. JSON de validação por idioma: só os textos de orientação mudam (ES-DL) ===');
+{
+  const base = { version: 'B' as const, useAAsTriagem: true, usesDatabase: true, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 5), quantitativeAnswers: fillB(5) };
+  const pt = buildValidationExport(base);
+  const ptExplicito = buildValidationExport({ ...base, locale: 'pt-BR' });
+  const es = buildValidationExport({ ...base, locale: 'es' });
+  const semTextos = (e: typeof pt) => JSON.stringify({ ...e, exportadoEm: '', protocolo: { ...e.protocolo, idInterno: '', dataAvaliacao: '' }, software: { ...e.software, observacao: '' }, comoUsar: null });
+  assert('es: campos e valores idênticos ao pt (schema v3 intacto)', semTextos(es) === semTextos(pt), true);
+  assert('pt padrão = pt explícito (textos inalterados)', [pt.software.observacao === ptExplicito.software.observacao, JSON.stringify(pt.comoUsar) === JSON.stringify(ptExplicito.comoUsar)], [true, true]);
+  assert('es: orientação em espanhol com as abas e valores da planilha es', ['«Versión B»', '«¿Cláusula de Primacía?»', '«¿No evaluable?»', '«NO EVALUABLE»'].every((k) => JSON.stringify(es.comoUsar).includes(k)), true);
+  assert('es: valores do schema citados em pt (correspondência para o CEP)', es.comoUsar.abasPlanilha.versaoA.includes('classificacaoConsolidada = "NÃO AVALIÁVEL"'), true);
+  assert('es: observação com o título es do Guia (glossário)', es.software.observacao.includes('Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos'), true);
+  assert('locale desconhecido cai no pt-BR', buildValidationExport({ ...base, locale: 'fr' }).software.observacao, pt.software.observacao);
+}
+
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
 if (failed > 0) process.exit(1);

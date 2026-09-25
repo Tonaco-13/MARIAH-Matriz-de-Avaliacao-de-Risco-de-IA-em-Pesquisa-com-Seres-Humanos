@@ -244,6 +244,7 @@ export default function Results({
       contextAnswers,
       qualitativeAnswers,
       quantitativeAnswers,
+      locale,
     });
     downloadValidationExport(payload);
   };
