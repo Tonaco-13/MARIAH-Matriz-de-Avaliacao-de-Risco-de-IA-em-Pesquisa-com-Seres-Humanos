@@ -66,7 +66,7 @@ Cláusula de Prevalência
 Não aplicável
 Elevação automática a Nível IV (Bloco 4)
 A MARIAH torna transparente e explicável a avaliação ética de pesquisas de intervenção em seres humanos que utilizam inteligência artificial. Aplica-se aos sistemas que automatizam decisões, geram conteúdo ou intervêm na condução do estudo. Seu preenchimento é facultativo e serve tanto ao pesquisador, na preparação e autoavaliação do protocolo, quanto ao CEP, na análise. Não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada. Versão preliminar: ainda não submetida a validação empírica em casuística real e aguardando validação institucional pelo Ministério da Saúde.
-Esta é a versão 2.0 da matriz. Avaliações iniciadas em versões anteriores não são recuperadas automaticamente — as respostas ficam apenas no seu navegador e não migram entre versões da matriz.
+Esta é a versão Beta da matriz. Avaliações iniciadas em versões anteriores não são recuperadas automaticamente — as respostas ficam apenas no seu navegador e não migram entre versões da matriz.
 MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA
 Desenvolvido pelo
 Ministério da Saúde
