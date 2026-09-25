@@ -54,7 +54,9 @@
     "linkValidacao": "Validación Local por los CEPs",
     "linkTransparencia": "Transparencia metodológica",
     "linkApendice": "Apéndice de la guía",
-    "emRevisao": " (en revisión)"
+    "emRevisao": " (en revisión)",
+    "linkEs": "Versión en español — traducción de cortesía",
+    "linkPt": "Versão em português — versão normativa"
   },
   "home": {
     "intro": "Herramienta de apoyo al investigador y al Comité de Ética en Pesquisa (CEP) en la evaluación ética, transparente y explicable, de investigaciones de intervención en seres humanos que utilizan inteligencia artificial.",
