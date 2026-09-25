@@ -21,7 +21,7 @@ import {
 import Link from 'next/link';
 import { downloadLinkProps, isDownloadInPt } from '@/lib/downloads';
 import { useTranslations, useLocale } from 'next-intl';
-import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, CONTEXT_QUESTIONS, MATRIX_VERSION, label } from './data';
+import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, CONTEXT_QUESTIONS, MATRIX_VERSION_LABEL, label } from './data';
 import type { RiskLevel } from './data';
 import type { QualitativeAnswer, QuantitativeAnswer, CoverageStats } from './utils';
 import {
@@ -383,7 +383,7 @@ export default function Results({
               <Separator />
               <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-muted-foreground">
                 <span>{t('results.geradoEm', { date: dataRegistro })}</span>
-                <span>{t('results.versaoMatrizRotulo', { version: MATRIX_VERSION })}</span>
+                <span>{t('results.versaoMatrizRotulo', { version: MATRIX_VERSION_LABEL })}</span>
               </div>
             </div>
           </CardContent>
