@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # Gera as Instruções de Preenchimento (Versões A e B) da MARIAH a partir da spec canônica.
 # Fonte única: spec/mariah-spec.json. Saída: .docx limpos (v2), estilo institucional MARIAH.
+# Uso: gen-instrucoes-preenchimento.py [spec] [outdir] [locale]  (locale: pt-BR padrão | es)
+# pt-BR = versão normativa (arquivo canônico). Outro locale: textos da matriz vêm dos campos
+# i18n da spec (aprovados pelo Z); a moldura vem de STR[locale]; saída com sufixo -<locale>.
 import json, sys, os, re
 from docx import Document
 from docx.shared import Pt, RGBColor, Cm
@@ -11,8 +14,82 @@ from docx.oxml import OxmlElement
 
 SPEC = sys.argv[1] if len(sys.argv) > 1 else 'spec/mariah-spec.json'
 OUTDIR = sys.argv[2] if len(sys.argv) > 2 else '/tmp/out'
+LOCALE = sys.argv[3] if len(sys.argv) > 3 else 'pt-BR'
 os.makedirs(OUTDIR, exist_ok=True)
 spec = json.load(open(SPEC, encoding='utf-8'))
+
+def L(node, field):
+    """Campo traduzido (spec i18n) ou canônico pt-BR — mesma regra do label() da UI."""
+    v = (node.get('i18n') or {}).get(LOCALE, {}).get(field)
+    return v if isinstance(v, str) else node.get(field)
+
+STR = {
+ 'pt-BR': {
+  'hdr': ['Cenário','Máx.','Nível I','Nível II','Nível III','Nível IV'],
+  'faixa': '{a} a {b}',
+  'semBanco': 'Sem banco de dados', 'comBanco': 'Com banco (Bloco 6.b)',
+  'fElim': 'ELIMINATÓRIA', 'fDilQuant': 'Diligência (0 pt; devolução)', 'fEvid': 'Evidência (só-abate)',
+  'fMitig': 'Mitigação (subtrai)', 'fCond': 'Condicional', 'fNa': 'admite “não se aplica”', 'fDilQual': 'Diligência (devolução)',
+  'sim': 'Sim', 'nao': 'Não',
+  'colItem': 'Item', 'colPergunta': 'Pergunta e orientação para preenchimento',
+  'respRisco': 'Resposta de risco: ', 'peso': 'Peso: ', 'pts': '{n} pts', 'orientacao': 'Orientação. ',
+  'titulo': 'Instruções de Preenchimento',
+  'matriz': 'Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos',
+  'status': 'Documento gerado a partir da especificação canônica da matriz (v2). Versão aprovada pela INAEP em 16/09/2026 — em revisão editorial para publicação.',
+  'cortesia': None,
+  'ctxTitulo': 'Caracterização do contexto de uso (não pontua)',
+  'ctxTexto': 'Antes da pontuação, o protocolo responde a oito perguntas descritivas obrigatórias. Não pontuam e não determinam o nível por si mesmas: delimitam o objeto da avaliação e modulam a leitura dos eixos/blocos.',
+  'ctxCol': 'Pergunta descritiva',
+  'bTitulo': 'Versão B — Quantitativa', 'bSub': 'Pontuação ponderada em sete blocos de avaliação',
+  'bComo': '1. Como funciona a Versão B',
+  'bP1': 'A Versão B é quantitativa: cada resposta de risco soma pontos, distribuídos em sete blocos temáticos. A pontuação total é a soma dos blocos (modelo aditivo), e os pontos de corte definem o nível final do protocolo. Cada questão tem um peso fixo, indicado na coluna “Item”.',
+  'bP2': 'Mecanismos que alteram a aritmética simples: (a) a Cláusula de Prevalência Ética (Bloco 4) — se P4.1 ou P4.2 for “Sim”, o protocolo é forçado ao Nível IV; (b) a eliminatória de cadeia de custódia (P6.b.2), que torna o protocolo “não avaliável pela MARIAH”; (c) o Bloco 7 (Mitigação), bidirecional e dividido em três subblocos — 7A (consultas, somam quando ausentes), 7B (medidas de redução, subtraem quando presentes) e 7C (evidências de transparência, regime de só-abate: presentes subtraem até 23 pts, ausentes não somam); (d) o Bloco 6.b condicional (Res. CNS n.º 738/2024), que soma 29 pts ao Bloco 6 quando há banco de dados e integra três itens de diligência (P6.b.4.1, P6.b.6, P6.b.7) que não pontuam e, quando não atendidos, tornam o protocolo não avaliável no mérito (devolução); e (e) a diligência de novo consentimento (P2.8), eliminatória para sistemas adaptativos sem plano de novo consentimento. O piso do Bloco 7 é zero: a pontuação não fica negativa.',
+  'passo0': 'Passo 0 — Filtro de banco de dados (Res. CNS n.º 738/2024)',
+  'cortes': 'Pontos de corte',
+  'cortesNota': ('Com banco de dados, o teto teórico é 304 e o teto avaliável é 297 (descontada a questão eliminatória P6.b.2). '
+           'Os cortes derivam das frações fixas do baseline 238 (50/238, 110/238, 180/238) aplicadas ao teto teórico vigente, '
+           'com arredondamento de meia-unidade para cima. A calibração definitiva é prospectiva.'),
+  'bQuestoes': '2. Questões por bloco', 'maxBloco': '{nome} (máx. {n} pts)',
+  'aTitulo': 'Versão A — Qualitativa', 'aSub': 'Percurso por cinco eixos (mais o Eixo 3.b condicional)',
+  'aComo': '1. Como funciona a Versão A',
+  'aP1': 'A Versão A é qualitativa: perguntas de resposta binária, organizadas em cinco eixos temáticos, percorridos em sequência. Em cada eixo, qualquer resposta de risco eleva o nível do eixo; o nível final do protocolo é o MÁXIMO entre os eixos — o risco só sobe, nunca desce.',
+  'aP2': 'Mecanismos: (a) a regra especial do Eixo 3.b (banco de dados, Res. CNS n.º 738/2024): 0 respostas de risco → Nível I; 1–2 → Nível III; 3 ou mais → Nível IV; (b) a eliminatória de cadeia de custódia (3.b.2), que torna o protocolo “não avaliável pela MARIAH”; (c) os itens de diligência do Eixo 3.b, que não pontuam e, quando não atendidos, devolvem o protocolo ao pesquisador; e (d) a diligência de novo consentimento (2.10), eliminatória para sistemas adaptativos sem plano de novo consentimento. Na Versão A as mitigações não alteram o nível.',
+  'aQuestoes': '2. Questões por eixo',
+ },
+ 'es': {
+  'hdr': ['Escenario','Máx.','Nivel I','Nivel II','Nivel III','Nivel IV'],
+  'faixa': '{a} a {b}',
+  'semBanco': 'Sin banco de datos', 'comBanco': 'Con banco (Bloque 6.b)',
+  'fElim': 'ELIMINATORIA', 'fDilQuant': 'Diligencia (0 pt; devolución)', 'fEvid': 'Evidencia (solo descuenta)',
+  'fMitig': 'Mitigación (resta)', 'fCond': 'Condicional', 'fNa': 'admite «No se aplica»', 'fDilQual': 'Diligencia (devolución)',
+  'sim': 'Sí', 'nao': 'No',
+  'colItem': 'Ítem', 'colPergunta': 'Pregunta y orientación para la cumplimentación',
+  'respRisco': 'Respuesta de riesgo: ', 'peso': 'Peso: ', 'pts': '{n} pts', 'orientacao': 'Orientación. ',
+  'titulo': 'Instrucciones de Cumplimentación',
+  'matriz': 'Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos',
+  'status': 'Documento generado a partir de la especificación canónica de la matriz (v2). Versión aprobada por la INAEP el 16/09/2026 — en revisión editorial para su publicación.',
+  'cortesia': 'Esta es una traducción de cortesía. La versión normativa vigente es la versión en portugués (pt-BR).',
+  'ctxTitulo': 'Caracterización del contexto de uso (no puntúa)',
+  'ctxTexto': 'Antes de la puntuación, el protocolo responde a ocho preguntas descriptivas obligatorias. No puntúan ni determinan el nivel por sí mismas: delimitan el objeto de la evaluación y modulan la lectura de los ejes/bloques.',
+  'ctxCol': 'Pregunta descriptiva',
+  'bTitulo': 'Versión B — Cuantitativa', 'bSub': 'Puntuación ponderada en siete bloques de evaluación',
+  'bComo': '1. Cómo funciona la Versión B',
+  'bP1': 'La Versión B es cuantitativa: cada respuesta de riesgo suma puntos, distribuidos en siete bloques temáticos. La puntuación total es la suma de los bloques (modelo aditivo), y los puntos de corte definen el nivel final del protocolo. Cada pregunta tiene un peso fijo, indicado en la columna «Ítem».',
+  'bP2': 'Mecanismos que alteran la aritmética simple: (a) la Cláusula de Primacía Ética (Bloque 4) — si P4.1 o P4.2 es «Sí», el protocolo se eleva obligatoriamente al Nivel IV; (b) la eliminatoria de cadena de custodia (P6.b.2), que vuelve el protocolo «no evaluable por la MARIAH»; (c) el Bloque 7 (Mitigación), bidireccional y dividido en tres subbloques — 7A (consultas, suman cuando están ausentes), 7B (medidas de reducción, restan cuando están presentes) y 7C (evidencias de transparencia, régimen de solo descuento: presentes restan hasta 23 pts, ausentes no suman); (d) el Bloque 6.b condicional (Res. CNS n.º 738/2024), que suma 29 pts al Bloque 6 cuando hay banco de datos e integra tres ítems de diligencia (P6.b.4.1, P6.b.6, P6.b.7) que no puntúan y, cuando no se cumplen, vuelven el protocolo no evaluable en el mérito (devolución); y (e) la diligencia de nuevo consentimiento (P2.8), eliminatoria para sistemas adaptativos sin plan de nuevo consentimiento. El piso del Bloque 7 es cero: la puntuación no queda negativa.',
+  'passo0': 'Paso 0 — Filtro de banco de datos (Res. CNS n.º 738/2024)',
+  'cortes': 'Puntos de corte',
+  'cortesNota': ('Con banco de datos, el techo teórico es 304 y el techo evaluable es 297 (descontada la pregunta eliminatoria P6.b.2). '
+           'Los cortes derivan de las fracciones fijas de la línea de base 238 (50/238, 110/238, 180/238) aplicadas al techo teórico vigente, '
+           'con redondeo de media unidad hacia arriba. La calibración definitiva es prospectiva.'),
+  'bQuestoes': '2. Preguntas por bloque', 'maxBloco': '{nome} (máx. {n} pts)',
+  'aTitulo': 'Versión A — Cualitativa', 'aSub': 'Recorrido por cinco ejes (más el Eje 3.b condicional)',
+  'aComo': '1. Cómo funciona la Versión A',
+  'aP1': 'La Versión A es cualitativa: preguntas de respuesta binaria, organizadas en cinco ejes temáticos, recorridos en secuencia. En cada eje, cualquier respuesta de riesgo eleva el nivel del eje; el nivel final del protocolo es el MÁXIMO entre los ejes — el riesgo solo sube, nunca baja.',
+  'aP2': 'Mecanismos: (a) la regla especial del Eje 3.b (banco de datos, Res. CNS n.º 738/2024): 0 respuestas de riesgo → Nivel I; 1–2 → Nivel III; 3 o más → Nivel IV; (b) la eliminatoria de cadena de custodia (3.b.2), que vuelve el protocolo «no evaluable por la MARIAH»; (c) los ítems de diligencia del Eje 3.b, que no puntúan y, cuando no se cumplen, devuelven el protocolo al investigador; y (d) la diligencia de nuevo consentimiento (2.10), eliminatoria para sistemas adaptativos sin plan de nuevo consentimiento. En la Versión A las mitigaciones no alteran el nivel.',
+  'aQuestoes': '2. Preguntas por eje',
+ },
+}[LOCALE]
+SUFIXO = '' if LOCALE == 'pt-BR' else f'-{LOCALE}'
 
 TEAL = RGBColor(0x0F, 0x76, 0x6E)
 SHADE = "D5E8F0"
@@ -47,7 +124,7 @@ def para(doc, text, size=10.5, color=None, italic=False):
 
 def cutoffs_table(doc, tb, tc, notas):
     t=doc.add_table(rows=3, cols=6); t.style='Table Grid'; t.alignment=WD_TABLE_ALIGNMENT.CENTER
-    hdr=['Cenário','Máx.','Nível I','Nível II','Nível III','Nível IV']
+    hdr=STR['hdr']
     for j,htext in enumerate(hdr):
         c=t.rows[0].cells[j]; set_cell_shade(c,SHADE); p=c.paragraphs[0]; add_run(p,htext,bold=True,size=9.5)
     def row(i, cen, mx, faixas):
@@ -57,32 +134,33 @@ def cutoffs_table(doc, tb, tc, notas):
             p=cells[j].paragraphs[0]; add_run(p,v,size=9.5,bold=(j==0))
     def faixas(th):
         I,II,III=th['levelI'],th['levelII'],th['levelIII']
-        return [f'0 a {I}', f'{I+1} a {II}', f'{II+1} a {III}', f'≥ {III+1}']
-    row(1,'Sem banco de dados', tb['maxScore'], faixas(tb))
-    row(2,'Com banco (Bloco 6.b)', tc['maxScore'], faixas(tc))
+        f=STR['faixa']
+        return [f.format(a=0,b=I), f.format(a=I+1,b=II), f.format(a=II+1,b=III), f'≥ {III+1}']
+    row(1,STR['semBanco'], tb['maxScore'], faixas(tb))
+    row(2,STR['comBanco'], tc['maxScore'], faixas(tc))
     para(doc, notas, size=8.5, color=GREY, italic=True)
 
 def flags_quant(q):
     fl=[]
     ef=q.get('efeito')
-    if q.get('eliminatorio') and q.get('pontos',0)!=0: fl.append('ELIMINATÓRIA')
-    if ef=='diligencia': fl.append('Diligência (0 pt; devolução)')
-    if ef=='evidencia': fl.append('Evidência (só-abate)')
-    if ef=='mitigacao': fl.append('Mitigação (subtrai)')
-    if q.get('exibicaoCondicional'): fl.append('Condicional')
-    if q.get('hasNaOption'): fl.append('admite “não se aplica”')
+    if q.get('eliminatorio') and q.get('pontos',0)!=0: fl.append(STR['fElim'])
+    if ef=='diligencia': fl.append(STR['fDilQuant'])
+    if ef=='evidencia': fl.append(STR['fEvid'])
+    if ef=='mitigacao': fl.append(STR['fMitig'])
+    if q.get('exibicaoCondicional'): fl.append(STR['fCond'])
+    if q.get('hasNaOption'): fl.append(STR['fNa'])
     return fl
 
 def flags_qual(q):
     fl=[]
-    if q.get('eliminatorio'): fl.append('ELIMINATÓRIA')
-    if q.get('naoPontuavel') or q.get('efeito')=='diligencia': fl.append('Diligência (devolução)')
-    if q.get('exibicaoCondicional'): fl.append('Condicional')
-    if q.get('hasNaOption'): fl.append('admite “não se aplica”')
+    if q.get('eliminatorio'): fl.append(STR['fElim'])
+    if q.get('naoPontuavel') or q.get('efeito')=='diligencia': fl.append(STR['fDilQual'])
+    if q.get('exibicaoCondicional'): fl.append(STR['fCond'])
+    if q.get('hasNaOption'): fl.append(STR['fNa'])
     return fl
 
 def risk_label(ra):
-    return {'sim':'Sim','nao':'Não','na':'—'}.get((ra or '').lower(), ra or '—')
+    return {'sim':STR['sim'],'nao':STR['nao'],'na':'—'}.get((ra or '').lower(), ra or '—')
 
 ID_DISPLAY = {'contexto1':'C.1','contexto2':'C.2'}
 def disp_id(qid):
@@ -106,86 +184,85 @@ def question_table(doc, questoes, quant):
     t.columns[0].width=Cm(4.6); t.columns[1].width=Cm(12.4)
     hc=t.rows[0].cells
     set_cell_shade(hc[0],SHADE); set_cell_shade(hc[1],SHADE)
-    add_run(hc[0].paragraphs[0],'Item',bold=True,size=9.5)
-    add_run(hc[1].paragraphs[0],'Pergunta e orientação para preenchimento',bold=True,size=9.5)
+    add_run(hc[0].paragraphs[0],STR['colItem'],bold=True,size=9.5)
+    add_run(hc[1].paragraphs[0],STR['colPergunta'],bold=True,size=9.5)
     for q in questoes:
         row=t.add_row().cells
         # coluna Item
         p=row[0].paragraphs[0]; add_run(p,disp_id(q['id']),bold=True,size=9.5)
-        p2=row[0].add_paragraph(); add_run(p2,'Resposta de risco: ',size=8.5); add_run(p2,risk_label(q.get('riskAnswer')),bold=True,size=8.5)
+        p2=row[0].add_paragraph(); add_run(p2,STR['respRisco'],size=8.5); add_run(p2,risk_label(q.get('riskAnswer')),bold=True,size=8.5)
         if quant:
             pts=q.get('pontos',0)
-            p3=row[0].add_paragraph(); add_run(p3,'Peso: ',size=8.5); add_run(p3,(f'{pts:+d} pts' if pts else '0 pts'),bold=True,size=8.5)
+            p3=row[0].add_paragraph(); add_run(p3,STR['peso'],size=8.5); add_run(p3,STR['pts'].format(n=(f'{pts:+d}' if pts else '0')),bold=True,size=8.5)
         for fl in (flags_quant(q) if quant else flags_qual(q)):
             pf=row[0].add_paragraph(); add_run(pf,fl,size=8,color=GREY,italic=True)
         # coluna Pergunta + orientação
-        pp=row[1].paragraphs[0]; add_run(pp,q['pergunta'],bold=True,size=9.5)
+        pp=row[1].paragraphs[0]; add_run(pp,L(q,'pergunta'),bold=True,size=9.5)
         if q.get('dica'):
-            pd=row[1].add_paragraph(); add_run(pd,'Orientação. ',bold=True,size=9); add_run(pd,clean_dica(q['dica']),size=9)
+            pd=row[1].add_paragraph(); add_run(pd,STR['orientacao'],bold=True,size=9); add_run(pd,clean_dica(L(q,'dica')),size=9)
 
 def header_block(doc, versao_titulo, subtitulo):
     p=doc.add_paragraph(); add_run(p,'MARIAH',bold=True,color=TEAL,size=20); p.paragraph_format.space_after=Pt(0)
-    p=doc.add_paragraph(); add_run(p,'Instruções de Preenchimento',bold=True,size=13)
+    p=doc.add_paragraph(); add_run(p,STR['titulo'],bold=True,size=13)
     p=doc.add_paragraph(); add_run(p,versao_titulo,bold=True,size=12,color=TEAL)
     para(doc, subtitulo, size=9.5, color=GREY)
-    para(doc, 'Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos', size=9.5, color=GREY, italic=True)
-    para(doc, 'Documento gerado a partir da especificação canônica da matriz (v2). Versão aprovada pela INAEP em 16/09/2026 — em revisão editorial para publicação.', size=8.5, color=GREY, italic=True)
+    para(doc, STR['matriz'], size=9.5, color=GREY, italic=True)
+    para(doc, STR['status'], size=8.5, color=GREY, italic=True)
+    if STR['cortesia']: para(doc, STR['cortesia'], size=8.5, color=GREY, italic=True)
 
 def context_section(doc, ctxs):
-    h2(doc,'Caracterização do contexto de uso (não pontua)')
-    para(doc,'Antes da pontuação, o protocolo responde a oito perguntas descritivas obrigatórias. Não pontuam e não determinam o nível por si mesmas: delimitam o objeto da avaliação e modulam a leitura dos eixos/blocos.',size=9.5)
+    h2(doc,STR['ctxTitulo'])
+    para(doc,STR['ctxTexto'],size=9.5)
     t=doc.add_table(rows=1,cols=2); t.style='Table Grid'
     t.columns[0].width=Cm(2.2); t.columns[1].width=Cm(14.8)
     hc=t.rows[0].cells; set_cell_shade(hc[0],SHADE); set_cell_shade(hc[1],SHADE)
-    add_run(hc[0].paragraphs[0],'Item',bold=True,size=9.5); add_run(hc[1].paragraphs[0],'Pergunta descritiva',bold=True,size=9.5)
+    add_run(hc[0].paragraphs[0],STR['colItem'],bold=True,size=9.5); add_run(hc[1].paragraphs[0],STR['ctxCol'],bold=True,size=9.5)
     for c in ctxs:
         row=t.add_row().cells
         add_run(row[0].paragraphs[0], disp_id(c.get('id','C')),bold=True,size=9.5)
-        add_run(row[1].paragraphs[0], c['pergunta'],size=9.5)
+        add_run(row[1].paragraphs[0], L(c,'pergunta'),size=9.5)
         if c.get('dica'):
-            pd=row[1].add_paragraph(); add_run(pd,clean_dica(c['dica']),size=8.5,color=GREY)
+            pd=row[1].add_paragraph(); add_run(pd,clean_dica(L(c,'dica')),size=8.5,color=GREY)
 
 # ---------------- VERSÃO B ----------------
 def gen_B():
     doc=Document(); base_style(doc)
-    header_block(doc,'Versão B — Quantitativa','Pontuação ponderada em sete blocos de avaliação')
-    h2(doc,'1. Como funciona a Versão B')
-    para(doc,'A Versão B é quantitativa: cada resposta de risco soma pontos, distribuídos em sete blocos temáticos. A pontuação total é a soma dos blocos (modelo aditivo), e os pontos de corte definem o nível final do protocolo. Cada questão tem um peso fixo, indicado na coluna “Item”.')
-    para(doc,'Mecanismos que alteram a aritmética simples: (a) a Cláusula de Prevalência Ética (Bloco 4) — se P4.1 ou P4.2 for “Sim”, o protocolo é forçado ao Nível IV; (b) a eliminatória de cadeia de custódia (P6.b.2), que torna o protocolo “não avaliável pela MARIAH”; (c) o Bloco 7 (Mitigação), bidirecional e dividido em três subblocos — 7A (consultas, somam quando ausentes), 7B (medidas de redução, subtraem quando presentes) e 7C (evidências de transparência, regime de só-abate: presentes subtraem até 23 pts, ausentes não somam); (d) o Bloco 6.b condicional (Res. CNS n.º 738/2024), que soma 29 pts ao Bloco 6 quando há banco de dados e integra três itens de diligência (P6.b.4.1, P6.b.6, P6.b.7) que não pontuam e, quando não atendidos, tornam o protocolo não avaliável no mérito (devolução); e (e) a diligência de novo consentimento (P2.8), eliminatória para sistemas adaptativos sem plano de novo consentimento. O piso do Bloco 7 é zero: a pontuação não fica negativa.')
-    h2(doc,'Passo 0 — Filtro de banco de dados (Res. CNS n.º 738/2024)')
+    header_block(doc,STR['bTitulo'],STR['bSub'])
+    h2(doc,STR['bComo'])
+    para(doc,STR['bP1'])
+    para(doc,STR['bP2'])
+    h2(doc,STR['passo0'])
     dbf=spec['databaseFilterQuestion']
-    para(doc, dbf['pergunta'])
-    para(doc, dbf.get('dica',''), size=9.5, color=GREY)
+    para(doc, L(dbf,'pergunta'))
+    para(doc, L(dbf,'dica') or '', size=9.5, color=GREY)
     context_section(doc, spec['contextQuestions'])
-    h2(doc,'Pontos de corte')
-    notas=('Com banco de dados, o teto teórico é 304 e o teto avaliável é 297 (descontada a questão eliminatória P6.b.2). '
-           'Os cortes derivam das frações fixas do baseline 238 (50/238, 110/238, 180/238) aplicadas ao teto teórico vigente, '
-           'com arredondamento de meia-unidade para cima. A calibração definitiva é prospectiva.')
+    h2(doc,STR['cortes'])
+    notas=STR['cortesNota']
     cutoffs_table(doc, spec['thresholdsBase'], spec['thresholdsComBanco'], notas)
-    h2(doc,'2. Questões por bloco')
+    h2(doc,STR['bQuestoes'])
     for b in spec['quantitativeBlocks']:
-        h2(doc, f"{b['nome']} (máx. {b['maxPontos']} pts)")
-        if b.get('descricao'): para(doc,b['descricao'],size=9.5,color=GREY)
+        h2(doc, STR['maxBloco'].format(nome=L(b,'nome'), n=b['maxPontos']))
+        if b.get('descricao'): para(doc,L(b,'descricao'),size=9.5,color=GREY)
         question_table(doc, b['questoes'], quant=True)
-    out=os.path.join(OUTDIR,'instrucoes-preenchimento-versao-b-mariah.docx'); doc.save(out); return out
+    out=os.path.join(OUTDIR,f'instrucoes-preenchimento-versao-b-mariah{SUFIXO}.docx'); doc.save(out); return out
 
 # ---------------- VERSÃO A ----------------
 def gen_A():
     doc=Document(); base_style(doc)
-    header_block(doc,'Versão A — Qualitativa','Percurso por cinco eixos (mais o Eixo 3.b condicional)')
-    h2(doc,'1. Como funciona a Versão A')
-    para(doc,'A Versão A é qualitativa: perguntas de resposta binária, organizadas em cinco eixos temáticos, percorridos em sequência. Em cada eixo, qualquer resposta de risco eleva o nível do eixo; o nível final do protocolo é o MÁXIMO entre os eixos — o risco só sobe, nunca desce.')
-    para(doc,'Mecanismos: (a) a regra especial do Eixo 3.b (banco de dados, Res. CNS n.º 738/2024): 0 respostas de risco → Nível I; 1–2 → Nível III; 3 ou mais → Nível IV; (b) a eliminatória de cadeia de custódia (3.b.2), que torna o protocolo “não avaliável pela MARIAH”; (c) os itens de diligência do Eixo 3.b, que não pontuam e, quando não atendidos, devolvem o protocolo ao pesquisador; e (d) a diligência de novo consentimento (2.10), eliminatória para sistemas adaptativos sem plano de novo consentimento. Na Versão A as mitigações não alteram o nível.')
-    h2(doc,'Passo 0 — Filtro de banco de dados (Res. CNS n.º 738/2024)')
+    header_block(doc,STR['aTitulo'],STR['aSub'])
+    h2(doc,STR['aComo'])
+    para(doc,STR['aP1'])
+    para(doc,STR['aP2'])
+    h2(doc,STR['passo0'])
     dbf=spec['databaseFilterQuestion']
-    para(doc, dbf['pergunta']); para(doc, dbf.get('dica',''), size=9.5, color=GREY)
+    para(doc, L(dbf,'pergunta')); para(doc, L(dbf,'dica') or '', size=9.5, color=GREY)
     context_section(doc, spec['contextQuestions'])
-    h2(doc,'2. Questões por eixo')
+    h2(doc,STR['aQuestoes'])
     for a in spec['qualitativeAxes']:
-        h2(doc, a['nome'])
-        if a.get('descricao'): para(doc,a['descricao'],size=9.5,color=GREY)
+        h2(doc, L(a,'nome'))
+        if a.get('descricao'): para(doc,L(a,'descricao'),size=9.5,color=GREY)
         question_table(doc, a['questoes'], quant=False)
-    out=os.path.join(OUTDIR,'instrucoes-preenchimento-versao-a-mariah.docx'); doc.save(out); return out
+    out=os.path.join(OUTDIR,f'instrucoes-preenchimento-versao-a-mariah{SUFIXO}.docx'); doc.save(out); return out
 
 print(gen_B())
 print(gen_A())
