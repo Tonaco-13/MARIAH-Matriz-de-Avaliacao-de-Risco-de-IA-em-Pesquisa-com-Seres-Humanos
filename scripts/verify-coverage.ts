@@ -26,6 +26,7 @@ import {
 } from '../src/components/maria/utils';
 import type { QualitativeAnswer, QuantitativeAnswer } from '../src/components/maria/utils';
 import { existsSync } from 'node:fs';
+import { MATRIX_VERSION, MATRIX_VERSION_LABEL } from '../src/components/maria/data';
 import { DOWNLOADS, downloadHref, downloadLinkProps, isDownloadInPt } from '../src/lib/downloads';
 import type { DownloadId } from '../src/lib/downloads';
 
@@ -273,6 +274,17 @@ console.log('\n=== 16. Baixáveis por idioma (ES-DL) ===');
   assert('todo canônico existe em public/', ids.filter((id) => !existsSync(`public/${DOWNLOADS[id]}`)), []);
   assert('todo baixável tem o gêmeo -es em public/ (ativação sem 404)', ids.filter((id) => !existsSync(`public/${esHref(id)}`)), []);
   assert('es: link aponta para arquivo existente (traduzido ou canônico com marcador)', ids.every((id) => existsSync(`public${downloadHref(id, 'es')}`) && (downloadHref(id, 'es') === `/${esHref(id)}` || (isDownloadInPt(id, 'es') && downloadLinkProps(id, 'es').hrefLang === 'pt-BR'))), true);
+}
+
+console.log('\n=== 17. Carimbo "Beta 1 (2.2.0)" para pessoas; número técnico para máquina (LOG #75) ===');
+{
+  assert('rótulo derivado da versão técnica', MATRIX_VERSION_LABEL, `Beta 1 (${MATRIX_VERSION})`);
+  const h = generateReportHTML('A', CTX, fill(idsA, 5), {}, false, false, 'pt-BR');
+  const t = generateReportText('A', CTX, fill(idsA, 5), {}, false, false, 'es');
+  const m = buildMirrorRecord({ version: 'A', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 5), quantitativeAnswers: {}, locale: 'pt-BR' });
+  assert('relatório HTML e TXT (pt/es) e registro CSV mostram o rótulo', [h.includes(MATRIX_VERSION_LABEL), t.includes(MATRIX_VERSION_LABEL), buildMirrorCSV(m).includes(MATRIX_VERSION_LABEL)], [true, true, true]);
+  const v = buildValidationExport({ version: 'A', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 5), quantitativeAnswers: {} });
+  assert('JSON: versaoMatriz segue o número técnico (validação e espelho)', [v.software.versaoMatriz, m.software.versaoMatriz, m.cabecalho.versaoMatriz], [MATRIX_VERSION, MATRIX_VERSION, MATRIX_VERSION]);
 }
 
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
