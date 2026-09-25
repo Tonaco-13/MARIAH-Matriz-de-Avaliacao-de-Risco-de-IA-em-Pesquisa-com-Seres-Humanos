@@ -8,7 +8,7 @@
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| PUB | Publicação do espanhol — checklist de 7 etapas entregue; **desbloqueado pelo veredito APROVADO do Z (#60)**; falta o aditamento do Z cobrindo fix C.8 + C5 (mensagem pronta) e depois etapas 2–6 | Direção/Operador | 2026-09-24 | LOG #59/#60/#64; CHECKLIST_publicacao |
+| PUB | Publicação do espanhol — **TOTALMENTE DESBLOQUEADA: veredito #60 + aditamento #65 (Z re-executou tudo, faxina ratificada)**; restam as etapas 2–6: push → merge → flag+redeploy → smoke produção → faxina | Direção/Operador | 2026-09-24 | LOG #59/#60/#64/#65; CHECKLIST_publicacao |
 | TYPES | 5 erros de TS latentes pré-existentes (utils.ts locale no parâmetro errado ×4; Results.tsx:337 string\|null a t.rich) — inócuos hoje, armadilha se questão condicionar às C.* | Engenharia (próximo ciclo) | 2026-09-24 | LOG #61/#62 |
 | HYG | `.zcodeignore` untracked (artefato de sessão do editor) — decidir ignore/descarte na faxina | Operador | 2026-09-24 | LOG #62 |
 | ANX | Anexo Normativo es §1 ainda no paradigma "CEP/CONEP", sem INAEP/SINEP — atualizar no próximo ciclo de glossário (recomendação do Z, não bloqueante); incluir a regra operante registral×descritiva no `glossario-es.md` | Engenharia (próximo ciclo) | 2026-09-24 | LOG #55 §2.4 e registros conexos |

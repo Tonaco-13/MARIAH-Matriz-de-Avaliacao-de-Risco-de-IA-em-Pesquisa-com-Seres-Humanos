@@ -7,11 +7,13 @@
 
 ## Etapa 0 — Veredito final do Z (BLOQUEIO)
 
-- [ ] Veredito final do ciclo i18n-es emitido e **favorável** (condições já cumpridas: #58). Se vier com ajustes, micro-commits antes de prosseguir.
+- [x] Veredito final do ciclo i18n-es emitido e **favorável** (condições já cumpridas: #58). Se vier com ajustes, micro-commits antes de prosseguir. — **✅ #60 APROVADO + aditamento #65 cobrindo C.8/C5**
 
 ## Etapa 1 — C5: seletor de idioma (recomendado ANTES da flag)
 
-**Resposta à consulta da Direção (2026-09-24):** hoje **não existe** seletor na UI — o `/es` é alcançável só por URL direta, com a flag ligada. Sem seletor, ninguém descobre o espanhol. Proposta mínima:
+**Resposta à consulta da Direção (2026-09-24):** hoje **não existe** seletor na UI — o `/es` é alcançável só por URL direta, com a flag ligada. Sem seletor, ninguém descobre o espanhol. Proposta mínima: *(executada — ver #63/#64; `bae0d6e`)*
+
+- [x] Direção: C5 entra antes da flag — **EXECUTADO e ACEITO (#64), aditado pelo Z (#65)**
 
 - Link discreto no **footer**, ao lado dos links institucionais: pt-BR mostra `Versión en español — traducción de cortesía`; es mostra `Versão em português — versão normativa` (essa segunda formulação reforça a hierarquia normativa, coerente com o banner).
 - Renderizado **somente quando `LOCALES_ENABLED=true`** (flag off = UI pt-BR 100% atual, zero mudança; parity-locale segue 4/4).
