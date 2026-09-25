@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { downloadLinkProps, isDownloadInPt } from '@/lib/downloads';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -120,9 +121,12 @@ export default async function InstrucoesPage({ params }: PageProps) {
                     asChild
                     className="bg-teal-700 hover:bg-teal-800 text-white"
                   >
-                    <a href="/instrucoes-preenchimento-versao-a-mariah.docx" download>
+                    <a {...downloadLinkProps('instrucoesA', locale)} download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('pages.instrucoes.baixarA')}
+                      {isDownloadInPt('instrucoesA', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                 </div>
@@ -140,9 +144,12 @@ export default async function InstrucoesPage({ params }: PageProps) {
                     asChild
                     className="border-teal-300 text-teal-800 hover:bg-teal-50"
                   >
-                    <a href="/instrucoes-preenchimento-versao-b-mariah.docx" download>
+                    <a {...downloadLinkProps('instrucoesB', locale)} download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('pages.instrucoes.baixarB')}
+                      {isDownloadInPt('instrucoesB', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                 </div>

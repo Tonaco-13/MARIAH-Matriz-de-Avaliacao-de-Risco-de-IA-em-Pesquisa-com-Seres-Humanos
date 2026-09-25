@@ -19,6 +19,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
+import { downloadLinkProps, isDownloadInPt } from '@/lib/downloads';
 import { useTranslations, useLocale } from 'next-intl';
 import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, CONTEXT_QUESTIONS, MATRIX_VERSION, label } from './data';
 import type { RiskLevel } from './data';
@@ -243,6 +244,7 @@ export default function Results({
       contextAnswers,
       qualitativeAnswers,
       quantitativeAnswers,
+      locale,
     });
     downloadValidationExport(payload);
   };
@@ -975,11 +977,14 @@ export default function Results({
                     className="border-teal-300 text-teal-800 hover:bg-teal-100"
                   >
                     <a
-                      href="/planilha-validacao-local-mariah.xlsx"
+                      {...downloadLinkProps('planilha', locale)}
                       download
                     >
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('results.planilhaModelo')}
+                      {isDownloadInPt('planilha', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                   <Button
@@ -989,11 +994,14 @@ export default function Results({
                     className="border-teal-300 text-teal-800 hover:bg-teal-100"
                   >
                     <a
-                      href="/guia-validacao-local-mariah.docx"
+                      {...downloadLinkProps('roteiro', locale)}
                       download
                     >
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('results.roteiroCompleto')}
+                      {isDownloadInPt('roteiro', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                   <Button
