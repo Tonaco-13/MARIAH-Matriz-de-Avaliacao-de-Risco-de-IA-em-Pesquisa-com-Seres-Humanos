@@ -1,10 +1,10 @@
 {
   "artefato": "glossario-es",
-  "versao": "0.5.0",
+  "versao": "0.6.0",
   "data": "2026-09-25",
   "fonte": "pt-BR (spec/mariah-spec.json 2.1.0, src/components/maria/, disclaimer.ts)",
   "localeAlvo": "es",
-  "statusGeral": "aprovado-z (72/72 entradas — ver changelog 0.2.0 a 0.5.0; 0.4.0: PARECER_Z_glossario-cobertura_2026-09-25; 0.5.0: PARECER_Z_nomenclatura_2026-09-25)",
+  "statusGeral": "aprovado-z (81/81 entradas — ver changelog 0.2.0 a 0.6.0; 0.5.0: PARECER_Z_nomenclatura_2026-09-25; 0.6.0: PARECER_Z_baixaveis-es_2026-09-25)",
   "regras": [
     "consequenciaOperacional fica SEMPRE em pt-BR — é o gabarito invariante de auditoria; não se traduz.",
     "Termo muda só por nova entrada versionada (ver changelog ao final); status aprovado-z é pré-condição da branch do idioma.",
@@ -753,6 +753,96 @@
       "classeModalidade": null,
       "status": "aprovado-z",
       "notas": "Entrada criada pelo PARECER_Z_nomenclatura_2026-09-25 (decisão 4)."
+    },
+    {
+      "termoPtBr": "frente (de validação)",
+      "termoLocale": "frente (masculino: el frente / los frentes)",
+      "variantes": [],
+      "consequenciaOperacional": "Cada uma das três linhas de atuação da Validação Local (Frente 1 concordância, Frente 2 distribuição, Frente 3 convergência). Em es, gênero MASCULINO: \"el Frente 1\", \"los tres frentes\". \"La frente\" (feminino) significa a testa — nunca usar.",
+      "referenciaNormativa": "pages.validacao.s2Title/s2intro/fluxo4; roteiro de Validação Local; planilha es; JSON de validação (comoUsar)",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 2), que corrigiu o feminino das 3 chaves das messages."
+    },
+    {
+      "termoPtBr": "só-abate (regime das evidências 7C)",
+      "termoLocale": "solo descuento",
+      "variantes": [],
+      "consequenciaOperacional": "Regime do subbloco 7C: evidência presente subtrai pontos; ausente não soma. Rótulo curto nas instruções: \"Evidencia (solo descuenta)\".",
+      "referenciaNormativa": "instruções A/B (moldura); nota técnica; spec (efeito evidencia)",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3)."
+    },
+    {
+      "termoPtBr": "gatilho (de salvaguarda)",
+      "termoLocale": "disparador",
+      "variantes": [],
+      "consequenciaOperacional": "Cada um dos quatro mecanismos de salvaguarda automática que interrompem o gradiente (regra do Eixo 3.b, Cláusula de Primacía Ética, eliminatória de cadeia de custódia, diligência de novo consentimento).",
+      "referenciaNormativa": "suplemento de salvaguardas",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3)."
+    },
+    {
+      "termoPtBr": "planilha-modelo",
+      "termoLocale": "planilla-modelo",
+      "variantes": [],
+      "consequenciaOperacional": "Arquivo .xlsx da Validação Local, com abas por frente e fórmulas dos indicadores.",
+      "referenciaNormativa": "results.validacaoDesc; pages.validacao.*; roteiro; planilha es",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3); forma já em uso nas messages."
+    },
+    {
+      "termoPtBr": "aba (de planilha)",
+      "termoLocale": "pestaña",
+      "variantes": [],
+      "consequenciaOperacional": "Cada folha da planilha-modelo (Instrucciones, Protocolos, Versión A, Versión B, Triaje A↔B, Panel-resumen).",
+      "referenciaNormativa": "planilha es; JSON de validação (comoUsar); roteiro",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3)."
+    },
+    {
+      "termoPtBr": "teto teórico / teto avaliável",
+      "termoLocale": "techo teórico / techo evaluable",
+      "variantes": [],
+      "consequenciaOperacional": "Pontuação máxima da Versão B (275; 304 com banco) e máxima avaliável (297 com banco, descontada a eliminatória P6.b.2).",
+      "referenciaNormativa": "instruções B; nota técnica",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3)."
+    },
+    {
+      "termoPtBr": "baseline (238)",
+      "termoLocale": "línea de base",
+      "variantes": [],
+      "consequenciaOperacional": "Referência de 238 pontos cujas frações fixas (50/238, 110/238, 180/238) derivam os pontos de corte.",
+      "referenciaNormativa": "instruções B; nota técnica",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3)."
+    },
+    {
+      "termoPtBr": "thresholds (por eixo)",
+      "termoLocale": "umbrales",
+      "variantes": [],
+      "consequenciaOperacional": "Limiares de contagem de respostas de risco que definem o nível do eixo na Versão A.",
+      "referenciaNormativa": "nota técnica §2.1",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3)."
+    },
+    {
+      "termoPtBr": "Diligência (devolução)",
+      "termoLocale": "Diligencia (devolución)",
+      "variantes": [],
+      "consequenciaOperacional": "Rótulo dos itens de diligência: não pontuam e, quando não atendidos, devolvem o protocolo ao pesquisador para complementação, sem análise de mérito. BLINDAGEM: \"diligencia\" tem SEMPRE o sentido normativo de devolução para complementação — NUNCA o ato de preencher o formulário, que é \"cumplimentación\" (ruling v0.2.0, que baniu \"diligenciamiento\").",
+      "referenciaNormativa": "instruções A/B (flags); suplemento; nota técnica",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_baixaveis-es_2026-09-25 (decisão 3), com a nota de blindagem obrigatória."
     }
   ],
   "changelog": [
@@ -791,6 +881,12 @@
       "data": "2026-09-25",
       "autor": "Z (z.ai) — Auditor; carimbo material pela Engenharia",
       "descricao": "PARECER_Z_nomenclatura_2026-09-25 (LOG #70/#71): 1 atualização + 3 entradas novas, todas aprovado-z. Atualizado o termoPtBr da entrada do Guia para o nome oficial (\"…de Inteligência Artificial…\"), mantido o termoLocale \"…de la Inteligencia Artificial…\" (decisão 1). Novas: \"Caderno Referencial\" (não se traduz até ato da Direção — decisão 2), \"documento MARIAH\" e \"Seção de Validação Local → Sección de Validación Local\" (decisão 4). \"revisión editorial\" não vira entrada (status institucional, decisão 3). No mesmo parecer: 16 chaves verificadas (15 APROVADAS, 1 AJUSTE — pages.validacao.roteiroDesc: \"justificativa\" → \"justificación\")."
+    },
+    {
+      "versao": "0.6.0",
+      "data": "2026-09-25",
+      "autor": "Z (z.ai) — Auditor; carimbo material pela Engenharia",
+      "descricao": "PARECER_Z_baixaveis-es_2026-09-25 (LOG #72/#73): 9 entradas novas, todas aprovado-z — \"frente\" (masculino; decisão 2, com ajuste es-only de pages.validacao.s2Title/s2intro/fluxo4) e os 8 termos da decisão 3 (solo descuento, disparador, planilla-modelo, pestaña, techo teórico/evaluable, línea de base, umbrales, Diligencia (devolución) — esta com nota de blindagem contra o sentido de preenchimento). Nenhuma entrada existente alterada. No mesmo parecer: tradução es dos 6 baixáveis e da orientação do JSON aprovada; JSON com valores de schema pt mantidos (decisão 1); ativação autorizada após a cadeia."
     }
   ]
 }
