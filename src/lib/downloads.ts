@@ -24,9 +24,12 @@ export type DownloadId = keyof typeof DOWNLOADS;
 
 const CANONICAL_LOCALE = 'pt-BR';
 
-/** Traduções aprovadas pelo Z, por idioma. Vazio = todos os arquivos em pt-BR. */
+/**
+ * Traduções aprovadas pelo Z, por idioma. Vazio = todos os arquivos em pt-BR.
+ * es: os 6 aprovados em PARECER_Z_baixaveis-es_2026-09-25 (LOG #73).
+ */
 const TRADUZIDOS: Readonly<Record<string, ReadonlySet<DownloadId>>> = {
-  es: new Set<DownloadId>([]),
+  es: new Set<DownloadId>(['planilha', 'roteiro', 'instrucoesA', 'instrucoesB', 'notaTecnica', 'suplemento']),
 };
 
 function isTranslated(id: DownloadId, locale: string): boolean {

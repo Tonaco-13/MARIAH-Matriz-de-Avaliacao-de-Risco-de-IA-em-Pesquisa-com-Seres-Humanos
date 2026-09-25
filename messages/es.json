@@ -116,7 +116,7 @@
       "prevalenciaA": "No aplicable",
       "prevalenciaB": "Elevación automática a Nivel IV (Bloque 4)"
     },
-    "disclaimerVersao": "Esta es la versión 2.0 de la matriz. Las evaluaciones iniciadas en versiones anteriores no se recuperan automáticamente — las respuestas permanecen solo en su navegador y no migran entre versiones de la matriz.",
+    "disclaimerVersao": "Esta es la versión Beta de la matriz. Las evaluaciones iniciadas en versiones anteriores no se recuperan automáticamente — las respuestas permanecen solo en su navegador y no migran entre versiones de la matriz.",
     "footerLong": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos • Apoyo a la evaluación ética de estudios de intervención con IA"
   },
   "entryFilter": {
@@ -489,8 +489,8 @@
       "s1Title": "Por qué validar localmente",
       "s1p1": "La MARIAH es instrumento de apoyo a la deliberación del CEP — no norma vinculante. La adopción de la matriz es elección institucional de cada CEP, y la validación local sigue el mismo espíritu: ningún CEP está obligado a validarla, y ningún CEP necesita esperar una decisión central para hacerlo. Cuando el colegiado entienda que vale la pena verificar cómo se comporta la matriz en los protocolos que le son presentados, el protocolo de la Validación Local (documento MARIAH) ofrece un guion práctico.",
       "s1p2": "Hay tres razones para que un CEP quiera validar localmente: <b>aprendizaje institucional</b> (descubrir qué preguntas están siendo interpretadas de forma divergente entre evaluadores), <b>calificación de los dictámenes</b> (demostrar aplicación consistente de la MARIAH en su casuística) y <b>contribución opcional a la evolución del instrumento</b> (compartir observaciones con el Grupo de Trabajo responsable de la guía).",
-      "s2Title": "Las tres frentes de validación",
-      "s2intro": "Cada CEP puede ejecutar una, dos o las tres frentes, en cualquier orden. Todas comparten la misma unidad muestral: el protocolo de investigación con uso de inteligencia artificial presentado al CEP.",
+      "s2Title": "Los tres frentes de validación",
+      "s2intro": "Cada CEP puede ejecutar uno, dos o los tres frentes, en cualquier orden. Todos comparten la misma unidad muestral: el protocolo de investigación con uso de inteligencia artificial presentado al CEP.",
       "f1Badge": "Frente 1",
       "f1Title": "Concordancia entre evaluadores",
       "f1Desc": "Versión A · kappa de Cohen",
@@ -516,7 +516,7 @@
       "fluxo1": "Cada evaluador aplica la MARIAH al protocolo de forma independiente y exporta el <code>.json</code> al final.",
       "fluxo2": "Antes de transcribir, sustituya el campo <code>idInterno</code> por el identificador interno de su CEP (ej.: <code>P-001</code>).",
       "fluxo3": "Transcriba los campos a las pestañas correspondientes de la planilla-modelo (Protocolos, Versión A, Versión B). Las instrucciones por pestaña están dentro del propio JSON, en el campo <code>comoUsar</code>.",
-      "fluxo4": "La planilla calcula automáticamente los indicadores de las tres frentes y genera el panel-resumen para discusión en reunión plenaria.",
+      "fluxo4": "La planilla calcula automáticamente los indicadores de los tres frentes y genera el panel-resumen para discusión en reunión plenaria.",
       "s4after": "Versiones futuras de la MARIAH podrán cumplimentar la planilla directamente. Por ahora, la transcripción manual es deliberada: preserva la separación entre la herramienta operativa y el instrumento de validación institucional del CEP.",
       "s5Title": "Compartir resultados (opcional)",
       "s5p1": "Los CEPs que decidan compartir sus observaciones con el Grupo de Trabajo pueden hacerlo en cualquier momento por medio de la Secretaría Ejecutiva de la INAEP. No hay plazo, formulario obligatorio ni contrapartida institucional — compartir es acto voluntario, y su único propósito es informar la evolución futura del instrumento.",
