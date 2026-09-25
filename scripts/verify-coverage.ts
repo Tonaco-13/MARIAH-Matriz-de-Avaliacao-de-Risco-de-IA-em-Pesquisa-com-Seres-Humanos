@@ -212,5 +212,29 @@ const exElim = buildValidationExport({ version: 'B', useAAsTriagem: false, usesD
 assert('eliminatória: resultadoExibido = NÃO AVALIÁVEL (classificação suspensa na tela)', exElim.resultadoExibido.classificacao, 'NÃO AVALIÁVEL');
 assert('dataAvaliacao em AAAA-MM-DD (data local)', /^\d{4}-\d{2}-\d{2}$/.test(exComb.protocolo.dataAvaliacao) && exComb.protocolo.dataAvaliacao === (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })(), true);
 
+console.log('\n=== 13. Nota de rodapé "(parcial)" no relatório (mesma definição da tela, por versão) ===');
+{
+  const ptMsgs = require('../messages/pt-BR.json');
+  const notaA: string = ptMsgs.report.parcialNotaA;
+  const notaB: string = ptMsgs.report.parcialNotaB;
+  assert('textos do relatório = textos aprovados da tela (A, B, título)', [notaA === ptMsgs.results.parcialExplicacaoA, notaB === ptMsgs.results.parcialExplicacaoB, ptMsgs.report.parcialNotaTitulo === ptMsgs.results.parcialExplicacaoTitulo], [true, true, true]);
+  const hA = generateReportHTML('A', CTX, fill(idsA, 10), {}, false, false, 'pt-BR');
+  const tA = generateReportText('A', CTX, fill(idsA, 10), {}, false, false, 'pt-BR');
+  assert('A parcial: nota A no HTML e no TXT, sem a nota B', [hA.includes(notaA), tA.includes(notaA), hA.includes(notaB)], [true, true, false]);
+  const hB = generateReportHTML('B', CTX, {}, fillB(10), false, false, 'pt-BR');
+  assert('B parcial: nota B no HTML', [hB.includes(notaB), hB.includes(notaA)], [true, false]);
+  const hFull = generateReportHTML('A', CTX, fullA, {}, false, false, 'pt-BR');
+  const tFull = generateReportText('A', CTX, fullA, {}, false, false, 'pt-BR');
+  assert('cobertura completa: sem nota no HTML e no TXT', [hFull.includes(notaA), tFull.includes(notaA)], [false, false]);
+  const hComb = generateReportHTML('B', CTX, fill(idsA, 10), fillB(10), false, true, 'pt-BR');
+  assert('combinado: nota A na seção A e nota B na seção B', [hComb.includes(notaA), hComb.includes(notaB)], [true, true]);
+  const mrN = buildMirrorRecord({ version: 'B', useAAsTriagem: true, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 10), quantitativeAnswers: fillB(10), locale: 'pt-BR' });
+  assert('espelho: nota por versão e no nível final (regra B no combinado)', [mrN.resultado.versaoA?.cobertura.nota === notaA, mrN.resultado.versaoB?.cobertura.nota === notaB, mrN.resultado.cobertura.nota === notaB], [true, true, true]);
+  assert('espelho completo: nota null', buildMirrorRecord({ version: 'A', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fullA, quantitativeAnswers: {}, locale: 'pt-BR' }).resultado.cobertura.nota, null);
+  const esMsgs = require('../messages/es.json');
+  const hEs = generateReportHTML('A', CTX, fill(idsA, 10), {}, false, false, 'es');
+  assert('es: nota no idioma (texto aprovado)', hEs.includes(esMsgs.report.parcialNotaA) && esMsgs.report.parcialNotaA === esMsgs.results.parcialExplicacaoA, true);
+}
+
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
 if (failed > 0) process.exit(1);

@@ -752,6 +752,28 @@ function coverageLine(cov: CoverageStats, t: ReturnType<typeof reportTranslator>
     : t('coberturaCompleta', { respondidas: String(cov.respondidas), total: String(cov.total) });
 }
 
+/**
+ * Nota de rodapé do "(parcial)" no relatório impresso/exportado: a MESMA definição
+ * do disclosure "(?)" da tela (textos aprovados no parecer do Z de 2026-09-25),
+ * por versão — A: o branco só subestima; B: efeito nos dois sentidos. Vazia quando
+ * a cobertura é completa.
+ */
+function parcialExplicacao(cov: CoverageStats, versao: 'A' | 'B', t: ReturnType<typeof reportTranslator>): string {
+  if (!cov.parcial) return '';
+  return versao === 'A' ? t('parcialNotaA') : t('parcialNotaB');
+}
+
+function parcialNote(cov: CoverageStats, versao: 'A' | 'B', t: ReturnType<typeof reportTranslator>): string {
+  const texto = parcialExplicacao(cov, versao, t);
+  return texto ? `${t('parcialNotaTitulo')} ${texto}` : '';
+}
+
+function parcialNoteHTML(cov: CoverageStats, versao: 'A' | 'B', t: ReturnType<typeof reportTranslator>): string {
+  if (!cov.parcial) return '';
+  return `
+    <p style="margin-top:10px;padding-top:6px;border-top:1px dotted #d1d5db;font-size:11px;color:#4b5563;line-height:1.5"><strong>${t('parcialNotaTitulo')}</strong> ${versao === 'A' ? t('parcialNotaA') : t('parcialNotaB')}</p>`;
+}
+
 /** "Nível II" + sufixo " (parcial)" quando a cobertura é incompleta. */
 function parcialSuffix(cov: CoverageStats, t: ReturnType<typeof reportTranslator>): string {
   return cov.parcial ? ` ${t('parcialSufixo')}` : '';
@@ -808,7 +830,7 @@ function buildQualitativeSectionHTML(
       </thead>
       <tbody>${axisRows}</tbody>
     </table>
-    <p style="margin-top:12px;font-size:12px;color:#6b7280"><strong>${t('consolidacaoRotulo')}</strong> ${t('consolidacaoTexto')}</p>`;
+    <p style="margin-top:12px;font-size:12px;color:#6b7280"><strong>${t('consolidacaoRotulo')}</strong> ${t('consolidacaoTexto')}</p>${parcialNoteHTML(cov, 'A', t)}`;
 
   return { html, level: result.level, eliminatoryQuestionId: result.eliminatoryQuestionId };
 }
@@ -868,7 +890,7 @@ function buildQuantitativeSectionHTML(
         </tr>
       </thead>
       <tbody>${blockRows}</tbody>
-    </table>`;
+    </table>${parcialNoteHTML(cov, 'B', t)}`;
 
   return { html, level: result.level, eliminatoryQuestionId: result.eliminatoryQuestionId };
 }
@@ -1199,6 +1221,11 @@ export function generateReportText(
         `  ${t('respostasRiscoTxt', { respondidas: String(axis.respondidas), total: String(axis.totalVisiveis), count: String(axis.riskCount), level: axis.level, label: label(RISK_LEVELS[axis.level], 'label', locale) })}`
       );
     }
+    const notaA = parcialNote(cov, 'A', t);
+    if (notaA) {
+      lines.push('');
+      lines.push(notaA);
+    }
   };
 
   const renderQuant = () => {
@@ -1220,6 +1247,11 @@ export function generateReportText(
     lines.push('');
     for (const block of result.blockResults) {
       lines.push(`${block.blockName}: ${block.score} ${t('pts')} · ${t('respondidasTxt', { respondidas: String(block.respondidas), total: String(block.totalVisiveis) })}`);
+    }
+    const notaB = parcialNote(cov, 'B', t);
+    if (notaB) {
+      lines.push('');
+      lines.push(notaB);
     }
   };
 
@@ -1645,7 +1677,11 @@ export type MirrorBloco = {
 };
 
 /** Cobertura no registro-espelho (v2): estatística completa + linha exibida no relatório. */
-export type MirrorCobertura = CoverageStats & { texto: string };
+export type MirrorCobertura = CoverageStats & {
+  texto: string;
+  /** Nota "(parcial)" do relatório (definição por versão); null com cobertura completa. */
+  nota: string | null;
+};
 
 /*
  * Changelog do schema 'maria-registro-espelho':
@@ -1771,11 +1807,17 @@ export function buildMirrorRecord(args: {
   const requirements = getRequirementsForLevel(finalLevel, usesDatabase);
 
   // Cobertura (v2): mesmas strings e mesmo recorte do relatório.
-  const mirrorCov = (c: CoverageStats): MirrorCobertura => ({ ...c, texto: coverageLine(c, t) });
-  const covA = qual ? mirrorCov(getMatrixCoverage('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)) : null;
-  const covB = quant ? mirrorCov(getMatrixCoverage('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)) : null;
+  const mirrorCov = (c: CoverageStats, versao: 'A' | 'B'): MirrorCobertura => ({
+    ...c,
+    texto: coverageLine(c, t),
+    nota: parcialExplicacao(c, versao, t) || null,
+  });
+  const covA = qual ? mirrorCov(getMatrixCoverage('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase), 'A') : null;
+  const covB = quant ? mirrorCov(getMatrixCoverage('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase), 'B') : null;
+  // Nível final: no combinado (e na B) vale a regra da B, que cobre os dois sentidos.
   const covFinal = mirrorCov(
-    getDisplayedCoverage(version, useAAsTriagem, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+    getDisplayedCoverage(version, useAAsTriagem, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase),
+    version === 'B' ? 'B' : 'A'
   );
 
   let unanswered: UnansweredItem[];
@@ -1912,6 +1954,7 @@ export function buildMirrorCSV(rec: MirrorRecord): string {
 
   push('resultado', '', `${t('nivelPalavra')} ${rec.resultado.nivelFinal}`, rec.resultado.nivelFinalRotulo);
   push('resultado', '', t('coberturaRotulo'), rec.resultado.cobertura.texto);
+  if (rec.resultado.cobertura.nota) push('resultado', '', t('parcialNotaTitulo'), rec.resultado.cobertura.nota);
   if (rec.resultado.versaoA) {
     const a = rec.resultado.versaoA;
     push('resultado-a', '', `${t('nivelPalavra')} ${a.nivel}`, a.nivelRotulo);
