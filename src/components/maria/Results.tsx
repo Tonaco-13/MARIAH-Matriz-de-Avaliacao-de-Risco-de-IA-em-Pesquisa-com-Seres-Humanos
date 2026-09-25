@@ -366,7 +366,7 @@ export default function Results({
                   </h3>
                   <p className="text-sm text-red-800">
                     {t.rich('results.hipoteseEliminatoria', {
-                      id: eliminatoryQuestionId,
+                      id: eliminatoryQuestionId ?? '',
                       motivo: getEliminatoryInfo(eliminatoryQuestionId, locale).motivo,
                       b: (chunks) => <strong>{chunks}</strong>,
                     })}
