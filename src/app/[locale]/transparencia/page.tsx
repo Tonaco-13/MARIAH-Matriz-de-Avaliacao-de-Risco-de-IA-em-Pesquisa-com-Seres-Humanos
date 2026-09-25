@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { downloadLinkProps, isDownloadInPt } from '@/lib/downloads';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -291,9 +292,12 @@ export default async function TransparenciaPage({ params }: PageProps) {
                     asChild
                     className="bg-teal-700 hover:bg-teal-800 text-white"
                   >
-                    <a href="/nota-tecnica-premissas-mariah.docx" download>
+                    <a {...downloadLinkProps('notaTecnica', locale)} download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('pages.transparencia.baixarNota')}
+                      {isDownloadInPt('notaTecnica', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                 </div>
@@ -311,9 +315,12 @@ export default async function TransparenciaPage({ params }: PageProps) {
                     asChild
                     className="border-teal-300 text-teal-800 hover:bg-teal-50"
                   >
-                    <a href="/suplemento-salvaguardas-mariah.docx" download>
+                    <a {...downloadLinkProps('suplemento', locale)} download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('pages.transparencia.baixarSuplemento')}
+                      {isDownloadInPt('suplemento', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                 </div>
