@@ -18,6 +18,9 @@ import {
   getQualitativeFinalLevel,
   getQuantitativeFinalResult,
   isMatrixQuestionVisible,
+  buildValidationExport,
+  buildMirrorRecord,
+  buildMirrorCSV,
 } from '../src/components/maria/utils';
 import type { QualitativeAnswer, QuantitativeAnswer } from '../src/components/maria/utils';
 
@@ -140,6 +143,34 @@ for (let i = 0; i < 400; i++) {
 }
 assert('invariante A, B e união em 400 cenários (0 falhas)', invFail, 0);
 assert('cenários exercitaram perguntas ocultas', hiddenSeen > 0, true);
+
+console.log('\n=== 9. Export de validação local (schema v3) ===');
+const argsTri = { version: 'B' as const, useAAsTriagem: true, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 10), quantitativeAnswers: fillB(20) };
+const ex = buildValidationExport(argsTri);
+assert('schemaVersion = 3', ex.schemaVersion, 3);
+assert('versaoA.cobertura = {10, 49, parcial}', ex.versaoA.cobertura, { respondidas: 10, total: 49, parcial: true });
+assert('versaoB.cobertura = {20, 63, parcial}', ex.versaoB.cobertura, { respondidas: 20, total: 63, parcial: true });
+assert('Σ eixos[i].respondidas = cobertura A', ex.versaoA.eixos.reduce((s, e) => s + e.respondidas, 0), 10);
+assert('Σ blocos[i].respondidas = cobertura B', ex.versaoB.blocos.reduce((s, b) => s + b.respondidas, 0), 20);
+assert('classificação mantém o valor (sem sufixo)', ['I', 'II', 'III', 'IV'].includes(String(ex.versaoA.classificacaoConsolidada)), true);
+const exFull = buildValidationExport({ version: 'A', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fullA, quantitativeAnswers: {} });
+assert('A completa: cobertura.parcial = false; B não aplicada: cobertura null', [exFull.versaoA.cobertura?.parcial, exFull.versaoB.cobertura], [false, null]);
+assert('JSON serializa e reidrata íntegro', JSON.parse(JSON.stringify(ex)).versaoB.cobertura.total, 63);
+
+console.log('\n=== 10. Registro-espelho (schema v2) ===');
+const mr = buildMirrorRecord({ ...argsTri, locale: 'pt-BR' });
+assert('schemaVersion = 2', mr.schemaVersion, 2);
+assert('resultado.cobertura = união A+B (30/112)', [mr.resultado.cobertura.respondidas, mr.resultado.cobertura.total, mr.resultado.cobertura.parcial], [30, 112, true]);
+assert('nivelFinalRotulo com "(parcial)"', mr.resultado.nivelFinalRotulo.endsWith('(parcial)'), true);
+assert('versaoA/versaoB.cobertura por matriz', [mr.resultado.versaoA?.cobertura.total, mr.resultado.versaoB?.cobertura.total], [49, 63]);
+assert('texto de cobertura = linha do relatório', mr.resultado.cobertura.texto.startsWith('Classificado a partir de 30/112 questões respondidas (26%).'), true);
+const csv = buildMirrorCSV(mr);
+assert('CSV sem o antigo "x/total" de risco nos eixos', /resultado-a;eixo1;[^\n]*;\d+\/\d+ —/.test(csv), false);
+assert('CSV traz "Respondidas:" por eixo e bloco', (csv.match(/Respondidas: \d+\/\d+/g) ?? []).length, 5 + 7);
+const mrEs = buildMirrorRecord({ ...argsTri, locale: 'es' });
+assert('es: linha de cobertura no idioma', mrEs.resultado.cobertura.texto.startsWith('Clasificado a partir de 30/112 preguntas'), true);
+const mrFull = buildMirrorRecord({ version: 'A', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fullA, quantitativeAnswers: {}, locale: 'pt-BR' });
+assert('completo: sem sufixo e linha a 100%', [mrFull.resultado.nivelFinalRotulo.includes('parcial'), mrFull.resultado.cobertura.texto.includes('(100%)')], [false, true]);
 
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
 if (failed > 0) process.exit(1);
