@@ -741,6 +741,22 @@ const LEVEL_COLORS: Record<RiskLevel, { bg: string; text: string; border: string
   IV: { bg: '#fef2f2', text: '#dc2626', border: '#fca5a5' },
 };
 
+/**
+ * Linha de cobertura do veredito (mesma string na tela, no HTML e no texto).
+ * Parcial: "Classificado a partir de 8/57 questões respondidas (14%). 49 questões
+ * sem avaliação — ver seção de auditoria." · Completo: "… 57/57 … (100%)."
+ */
+function coverageLine(cov: CoverageStats, t: ReturnType<typeof reportTranslator>): string {
+  return cov.parcial
+    ? t('coberturaParcial', { respondidas: String(cov.respondidas), total: String(cov.total), taxa: String(cov.taxa), count: cov.semAvaliacao })
+    : t('coberturaCompleta', { respondidas: String(cov.respondidas), total: String(cov.total) });
+}
+
+/** "Nível II" + sufixo " (parcial)" quando a cobertura é incompleta. */
+function parcialSuffix(cov: CoverageStats, t: ReturnType<typeof reportTranslator>): string {
+  return cov.parcial ? ` ${t('parcialSufixo')}` : '';
+}
+
 /** Helper: HTML da seção de resultado da Versão A (qualitativa). */
 function buildQualitativeSectionHTML(
   qualitativeAnswers: QualitativeAnswer,
@@ -751,6 +767,7 @@ function buildQualitativeSectionHTML(
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
   const t = reportTranslator(locale);
   const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale);
+  const cov = getMatrixCoverage('A', contextAnswers, qualitativeAnswers, {}, usesDatabase);
   const lc = LEVEL_COLORS[result.level];
 
   let axisRows = '';
@@ -762,7 +779,8 @@ function buildQualitativeSectionHTML(
     axisRows += `
       <tr>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:500">${axis.axisName}${ref}</td>
-        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${axis.riskCount}/${axis.totalQuestions}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${axis.respondidas}/${axis.totalVisiveis}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${axis.riskCount}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">
           <span style="background:${alc.bg};color:${alc.text};padding:2px 10px;border-radius:4px;border:1px solid ${alc.border};font-weight:600;font-size:12px">
             ${t('nivelPalavra')} ${axis.level} — ${label(RISK_LEVELS[axis.level], 'label', locale)}
@@ -773,15 +791,17 @@ function buildQualitativeSectionHTML(
 
   const html = `
     <div style="text-align:center;margin:24px 0;padding:20px;background:${lc.bg};border:2px solid ${lc.border};border-radius:8px">
-      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}</div>
+      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}${cov.parcial ? `<span style="font-size:20px;font-weight:600">${parcialSuffix(cov, t)}</span>` : ''}</div>
       <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${label(result.levelInfo, 'label', locale)}</div>
       <p style="color:#6b7280;margin-top:8px;font-size:13px">${label(result.levelInfo, 'description', locale)}</p>
+      <p style="color:#374151;margin-top:6px;font-size:12px">${coverageLine(cov, t)}</p>
     </div>
     <h3 style="margin:20px 0 10px;font-size:15px;color:#374151">${heading}</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13px">
       <thead>
         <tr style="background:#f9fafb">
           <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colEixo')}</th>
+          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colRespondidas')}</th>
           <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colRespostasRisco')}</th>
           <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colNivel')}</th>
         </tr>
@@ -803,6 +823,7 @@ function buildQuantitativeSectionHTML(
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
   const t = reportTranslator(locale);
   const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale);
+  const cov = getMatrixCoverage('B', contextAnswers, {}, quantitativeAnswers, usesDatabase);
   const lc = LEVEL_COLORS[result.level];
 
   let blockRows = '';
@@ -813,6 +834,7 @@ function buildQuantitativeSectionHTML(
     blockRows += `
       <tr>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:500">${block.blockName}${ref}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${block.respondidas}/${block.totalVisiveis}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;font-family:monospace">${block.score} / ${block.maxPontos} ${t('pts')}</td>
       </tr>`;
   }
@@ -828,9 +850,10 @@ function buildQuantitativeSectionHTML(
   const th = result.thresholds;
   const html = `
     <div style="text-align:center;margin:24px 0;padding:20px;background:${lc.bg};border:2px solid ${lc.border};border-radius:8px">
-      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}</div>
+      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}${cov.parcial ? `<span style="font-size:20px;font-weight:600">${parcialSuffix(cov, t)}</span>` : ''}</div>
       <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${label(result.levelInfo, 'label', locale)}</div>
       <p style="color:#6b7280;margin-top:8px;font-size:13px">${label(result.levelInfo, 'description', locale)}</p>
+      <p style="color:#374151;margin-top:6px;font-size:12px">${coverageLine(cov, t)}</p>
       <div style="font-size:24px;font-weight:bold;color:${lc.text};margin-top:8px">${result.totalScore} / ${result.maxScore} ${t('pontos')}</div>
       <p style="color:#6b7280;margin-top:4px;font-size:11px">${t('faixas', { db: usesDatabase ? t('faixasDbSuffix') : '', i: String(th.levelI), i1: String(th.levelI + 1), ii: String(th.levelII), ii1: String(th.levelII + 1), iii: String(th.levelIII), iii1: String(th.levelIII + 1), max: String(th.maxScore) })}</p>
     </div>
@@ -840,6 +863,7 @@ function buildQuantitativeSectionHTML(
       <thead>
         <tr style="background:#f9fafb">
           <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colBloco')}</th>
+          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colRespondidas')}</th>
           <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colPontuacao')}</th>
         </tr>
       </thead>
@@ -1152,7 +1176,9 @@ export function generateReportText(
 
   const renderQual = () => {
     const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale);
-    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
+    const cov = getMatrixCoverage('A', contextAnswers, qualitativeAnswers, {}, usesDatabase);
+    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}${parcialSuffix(cov, t)}`);
+    lines.push(coverageLine(cov, t));
     if (result.protocoloNaoAvaliavel) {
       lines.push('');
       lines.push(t('eliminatorioTxtTitulo', { id: result.eliminatoryQuestionId ?? '' }));
@@ -1162,14 +1188,16 @@ export function generateReportText(
     for (const axis of result.axisResults) {
       lines.push(`${axis.axisName}`);
       lines.push(
-        `  ${t('respostasRiscoTxt', { count: String(axis.riskCount), total: String(axis.totalQuestions), level: axis.level, label: label(RISK_LEVELS[axis.level], 'label', locale) })}`
+        `  ${t('respostasRiscoTxt', { respondidas: String(axis.respondidas), total: String(axis.totalVisiveis), count: String(axis.riskCount), level: axis.level, label: label(RISK_LEVELS[axis.level], 'label', locale) })}`
       );
     }
   };
 
   const renderQuant = () => {
     const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale);
-    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
+    const cov = getMatrixCoverage('B', contextAnswers, {}, quantitativeAnswers, usesDatabase);
+    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}${parcialSuffix(cov, t)}`);
+    lines.push(coverageLine(cov, t));
     lines.push(t('pontuacaoTotalTxt', { score: String(result.totalScore), max: String(result.maxScore) }));
     if (result.clausulaPrevalencia) {
       lines.push('');
@@ -1183,7 +1211,7 @@ export function generateReportText(
     }
     lines.push('');
     for (const block of result.blockResults) {
-      lines.push(`${block.blockName}: ${block.score} ${t('pts')}`);
+      lines.push(`${block.blockName}: ${block.score} ${t('pts')} · ${t('respondidasTxt', { respondidas: String(block.respondidas), total: String(block.totalVisiveis) })}`);
     }
   };
 
