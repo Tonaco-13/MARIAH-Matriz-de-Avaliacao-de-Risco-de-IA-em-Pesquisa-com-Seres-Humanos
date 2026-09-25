@@ -11,6 +11,7 @@ Uso: python3 apply_tr.py <dir_desempacotado> <mapa.py> <paragrafo_ancora_pt> <sa
 - Marca o idioma: w:lang w:val → es-ES (styles e runs); dc:language em core.xml.
 """
 import copy, html, importlib.util, re, sys, zipfile
+sys.dont_write_bytecode = True  # os mapas são importados: não gerar __pycache__ no repo
 from lxml import etree
 
 d, mapa_py, ancora, out, orig = sys.argv[1:6]

@@ -18,6 +18,7 @@ import re
 import sys
 
 import openpyxl
+import openpyxl.styles
 
 SRC = sys.argv[1] if len(sys.argv) > 1 else 'public/planilha-validacao-local-mariah.xlsx'
 DST = sys.argv[2] if len(sys.argv) > 2 else 'public/planilha-validacao-local-mariah-es.xlsx'
@@ -187,6 +188,7 @@ ERROS_VALIDACAO = {
 }
 
 TITULO = 'Planilla-modelo · Validación Local de la MARIAH — v2.1 (traducción de cortesía)'
+CORTESIA = 'Esta es una traducción de cortesía. La versión normativa vigente es la versión en portugués (pt-BR).'
 
 
 def traduz_formula(f: str) -> str:
@@ -234,6 +236,12 @@ def main():
         sys.exit('Textos sem tradução:\n  ' + '\n  '.join(faltando))
     for ws in wb:
         ws.title = ABAS[ws.title]
+    # cláusula de cortesia verbatim ao glossário, visível na aba Instrucciones (A2 vazia no canônico)
+    ins = wb['Instrucciones']
+    if ins['A2'].value is not None:
+        sys.exit('Instrucciones!A2 ocupada: rever a posição da cláusula de cortesia')
+    ins['A2'] = CORTESIA
+    ins['A2'].font = openpyxl.styles.Font(name=ins['A3'].font.name, sz=9, italic=True, color='FF555555')
     # definedNames que citem abas (se houver)
     for name in list(wb.defined_names):
         dn = wb.defined_names[name]
