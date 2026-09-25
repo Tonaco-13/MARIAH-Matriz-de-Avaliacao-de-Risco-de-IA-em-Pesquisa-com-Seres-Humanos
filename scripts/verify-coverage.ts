@@ -25,6 +25,9 @@ import {
   generateReportText,
 } from '../src/components/maria/utils';
 import type { QualitativeAnswer, QuantitativeAnswer } from '../src/components/maria/utils';
+import { existsSync } from 'node:fs';
+import { DOWNLOADS, downloadHref, downloadLinkProps, isDownloadInPt } from '../src/lib/downloads';
+import type { DownloadId } from '../src/lib/downloads';
 
 let passed = 0;
 let failed = 0;
@@ -260,6 +263,16 @@ console.log('\n=== 15. JSON de validação por idioma: só os textos de orienta�
   assert('es: valores do schema citados em pt (correspondência para o CEP)', es.comoUsar.abasPlanilha.versaoA.includes('classificacaoConsolidada = "NÃO AVALIÁVEL"'), true);
   assert('es: observação com o título es do Guia (glossário)', es.software.observacao.includes('Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos'), true);
   assert('locale desconhecido cai no pt-BR', buildValidationExport({ ...base, locale: 'fr' }).software.observacao, pt.software.observacao);
+}
+
+console.log('\n=== 16. Baixáveis por idioma (ES-DL) ===');
+{
+  const ids = Object.keys(DOWNLOADS) as DownloadId[];
+  const esHref = (id: DownloadId) => { const f = DOWNLOADS[id]; const i = f.lastIndexOf('.'); return `${f.slice(0, i)}-es${f.slice(i)}`; };
+  assert('pt-BR: sempre o arquivo canônico, sem marcador nem hrefLang', ids.every((id) => downloadHref(id, 'pt-BR') === `/${DOWNLOADS[id]}` && !isDownloadInPt(id, 'pt-BR') && downloadLinkProps(id, 'pt-BR').hrefLang === undefined), true);
+  assert('todo canônico existe em public/', ids.filter((id) => !existsSync(`public/${DOWNLOADS[id]}`)), []);
+  assert('todo baixável tem o gêmeo -es em public/ (ativação sem 404)', ids.filter((id) => !existsSync(`public/${esHref(id)}`)), []);
+  assert('es: link aponta para arquivo existente (traduzido ou canônico com marcador)', ids.every((id) => existsSync(`public${downloadHref(id, 'es')}`) && (downloadHref(id, 'es') === `/${esHref(id)}` || (isDownloadInPt(id, 'es') && downloadLinkProps(id, 'es').hrefLang === 'pt-BR'))), true);
 }
 
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
