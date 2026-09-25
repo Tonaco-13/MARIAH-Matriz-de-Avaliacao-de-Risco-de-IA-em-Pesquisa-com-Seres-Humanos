@@ -34,7 +34,8 @@
   "idioma": {
     "nav": "Idioma",
     "siglaPt": "PT",
-    "siglaEs": "ES"
+    "siglaEs": "ES",
+    "arquivoEmPt": "(em português)"
   },
   "footer": {
     "developedBy": "Desenvolvido pelo <ms>Ministério da Saúde</ms> para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)",

@@ -25,6 +25,9 @@ import {
   generateReportText,
 } from '../src/components/maria/utils';
 import type { QualitativeAnswer, QuantitativeAnswer } from '../src/components/maria/utils';
+import { existsSync } from 'node:fs';
+import { DOWNLOADS, downloadHref, downloadLinkProps, isDownloadInPt } from '../src/lib/downloads';
+import type { DownloadId } from '../src/lib/downloads';
 
 let passed = 0;
 let failed = 0;
@@ -245,6 +248,31 @@ console.log('\n=== 14. Orientação do JSON alinhada à planilha-modelo v2 ===')
   assert('export com banco traz o bloco6b para a coluna própria', exV2.versaoB.blocos.some((b) => b.id === 'bloco6b'), true);
   assert('versaoA orienta lançar NÃO AVALIÁVEL (planilha 2.1)', exV2.comoUsar.abasPlanilha.versaoA.includes('"NÃO AVALIÁVEL"'), true);
   assert('observação cita o documento MARIAH e o nome oficial do Guia', [exV2.software.observacao.includes('documento MARIAH'), exV2.software.observacao.includes('Guia de Uso Ético de Inteligência Artificial')], [true, true]);
+}
+
+console.log('\n=== 15. JSON de validação por idioma: só os textos de orientação mudam (ES-DL) ===');
+{
+  const base = { version: 'B' as const, useAAsTriagem: true, usesDatabase: true, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 5), quantitativeAnswers: fillB(5) };
+  const pt = buildValidationExport(base);
+  const ptExplicito = buildValidationExport({ ...base, locale: 'pt-BR' });
+  const es = buildValidationExport({ ...base, locale: 'es' });
+  const semTextos = (e: typeof pt) => JSON.stringify({ ...e, exportadoEm: '', protocolo: { ...e.protocolo, idInterno: '', dataAvaliacao: '' }, software: { ...e.software, observacao: '' }, comoUsar: null });
+  assert('es: campos e valores idênticos ao pt (schema v3 intacto)', semTextos(es) === semTextos(pt), true);
+  assert('pt padrão = pt explícito (textos inalterados)', [pt.software.observacao === ptExplicito.software.observacao, JSON.stringify(pt.comoUsar) === JSON.stringify(ptExplicito.comoUsar)], [true, true]);
+  assert('es: orientação em espanhol com as abas e valores da planilha es', ['«Versión B»', '«¿Cláusula de Primacía?»', '«¿No evaluable?»', '«NO EVALUABLE»'].every((k) => JSON.stringify(es.comoUsar).includes(k)), true);
+  assert('es: valores do schema citados em pt (correspondência para o CEP)', es.comoUsar.abasPlanilha.versaoA.includes('classificacaoConsolidada = "NÃO AVALIÁVEL"'), true);
+  assert('es: observação com o título es do Guia (glossário)', es.software.observacao.includes('Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos'), true);
+  assert('locale desconhecido cai no pt-BR', buildValidationExport({ ...base, locale: 'fr' }).software.observacao, pt.software.observacao);
+}
+
+console.log('\n=== 16. Baixáveis por idioma (ES-DL) ===');
+{
+  const ids = Object.keys(DOWNLOADS) as DownloadId[];
+  const esHref = (id: DownloadId) => { const f = DOWNLOADS[id]; const i = f.lastIndexOf('.'); return `${f.slice(0, i)}-es${f.slice(i)}`; };
+  assert('pt-BR: sempre o arquivo canônico, sem marcador nem hrefLang', ids.every((id) => downloadHref(id, 'pt-BR') === `/${DOWNLOADS[id]}` && !isDownloadInPt(id, 'pt-BR') && downloadLinkProps(id, 'pt-BR').hrefLang === undefined), true);
+  assert('todo canônico existe em public/', ids.filter((id) => !existsSync(`public/${DOWNLOADS[id]}`)), []);
+  assert('todo baixável tem o gêmeo -es em public/ (ativação sem 404)', ids.filter((id) => !existsSync(`public/${esHref(id)}`)), []);
+  assert('es: link aponta para arquivo existente (traduzido ou canônico com marcador)', ids.every((id) => existsSync(`public${downloadHref(id, 'es')}`) && (downloadHref(id, 'es') === `/${esHref(id)}` || (isDownloadInPt(id, 'es') && downloadLinkProps(id, 'es').hrefLang === 'pt-BR'))), true);
 }
 
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { downloadLinkProps, isDownloadInPt } from '@/lib/downloads';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -198,9 +199,12 @@ export default async function ValidacaoPage({ params }: PageProps) {
                     asChild
                     className="bg-teal-700 hover:bg-teal-800 text-white"
                   >
-                    <a href="/planilha-validacao-local-mariah.xlsx" download>
+                    <a {...downloadLinkProps('planilha', locale)} download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('pages.validacao.baixarPlanilha')}
+                      {isDownloadInPt('planilha', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                 </div>
@@ -218,9 +222,12 @@ export default async function ValidacaoPage({ params }: PageProps) {
                     asChild
                     className="border-teal-300 text-teal-800 hover:bg-teal-50"
                   >
-                    <a href="/guia-validacao-local-mariah.docx" download>
+                    <a {...downloadLinkProps('roteiro', locale)} download>
                       <Download className="mr-1.5 h-3.5 w-3.5" />
                       {t('pages.validacao.baixarRoteiro')}
+                      {isDownloadInPt('roteiro', locale) && (
+                        <span className="ml-1 font-normal opacity-80">{t('idioma.arquivoEmPt')}</span>
+                      )}
                     </a>
                   </Button>
                 </div>

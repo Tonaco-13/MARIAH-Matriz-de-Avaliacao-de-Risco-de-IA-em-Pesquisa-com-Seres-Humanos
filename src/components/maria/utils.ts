@@ -1486,6 +1486,49 @@ export type ValidationExport = {
   };
 };
 
+/**
+ * Textos de orientação do JSON de validação local (observacao, comoUsar) por idioma.
+ * Só texto: campos, valores e schemaVersion são os mesmos em qualquer idioma — o JSON
+ * é formato de troca entre CEPs e a planilha. pt-BR é o canônico; es acompanha a
+ * planilha-modelo em espanhol (abas e valores de entrada «Sí»/«No»/«NO EVALUABLE»).
+ */
+const ORIENTACAO_VALIDACAO: Record<string, { observacao: string; comoUsar: ValidationExport['comoUsar'] }> = {
+  'pt-BR': {
+    observacao:
+      'Exportação gerada para uso na planilha-modelo de Validação Local descrita no documento MARIAH (Seção de Validação Local), complementar ao Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos.',
+    comoUsar: {
+      descricao:
+        'Substitua "idInterno" pelo identificador interno do seu CEP (ex.: P-001) antes de transcrever para a planilha. Cada export corresponde a uma linha por aba da planilha-modelo. O campo "cobertura.parcial" = true indica classificação emitida com a matriz incompleta (questões sem resposta tratadas como "não risco"): compare com cautela no cálculo do kappa e registre a parcialidade junto da classificação.',
+      abasPlanilha: {
+        protocolos: 'Use idInterno, dataAvaliacao, modoTriagem e usaBancoDeDados.',
+        versaoA:
+          'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente. Lance I, II, III, IV ou "NÃO AVALIÁVEL" (quando classificacaoConsolidada = "NÃO AVALIÁVEL"): o kappa usa só os pares com nível I–IV, e a planilha mede à parte a concordância quanto à avaliabilidade.',
+        versaoB:
+          'Use idInterno e versaoB.blocos[*].pontuacao — uma coluna por bloco na aba «Versão B», incluindo a coluna «Bloco 6.b» quando usaBancoDeDados = true. Marque «Usa BD?» conforme usaBancoDeDados, «Cláusula de Prevalência?» = Sim quando clausulaPrevalencia = true e «Não avaliável?» = Sim quando classificacaoFinal = "NÃO AVALIÁVEL". A planilha (v2) calcula o total e o nível com as mesmas regras da MARIAH: confira que o nível da planilha coincide com versaoB.classificacaoFinal.',
+        triagemAB:
+          'Quando modoTriagem = true, a planilha lê automaticamente das abas Versão A e Versão B.',
+      },
+    },
+  },
+  es: {
+    observacao:
+      'Exportación generada para su uso en la planilla-modelo de Validación Local descrita en el documento MARIAH (Sección de Validación Local), complementario a la Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos. Los nombres de los campos y los valores del JSON son los mismos en todos los idiomas; solo estos textos de orientación están traducidos. Esta es una traducción de cortesía. La versión normativa vigente es la versión en portugués (pt-BR).',
+    comoUsar: {
+      descricao:
+        'Sustituya "idInterno" por el identificador interno de su CEP (ej.: P-001) antes de transcribir a la planilla. Cada exportación corresponde a una fila por pestaña de la planilla-modelo. El campo "cobertura.parcial" = true indica una clasificación emitida con la matriz incompleta (preguntas sin respuesta tratadas como «no riesgo»): compare con cautela en el cálculo del kappa y registre la parcialidad junto a la clasificación.',
+      abasPlanilha: {
+        protocolos: 'Use idInterno, dataAvaliacao, modoTriagem y usaBancoDeDados.',
+        versaoA:
+          'Use idInterno y versaoA.classificacaoConsolidada como la clasificación de un evaluador. Para el Frente 1 (kappa), repita el proceso con un segundo evaluador independiente. Registre I, II, III, IV o «NO EVALUABLE» (cuando classificacaoConsolidada = "NÃO AVALIÁVEL"): el kappa usa solo los pares con nivel I–IV, y la planilla mide por separado la concordancia en cuanto a la evaluabilidad.',
+        versaoB:
+          'Use idInterno y versaoB.blocos[*].pontuacao — una columna por bloque en la pestaña «Versión B», incluida la columna «Bloque 6.b» cuando usaBancoDeDados = true. Marque «¿Usa BD?» según usaBancoDeDados, «¿Cláusula de Primacía?» = Sí cuando clausulaPrevalencia = true y «¿No evaluable?» = Sí cuando classificacaoFinal = "NÃO AVALIÁVEL". La planilla (v2) calcula el total y el nivel con las mismas reglas de la MARIAH: verifique que el nivel de la planilla coincida con versaoB.classificacaoFinal.',
+        triagemAB:
+          'Cuando modoTriagem = true, la planilla lee automáticamente de las pestañas Versión A y Versión B.',
+      },
+    },
+  },
+};
+
 export function buildValidationExport(args: {
   version: 'A' | 'B';
   useAAsTriagem: boolean;
@@ -1493,6 +1536,8 @@ export function buildValidationExport(args: {
   contextAnswers: Record<string, string>;
   qualitativeAnswers: QualitativeAnswer;
   quantitativeAnswers: QuantitativeAnswer;
+  /** Idioma dos textos de orientação (observacao, comoUsar). Não altera campos nem valores do schema. */
+  locale?: string;
 }): ValidationExport {
   const {
     version,
@@ -1501,7 +1546,9 @@ export function buildValidationExport(args: {
     contextAnswers,
     qualitativeAnswers,
     quantitativeAnswers,
+    locale = 'pt-BR',
   } = args;
+  const orientacao = ORIENTACAO_VALIDACAO[locale] ?? ORIENTACAO_VALIDACAO['pt-BR'];
 
   // Mesma regra da tela e do relatório: A é apresentada quando escolhida ou no
   // triagem (A sempre vem primeiro); B, quando é a versão corrente. Respostas
@@ -1597,8 +1644,7 @@ export function buildValidationExport(args: {
     software: {
       nome: 'MARIAH',
       versaoMatriz: MATRIX_VERSION,
-      observacao:
-        'Exportação gerada para uso na planilha-modelo de Validação Local descrita no documento MARIAH (Seção de Validação Local), complementar ao Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos.',
+      observacao: orientacao.observacao,
     },
     protocolo: {
       idInterno: idPlaceholder,
@@ -1612,19 +1658,7 @@ export function buildValidationExport(args: {
     resultadoExibido,
     versaoA,
     versaoB,
-    comoUsar: {
-      descricao:
-        'Substitua "idInterno" pelo identificador interno do seu CEP (ex.: P-001) antes de transcrever para a planilha. Cada export corresponde a uma linha por aba da planilha-modelo. O campo "cobertura.parcial" = true indica classificação emitida com a matriz incompleta (questões sem resposta tratadas como "não risco"): compare com cautela no cálculo do kappa e registre a parcialidade junto da classificação.',
-      abasPlanilha: {
-        protocolos: 'Use idInterno, dataAvaliacao, modoTriagem e usaBancoDeDados.',
-        versaoA:
-          'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente. Lance I, II, III, IV ou "NÃO AVALIÁVEL" (quando classificacaoConsolidada = "NÃO AVALIÁVEL"): o kappa usa só os pares com nível I–IV, e a planilha mede à parte a concordância quanto à avaliabilidade.',
-        versaoB:
-          'Use idInterno e versaoB.blocos[*].pontuacao — uma coluna por bloco na aba «Versão B», incluindo a coluna «Bloco 6.b» quando usaBancoDeDados = true. Marque «Usa BD?» conforme usaBancoDeDados, «Cláusula de Prevalência?» = Sim quando clausulaPrevalencia = true e «Não avaliável?» = Sim quando classificacaoFinal = "NÃO AVALIÁVEL". A planilha (v2) calcula o total e o nível com as mesmas regras da MARIAH: confira que o nível da planilha coincide com versaoB.classificacaoFinal.',
-        triagemAB:
-          'Quando modoTriagem = true, a planilha lê automaticamente das abas Versão A e Versão B.',
-      },
-    },
+    comoUsar: orientacao.comoUsar,
   };
 }
 
