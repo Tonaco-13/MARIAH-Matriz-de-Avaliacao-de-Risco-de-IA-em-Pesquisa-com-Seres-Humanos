@@ -1,15 +1,14 @@
 # QUADRO VIVO — ciclo i18n-es (feat/i18n-es)
 
 **Última atualização:** 2026-09-24 19:05 · Kimi — Lote 7 ACEITO (LOG #53): messages es completas (430/430), strict verde. Espanhol tecnicamente completo na branch.
-**Fase atual:** 🟢🟢 **VEREDITO FINAL DO Z: APROVADO (LOG #60)** — ciclo i18n-es conforme em todas as camadas. Publicação é ato livre da Direção: checklist #59 (C5 → push → merge → flag → smoke → faxina).
+**Fase atual:** 🟢🟢 **Construção COMPLETA: veredito Z APROVADO (#60) + fix C.8 (#62) + seletor C5 (#64) aceitos.** Falta o aditamento do Z (C.8+C5, pós-veredito) e a publicação é ato da Direção: checklist #59, etapas 2–6 (push → merge → flag → smoke → faxina).
 **Regime até 26/09:** Kimi executa código; Operador (Fabiano) revisa e commita (LOG #41). Claude retorna 26/09.
 
 ## Pendências abertas
 
 | # | Pendência | Dono | Desde | Ref. |
 |---|---|---|---|---|
-| C5 | **Seletor de idioma na UI** (footer, só com flag on) — consulta respondida no #59; **LIBERADO após o aceite do fix C.8 (#62)**; strict será recomputado (438/438 esperado: 436+2) | Engenharia (despacho com o Operador) | 2026-09-24 | LOG #59/#62; CHECKLIST_publicacao |
-| PUB | Publicação do espanhol — checklist de 7 etapas entregue; **desbloqueado pelo veredito APROVADO do Z (#60)**; pedir aditamento do Z cobrindo fix C.8 + C5 ao final | Direção/Operador | 2026-09-24 | LOG #59/#60/#62; CHECKLIST_publicacao |
+| PUB | Publicação do espanhol — checklist de 7 etapas entregue; **desbloqueado pelo veredito APROVADO do Z (#60)**; falta o aditamento do Z cobrindo fix C.8 + C5 (mensagem pronta) e depois etapas 2–6 | Direção/Operador | 2026-09-24 | LOG #59/#60/#64; CHECKLIST_publicacao |
 | TYPES | 5 erros de TS latentes pré-existentes (utils.ts locale no parâmetro errado ×4; Results.tsx:337 string\|null a t.rich) — inócuos hoje, armadilha se questão condicionar às C.* | Engenharia (próximo ciclo) | 2026-09-24 | LOG #61/#62 |
 | HYG | `.zcodeignore` untracked (artefato de sessão do editor) — decidir ignore/descarte na faxina | Operador | 2026-09-24 | LOG #62 |
 | ANX | Anexo Normativo es §1 ainda no paradigma "CEP/CONEP", sem INAEP/SINEP — atualizar no próximo ciclo de glossário (recomendação do Z, não bloqueante); incluir a regra operante registral×descritiva no `glossario-es.md` | Engenharia (próximo ciclo) | 2026-09-24 | LOG #55 §2.4 e registros conexos |
@@ -20,6 +19,8 @@
 |---|---|---|
 | RET | Leva institucional (172 chaves: footer/home/pages/validacaoDesc + 10 do PR #32) + placeholder pt/es | ✅ Lote 7, LOG #53 (`1d4a00d`, `9c4ddf0`, `83a361e`; strict 0/0) |
 | META | Metadata locale-aware do layout + carimbo glossário 67/67 `aprovado-z`; CONEP fora das keywords | ✅ C4, LOG #58 (`374ad04`, `774c604`; strict 434/434, baseline diff só META-DESC, smoke flag-on) |
+| C5 | Seletor de idioma no footer (só com flag on) | ✅ LOG #64 (`bae0d6e`; strict 438/438, smokes flag-on/off pela arquitetura) |
+| C8fix | Fix C.8 "sim, outra forma (descrever)" abre campo livre obrigatório, espelhado no relatório | ✅ LOG #62 (`872241e`; strict 436/436, baseline intocada) |
 | AUD | Auditoria de conformidade do ciclo i18n-es | ✅ **VEREDITO APROVADO** — LOG #60, `RELATORIO_Z_conformidade_i18n-es_2026-09-24.md` |
 | P1 | `_guia_decisao/` versionado | ✅ `96477fb` |
 | P2 | Disposição dos 3 untracked (patch, logo INAEP, docx `upload/`) | ✅ LOG #50 — ciência do Z: patch descartado (supersededo, tripla prova), logo `599a287`, docx `3c8af18` |

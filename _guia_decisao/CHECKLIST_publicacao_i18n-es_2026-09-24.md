@@ -30,7 +30,7 @@
 
 ## Etapa 4 — Flag na Vercel (Direção/Operador)
 
-- [ ] `LOCALES_ENABLED=true` nas envs de **Production** do projeto `mariah-inaep` → Redeploy do deployment da main.
+- [ ] `LOCALES_ENABLED=true` nas envs de **Production** do projeto `mariah-inaep` → Redeploy do deployment da main. **Caveat de rollback (engenharia, #63):** `LOCALES_ENABLED=false` sem rebuild derruba o `/es` (307→pt-BR) mas o link do footer pt-BR estático permanece até o rebuild — degradado, sem quebra; rollback completo exige redeploy.
 
 ## Etapa 5 — Smoke em produção (arquitetura ou Operador, reportar no canal)
 
