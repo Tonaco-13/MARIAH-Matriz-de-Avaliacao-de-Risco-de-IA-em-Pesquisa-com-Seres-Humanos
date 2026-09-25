@@ -1512,7 +1512,7 @@ const ORIENTACAO_VALIDACAO: Record<string, { observacao: string; comoUsar: Valid
   },
   es: {
     observacao:
-      'Exportación generada para su uso en la planilla-modelo de Validación Local descrita en el documento MARIAH (Sección de Validación Local), complementario a la Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos. Los nombres de los campos y los valores del JSON son los mismos en todos los idiomas; solo estos textos de orientación están traducidos (traducción de cortesía).',
+      'Exportación generada para su uso en la planilla-modelo de Validación Local descrita en el documento MARIAH (Sección de Validación Local), complementario a la Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos. Los nombres de los campos y los valores del JSON son los mismos en todos los idiomas; solo estos textos de orientación están traducidos. Esta es una traducción de cortesía. La versión normativa vigente es la versión en portugués (pt-BR).',
     comoUsar: {
       descricao:
         'Sustituya "idInterno" por el identificador interno de su CEP (ej.: P-001) antes de transcribir a la planilla. Cada exportación corresponde a una fila por pestaña de la planilla-modelo. El campo "cobertura.parcial" = true indica una clasificación emitida con la matriz incompleta (preguntas sin respuesta tratadas como «no riesgo»): compare con cautela en el cálculo del kappa y registre la parcialidad junto a la clasificación.',
