@@ -236,5 +236,14 @@ console.log('\n=== 13. Nota de rodapé "(parcial)" no relatório (mesma definiç
   assert('es: nota no idioma (texto aprovado)', hEs.includes(esMsgs.report.parcialNotaA) && esMsgs.report.parcialNotaA === esMsgs.results.parcialExplicacaoA, true);
 }
 
+console.log('\n=== 14. Orientação do JSON alinhada à planilha-modelo v2 ===');
+{
+  const exV2 = buildValidationExport({ version: 'B', useAAsTriagem: false, usesDatabase: true, contextAnswers: CTX, qualitativeAnswers: {}, quantitativeAnswers: {} });
+  const txt = exV2.comoUsar.abasPlanilha.versaoB;
+  assert('versaoB não orienta mais somar o 6.b ao Bloco 6', /some a pontua/i.test(txt), false);
+  assert('versaoB cita as colunas da v2 (Bloco 6.b, Cláusula, Não avaliável)', ['Bloco 6.b', 'Cláusula de Prevalência?', 'Não avaliável?'].every((k) => txt.includes(k)), true);
+  assert('export com banco traz o bloco6b para a coluna própria', exV2.versaoB.blocos.some((b) => b.id === 'bloco6b'), true);
+}
+
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
 if (failed > 0) process.exit(1);
