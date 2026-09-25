@@ -162,16 +162,22 @@ export function getAxisRiskLevel(riskCount: number, axis?: QualitativeAxis): Ris
 export function getQualitativeAxisResults(
   answers: QualitativeAnswer,
   usesDatabase: boolean = false,
-  locale: string = 'pt-BR'
+  locale: string = 'pt-BR',
+  contextAnswers: Record<string, string | undefined> = {}
 ) {
   return getApplicableAxes(usesDatabase).map((axis) => {
     const riskCount = countRiskAnswersAxis(axis, answers);
     const level = getAxisRiskLevel(riskCount, axis);
+    const cov = groupCoverage(axis.questoes, answers, contextAnswers);
     return {
       axisId: axis.id,
       axisName: label(axis, 'nome', locale),
       riskCount,
       totalQuestions: axis.questoes.length,
+      /** Questões visíveis do eixo respondidas ('na' conta) — mesmo universo da auditoria. */
+      respondidas: cov.respondidas,
+      /** Questões visíveis do eixo (denominador de "Respondidas x/y"). */
+      totalVisiveis: cov.total,
       level,
       levelInfo: RISK_LEVELS[level],
       condicionalBancoDados: !!axis.condicionalBancoDados,
@@ -265,7 +271,7 @@ export function getQualitativeFinalLevel(
   protocoloNaoAvaliavel: boolean;
   eliminatoryQuestionId: string | null;
 } {
-  const axisResults = getQualitativeAxisResults(answers, usesDatabase, locale);
+  const axisResults = getQualitativeAxisResults(answers, usesDatabase, locale, contextAnswers);
 
   // The final level is the HIGHEST across all axes
   const levelOrder: RiskLevel[] = ['I', 'II', 'III', 'IV'];
@@ -366,15 +372,21 @@ export function checkClausulaPrevalencia(answers: QuantitativeAnswer): boolean {
 export function getQuantitativeBlockResults(
   answers: QuantitativeAnswer,
   usesDatabase: boolean = false,
-  locale: string = 'pt-BR'
+  locale: string = 'pt-BR',
+  contextAnswers: Record<string, string | undefined> = {}
 ) {
   return getApplicableBlocks(usesDatabase).map((block) => {
     const score = calculateBlockScore(block, answers);
+    const cov = groupCoverage(block.questoes, answers, contextAnswers);
     return {
       blockId: block.id,
       blockName: label(block, 'nome', locale),
       score,
       maxPontos: block.maxPontos,
+      /** Questões visíveis do bloco respondidas ('na' conta) — mesmo universo da auditoria. */
+      respondidas: cov.respondidas,
+      /** Questões visíveis do bloco (denominador de "Respondidas x/y"). */
+      totalVisiveis: cov.total,
       isBlock7: block.id === 'bloco7',
       condicionalBancoDados: !!block.condicionalBancoDados,
       referenciaNormativa: block.referenciaNormativa,
@@ -410,7 +422,7 @@ export function getQuantitativeFinalResult(
   thresholds: ReturnType<typeof getThresholds>;
 } {
   const totalScore = getQuantitativeTotalScore(answers, usesDatabase);
-  const blockResults = getQuantitativeBlockResults(answers, usesDatabase, locale);
+  const blockResults = getQuantitativeBlockResults(answers, usesDatabase, locale, contextAnswers);
   const clausulaPrevalencia = checkClausulaPrevalencia(answers);
   const thresholds = getThresholds(usesDatabase);
 
@@ -617,6 +629,109 @@ export function getNaoSeAplicaItems(
   return items;
 }
 
+// ----- Cobertura da matriz (acurácia de comunicação do veredito) -----
+
+/**
+ * Base que sustentou a classificação. O nível é computado só com as questões
+ * respondidas (ausência = "não risco" por convenção — inalterado); a cobertura
+ * torna essa base explícita na tela, no relatório e nos exports.
+ *
+ * Universo contável = MESMO recorte da auditoria (getUnansweredItems, escopos
+ * 'eixo'/'bloco'): só questões de matriz (identificação/descritivas NÃO entram),
+ * recorte Res 738 (getApplicable*), exibição condicional F-17/F-18
+ * (isMatrixQuestionVisible — pergunta oculta fora do total), naoPontuaveis no
+ * total, 'na' conta como respondida.
+ * INVARIANTE: semAvaliacao === getUnansweredItems(...) sem o escopo 'contexto'.
+ */
+export type CoverageStats = {
+  /** Questões visíveis da matriz respondidas ('na' conta como respondida). */
+  respondidas: number;
+  /** Questões visíveis da matriz (inclui naoPontuaveis). */
+  total: number;
+  /** floor(respondidas/total × 100) — arredonda para BAIXO, nunca superestima. */
+  taxa: number;
+  /** respondidas < total (binário: só é false com 100%). */
+  parcial: boolean;
+  /** total − respondidas. */
+  semAvaliacao: number;
+};
+
+function groupCoverage(
+  questoes: Array<{ id: string; exibicaoCondicional?: ExibicaoCondicional }>,
+  answers: Record<string, string | undefined>,
+  contextAnswers: Record<string, string | undefined>
+): { respondidas: number; total: number } {
+  let respondidas = 0;
+  let total = 0;
+  for (const q of questoes) {
+    if (!isMatrixQuestionVisible(q, answers, contextAnswers)) continue;
+    total++;
+    if (answers[q.id] !== undefined) respondidas++;
+  }
+  return { respondidas, total };
+}
+
+function toCoverageStats(respondidas: number, total: number): CoverageStats {
+  // Aritmética inteira antes da divisão: evita 29/100*100 = 28.999… → 28.
+  const taxa = total > 0 ? Math.floor((respondidas * 100) / total) : 100;
+  return {
+    respondidas,
+    total,
+    taxa,
+    parcial: respondidas < total,
+    semAvaliacao: total - respondidas,
+  };
+}
+
+/** Cobertura da matriz de UMA versão (A = eixos; B = blocos). */
+export function getMatrixCoverage(
+  version: 'A' | 'B',
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false
+): CoverageStats {
+  const groups = version === 'A' ? getApplicableAxes(usesDatabase) : getApplicableBlocks(usesDatabase);
+  const answers = version === 'A' ? qualitativeAnswers : quantitativeAnswers;
+  let respondidas = 0;
+  let total = 0;
+  for (const g of groups) {
+    const c = groupCoverage(g.questoes, answers, contextAnswers);
+    respondidas += c.respondidas;
+    total += c.total;
+  }
+  return toCoverageStats(respondidas, total);
+}
+
+/** Cobertura da união A+B (modo triagem com relatório combinado). */
+export function getCombinedCoverage(
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false
+): CoverageStats {
+  const a = getMatrixCoverage('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+  const b = getMatrixCoverage('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+  return toCoverageStats(a.respondidas + b.respondidas, a.total + b.total);
+}
+
+/**
+ * Cobertura que sustenta o nível EXIBIDO: união A+B no relatório combinado
+ * (triagem A→B), senão a matriz da versão corrente.
+ */
+export function getDisplayedCoverage(
+  version: 'A' | 'B',
+  useAAsTriagem: boolean,
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false
+): CoverageStats {
+  return useAAsTriagem && version === 'B'
+    ? getCombinedCoverage(contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+    : getMatrixCoverage(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+}
+
 // ----- Print/Export Helpers -----
 
 const LEVEL_COLORS: Record<RiskLevel, { bg: string; text: string; border: string }> = {
@@ -626,15 +741,33 @@ const LEVEL_COLORS: Record<RiskLevel, { bg: string; text: string; border: string
   IV: { bg: '#fef2f2', text: '#dc2626', border: '#fca5a5' },
 };
 
+/**
+ * Linha de cobertura do veredito (mesma string na tela, no HTML e no texto).
+ * Parcial: "Classificado a partir de 8/57 questões respondidas (14%). 49 questões
+ * sem avaliação — ver seção de auditoria." · Completo: "… 57/57 … (100%)."
+ */
+function coverageLine(cov: CoverageStats, t: ReturnType<typeof reportTranslator>): string {
+  return cov.parcial
+    ? t('coberturaParcial', { respondidas: String(cov.respondidas), total: String(cov.total), taxa: String(cov.taxa), count: cov.semAvaliacao })
+    : t('coberturaCompleta', { respondidas: String(cov.respondidas), total: String(cov.total) });
+}
+
+/** "Nível II" + sufixo " (parcial)" quando a cobertura é incompleta. */
+function parcialSuffix(cov: CoverageStats, t: ReturnType<typeof reportTranslator>): string {
+  return cov.parcial ? ` ${t('parcialSufixo')}` : '';
+}
+
 /** Helper: HTML da seção de resultado da Versão A (qualitativa). */
 function buildQualitativeSectionHTML(
   qualitativeAnswers: QualitativeAnswer,
   usesDatabase: boolean,
+  contextAnswers: Record<string, string>,
   locale: string,
   heading: string
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
   const t = reportTranslator(locale);
-  const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, locale);
+  const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale);
+  const cov = getMatrixCoverage('A', contextAnswers, qualitativeAnswers, {}, usesDatabase);
   const lc = LEVEL_COLORS[result.level];
 
   let axisRows = '';
@@ -646,7 +779,8 @@ function buildQualitativeSectionHTML(
     axisRows += `
       <tr>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:500">${axis.axisName}${ref}</td>
-        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${axis.riskCount}/${axis.totalQuestions}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${axis.respondidas}/${axis.totalVisiveis}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${axis.riskCount}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">
           <span style="background:${alc.bg};color:${alc.text};padding:2px 10px;border-radius:4px;border:1px solid ${alc.border};font-weight:600;font-size:12px">
             ${t('nivelPalavra')} ${axis.level} — ${label(RISK_LEVELS[axis.level], 'label', locale)}
@@ -657,15 +791,17 @@ function buildQualitativeSectionHTML(
 
   const html = `
     <div style="text-align:center;margin:24px 0;padding:20px;background:${lc.bg};border:2px solid ${lc.border};border-radius:8px">
-      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}</div>
+      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}${cov.parcial ? `<span style="font-size:20px;font-weight:600">${parcialSuffix(cov, t)}</span>` : ''}</div>
       <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${label(result.levelInfo, 'label', locale)}</div>
       <p style="color:#6b7280;margin-top:8px;font-size:13px">${label(result.levelInfo, 'description', locale)}</p>
+      <p style="color:#374151;margin-top:6px;font-size:12px">${coverageLine(cov, t)}</p>
     </div>
     <h3 style="margin:20px 0 10px;font-size:15px;color:#374151">${heading}</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13px">
       <thead>
         <tr style="background:#f9fafb">
           <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colEixo')}</th>
+          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colRespondidas')}</th>
           <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colRespostasRisco')}</th>
           <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colNivel')}</th>
         </tr>
@@ -681,11 +817,13 @@ function buildQualitativeSectionHTML(
 function buildQuantitativeSectionHTML(
   quantitativeAnswers: QuantitativeAnswer,
   usesDatabase: boolean,
+  contextAnswers: Record<string, string>,
   locale: string,
   heading: string
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
   const t = reportTranslator(locale);
-  const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, locale);
+  const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale);
+  const cov = getMatrixCoverage('B', contextAnswers, {}, quantitativeAnswers, usesDatabase);
   const lc = LEVEL_COLORS[result.level];
 
   let blockRows = '';
@@ -696,6 +834,7 @@ function buildQuantitativeSectionHTML(
     blockRows += `
       <tr>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;font-weight:500">${block.blockName}${ref}</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center">${block.respondidas}/${block.totalVisiveis}</td>
         <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;text-align:center;font-family:monospace">${block.score} / ${block.maxPontos} ${t('pts')}</td>
       </tr>`;
   }
@@ -711,9 +850,10 @@ function buildQuantitativeSectionHTML(
   const th = result.thresholds;
   const html = `
     <div style="text-align:center;margin:24px 0;padding:20px;background:${lc.bg};border:2px solid ${lc.border};border-radius:8px">
-      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}</div>
+      <div style="font-size:36px;font-weight:bold;color:${lc.text}">${t('nivelPalavra')} ${result.level}${cov.parcial ? `<span style="font-size:20px;font-weight:600">${parcialSuffix(cov, t)}</span>` : ''}</div>
       <div style="font-size:20px;font-weight:600;color:${lc.text};margin-top:4px">${label(result.levelInfo, 'label', locale)}</div>
       <p style="color:#6b7280;margin-top:8px;font-size:13px">${label(result.levelInfo, 'description', locale)}</p>
+      <p style="color:#374151;margin-top:6px;font-size:12px">${coverageLine(cov, t)}</p>
       <div style="font-size:24px;font-weight:bold;color:${lc.text};margin-top:8px">${result.totalScore} / ${result.maxScore} ${t('pontos')}</div>
       <p style="color:#6b7280;margin-top:4px;font-size:11px">${t('faixas', { db: usesDatabase ? t('faixasDbSuffix') : '', i: String(th.levelI), i1: String(th.levelI + 1), ii: String(th.levelII), ii1: String(th.levelII + 1), iii: String(th.levelIII), iii1: String(th.levelIII + 1), max: String(th.maxScore) })}</p>
     </div>
@@ -723,6 +863,7 @@ function buildQuantitativeSectionHTML(
       <thead>
         <tr style="background:#f9fafb">
           <th style="padding:8px 12px;text-align:left;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colBloco')}</th>
+          <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colRespondidas')}</th>
           <th style="padding:8px 12px;text-align:center;border-bottom:2px solid #e5e7eb;font-size:12px;color:#6b7280">${t('colPontuacao')}</th>
         </tr>
       </thead>
@@ -775,24 +916,32 @@ export function generateReportHTML(
   let eliminatoryIdForReport: string | null = null;
 
   if (isCombinedReport) {
-    const qualSection = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, locale, t('headingEixoTriagem'));
-    const quantSection = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, locale, t('headingBlocoTriagem'));
+    const qualSection = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, contextAnswers, locale, t('headingEixoTriagem'));
+    const quantSection = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, contextAnswers, locale, t('headingBlocoTriagem'));
     eliminatoryIdForReport = quantSection.eliminatoryQuestionId ?? qualSection.eliminatoryQuestionId;
+
+    // Espelho da tela: nível consolidado (mais alto entre A e B) com a cobertura
+    // da UNIÃO A+B — mesma informação do card principal e do badge "Consolidado".
+    const lvlCons = highestLevel(qualSection.level, quantSection.level);
+    const covCons = getCombinedCoverage(contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+    const lcCons = LEVEL_COLORS[lvlCons];
 
     resultSection = `
       <div style="margin:18px 0;padding:12px 14px;background:#f1f5f9;border-left:4px solid #475569;border-radius:4px;font-size:12px;color:#334155">
         <strong>${t('combinadoNotaA')}</strong> ${t('combinadoNotaB')}<strong>${t('combinadoNotaStrong')}</strong>${t('combinadoNotaC')}
+        <div style="margin-top:8px;font-size:13px"><strong>${t('consolidadoRotulo')}</strong> <span style="background:${lcCons.bg};color:${lcCons.text};border:1px solid ${lcCons.border};padding:1px 8px;border-radius:4px;font-weight:600">${t('nivelPalavra')} ${lvlCons}${parcialSuffix(covCons, t)} — ${label(RISK_LEVELS[lvlCons], 'label', locale)}</span></div>
+        <div style="margin-top:4px">${coverageLine(covCons, t)}</div>
       </div>
       <h3 style="margin:24px 0 6px;font-size:16px;color:#0C2C56;border-bottom:2px solid #0C2C56;padding-bottom:4px">${t('secaoVersaoA')}</h3>
       ${qualSection.html}
       <h3 style="margin:32px 0 6px;font-size:16px;color:#334155;border-bottom:2px solid #334155;padding-bottom:4px">${t('secaoVersaoB')}</h3>
       ${quantSection.html}`;
   } else if (version === 'A') {
-    const built = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, locale, t('headingEixo'));
+    const built = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, contextAnswers, locale, t('headingEixo'));
     resultSection = built.html;
     eliminatoryIdForReport = built.eliminatoryQuestionId;
   } else {
-    const built = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, locale, t('headingBloco'));
+    const built = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, contextAnswers, locale, t('headingBloco'));
     resultSection = built.html;
     eliminatoryIdForReport = built.eliminatoryQuestionId;
   }
@@ -1034,8 +1183,10 @@ export function generateReportText(
   lines.push('');
 
   const renderQual = () => {
-    const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, locale);
-    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
+    const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale);
+    const cov = getMatrixCoverage('A', contextAnswers, qualitativeAnswers, {}, usesDatabase);
+    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}${parcialSuffix(cov, t)}`);
+    lines.push(coverageLine(cov, t));
     if (result.protocoloNaoAvaliavel) {
       lines.push('');
       lines.push(t('eliminatorioTxtTitulo', { id: result.eliminatoryQuestionId ?? '' }));
@@ -1045,14 +1196,16 @@ export function generateReportText(
     for (const axis of result.axisResults) {
       lines.push(`${axis.axisName}`);
       lines.push(
-        `  ${t('respostasRiscoTxt', { count: String(axis.riskCount), total: String(axis.totalQuestions), level: axis.level, label: label(RISK_LEVELS[axis.level], 'label', locale) })}`
+        `  ${t('respostasRiscoTxt', { respondidas: String(axis.respondidas), total: String(axis.totalVisiveis), count: String(axis.riskCount), level: axis.level, label: label(RISK_LEVELS[axis.level], 'label', locale) })}`
       );
     }
   };
 
   const renderQuant = () => {
-    const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, locale);
-    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
+    const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale);
+    const cov = getMatrixCoverage('B', contextAnswers, {}, quantitativeAnswers, usesDatabase);
+    lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}${parcialSuffix(cov, t)}`);
+    lines.push(coverageLine(cov, t));
     lines.push(t('pontuacaoTotalTxt', { score: String(result.totalScore), max: String(result.maxScore) }));
     if (result.clausulaPrevalencia) {
       lines.push('');
@@ -1066,7 +1219,7 @@ export function generateReportText(
     }
     lines.push('');
     for (const block of result.blockResults) {
-      lines.push(`${block.blockName}: ${block.score} ${t('pts')}`);
+      lines.push(`${block.blockName}: ${block.score} ${t('pts')} · ${t('respondidasTxt', { respondidas: String(block.respondidas), total: String(block.totalVisiveis) })}`);
     }
   };
 
@@ -1078,6 +1231,15 @@ export function generateReportText(
     renderQuant();
     lines.push('');
     lines.push(t('notaConsolidadoTxt'));
+    // Espelho da tela: consolidado com a cobertura da união A+B.
+    {
+      const lvlA = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers).level;
+      const lvlB = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers).level;
+      const lvlCons = highestLevel(lvlA, lvlB);
+      const covCons = getCombinedCoverage(contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+      lines.push(`${t('consolidadoRotulo')} ${t('nivelPalavra')} ${lvlCons} — ${label(RISK_LEVELS[lvlCons], 'label', locale)}${parcialSuffix(covCons, t)}`);
+      lines.push(coverageLine(covCons, t));
+    }
   } else if (version === 'A') {
     lines.push(t('resultadoFinalTxt'));
     renderQual();
@@ -1171,9 +1333,31 @@ export function generateReportText(
 /** Classificação exportada: nível de risco, "não avaliável" (devolução) ou ausente. */
 export type ClassificacaoExport = RiskLevel | 'NÃO AVALIÁVEL' | null;
 
+/**
+ * Cobertura exportada (schema v3): base da classificação. `parcial` = true quando
+ * a matriz não foi integralmente respondida — a classificação mantém o valor
+ * ("II" etc.); a parcialidade vive neste flag, não no valor.
+ */
+export type CoberturaExport = { respondidas: number; total: number; parcial: boolean };
+
+/*
+ * Changelog do schema 'maria-validacao-local':
+ *   v2 — versaoMatriz, protocoloNaoAvaliavel e classificação 'NÃO AVALIÁVEL'.
+ *   v3 — acurácia do veredito: versaoA/versaoB.cobertura {respondidas, total, parcial}
+ *        (null quando a versão não foi aplicada); eixos[i]/blocos[i] ganham
+ *        respondidas e questoesVisiveis (mesmo universo da auditoria). Mudança
+ *        ADITIVA: nenhum campo de v2 mudou de nome, tipo ou significado.
+ *        Nota: o export passou a repassar contextAnswers aos cálculos; em caso-limite
+ *        (resposta obsoleta de eliminatória oculta por C.3/C.5 — 3.b.4.1/P6.b.4.1),
+ *        protocoloNaoAvaliavel/classificação agora coincidem com a tela, podendo
+ *        diferir do que a v2 teria exportado.
+ *        Consumidores (planilha-modelo, cálculo de kappa) devem aceitar v2 e v3;
+ *        um JSON v2 não traz cobertura e deve ser tratado como "cobertura
+ *        desconhecida", não como completa.
+ */
 export type ValidationExport = {
   schema: 'maria-validacao-local';
-  schemaVersion: 2;
+  schemaVersion: 3;
   exportadoEm: string; // ISO 8601
   software: {
     nome: 'MARIAH';
@@ -1194,12 +1378,18 @@ export type ValidationExport = {
     aplicada: boolean;
     classificacaoConsolidada: ClassificacaoExport;
     protocoloNaoAvaliavel: boolean;
+    /** v3 — base da classificação da Versão A (null se não aplicada). */
+    cobertura: CoberturaExport | null;
     eixos: Array<{
       id: string;
       nome: string;
       nivel: RiskLevel;
       respostasRisco: number;
       totalQuestoes: number;
+      /** v3 — questões visíveis do eixo respondidas ('na' conta). */
+      respondidas: number;
+      /** v3 — questões visíveis do eixo (exibição condicional aplicada). */
+      questoesVisiveis: number;
     }>;
   };
   versaoB: {
@@ -1208,11 +1398,17 @@ export type ValidationExport = {
     protocoloNaoAvaliavel: boolean;
     pontuacaoTotal: number | null;
     clausulaPrevalencia: boolean;
+    /** v3 — base da classificação da Versão B (null se não aplicada). */
+    cobertura: CoberturaExport | null;
     blocos: Array<{
       id: string;
       nome: string;
       pontuacao: number;
       maxPontos: number;
+      /** v3 — questões visíveis do bloco respondidas ('na' conta). */
+      respondidas: number;
+      /** v3 — questões visíveis do bloco (exibição condicional aplicada). */
+      questoesVisiveis: number;
     }>;
   };
   comoUsar: {
@@ -1253,17 +1449,21 @@ export function buildValidationExport(args: {
   // ----- Versão A -----
   let versaoA: ValidationExport['versaoA'];
   if (versaoAAplicada) {
-    const qual = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase);
+    const qual = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers);
+    const cov = getMatrixCoverage('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
     versaoA = {
       aplicada: true,
       classificacaoConsolidada: qual.protocoloNaoAvaliavel ? 'NÃO AVALIÁVEL' : qual.level,
       protocoloNaoAvaliavel: qual.protocoloNaoAvaliavel,
+      cobertura: { respondidas: cov.respondidas, total: cov.total, parcial: cov.parcial },
       eixos: qual.axisResults.map((r) => ({
         id: r.axisId,
         nome: r.axisName,
         nivel: r.level,
         respostasRisco: r.riskCount,
         totalQuestoes: r.totalQuestions,
+        respondidas: r.respondidas,
+        questoesVisiveis: r.totalVisiveis,
       })),
     };
   } else {
@@ -1271,6 +1471,7 @@ export function buildValidationExport(args: {
       aplicada: false,
       classificacaoConsolidada: null,
       protocoloNaoAvaliavel: false,
+      cobertura: null,
       eixos: [],
     };
   }
@@ -1278,18 +1479,22 @@ export function buildValidationExport(args: {
   // ----- Versão B -----
   let versaoB: ValidationExport['versaoB'];
   if (versaoBAplicada) {
-    const quant = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase);
+    const quant = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers);
+    const cov = getMatrixCoverage('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
     versaoB = {
       aplicada: true,
       classificacaoFinal: quant.protocoloNaoAvaliavel ? 'NÃO AVALIÁVEL' : quant.level,
       protocoloNaoAvaliavel: quant.protocoloNaoAvaliavel,
       pontuacaoTotal: quant.totalScore,
       clausulaPrevalencia: quant.clausulaPrevalencia,
+      cobertura: { respondidas: cov.respondidas, total: cov.total, parcial: cov.parcial },
       blocos: quant.blockResults.map((r) => ({
         id: r.blockId,
         nome: r.blockName,
         pontuacao: r.score,
         maxPontos: r.maxPontos,
+        respondidas: r.respondidas,
+        questoesVisiveis: r.totalVisiveis,
       })),
     };
   } else {
@@ -1299,6 +1504,7 @@ export function buildValidationExport(args: {
       protocoloNaoAvaliavel: false,
       pontuacaoTotal: null,
       clausulaPrevalencia: false,
+      cobertura: null,
       blocos: [],
     };
   }
@@ -1309,7 +1515,7 @@ export function buildValidationExport(args: {
 
   return {
     schema: 'maria-validacao-local',
-    schemaVersion: 2,
+    schemaVersion: 3,
     exportadoEm: agora.toISOString(),
     software: {
       nome: 'MARIAH',
@@ -1330,7 +1536,7 @@ export function buildValidationExport(args: {
     versaoB,
     comoUsar: {
       descricao:
-        'Substitua "idInterno" pelo identificador interno do seu CEP (ex.: P-001) antes de transcrever para a planilha. Cada export corresponde a uma linha por aba da planilha-modelo.',
+        'Substitua "idInterno" pelo identificador interno do seu CEP (ex.: P-001) antes de transcrever para a planilha. Cada export corresponde a uma linha por aba da planilha-modelo. O campo "cobertura.parcial" = true indica classificação emitida com a matriz incompleta (questões sem resposta tratadas como "não risco"): compare com cautela no cálculo do kappa e registre a parcialidade junto da classificação.',
       abasPlanilha: {
         protocolos: 'Use idInterno, dataAvaliacao, modoTriagem e usaBancoDeDados.',
         versaoA:
@@ -1377,6 +1583,10 @@ export type MirrorEixo = {
   nivelRotulo: string;
   respostasRisco: number;
   totalQuestoes: number;
+  /** v2 — questões visíveis do eixo respondidas ('na' conta). */
+  respondidas: number;
+  /** v2 — questões visíveis do eixo (exibição condicional aplicada). */
+  questoesVisiveis: number;
   referenciaNormativa: string | null;
 };
 
@@ -1385,12 +1595,27 @@ export type MirrorBloco = {
   nome: string;
   pontuacao: number;
   maxPontos: number;
+  /** v2 — questões visíveis do bloco respondidas ('na' conta). */
+  respondidas: number;
+  /** v2 — questões visíveis do bloco (exibição condicional aplicada). */
+  questoesVisiveis: number;
   referenciaNormativa: string | null;
 };
 
+/** Cobertura no registro-espelho (v2): estatística completa + linha exibida no relatório. */
+export type MirrorCobertura = CoverageStats & { texto: string };
+
+/*
+ * Changelog do schema 'maria-registro-espelho':
+ *   v1 — registro-espelho TXT/CSV/JSON do relatório impresso.
+ *   v2 — acurácia do veredito (espelha o relatório): resultado.cobertura (a que
+ *        sustenta o nível final: união A+B no combinado), versaoA/versaoB.cobertura,
+ *        respondidas/questoesVisiveis por eixo/bloco e rótulos com "(parcial)".
+ *        Aditiva sobre v1.
+ */
 export type MirrorRecord = {
   schema: 'maria-registro-espelho';
-  schemaVersion: 1;
+  schemaVersion: 2;
   exportadoEm: string; // ISO 8601
   idioma: string;
   software: {
@@ -1413,18 +1638,23 @@ export type MirrorRecord = {
   contexto: Array<{ id: string; pergunta: string; resposta: string }>;
   resultado: {
     nivelFinal: RiskLevel;
+    /** Rótulo do nível final; recebe " (parcial)" quando a cobertura é incompleta. */
     nivelFinalRotulo: string;
+    /** v2 — cobertura que sustenta o nível final. */
+    cobertura: MirrorCobertura;
     versaoA: {
       nivel: RiskLevel;
       nivelRotulo: string;
       nivelDescricao: string;
       protocoloNaoAvaliavel: boolean;
+      cobertura: MirrorCobertura;
       eixos: MirrorEixo[];
     } | null;
     versaoB: {
       nivel: RiskLevel;
       nivelRotulo: string;
       nivelDescricao: string;
+      cobertura: MirrorCobertura;
       pontuacaoTotal: number;
       pontuacaoMaxima: number;
       clausulaPrevalencia: boolean;
@@ -1498,6 +1728,14 @@ export function buildMirrorRecord(args: {
 
   const requirements = getRequirementsForLevel(finalLevel, usesDatabase);
 
+  // Cobertura (v2): mesmas strings e mesmo recorte do relatório.
+  const mirrorCov = (c: CoverageStats): MirrorCobertura => ({ ...c, texto: coverageLine(c, t) });
+  const covA = qual ? mirrorCov(getMatrixCoverage('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)) : null;
+  const covB = quant ? mirrorCov(getMatrixCoverage('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)) : null;
+  const covFinal = mirrorCov(
+    getDisplayedCoverage(version, useAAsTriagem, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+  );
+
   let unanswered: UnansweredItem[];
   if (isCombinedReport) {
     const fromA = getUnansweredItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
@@ -1517,7 +1755,7 @@ export function buildMirrorRecord(args: {
 
   return {
     schema: 'maria-registro-espelho',
-    schemaVersion: 1,
+    schemaVersion: 2,
     exportadoEm: agora.toISOString(),
     idioma: locale,
     software: { nome: 'MARIAH', versaoMatriz: MATRIX_VERSION },
@@ -1541,13 +1779,15 @@ export function buildMirrorRecord(args: {
     })),
     resultado: {
       nivelFinal: finalLevel,
-      nivelFinalRotulo: label(RISK_LEVELS[finalLevel], 'label', locale),
-      versaoA: qual
+      nivelFinalRotulo: `${label(RISK_LEVELS[finalLevel], 'label', locale)}${parcialSuffix(covFinal, t)}`,
+      cobertura: covFinal,
+      versaoA: qual && covA
         ? {
             nivel: qual.level,
-            nivelRotulo: label(qual.levelInfo, 'label', locale),
+            nivelRotulo: `${label(qual.levelInfo, 'label', locale)}${parcialSuffix(covA, t)}`,
             nivelDescricao: label(qual.levelInfo, 'description', locale),
             protocoloNaoAvaliavel: qual.protocoloNaoAvaliavel,
+            cobertura: covA,
             eixos: qual.axisResults.map((r) => ({
               id: r.axisId,
               nome: r.axisName,
@@ -1555,15 +1795,18 @@ export function buildMirrorRecord(args: {
               nivelRotulo: label(RISK_LEVELS[r.level], 'label', locale),
               respostasRisco: r.riskCount,
               totalQuestoes: r.totalQuestions,
+              respondidas: r.respondidas,
+              questoesVisiveis: r.totalVisiveis,
               referenciaNormativa: r.referenciaNormativa ?? null,
             })),
           }
         : null,
-      versaoB: quant
+      versaoB: quant && covB
         ? {
             nivel: quant.level,
-            nivelRotulo: label(quant.levelInfo, 'label', locale),
+            nivelRotulo: `${label(quant.levelInfo, 'label', locale)}${parcialSuffix(covB, t)}`,
             nivelDescricao: label(quant.levelInfo, 'description', locale),
+            cobertura: covB,
             pontuacaoTotal: quant.totalScore,
             pontuacaoMaxima: quant.maxScore,
             clausulaPrevalencia: quant.clausulaPrevalencia,
@@ -1573,6 +1816,8 @@ export function buildMirrorRecord(args: {
               nome: r.blockName,
               pontuacao: r.score,
               maxPontos: r.maxPontos,
+              respondidas: r.respondidas,
+              questoesVisiveis: r.totalVisiveis,
               referenciaNormativa: r.referenciaNormativa ?? null,
             })),
           }
@@ -1624,16 +1869,22 @@ export function buildMirrorCSV(rec: MirrorRecord): string {
   for (const c of rec.contexto) push('contexto', c.id, c.pergunta, c.resposta);
 
   push('resultado', '', `${t('nivelPalavra')} ${rec.resultado.nivelFinal}`, rec.resultado.nivelFinalRotulo);
+  push('resultado', '', t('coberturaRotulo'), rec.resultado.cobertura.texto);
   if (rec.resultado.versaoA) {
-    for (const e of rec.resultado.versaoA.eixos) {
-      push('resultado-a', e.id, e.nome, `${e.respostasRisco}/${e.totalQuestoes} — ${t('nivelPalavra')} ${e.nivel} — ${e.nivelRotulo}`);
+    const a = rec.resultado.versaoA;
+    push('resultado-a', '', `${t('nivelPalavra')} ${a.nivel}`, a.nivelRotulo);
+    push('resultado-a', '', t('coberturaRotulo'), a.cobertura.texto);
+    for (const e of a.eixos) {
+      push('resultado-a', e.id, e.nome, t('respostasRiscoTxt', { respondidas: String(e.respondidas), total: String(e.questoesVisiveis), count: String(e.respostasRisco), level: e.nivel, label: e.nivelRotulo }));
     }
   }
   if (rec.resultado.versaoB) {
-    push('resultado-b', '', t('pontuacaoTotalTxt', { score: String(rec.resultado.versaoB.pontuacaoTotal), max: String(rec.resultado.versaoB.pontuacaoMaxima) }), `${t('nivelPalavra')} ${rec.resultado.versaoB.nivel} — ${rec.resultado.versaoB.nivelRotulo}`);
-    if (rec.resultado.versaoB.clausulaPrevalencia) push('resultado-b', '', t('clausulaTitulo'), t('clausulaTexto'));
-    for (const b of rec.resultado.versaoB.blocos) {
-      push('resultado-b', b.id, b.nome, `${b.pontuacao} / ${b.maxPontos} ${t('pts')}`);
+    const b0 = rec.resultado.versaoB;
+    push('resultado-b', '', t('pontuacaoTotalTxt', { score: String(b0.pontuacaoTotal), max: String(b0.pontuacaoMaxima) }), `${t('nivelPalavra')} ${b0.nivel} — ${b0.nivelRotulo}`);
+    push('resultado-b', '', t('coberturaRotulo'), b0.cobertura.texto);
+    if (b0.clausulaPrevalencia) push('resultado-b', '', t('clausulaTitulo'), t('clausulaTexto'));
+    for (const b of b0.blocos) {
+      push('resultado-b', b.id, b.nome, `${b.pontuacao} / ${b.maxPontos} ${t('pts')} · ${t('respondidasTxt', { respondidas: String(b.respondidas), total: String(b.questoesVisiveis) })}`);
     }
   }
 

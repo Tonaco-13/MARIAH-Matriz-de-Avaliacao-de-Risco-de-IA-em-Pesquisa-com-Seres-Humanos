@@ -274,7 +274,8 @@ const expNaoAval = buildValidationExport({
 assert('M3: classificacaoFinal = NÃO AVALIÁVEL (não IV)', expNaoAval.versaoB.classificacaoFinal, 'NÃO AVALIÁVEL');
 assert('M3: protocoloNaoAvaliavel = true', expNaoAval.versaoB.protocoloNaoAvaliavel, true);
 assert('Carimbo: software.versaoMatriz = MATRIX_VERSION', expNaoAval.software.versaoMatriz, MATRIX_VERSION);
-assert('Export schemaVersion = 2', expNaoAval.schemaVersion, 2);
+// v3 (ticket de acurácia do veredito): cobertura aditiva — ver changelog em utils.ts.
+assert('Export schemaVersion = 3', expNaoAval.schemaVersion, 3);
 // Sanidade: protocolo avaliável mantém o nível de risco (não vira "NÃO AVALIÁVEL").
 const expOk = buildValidationExport({
   version: 'B',
