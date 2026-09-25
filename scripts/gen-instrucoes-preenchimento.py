@@ -129,7 +129,7 @@ def header_block(doc, versao_titulo, subtitulo):
     p=doc.add_paragraph(); add_run(p,versao_titulo,bold=True,size=12,color=TEAL)
     para(doc, subtitulo, size=9.5, color=GREY)
     para(doc, 'Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos', size=9.5, color=GREY, italic=True)
-    para(doc, 'Documento gerado a partir da especificação canônica da matriz (v2). Versão preliminar — em revisão pelo GT do Ministério da Saúde.', size=8.5, color=GREY, italic=True)
+    para(doc, 'Documento gerado a partir da especificação canônica da matriz (v2). Versão aprovada pela INAEP em 16/09/2026 — em revisão editorial para publicação.', size=8.5, color=GREY, italic=True)
 
 def context_section(doc, ctxs):
     h2(doc,'Caracterização do contexto de uso (não pontua)')
