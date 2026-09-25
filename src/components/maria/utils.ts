@@ -1360,3 +1360,332 @@ export function downloadValidationExport(exportData: ValidationExport): void {
   document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
+// ============================================================
+// Registro-espelho (JSON / CSV / TXT)
+// ------------------------------------------------------------
+// Mesmo conteúdo do relatório impresso (generateReportHTML) em
+// formatos de arquivo: JSON estruturado, CSV tabular e TXT (que
+// reusa generateReportText). Distinto do export de Validação
+// Local (recorte para a planilha-modelo — contrato separado).
+// ============================================================
+
+export type MirrorEixo = {
+  id: string;
+  nome: string;
+  nivel: RiskLevel;
+  nivelRotulo: string;
+  respostasRisco: number;
+  totalQuestoes: number;
+  referenciaNormativa: string | null;
+};
+
+export type MirrorBloco = {
+  id: string;
+  nome: string;
+  pontuacao: number;
+  maxPontos: number;
+  referenciaNormativa: string | null;
+};
+
+export type MirrorRecord = {
+  schema: 'maria-registro-espelho';
+  schemaVersion: 1;
+  exportadoEm: string; // ISO 8601
+  idioma: string;
+  software: {
+    nome: 'MARIAH';
+    versaoMatriz: string;
+  };
+  cabecalho: {
+    versao: string; // rótulo locale-aware (ex.: "A — Qualitativa")
+    versaoCodigo: 'A' | 'B';
+    combinado: boolean;
+    data: string;
+    usaBancoDeDados: boolean;
+    versaoMatriz: string;
+  };
+  identificacao: {
+    titulo: string;
+    instituicao: string;
+    cep: string;
+  };
+  contexto: Array<{ id: string; pergunta: string; resposta: string }>;
+  resultado: {
+    nivelFinal: RiskLevel;
+    nivelFinalRotulo: string;
+    versaoA: {
+      nivel: RiskLevel;
+      nivelRotulo: string;
+      nivelDescricao: string;
+      protocoloNaoAvaliavel: boolean;
+      eixos: MirrorEixo[];
+    } | null;
+    versaoB: {
+      nivel: RiskLevel;
+      nivelRotulo: string;
+      nivelDescricao: string;
+      pontuacaoTotal: number;
+      pontuacaoMaxima: number;
+      clausulaPrevalencia: boolean;
+      protocoloNaoAvaliavel: boolean;
+      blocos: MirrorBloco[];
+    } | null;
+  };
+  eliminatoria: {
+    questaoId: string;
+    motivo: string;
+    referencia: string;
+  } | null;
+  requisitos: Array<{ id: string; nivel: RiskLevel; texto: string; res738: boolean }>;
+  itensNaoAvaliados: Array<{ id: string; escopo: string; secao: string; item: string }>;
+  naoSeAplica: Array<{ id: string; secao: string; item: string; eliminatorio: boolean }>;
+  aviso: { texto: string; cortesia: string };
+  rodape: { geradoEm: string; desenvolvimento: string; licenca: string };
+};
+
+/**
+ * Monta o registro-espelho: mesmo recorte e mesma consolidação do relatório
+ * impresso (nível final mais alto entre A e B no modo triagem, auditoria
+ * combinada sem duplicar contexto, exibição condicional das descritivas).
+ */
+export function buildMirrorRecord(args: {
+  version: 'A' | 'B';
+  useAAsTriagem: boolean;
+  usesDatabase: boolean;
+  contextAnswers: Record<string, string>;
+  qualitativeAnswers: QualitativeAnswer;
+  quantitativeAnswers: QuantitativeAnswer;
+  locale?: string;
+}): MirrorRecord {
+  const {
+    version,
+    useAAsTriagem,
+    usesDatabase,
+    contextAnswers,
+    qualitativeAnswers,
+    quantitativeAnswers,
+    locale = 'pt-BR',
+  } = args;
+  const t = reportTranslator(locale);
+  const isCombinedReport = useAAsTriagem && version === 'B';
+
+  const agora = new Date();
+  const dataFmt = agora.toLocaleDateString(locale, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  const qual = version === 'A' || isCombinedReport
+    ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale)
+    : null;
+  const quant = version === 'B'
+    ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale)
+    : null;
+
+  // Nível final: idem ao relatório — o mais alto entre A e B no modo triagem.
+  const finalLevel: RiskLevel = isCombinedReport && qual && quant
+    ? highestLevel(qual.level, quant.level)
+    : version === 'A'
+      ? qual!.level
+      : quant!.level;
+
+  const eliminatoryQuestionId = quant?.eliminatoryQuestionId ?? qual?.eliminatoryQuestionId ?? null;
+  const eliminatoryInfo = eliminatoryQuestionId ? getEliminatoryInfo(eliminatoryQuestionId, locale) : null;
+
+  const requirements = getRequirementsForLevel(finalLevel, usesDatabase);
+
+  let unanswered: UnansweredItem[];
+  if (isCombinedReport) {
+    const fromA = getUnansweredItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
+    const fromBOnlyMatrix = getUnansweredItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale)
+      .filter((it) => it.scope !== 'contexto');
+    unanswered = [...fromA, ...fromBOnlyMatrix];
+  } else {
+    unanswered = getUnansweredItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
+  }
+
+  const naoSeAplica = isCombinedReport
+    ? [
+        ...getNaoSeAplicaItems('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+        ...getNaoSeAplicaItems('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale),
+      ]
+    : getNaoSeAplicaItems(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase, locale);
+
+  return {
+    schema: 'maria-registro-espelho',
+    schemaVersion: 1,
+    exportadoEm: agora.toISOString(),
+    idioma: locale,
+    software: { nome: 'MARIAH', versaoMatriz: MATRIX_VERSION },
+    cabecalho: {
+      versao: isCombinedReport ? t('versaoCombinada') : version === 'A' ? t('versaoA') : t('versaoB'),
+      versaoCodigo: version,
+      combinado: isCombinedReport,
+      data: dataFmt,
+      usaBancoDeDados: usesDatabase,
+      versaoMatriz: MATRIX_VERSION,
+    },
+    identificacao: {
+      titulo: contextAnswers['titulo'] || t('naoInformado'),
+      instituicao: contextAnswers['instituicao'] || t('naoInformado'),
+      cep: contextAnswers['cep_nome'] || t('naoInformado'),
+    },
+    contexto: CONTEXT_QUESTIONS.filter((q) => isContextQuestionVisible(q, contextAnswers)).map((q) => ({
+      id: q.id,
+      pergunta: label(q, 'pergunta', locale),
+      resposta: contextAnswerDisplay(q, contextAnswers, t('naoInformado')),
+    })),
+    resultado: {
+      nivelFinal: finalLevel,
+      nivelFinalRotulo: label(RISK_LEVELS[finalLevel], 'label', locale),
+      versaoA: qual
+        ? {
+            nivel: qual.level,
+            nivelRotulo: label(qual.levelInfo, 'label', locale),
+            nivelDescricao: label(qual.levelInfo, 'description', locale),
+            protocoloNaoAvaliavel: qual.protocoloNaoAvaliavel,
+            eixos: qual.axisResults.map((r) => ({
+              id: r.axisId,
+              nome: r.axisName,
+              nivel: r.level,
+              nivelRotulo: label(RISK_LEVELS[r.level], 'label', locale),
+              respostasRisco: r.riskCount,
+              totalQuestoes: r.totalQuestions,
+              referenciaNormativa: r.referenciaNormativa ?? null,
+            })),
+          }
+        : null,
+      versaoB: quant
+        ? {
+            nivel: quant.level,
+            nivelRotulo: label(quant.levelInfo, 'label', locale),
+            nivelDescricao: label(quant.levelInfo, 'description', locale),
+            pontuacaoTotal: quant.totalScore,
+            pontuacaoMaxima: quant.maxScore,
+            clausulaPrevalencia: quant.clausulaPrevalencia,
+            protocoloNaoAvaliavel: quant.protocoloNaoAvaliavel,
+            blocos: quant.blockResults.map((r) => ({
+              id: r.blockId,
+              nome: r.blockName,
+              pontuacao: r.score,
+              maxPontos: r.maxPontos,
+              referenciaNormativa: r.referenciaNormativa ?? null,
+            })),
+          }
+        : null,
+    },
+    eliminatoria: eliminatoryQuestionId && eliminatoryInfo
+      ? { questaoId: eliminatoryQuestionId, motivo: eliminatoryInfo.motivo, referencia: eliminatoryInfo.ref }
+      : null,
+    requisitos: requirements.map((req) => ({
+      id: req.id,
+      nivel: req.nivel,
+      texto: label(req, 'texto', locale),
+      res738: req.id.startsWith('req-738'),
+    })),
+    itensNaoAvaliados: unanswered.map((it) => ({ id: it.id, escopo: it.scope, secao: it.scopeName, item: it.label })),
+    naoSeAplica: naoSeAplica.map((it) => ({ id: it.id, secao: it.scopeName, item: it.label, eliminatorio: it.eliminatorio })),
+    aviso: { texto: getDisclaimer(locale), cortesia: getCourtesyNotice(locale) },
+    rodape: {
+      geradoEm: t('footerGerado', { date: dataFmt }),
+      desenvolvimento: t('footerDev'),
+      licenca: t('footerLicenca'),
+    },
+  };
+}
+
+// ----- CSV do registro-espelho -----
+// Colunas fixas (secao;id;item;valor), separador ';' e BOM para o Excel pt-BR.
+
+function csvCell(v: string | number | boolean): string {
+  const s = String(v);
+  return /[";\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+export function buildMirrorCSV(rec: MirrorRecord): string {
+  const t = reportTranslator(rec.idioma);
+  const rows: string[] = ['secao;id;item;valor'];
+  const push = (secao: string, id: string, item: string, valor: string | number | boolean) =>
+    rows.push([secao, id, item, valor].map(csvCell).join(';'));
+
+  push('cabecalho', '', t('versaoRotulo'), rec.cabecalho.versao);
+  push('cabecalho', '', t('dataRotulo'), rec.cabecalho.data);
+  push('cabecalho', '', t('utilizaBanco'), rec.cabecalho.usaBancoDeDados ? t('bancoSimLongoTxt') : t('nao'));
+  push('cabecalho', '', t('versaoMatrizRotulo'), rec.cabecalho.versaoMatriz);
+
+  push('identificacao', 'titulo', t('identTituloProjeto'), rec.identificacao.titulo);
+  push('identificacao', 'instituicao', t('identInstituicao'), rec.identificacao.instituicao);
+  push('identificacao', 'cep_nome', t('identCep'), rec.identificacao.cep);
+
+  for (const c of rec.contexto) push('contexto', c.id, c.pergunta, c.resposta);
+
+  push('resultado', '', `${t('nivelPalavra')} ${rec.resultado.nivelFinal}`, rec.resultado.nivelFinalRotulo);
+  if (rec.resultado.versaoA) {
+    for (const e of rec.resultado.versaoA.eixos) {
+      push('resultado-a', e.id, e.nome, `${e.respostasRisco}/${e.totalQuestoes} — ${t('nivelPalavra')} ${e.nivel} — ${e.nivelRotulo}`);
+    }
+  }
+  if (rec.resultado.versaoB) {
+    push('resultado-b', '', t('pontuacaoTotalTxt', { score: String(rec.resultado.versaoB.pontuacaoTotal), max: String(rec.resultado.versaoB.pontuacaoMaxima) }), `${t('nivelPalavra')} ${rec.resultado.versaoB.nivel} — ${rec.resultado.versaoB.nivelRotulo}`);
+    if (rec.resultado.versaoB.clausulaPrevalencia) push('resultado-b', '', t('clausulaTitulo'), t('clausulaTexto'));
+    for (const b of rec.resultado.versaoB.blocos) {
+      push('resultado-b', b.id, b.nome, `${b.pontuacao} / ${b.maxPontos} ${t('pts')}`);
+    }
+  }
+
+  if (rec.eliminatoria) {
+    push('eliminatoria', rec.eliminatoria.questaoId, t('eliminatorioTxtTitulo', { id: rec.eliminatoria.questaoId }), rec.eliminatoria.motivo);
+  }
+
+  for (const req of rec.requisitos) push('requisitos', req.id, `${t('nivelPalavra')} ${req.nivel}`, req.texto);
+
+  if (rec.itensNaoAvaliados.length === 0) {
+    push('itens-nao-avaliados', '', '', t('itensOkTxt'));
+  } else {
+    for (const it of rec.itensNaoAvaliados) push('itens-nao-avaliados', it.id, it.secao, it.item);
+  }
+
+  for (const it of rec.naoSeAplica) {
+    push('nao-se-aplica', it.id, it.secao, `${it.item}${it.eliminatorio ? ` [${t('naTagEliminatorio')}]` : ''}`);
+  }
+
+  push('aviso', '', t('avisoRotulo'), rec.aviso.texto);
+  if (rec.aviso.cortesia) push('aviso', '', '', rec.aviso.cortesia);
+
+  push('rodape', '', '', rec.rodape.geradoEm);
+  push('rodape', '', '', rec.rodape.desenvolvimento);
+  push('rodape', '', '', rec.rodape.licenca);
+
+  return '\uFEFF' + rows.join('\r\n');
+}
+
+// ----- Downloads do registro-espelho -----
+// Nome do arquivo: registro-maria-<AAAA-MM-DD>.<ext>
+
+function downloadMirrorFile(filename: string, content: string, mime: string): void {
+  const blob = new Blob([content], { type: `${mime};charset=utf-8` });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+export function downloadMirrorJSON(rec: MirrorRecord): void {
+  downloadMirrorFile(`registro-maria-${rec.exportadoEm.slice(0, 10)}.json`, JSON.stringify(rec, null, 2), 'application/json');
+}
+
+export function downloadMirrorCSV(rec: MirrorRecord): void {
+  downloadMirrorFile(`registro-maria-${rec.exportadoEm.slice(0, 10)}.csv`, buildMirrorCSV(rec), 'text/csv');
+}
+
+export function downloadMirrorTXT(text: string): void {
+  downloadMirrorFile(`registro-maria-${new Date().toISOString().slice(0, 10)}.txt`, text, 'text/plain');
+}
