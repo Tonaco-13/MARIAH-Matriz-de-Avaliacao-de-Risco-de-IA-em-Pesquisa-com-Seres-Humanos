@@ -1,20 +1,20 @@
 TITLE: Validação Local pelos CEPs — MARIAH
-META-DESC: Protocolo opcional de validação local da MARIAH pelos Comitês de Ética em Pesquisa, descrito no Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).
+META-DESC: Protocolo opcional de validação local da MARIAH pelos Comitês de Ética em Pesquisa, descrito no documento MARIAH, complementar ao Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos.
 --
 [a href=#conteudo-principal]
 Pular para o conteúdo
 [a href=/]
 Voltar à MARIAH
 Validação Local pelos CEPs
-em revisão
-Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
+revisão editorial
+Documento MARIAH, complementar ao Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
 Protocolo opcional para que cada CEP verifique como a MARIAH se comporta na casuística de protocolos de pesquisa com inteligência artificial que efetivamente lhe são submetidos.
 Status:
 o
-Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
-está em fase de revisão pelo Grupo de Trabalho do Ministério da Saúde. Os arquivos abaixo correspondem à minuta atual e serão atualizados quando o guia for publicado oficialmente.
+Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
+, o Caderno Referencial e a MARIAH foram aprovados pela Instância Nacional de Ética em Pesquisa (INAEP) em 16/09/2026 e estão em revisão editorial para publicação. Os arquivos abaixo correspondem à versão aprovada e serão atualizados quando os documentos forem publicados oficialmente.
 Por que validar localmente
-A MARIAH é instrumento de apoio à deliberação do CEP — não norma vinculante. A adoção da matriz é escolha institucional de cada CEP, e a validação local segue o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar decisão central para fazê-lo. Quando o colegiado entender que vale a pena verificar como a matriz se comporta nos protocolos que lhe são submetidos, o protocolo da Validação Local (Caderno 2) oferece um roteiro prático.
+A MARIAH é instrumento de apoio à deliberação do CEP — não norma vinculante. A adoção da matriz é escolha institucional de cada CEP, e a validação local segue o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar decisão central para fazê-lo. Quando o colegiado entender que vale a pena verificar como a matriz se comporta nos protocolos que lhe são submetidos, o protocolo da Validação Local (documento MARIAH) oferece um roteiro prático.
 Há três razões para um CEP querer validar localmente:
 aprendizado institucional
 (descobrir quais perguntas estão sendo interpretadas de forma divergente entre avaliadores),
@@ -42,7 +42,7 @@ Abas dedicadas a cada frente, com fórmulas pré-configuradas (kappa, distribui�
 [a href=/planilha-validacao-local-mariah.xlsx download]
 Baixar planilha (.xlsx)
 Roteiro completo
-Seção de Validação Local (Caderno 2) com a justificativa de cada frente, recomendações operacionais, interpretação dos achados e canal opcional de compartilhamento com o Grupo de Trabalho.
+Seção de Validação Local (documento MARIAH) com a justificativa de cada frente, recomendações operacionais, interpretação dos achados e canal opcional de compartilhamento com o Grupo de Trabalho.
 [a href=/guia-validacao-local-mariah.docx download]
 Baixar roteiro (.docx)
 Como integrar à MARIAH
@@ -83,5 +83,5 @@ Validação Local pelos CEPs
 Transparência metodológica
 ·
 [a href=/instrucoes]
-Apêndice do guia
-(em revisão)
+Instruções de preenchimento
+(revisão editorial)

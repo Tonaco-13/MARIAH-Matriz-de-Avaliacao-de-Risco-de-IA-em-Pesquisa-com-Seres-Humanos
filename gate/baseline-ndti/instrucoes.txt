@@ -1,18 +1,18 @@
 TITLE: Instruções de Preenchimento — MARIAH
-META-DESC: Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIAH, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Caderno 2 do Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (em revisão).
+META-DESC: Instruções de preenchimento das Versões A (qualitativa) e B (quantitativa) da MARIAH, questão a questão, com respostas de risco, pesos, regras de consolidação e pontos de corte. Documento MARIAH, complementar ao Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos.
 --
 [a href=#conteudo-principal]
 Pular para o conteúdo
 [a href=/]
 Voltar à MARIAH
 Instruções de Preenchimento
-em revisão
-Caderno 2 do Guia — preenchimento das Versões A e B
+revisão editorial
+Documento MARIAH — preenchimento das Versões A e B
 Guia operacional para responder a matriz, questão a questão: a resposta que indica risco, as orientações por item, as regras de consolidação e a leitura do resultado.
 Status:
 o
-Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos
-está em fase de revisão pelo Grupo de Trabalho do Ministério da Saúde. Os documentos abaixo correspondem à minuta atual e serão atualizados quando o guia for publicado oficialmente.
+Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
+, o Caderno Referencial e a MARIAH foram aprovados pela Instância Nacional de Ética em Pesquisa (INAEP) em 16/09/2026 e estão em revisão editorial para publicação. Os documentos abaixo correspondem à versão aprovada e serão atualizados quando os documentos forem publicados oficialmente.
 O que são estas instruções
 As instruções orientam o preenchimento das duas versões da matriz, questão a questão. Para cada item, indicam qual resposta sinaliza risco, trazem a orientação de preenchimento e explicam como o resultado é construído — consolidação por contagem (Versão A) e pontuação por blocos (Versão B), além das salvaguardas automáticas e dos pontos de corte.
 Foram elaboradas em correspondência direta com o conjunto de perguntas atualmente em uso no aplicativo, de modo que o avaliador encontre, no documento, exatamente os itens que vê na tela.
@@ -31,7 +31,7 @@ Documentos complementares sobre as premissas e as salvaguardas da matriz estão 
 Transparência metodológica
 .
 Observações e crítica técnica
-As instruções acompanham a matriz, que está em revisão pelo Grupo de Trabalho; ajustes nas questões serão refletidos nestes documentos. Observações e críticas técnicas podem ser encaminhadas, a qualquer momento, à CGREP pelo e-mail
+As instruções acompanham a matriz aprovada pela INAEP em 16/09/2026. Ajustes decorrentes do período de uso pelos CEPs e da consulta pública serão refletidos nestes documentos. Observações e críticas técnicas podem ser encaminhadas, a qualquer momento, à CGREP pelo e-mail
 [a href=mailto:cgrep@saude.gov.br]
 cgrep@saude.gov.br
 .
@@ -50,5 +50,5 @@ Validação Local pelos CEPs
 Transparência metodológica
 ·
 [a href=/instrucoes]
-Apêndice do guia
-(em revisão)
+Instruções de preenchimento
+(revisão editorial)
