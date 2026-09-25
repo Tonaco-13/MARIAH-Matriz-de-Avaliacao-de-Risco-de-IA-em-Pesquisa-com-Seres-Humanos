@@ -10,6 +10,7 @@ import {
   RotateCcw,
   AlertTriangle,
   CheckCircle2,
+  FileQuestion,
   FileText,
   ChevronRight,
   ClipboardCheck,
@@ -20,8 +21,10 @@ import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, CONTEXT_QUESTIONS, MATRIX_VERSION, label } from './data';
 import type { RiskLevel } from './data';
-import type { QualitativeAnswer, QuantitativeAnswer } from './utils';
+import type { QualitativeAnswer, QuantitativeAnswer, CoverageStats } from './utils';
 import {
+  getMatrixCoverage,
+  getDisplayedCoverage,
   getQualitativeFinalLevel,
   getQuantitativeFinalResult,
   generateReportHTML,
@@ -85,7 +88,13 @@ export default function Results({
     );
   };
 
-  const LevelCard = ({ level }: { level: RiskLevel }) => {
+  // Linha de cobertura do veredito — mesmas strings do relatório (HTML/TXT).
+  const coverageText = (cov: CoverageStats) =>
+    cov.parcial
+      ? t('results.coberturaParcial', { respondidas: String(cov.respondidas), total: String(cov.total), taxa: String(cov.taxa), count: cov.semAvaliacao })
+      : t('results.coberturaCompleta', { respondidas: String(cov.respondidas), total: String(cov.total) });
+
+  const LevelCard = ({ level, coverage }: { level: RiskLevel; coverage: CoverageStats }) => {
     const info = RISK_LEVELS[level];
     const bgMap: Record<RiskLevel, string> = {
       I: 'bg-green-50 border-green-300',
@@ -100,7 +109,11 @@ export default function Results({
       IV: 'text-red-700',
     };
     const iconMap: Record<RiskLevel, React.ReactNode> = {
-      I: <CheckCircle2 className="h-10 w-10 text-green-500" />,
+      // Nível I parcial não recebe o check verde: a ausência de risco não foi
+      // verificada em toda a matriz (ícone neutro). Nível I completo mantém o check.
+      I: coverage.parcial
+        ? <FileQuestion className="h-10 w-10 text-slate-500" aria-hidden="true" />
+        : <CheckCircle2 className="h-10 w-10 text-green-500" />,
       II: <AlertTriangle className="h-10 w-10 text-amber-500" />,
       III: <AlertTriangle className="h-10 w-10 text-orange-500" />,
       IV: <AlertTriangle className="h-10 w-10 text-red-500" />,
@@ -111,12 +124,13 @@ export default function Results({
         <CardContent className="py-8 text-center">
           <div className="flex justify-center mb-3">{iconMap[level]}</div>
           <div className={`text-5xl font-bold ${textMap[level]} mb-1`}>
-            {t('results.nivelCard', { level })}
+            {coverage.parcial ? t('results.nivelCardParcial', { level }) : t('results.nivelCard', { level })}
           </div>
           <div className={`text-2xl font-semibold ${textMap[level]} mb-3`}>
             {label(info, 'label', locale)}
           </div>
           <p className="text-sm text-muted-foreground max-w-md mx-auto">{label(info, 'description', locale)}</p>
+          <p className="text-xs text-slate-700 max-w-md mx-auto mt-2">{coverageText(coverage)}</p>
         </CardContent>
       </Card>
     );
@@ -149,6 +163,23 @@ export default function Results({
   const eliminatoryQuestionId =
     (version === 'B' ? quantResult?.eliminatoryQuestionId ?? null : null) ??
     (version === 'A' || useAAsTriagem ? qualResult?.eliminatoryQuestionId ?? null : null);
+
+  // Cobertura da matriz: A e B separadas (badges da triagem) e a que sustenta o
+  // nível exibido (união A+B no relatório combinado; senão a versão corrente).
+  const coverageA = qualResult
+    ? getMatrixCoverage('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+    : null;
+  const coverageB = quantResult
+    ? getMatrixCoverage('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+    : null;
+  const coverageDisplayed = getDisplayedCoverage(
+    version,
+    useAAsTriagem,
+    contextAnswers,
+    qualitativeAnswers,
+    quantitativeAnswers,
+    usesDatabase
+  );
 
   const handlePrint = () => {
     const html = generateReportHTML(
@@ -366,7 +397,7 @@ export default function Results({
                   </h3>
                   <p className="text-sm text-red-800">
                     {t.rich('results.hipoteseEliminatoria', {
-                      id: eliminatoryQuestionId,
+                      id: eliminatoryQuestionId ?? '',
                       motivo: getEliminatoryInfo(eliminatoryQuestionId, locale).motivo,
                       b: (chunks) => <strong>{chunks}</strong>,
                     })}
@@ -396,13 +427,19 @@ export default function Results({
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <Badge className="bg-teal-100 text-teal-700 border border-teal-300 text-[10px]">
-                    {t('results.badgeA', { level: qualResult.level })}
+                    {coverageA?.parcial
+                      ? t('results.badgeAParcial', { level: qualResult.level })
+                      : t('results.badgeA', { level: qualResult.level })}
                   </Badge>
                   <Badge className="bg-slate-200 text-slate-800 border border-slate-400 text-[10px]">
-                    {t('results.badgeB', { level: quantResult.level })}
+                    {coverageB?.parcial
+                      ? t('results.badgeBParcial', { level: quantResult.level })
+                      : t('results.badgeB', { level: quantResult.level })}
                   </Badge>
                   <Badge className="bg-red-100 text-red-700 border border-red-300 text-[10px] font-semibold">
-                    {t('results.badgeConsolidado', { level: finalLevel })}
+                    {coverageDisplayed.parcial
+                      ? t('results.badgeConsolidadoParcial', { level: finalLevel })
+                      : t('results.badgeConsolidado', { level: finalLevel })}
                   </Badge>
                 </div>
               </div>
@@ -422,7 +459,7 @@ export default function Results({
             </CardContent>
           </Card>
         ) : (
-          <LevelCard level={finalLevel} />
+          <LevelCard level={finalLevel} coverage={coverageDisplayed} />
         )}
 
         {/* Cláusula de Prevalência Ética warning */}
@@ -504,7 +541,15 @@ export default function Results({
             <CardContent>
               <div className="space-y-4">
                 {qualResult.axisResults.map((ar) => {
-                  const pct = (ar.riskCount / ar.totalQuestions) * 100;
+                  // Barra empilhada sobre o total VISÍVEL do eixo: risco (cor do nível) ·
+                  // respondidas sem risco (neutro) · sem resposta (trilho vazio).
+                  // Eixo em branco = barra vazia (não mais "0%" verde).
+                  const tot = ar.totalVisiveis;
+                  const risco = Math.min(ar.riskCount, ar.respondidas);
+                  const semRisco = Math.max(ar.respondidas - risco, 0);
+                  const semResposta = Math.max(tot - ar.respondidas, 0);
+                  const pctRisco = tot > 0 ? (risco / tot) * 100 : 0;
+                  const pctSemRisco = tot > 0 ? (semRisco / tot) * 100 : 0;
                   const isRes738 = ar.condicionalBancoDados;
 
                   return (
@@ -524,27 +569,39 @@ export default function Results({
                         <LevelBadge level={ar.level} />
                       </div>
                       <div className="flex items-center gap-3 text-xs text-muted-foreground mb-2">
-                        <span>{t('results.respostasRiscoEixo', { count: String(ar.riskCount), total: String(ar.totalQuestions) })}</span>
+                        <span>{t('results.respondidasContagem', { respondidas: String(ar.respondidas), total: String(tot) })}</span>
+                        <span>{t('results.respostasRiscoEixo', { count: String(ar.riskCount) })}</span>
                         {isRes738 && (
                           <span className="text-blue-700">
                             {t('results.elevacaoEspecialCurta')}
                           </span>
                         )}
                       </div>
-                      <div className="w-full bg-muted rounded-full h-2">
+                      <div
+                        className="w-full bg-muted rounded-full h-2 flex overflow-hidden"
+                        role="img"
+                        aria-label={t('results.barraEixoAria', {
+                          risco: String(risco),
+                          semRisco: String(semRisco),
+                          semResposta: String(semResposta),
+                          total: String(tot),
+                        })}
+                      >
                         <div
-                          className={`h-2 rounded-full transition-all ${
+                          className={`h-2 transition-all ${
                             ar.level === 'I' ? 'bg-green-500' :
                             ar.level === 'II' ? 'bg-amber-500' :
                             ar.level === 'III' ? 'bg-orange-500' : 'bg-red-500'
                           }`}
-                          style={{ width: `${pct}%` }}
+                          style={{ width: `${pctRisco}%` }}
                         />
+                        <div className="h-2 bg-slate-300 transition-all" style={{ width: `${pctSemRisco}%` }} />
                       </div>
                     </div>
                   );
                 })}
               </div>
+              <p className="text-[11px] text-muted-foreground mt-3">{t('results.legendaBarraEixo')}</p>
               <Separator className="my-4" />
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <span className="text-sm font-medium">{t.rich('results.consolidacaoEixos', { b: (chunks) => <strong>{chunks}</strong> })}</span>
@@ -586,6 +643,9 @@ export default function Results({
                         <span className="text-sm font-mono font-semibold">
                           {br.score}{br.isBlock7 && t('results.bidirecionalSuffix')} / {br.maxPontos} pts
                         </span>
+                      </div>
+                      <div className="text-xs text-muted-foreground mb-2">
+                        {t('results.respondidasContagem', { respondidas: String(br.respondidas), total: String(br.totalVisiveis) })}
                       </div>
                       <div className="w-full bg-muted rounded-full h-1.5">
                         <div
