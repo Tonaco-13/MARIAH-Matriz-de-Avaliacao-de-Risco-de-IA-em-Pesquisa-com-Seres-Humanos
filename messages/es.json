@@ -116,7 +116,7 @@
       "prevalenciaA": "No aplicable",
       "prevalenciaB": "Elevación automática a Nivel IV (Bloque 4)"
     },
-    "disclaimerVersao": "Esta es la versión 2.0 de la matriz. Las evaluaciones iniciadas en versiones anteriores no se recuperan automáticamente — las respuestas permanecen solo en su navegador y no migran entre versiones de la matriz.",
+    "disclaimerVersao": "Esta es la versión Beta de la matriz. Las evaluaciones iniciadas en versiones anteriores no se recuperan automáticamente — las respuestas permanecen solo en su navegador y no migran entre versiones de la matriz.",
     "footerLong": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos • Apoyo a la evaluación ética de estudios de intervención con IA"
   },
   "entryFilter": {
