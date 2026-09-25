@@ -842,7 +842,7 @@ export default function Results({
                     className="border-teal-300 text-teal-800 hover:bg-teal-100"
                   >
                     <a
-                      href="/planilha-validacao-local-maria.xlsx"
+                      href="/planilha-validacao-local-mariah.xlsx"
                       download
                     >
                       <Download className="mr-1.5 h-3.5 w-3.5" />
@@ -856,7 +856,7 @@ export default function Results({
                     className="border-teal-300 text-teal-800 hover:bg-teal-100"
                   >
                     <a
-                      href="/guia-validacao-local-maria.docx"
+                      href="/guia-validacao-local-mariah.docx"
                       download
                     >
                       <Download className="mr-1.5 h-3.5 w-3.5" />
