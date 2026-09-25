@@ -162,16 +162,22 @@ export function getAxisRiskLevel(riskCount: number, axis?: QualitativeAxis): Ris
 export function getQualitativeAxisResults(
   answers: QualitativeAnswer,
   usesDatabase: boolean = false,
-  locale: string = 'pt-BR'
+  locale: string = 'pt-BR',
+  contextAnswers: Record<string, string | undefined> = {}
 ) {
   return getApplicableAxes(usesDatabase).map((axis) => {
     const riskCount = countRiskAnswersAxis(axis, answers);
     const level = getAxisRiskLevel(riskCount, axis);
+    const cov = groupCoverage(axis.questoes, answers, contextAnswers);
     return {
       axisId: axis.id,
       axisName: label(axis, 'nome', locale),
       riskCount,
       totalQuestions: axis.questoes.length,
+      /** Questões visíveis do eixo respondidas ('na' conta) — mesmo universo da auditoria. */
+      respondidas: cov.respondidas,
+      /** Questões visíveis do eixo (denominador de "Respondidas x/y"). */
+      totalVisiveis: cov.total,
       level,
       levelInfo: RISK_LEVELS[level],
       condicionalBancoDados: !!axis.condicionalBancoDados,
@@ -265,7 +271,7 @@ export function getQualitativeFinalLevel(
   protocoloNaoAvaliavel: boolean;
   eliminatoryQuestionId: string | null;
 } {
-  const axisResults = getQualitativeAxisResults(answers, usesDatabase, locale);
+  const axisResults = getQualitativeAxisResults(answers, usesDatabase, locale, contextAnswers);
 
   // The final level is the HIGHEST across all axes
   const levelOrder: RiskLevel[] = ['I', 'II', 'III', 'IV'];
@@ -366,15 +372,21 @@ export function checkClausulaPrevalencia(answers: QuantitativeAnswer): boolean {
 export function getQuantitativeBlockResults(
   answers: QuantitativeAnswer,
   usesDatabase: boolean = false,
-  locale: string = 'pt-BR'
+  locale: string = 'pt-BR',
+  contextAnswers: Record<string, string | undefined> = {}
 ) {
   return getApplicableBlocks(usesDatabase).map((block) => {
     const score = calculateBlockScore(block, answers);
+    const cov = groupCoverage(block.questoes, answers, contextAnswers);
     return {
       blockId: block.id,
       blockName: label(block, 'nome', locale),
       score,
       maxPontos: block.maxPontos,
+      /** Questões visíveis do bloco respondidas ('na' conta) — mesmo universo da auditoria. */
+      respondidas: cov.respondidas,
+      /** Questões visíveis do bloco (denominador de "Respondidas x/y"). */
+      totalVisiveis: cov.total,
       isBlock7: block.id === 'bloco7',
       condicionalBancoDados: !!block.condicionalBancoDados,
       referenciaNormativa: block.referenciaNormativa,
@@ -410,7 +422,7 @@ export function getQuantitativeFinalResult(
   thresholds: ReturnType<typeof getThresholds>;
 } {
   const totalScore = getQuantitativeTotalScore(answers, usesDatabase);
-  const blockResults = getQuantitativeBlockResults(answers, usesDatabase, locale);
+  const blockResults = getQuantitativeBlockResults(answers, usesDatabase, locale, contextAnswers);
   const clausulaPrevalencia = checkClausulaPrevalencia(answers);
   const thresholds = getThresholds(usesDatabase);
 
@@ -615,6 +627,109 @@ export function getNaoSeAplicaItems(
     }
   }
   return items;
+}
+
+// ----- Cobertura da matriz (acurácia de comunicação do veredito) -----
+
+/**
+ * Base que sustentou a classificação. O nível é computado só com as questões
+ * respondidas (ausência = "não risco" por convenção — inalterado); a cobertura
+ * torna essa base explícita na tela, no relatório e nos exports.
+ *
+ * Universo contável = MESMO recorte da auditoria (getUnansweredItems, escopos
+ * 'eixo'/'bloco'): só questões de matriz (identificação/descritivas NÃO entram),
+ * recorte Res 738 (getApplicable*), exibição condicional F-17/F-18
+ * (isMatrixQuestionVisible — pergunta oculta fora do total), naoPontuaveis no
+ * total, 'na' conta como respondida.
+ * INVARIANTE: semAvaliacao === getUnansweredItems(...) sem o escopo 'contexto'.
+ */
+export type CoverageStats = {
+  /** Questões visíveis da matriz respondidas ('na' conta como respondida). */
+  respondidas: number;
+  /** Questões visíveis da matriz (inclui naoPontuaveis). */
+  total: number;
+  /** floor(respondidas/total × 100) — arredonda para BAIXO, nunca superestima. */
+  taxa: number;
+  /** respondidas < total (binário: só é false com 100%). */
+  parcial: boolean;
+  /** total − respondidas. */
+  semAvaliacao: number;
+};
+
+function groupCoverage(
+  questoes: Array<{ id: string; exibicaoCondicional?: ExibicaoCondicional }>,
+  answers: Record<string, string | undefined>,
+  contextAnswers: Record<string, string | undefined>
+): { respondidas: number; total: number } {
+  let respondidas = 0;
+  let total = 0;
+  for (const q of questoes) {
+    if (!isMatrixQuestionVisible(q, answers, contextAnswers)) continue;
+    total++;
+    if (answers[q.id] !== undefined) respondidas++;
+  }
+  return { respondidas, total };
+}
+
+function toCoverageStats(respondidas: number, total: number): CoverageStats {
+  // Aritmética inteira antes da divisão: evita 29/100*100 = 28.999… → 28.
+  const taxa = total > 0 ? Math.floor((respondidas * 100) / total) : 100;
+  return {
+    respondidas,
+    total,
+    taxa,
+    parcial: respondidas < total,
+    semAvaliacao: total - respondidas,
+  };
+}
+
+/** Cobertura da matriz de UMA versão (A = eixos; B = blocos). */
+export function getMatrixCoverage(
+  version: 'A' | 'B',
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false
+): CoverageStats {
+  const groups = version === 'A' ? getApplicableAxes(usesDatabase) : getApplicableBlocks(usesDatabase);
+  const answers = version === 'A' ? qualitativeAnswers : quantitativeAnswers;
+  let respondidas = 0;
+  let total = 0;
+  for (const g of groups) {
+    const c = groupCoverage(g.questoes, answers, contextAnswers);
+    respondidas += c.respondidas;
+    total += c.total;
+  }
+  return toCoverageStats(respondidas, total);
+}
+
+/** Cobertura da união A+B (modo triagem com relatório combinado). */
+export function getCombinedCoverage(
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false
+): CoverageStats {
+  const a = getMatrixCoverage('A', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+  const b = getMatrixCoverage('B', contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+  return toCoverageStats(a.respondidas + b.respondidas, a.total + b.total);
+}
+
+/**
+ * Cobertura que sustenta o nível EXIBIDO: união A+B no relatório combinado
+ * (triagem A→B), senão a matriz da versão corrente.
+ */
+export function getDisplayedCoverage(
+  version: 'A' | 'B',
+  useAAsTriagem: boolean,
+  contextAnswers: Record<string, string>,
+  qualitativeAnswers: QualitativeAnswer,
+  quantitativeAnswers: QuantitativeAnswer,
+  usesDatabase: boolean = false
+): CoverageStats {
+  return useAAsTriagem && version === 'B'
+    ? getCombinedCoverage(contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase)
+    : getMatrixCoverage(version, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
 }
 
 // ----- Print/Export Helpers -----
