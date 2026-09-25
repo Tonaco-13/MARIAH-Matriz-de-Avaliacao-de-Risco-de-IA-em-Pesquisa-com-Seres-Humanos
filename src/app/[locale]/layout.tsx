@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/maria/Footer";
+import { LocalesEnabledProvider } from "@/components/maria/LanguageSwitcher";
 import { getCourtesyNotice } from "@/components/maria/disclaimer";
 
 const geistSans = Geist({
@@ -69,6 +70,7 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <NextIntlClientProvider>
+          <LocalesEnabledProvider value={localesEnabled}>
           <a href="#conteudo-principal" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-teal-700 focus:px-4 focus:py-2 focus:text-white">{t('ui.skipLink')}</a>
           <div className="min-h-screen flex flex-col">
             {courtesyNotice !== "" && (
@@ -82,6 +84,7 @@ export default async function LocaleLayout({
             <Footer localesEnabled={localesEnabled} />
           </div>
           <Toaster />
+          </LocalesEnabledProvider>
         </NextIntlClientProvider>
       </body>
     </html>
