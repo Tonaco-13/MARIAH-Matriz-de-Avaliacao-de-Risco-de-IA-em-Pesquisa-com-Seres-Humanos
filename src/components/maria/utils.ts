@@ -1347,6 +1347,12 @@ export type CoberturaExport = { respondidas: number; total: number; parcial: boo
  *        (null quando a versão não foi aplicada); eixos[i]/blocos[i] ganham
  *        respondidas e questoesVisiveis (mesmo universo da auditoria). Mudança
  *        ADITIVA: nenhum campo de v2 mudou de nome, tipo ou significado.
+ *        resultadoExibido {versoes, classificacao, cobertura}: o veredito do card
+ *        principal da tela. Fidelidade à tela: versaoA/versaoB.aplicada passam a
+ *        seguir a versão efetivamente apresentada (antes, respostas remanescentes
+ *        de uma versão abandonada — ex.: A respondida, volta à seleção, escolhe B —
+ *        marcavam a versão como aplicada e exportavam uma classificação que a
+ *        tela e o relatório não mostravam). dataAvaliacao/idInterno em hora local.
  *        Nota: o export passou a repassar contextAnswers aos cálculos; em caso-limite
  *        (resposta obsoleta de eliminatória oculta por C.3/C.5 — 3.b.4.1/P6.b.4.1),
  *        protocoloNaoAvaliavel/classificação agora coincidem com a tela, podendo
@@ -1355,6 +1361,18 @@ export type CoberturaExport = { respondidas: number; total: number; parcial: boo
  *        um JSON v2 não traz cobertura e deve ser tratado como "cobertura
  *        desconhecida", não como completa.
  */
+/**
+ * Data/hora LOCAL do navegador (não UTC): a data da avaliação é a que o avaliador
+ * vê na tela. Com toISOString(), uma avaliação às 22h em Recife (UTC−3) saía
+ * datada do dia seguinte.
+ */
+function localDateParts(d: Date): { data: string; carimbo: string } {
+  const p2 = (n: number) => String(n).padStart(2, '0');
+  const data = `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+  const carimbo = `${data.replace(/-/g, '')}${p2(d.getHours())}${p2(d.getMinutes())}${p2(d.getSeconds())}`;
+  return { data, carimbo };
+}
+
 export type ValidationExport = {
   schema: 'maria-validacao-local';
   schemaVersion: 3;
@@ -1373,6 +1391,16 @@ export type ValidationExport = {
     dataAvaliacao: string; // YYYY-MM-DD
     usaBancoDeDados: boolean;
     modoTriagem: boolean;
+  };
+  /**
+   * v3 — o veredito tal como exibido na tela de Resultados: nível consolidado
+   * (mais alto entre A e B no triagem combinado) ou 'NÃO AVALIÁVEL' quando a
+   * classificação está suspensa, com a cobertura que o sustenta.
+   */
+  resultadoExibido: {
+    versoes: 'A' | 'B' | 'A+B';
+    classificacao: ClassificacaoExport;
+    cobertura: CoberturaExport;
   };
   versaoA: {
     aplicada: boolean;
@@ -1439,12 +1467,11 @@ export function buildValidationExport(args: {
     quantitativeAnswers,
   } = args;
 
-  // Versão A aplicada quando: versão A foi escolhida, OU triagem (A sempre aplica primeiro)
-  const versaoAAplicada =
-    version === 'A' || useAAsTriagem || Object.keys(qualitativeAnswers).length > 0;
-  // Versão B aplicada quando: versão B foi escolhida (com ou sem triagem)
-  const versaoBAplicada =
-    version === 'B' || Object.keys(quantitativeAnswers).length > 0;
+  // Mesma regra da tela e do relatório: A é apresentada quando escolhida ou no
+  // triagem (A sempre vem primeiro); B, quando é a versão corrente. Respostas
+  // remanescentes de uma versão abandonada NÃO tornam a versão "aplicada".
+  const versaoAAplicada = version === 'A' || useAAsTriagem;
+  const versaoBAplicada = version === 'B';
 
   // ----- Versão A -----
   let versaoA: ValidationExport['versaoA'];
@@ -1509,9 +1536,23 @@ export function buildValidationExport(args: {
     };
   }
 
+  // Veredito exibido (card principal): consolidado no combinado; suspenso se
+  // qualquer versão apresentada acionou eliminatória.
+  const naoAvaliavelExibido = versaoA.protocoloNaoAvaliavel || versaoB.protocoloNaoAvaliavel;
+  const lvlA = versaoAAplicada ? getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers).level : null;
+  const lvlB = versaoBAplicada ? getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers).level : null;
+  const nivelExibido: RiskLevel = lvlA && lvlB ? highestLevel(lvlA, lvlB) : (lvlA ?? lvlB ?? 'I');
+  const covExibida = getDisplayedCoverage(version, useAAsTriagem, contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+  const resultadoExibido: ValidationExport['resultadoExibido'] = {
+    versoes: versaoAAplicada && versaoBAplicada ? 'A+B' : versaoAAplicada ? 'A' : 'B',
+    classificacao: naoAvaliavelExibido ? 'NÃO AVALIÁVEL' : nivelExibido,
+    cobertura: { respondidas: covExibida.respondidas, total: covExibida.total, parcial: covExibida.parcial },
+  };
+
   const agora = new Date();
-  const dataAvaliacao = agora.toISOString().slice(0, 10);
-  const idPlaceholder = `MARIAH-${agora.toISOString().replace(/[-:T.]/g, '').slice(0, 14)}`;
+  const local = localDateParts(agora);
+  const dataAvaliacao = local.data;
+  const idPlaceholder = `MARIAH-${local.carimbo}`;
 
   return {
     schema: 'maria-validacao-local',
@@ -1532,6 +1573,7 @@ export function buildValidationExport(args: {
       usaBancoDeDados: usesDatabase,
       modoTriagem: useAAsTriagem,
     },
+    resultadoExibido,
     versaoA,
     versaoB,
     comoUsar: {
@@ -1542,7 +1584,7 @@ export function buildValidationExport(args: {
         versaoA:
           'Use idInterno e versaoA.classificacaoConsolidada como a classificação de um avaliador. Para a Frente 1 (kappa), repita o processo com um segundo avaliador independente.',
         versaoB:
-          'Use idInterno, versaoB.blocos[*].pontuacao (uma coluna por bloco) e versaoB.pontuacaoTotal.',
+          'Use idInterno, versaoB.blocos[*].pontuacao (uma coluna por bloco) e versaoB.pontuacaoTotal. Com banco de dados (usaBancoDeDados = true), some a pontuação do bloco6b à do Bloco 6 — a planilha não tem coluna própria para o 6.b. Se clausulaPrevalencia = true, o nível é IV pela Cláusula de Prevalência Ética, qualquer que seja a pontuação: a coluna «Nível» da planilha (calculada só pela pontuação) não reflete essa elevação — registre a divergência. Se classificacaoFinal = "NÃO AVALIÁVEL", o protocolo não tem nível atribuído: não o inclua no cálculo da distribuição nem da convergência.',
         triagemAB:
           'Quando modoTriagem = true, a planilha lê automaticamente das abas Versão A e Versão B.',
       },
@@ -1552,7 +1594,7 @@ export function buildValidationExport(args: {
 
 /**
  * Dispara o download do JSON de validação local no navegador.
- * Nome do arquivo: validacao-maria-<idInterno>.json
+ * Nome do arquivo: validacao-mariah-<idInterno>.json
  */
 export function downloadValidationExport(exportData: ValidationExport): void {
   const json = JSON.stringify(exportData, null, 2);
@@ -1560,7 +1602,7 @@ export function downloadValidationExport(exportData: ValidationExport): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `validacao-maria-${exportData.protocolo.idInterno}.json`;
+  a.download = `validacao-mariah-${exportData.protocolo.idInterno}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1915,7 +1957,7 @@ export function buildMirrorCSV(rec: MirrorRecord): string {
 }
 
 // ----- Downloads do registro-espelho -----
-// Nome do arquivo: registro-maria-<AAAA-MM-DD>.<ext>
+// Nome do arquivo: registro-mariah-<AAAA-MM-DD>.<ext> (data local)
 
 function downloadMirrorFile(filename: string, content: string, mime: string): void {
   const blob = new Blob([content], { type: `${mime};charset=utf-8` });
@@ -1930,13 +1972,13 @@ function downloadMirrorFile(filename: string, content: string, mime: string): vo
 }
 
 export function downloadMirrorJSON(rec: MirrorRecord): void {
-  downloadMirrorFile(`registro-maria-${rec.exportadoEm.slice(0, 10)}.json`, JSON.stringify(rec, null, 2), 'application/json');
+  downloadMirrorFile(`registro-mariah-${localDateParts(new Date(rec.exportadoEm)).data}.json`, JSON.stringify(rec, null, 2), 'application/json');
 }
 
 export function downloadMirrorCSV(rec: MirrorRecord): void {
-  downloadMirrorFile(`registro-maria-${rec.exportadoEm.slice(0, 10)}.csv`, buildMirrorCSV(rec), 'text/csv');
+  downloadMirrorFile(`registro-mariah-${localDateParts(new Date(rec.exportadoEm)).data}.csv`, buildMirrorCSV(rec), 'text/csv');
 }
 
 export function downloadMirrorTXT(text: string): void {
-  downloadMirrorFile(`registro-maria-${new Date().toISOString().slice(0, 10)}.txt`, text, 'text/plain');
+  downloadMirrorFile(`registro-mariah-${localDateParts(new Date()).data}.txt`, text, 'text/plain');
 }
