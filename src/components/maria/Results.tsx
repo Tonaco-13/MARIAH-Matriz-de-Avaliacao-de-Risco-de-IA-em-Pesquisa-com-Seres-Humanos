@@ -41,6 +41,17 @@ import {
   downloadMirrorCSV,
   downloadMirrorTXT,
 } from './utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
 import { getDisclaimer } from './disclaimer';
@@ -876,6 +887,39 @@ export default function Results({
           </CardContent>
         </Card>
 
+        {/* Registro desta avaliação — logo após o aviso e ANTES do módulo opcional de
+            Validação Local: o registro espelha o relatório (contrato próprio); o JSON
+            de validação é um recorte para a planilha-modelo. */}
+        <Card className="mb-6">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Printer className="h-4 w-4" />
+              {t('results.registroTitulo')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-3 leading-relaxed">{t('results.registroDesc')}</p>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" onClick={handlePrint}>
+                <Printer className="mr-2 h-4 w-4" />
+                {t('results.imprimir')}
+              </Button>
+              <Button variant="outline" onClick={() => handleExportMirror('txt')}>
+                <FileText className="mr-2 h-4 w-4" />
+                {t('results.registroTxt')}
+              </Button>
+              <Button variant="outline" onClick={() => handleExportMirror('csv')}>
+                <Download className="mr-2 h-4 w-4" />
+                {t('results.registroCsv')}
+              </Button>
+              <Button variant="outline" onClick={() => handleExportMirror('json')}>
+                <Download className="mr-2 h-4 w-4" />
+                {t('results.registroJson')}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Validação Local (Apêndice F do Guia — em revisão) */}
         <Card className="border-dashed border-teal-300 bg-teal-50/30 mb-6">
           <CardContent className="py-5">
@@ -952,28 +996,37 @@ export default function Results({
           </CardContent>
         </Card>
 
-        {/* Actions */}
-        <div className="flex flex-wrap gap-3">
-          <Button variant="outline" onClick={handlePrint}>
-            <Printer className="mr-2 h-4 w-4" />
-            {t('results.imprimir')}
-          </Button>
-          <Button variant="outline" onClick={() => handleExportMirror('txt')}>
-            <FileText className="mr-2 h-4 w-4" />
-            {t('results.registroTxt')}
-          </Button>
-          <Button variant="outline" onClick={() => handleExportMirror('csv')}>
-            <Download className="mr-2 h-4 w-4" />
-            {t('results.registroCsv')}
-          </Button>
-          <Button variant="outline" onClick={() => handleExportMirror('json')}>
-            <Download className="mr-2 h-4 w-4" />
-            {t('results.registroJson')}
-          </Button>
-          <Button variant="outline" onClick={onRestart}>
-            <RotateCcw className="mr-2 h-4 w-4" />
-            {t('results.novaAvaliacao')}
-          </Button>
+        {/* Nova avaliação — separada do registro e com confirmação: apaga todos os
+            dados deste navegador (irreversível), então vem por último, depois de
+            todas as opções de salvar/exportar. */}
+        <div className="flex flex-wrap items-center gap-3 border-t pt-6">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline">
+                <RotateCcw className="mr-2 h-4 w-4" />
+                {t('results.novaAvaliacao')}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>{t('restart.title')}</AlertDialogTitle>
+                <AlertDialogDescription>
+                  {t('restart.descZero')}
+                  <span className="block mt-2">{t('results.novaAvaliacaoLembrete')}</span>
+                  <span className="block mt-2 text-xs">{t('ui.undoable')}</span>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>{t('ui.cancel')}</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={onRestart}
+                  className="bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-400"
+                >
+                  {t('restart.confirm')}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </main>
 

@@ -189,5 +189,28 @@ assert('CSV: rótulo "Cobertura" nas linhas de cobertura', (buildMirrorCSV(mrU).
 const htmlSingle = generateReportHTML('A', CTX, fullA, {}, false, false, 'pt-BR');
 assert('relatório não combinado não ganha bloco "Consolidado:"', htmlSingle.includes('Consolidado:'), false);
 
+console.log('\n=== 12. Fidelidade do JSON de validação à tela ===');
+// A respondida, volta à seleção e escolhe B: respostas A remanescentes no estado.
+const staleA: QualitativeAnswer = { [idsA[0]]: 'sim', [idsA[1]]: 'sim', [idsA[2]]: 'sim' };
+const exStale = buildValidationExport({ version: 'B', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: staleA, quantitativeAnswers: fillB(5) });
+assert('versão abandonada (A) não é exportada como aplicada', [exStale.versaoA.aplicada, exStale.versaoA.classificacaoConsolidada], [false, null]);
+const exTriA = buildValidationExport({ version: 'A', useAAsTriagem: true, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 5), quantitativeAnswers: fillB(5) });
+assert('triagem parada na A: B não é exportada como aplicada', exTriA.versaoB.aplicada, false);
+assert('resultadoExibido na triagem parada na A = versão A', exTriA.resultadoExibido.versoes, 'A');
+const exComb = buildValidationExport(argsTri);
+const mrComb = buildMirrorRecord({ ...argsTri, locale: 'pt-BR' });
+// Tela: eliminatória suspende a classificação; senão, nível final (mais alto entre A e B).
+const lvlCombEsperado = mrComb.eliminatoria ? 'NÃO AVALIÁVEL' : mrComb.resultado.nivelFinal;
+assert('resultadoExibido no combinado = veredito da tela (suspenso ou nível final)', [exComb.resultadoExibido.versoes, exComb.resultadoExibido.classificacao], ['A+B', lvlCombEsperado]);
+assert('resultadoExibido.cobertura = união A+B', exComb.resultadoExibido.cobertura, { respondidas: 30, total: 112, parcial: true });
+const qaIII: QualitativeAnswer = {};
+for (const id of idsA.slice(0, 3)) qaIII[id] = 'sim';
+const axesIII = getQualitativeFinalLevel(qaIII, false, CTX);
+const exIII = buildValidationExport({ version: 'B', useAAsTriagem: true, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: qaIII, quantitativeAnswers: {} });
+assert('combinado sem eliminatória: classificação = mais alto entre A e B', [exIII.resultadoExibido.classificacao, axesIII.protocoloNaoAvaliavel], [axesIII.level, false]);
+const exElim = buildValidationExport({ version: 'B', useAAsTriagem: false, usesDatabase: true, contextAnswers: CTX, qualitativeAnswers: {}, quantitativeAnswers: { 'P6.b.2': 'nao' } });
+assert('eliminatória: resultadoExibido = NÃO AVALIÁVEL (classificação suspensa na tela)', exElim.resultadoExibido.classificacao, 'NÃO AVALIÁVEL');
+assert('dataAvaliacao em AAAA-MM-DD (data local)', /^\d{4}-\d{2}-\d{2}$/.test(exComb.protocolo.dataAvaliacao) && exComb.protocolo.dataAvaliacao === (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; })(), true);
+
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
 if (failed > 0) process.exit(1);
