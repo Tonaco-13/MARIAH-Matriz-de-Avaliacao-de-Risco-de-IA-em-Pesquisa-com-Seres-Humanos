@@ -1,10 +1,10 @@
 {
   "artefato": "glossario-es",
-  "versao": "0.4.0",
+  "versao": "0.5.0",
   "data": "2026-09-25",
   "fonte": "pt-BR (spec/mariah-spec.json 2.1.0, src/components/maria/, disclaimer.ts)",
   "localeAlvo": "es",
-  "statusGeral": "aprovado-z (69/69 entradas — ver changelog 0.2.0 a 0.4.0; 0.4.0: PARECER_Z_glossario-cobertura_2026-09-25)",
+  "statusGeral": "aprovado-z (72/72 entradas — ver changelog 0.2.0 a 0.5.0; 0.4.0: PARECER_Z_glossario-cobertura_2026-09-25; 0.5.0: PARECER_Z_nomenclatura_2026-09-25)",
   "regras": [
     "consequenciaOperacional fica SEMPRE em pt-BR — é o gabarito invariante de auditoria; não se traduz.",
     "Termo muda só por nova entrada versionada (ver changelog ao final); status aprovado-z é pré-condição da branch do idioma.",
@@ -698,7 +698,7 @@
       "status": "aprovado-z"
     },
     {
-      "termoPtBr": "Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (título oficial)",
+      "termoPtBr": "Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos (título oficial)",
       "termoLocale": "Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos",
       "variantes": [],
       "consequenciaOperacional": "Título oficial do documento-mãe; citado em 10 chaves da leva institucional (results.validacaoDesc, pages.statusAviso e demais — Errata §7.3). Identidade do instrumento — a forma es é ato da Direção.",
@@ -723,6 +723,36 @@
       "classeModalidade": null,
       "status": "aprovado-z",
       "notas": "Entrada criada pelo parecer do Z de 2026-09-25 (decisão 1). Cognato exato: grafia es = pt. Remissão \"véase la sección de auditoría\" mantida (decisão 4)."
+    },
+    {
+      "termoPtBr": "Caderno Referencial",
+      "termoLocale": "Caderno Referencial",
+      "variantes": [],
+      "consequenciaOperacional": "Título oficial de um dos três documentos aprovados pela INAEP em 16/09/2026 (Guia · Caderno Referencial · MARIAH). Nome próprio de documento da casa: não se traduz até ato da Direção (precedente do Guia, #47). Quando articulado em es, leva artigo masculino: \"el Caderno Referencial\".",
+      "referenciaNormativa": "pages.statusAviso; LOG #70",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_nomenclatura_2026-09-25 (decisão 2). \"Cuaderno Referencial\" seria título es não sancionado."
+    },
+    {
+      "termoPtBr": "documento MARIAH",
+      "termoLocale": "documento MARIAH",
+      "variantes": [],
+      "consequenciaOperacional": "Designação oficial do documento que reúne as instruções de preenchimento e a Validação Local da MARIAH (antes citado como \"Caderno 2\" / \"Apêndice de Validação Local\" — decisão da Direção, LOG #70). Par pt = es.",
+      "referenciaNormativa": "results.validacaoDesc; pages.instrucoes.*; pages.validacao.*; pages.transparencia.s1p2; utils.ts observacao (JSON de validação v3); LOG #70",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_nomenclatura_2026-09-25 (decisão 4). Blinda a nomenclatura nova contra drift."
+    },
+    {
+      "termoPtBr": "Seção de Validação Local",
+      "termoLocale": "Sección de Validación Local",
+      "variantes": [],
+      "consequenciaOperacional": "Designador estrutural do documento MARIAH que descreve o protocolo opcional de validação local conduzido pelos CEPs (planilha-modelo e roteiro). Maiúsculas institucionais, consistentes com a página e a frente \"Validação Local\" já em uso.",
+      "referenciaNormativa": "results.validacaoDesc; pages.transparencia.s1p2; pages.validacao.roteiroDesc; LOG #70",
+      "classeModalidade": null,
+      "status": "aprovado-z",
+      "notas": "Entrada criada pelo PARECER_Z_nomenclatura_2026-09-25 (decisão 4)."
     }
   ],
   "changelog": [
@@ -755,6 +785,12 @@
       "data": "2026-09-25",
       "autor": "Z (z.ai) — Auditor; carimbo material pela Engenharia",
       "descricao": "2 entradas novas, APROVADAS pelo Z no parecer PARECER_Z_glossario-cobertura_2026-09-25 (decisão 1): \"(parcial)\" e \"cobertura (da classificação)\", termos normativo-metodológicos introduzidos pelos ciclos de acurácia do veredito (PRs #35, #36, #38). Formas es = pt (cognatos exatos). Registrada a distinção léxica «no riesgo» (convenção de cálculo do branco) × \"sin riesgo\" (resposta efetiva). Nenhuma entrada existente alterada. No mesmo parecer: 24 chaves de UI verificadas (22 APROVADAS, 2 com AJUSTE — results.parcialExplicacaoA/B: \"responder las preguntas pendientes\"), aplicadas no commit de i18n correspondente."
+    },
+    {
+      "versao": "0.5.0",
+      "data": "2026-09-25",
+      "autor": "Z (z.ai) — Auditor; carimbo material pela Engenharia",
+      "descricao": "PARECER_Z_nomenclatura_2026-09-25 (LOG #70/#71): 1 atualização + 3 entradas novas, todas aprovado-z. Atualizado o termoPtBr da entrada do Guia para o nome oficial (\"…de Inteligência Artificial…\"), mantido o termoLocale \"…de la Inteligencia Artificial…\" (decisão 1). Novas: \"Caderno Referencial\" (não se traduz até ato da Direção — decisão 2), \"documento MARIAH\" e \"Seção de Validação Local → Sección de Validación Local\" (decisão 4). \"revisión editorial\" não vira entrada (status institucional, decisão 3). No mesmo parecer: 16 chaves verificadas (15 APROVADAS, 1 AJUSTE — pages.validacao.roteiroDesc: \"justificativa\" → \"justificación\")."
     }
   ]
 }
