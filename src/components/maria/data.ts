@@ -254,6 +254,13 @@ export function isDescribableContextOption(option: string | undefined): boolean 
 
 /** Versão da matriz (para carimbo nos relatórios). */
 export const MATRIX_VERSION = spec.matrixVersion as string;
+/**
+ * Carimbo de versão exibido a pessoas (tela de resultado, relatório HTML/TXT, registro CSV/TXT)
+ * — decisão do coordenador, LOG #75: "Beta 1" para não sugerir numeração concorrente com a
+ * versão 1.0 do Guia aprovada pela INAEP. Derivado de MATRIX_VERSION (nunca divergem).
+ * Campos de máquina (versaoMatriz dos JSON) seguem com MATRIX_VERSION puro.
+ */
+export const MATRIX_VERSION_LABEL = `Beta 1 (${MATRIX_VERSION})`;
 
 /**
  * Acesso a conteúdo textual da matriz com i18n opcional e fallback canônico.

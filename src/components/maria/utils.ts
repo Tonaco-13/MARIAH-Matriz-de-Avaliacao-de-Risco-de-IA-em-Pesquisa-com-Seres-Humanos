@@ -13,6 +13,7 @@ import {
   CONTEXT_DESC_SUFFIX,
   isDescribableContextOption,
   MATRIX_VERSION,
+  MATRIX_VERSION_LABEL,
   getThresholds,
   label,
 } from './data';
@@ -1118,7 +1119,7 @@ export function generateReportHTML(
   <div style="display:flex;justify-content:space-between;font-size:13px;color:#6b7280;margin-bottom:20px;flex-wrap:wrap;gap:8px">
     <span><strong>${t('versaoRotulo')}</strong> ${versionLabel} ${dbBadge}</span>
     <span><strong>${t('dataRotulo')}</strong> ${date}</span>
-    <span><strong>${t('versaoMatrizRotulo')}</strong> ${MATRIX_VERSION}</span>
+    <span><strong>${t('versaoMatrizRotulo')}</strong> ${MATRIX_VERSION_LABEL}</span>
   </div>
 
   <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:20px">
@@ -1186,7 +1187,7 @@ export function generateReportText(
   }`);
   lines.push(`${t('dataRotulo')} ${new Date().toLocaleDateString(locale)}`);
   lines.push(`${t('utilizaBanco')} ${usesDatabase ? t('bancoSimCurto') : t('nao')}`);
-  lines.push(`${t('versaoMatrizRotulo')} ${MATRIX_VERSION}`);
+  lines.push(`${t('versaoMatrizRotulo')} ${MATRIX_VERSION_LABEL}`);
   lines.push('');
 
   // Identification + Context
@@ -1982,7 +1983,7 @@ export function buildMirrorCSV(rec: MirrorRecord): string {
   push('cabecalho', '', t('versaoRotulo'), rec.cabecalho.versao);
   push('cabecalho', '', t('dataRotulo'), rec.cabecalho.data);
   push('cabecalho', '', t('utilizaBanco'), rec.cabecalho.usaBancoDeDados ? t('bancoSimLongoTxt') : t('nao'));
-  push('cabecalho', '', t('versaoMatrizRotulo'), rec.cabecalho.versaoMatriz);
+  push('cabecalho', '', t('versaoMatrizRotulo'), MATRIX_VERSION_LABEL);
 
   push('identificacao', 'titulo', t('identTituloProjeto'), rec.identificacao.titulo);
   push('identificacao', 'instituicao', t('identInstituicao'), rec.identificacao.instituicao);
