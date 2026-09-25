@@ -29,8 +29,14 @@ import {
   getNaoSeAplicaItems,
   getEliminatoryInfo,
   isContextQuestionVisible,
+  contextAnswerDisplay,
   buildValidationExport,
   downloadValidationExport,
+  generateReportText,
+  buildMirrorRecord,
+  downloadMirrorJSON,
+  downloadMirrorCSV,
+  downloadMirrorTXT,
 } from './utils';
 import StepIndicator from './StepIndicator';
 import type { WizardStep } from './StepIndicator';
@@ -174,6 +180,35 @@ export default function Results({
     downloadValidationExport(payload);
   };
 
+  // Registro-espelho: mesmo conteúdo do relatório impresso em .txt/.csv/.json.
+  const handleExportMirror = (format: 'txt' | 'csv' | 'json') => {
+    if (format === 'txt') {
+      downloadMirrorTXT(
+        generateReportText(
+          version,
+          contextAnswers,
+          qualitativeAnswers,
+          quantitativeAnswers,
+          usesDatabase,
+          useAAsTriagem,
+          locale
+        )
+      );
+      return;
+    }
+    const record = buildMirrorRecord({
+      version,
+      useAAsTriagem,
+      usesDatabase,
+      contextAnswers,
+      qualitativeAnswers,
+      quantitativeAnswers,
+      locale,
+    });
+    if (format === 'json') downloadMirrorJSON(record);
+    else downloadMirrorCSV(record);
+  };
+
   // Check if triagem mode, still on Version A, and level is III or IV → suggest Version B
   const showContinueToB = useAAsTriagem && version === 'A' && qualResult &&
     (qualResult.level === 'III' || qualResult.level === 'IV');
@@ -300,15 +335,12 @@ export default function Results({
           </CardHeader>
           <CardContent>
             <div className="space-y-3 text-sm">
-              {contextItems.map((q) => {
-                const ans = contextAnswers[q.id];
-                return (
-                  <div key={q.id}>
-                    <span className="font-medium text-muted-foreground">{label(q, 'pergunta', locale)}</span>
-                    <p className="mt-1">{ans && ans.trim() ? ans : t('results.naoInformado')}</p>
-                  </div>
-                );
-              })}
+              {contextItems.map((q) => (
+                <div key={q.id}>
+                  <span className="font-medium text-muted-foreground">{label(q, 'pergunta', locale)}</span>
+                  <p className="mt-1">{contextAnswerDisplay(q, contextAnswers, t('results.naoInformado'))}</p>
+                </div>
+              ))}
               <Separator />
               <div>
                 <span className="font-medium text-muted-foreground">{t('results.utilizaBanco')}</span>
@@ -865,6 +897,18 @@ export default function Results({
           <Button variant="outline" onClick={handlePrint}>
             <Printer className="mr-2 h-4 w-4" />
             {t('results.imprimir')}
+          </Button>
+          <Button variant="outline" onClick={() => handleExportMirror('txt')}>
+            <FileText className="mr-2 h-4 w-4" />
+            {t('results.registroTxt')}
+          </Button>
+          <Button variant="outline" onClick={() => handleExportMirror('csv')}>
+            <Download className="mr-2 h-4 w-4" />
+            {t('results.registroCsv')}
+          </Button>
+          <Button variant="outline" onClick={() => handleExportMirror('json')}>
+            <Download className="mr-2 h-4 w-4" />
+            {t('results.registroJson')}
           </Button>
           <Button variant="outline" onClick={onRestart}>
             <RotateCcw className="mr-2 h-4 w-4" />

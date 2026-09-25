@@ -239,6 +239,18 @@ export type ContextQuestion = {
 
 export const CONTEXT_QUESTIONS = spec.contextQuestions as unknown as ContextQuestion[];
 
+/** Sufixo da chave-companheira que guarda a descrição livre de opções "(descrever)". */
+export const CONTEXT_DESC_SUFFIX = '_desc';
+
+/**
+ * Opção de contexto que exige descrição livre (hoje só C.8: "sim, outra forma
+ * (descrever)"). Casa o marcador canônico pt-BR da spec — invariante B7: as opções
+ * não são traduzidas, então o marcador é idêntico em qualquer locale.
+ */
+export function isDescribableContextOption(option: string | undefined): boolean {
+  return !!option && option.includes('(descrever)');
+}
+
 
 /** Versão da matriz (para carimbo nos relatórios). */
 export const MATRIX_VERSION = spec.matrixVersion as string;

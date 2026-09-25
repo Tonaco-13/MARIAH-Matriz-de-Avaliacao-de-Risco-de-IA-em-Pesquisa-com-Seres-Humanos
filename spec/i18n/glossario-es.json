@@ -1,7 +1,7 @@
 {
   "artefato": "glossario-es",
-  "versao": "0.2.0",
-  "data": "2026-09-20",
+  "versao": "0.3.0",
+  "data": "2026-09-24",
   "fonte": "pt-BR (spec/mariah-spec.json 2.1.0, src/components/maria/, disclaimer.ts)",
   "localeAlvo": "es",
   "statusGeral": "aprovado-z (64/64 entradas; 19 entradas com ajuste do Z e 6 entradas novas — ver changelog 0.2.0 e RESPOSTA_Z_glossario-es_2026-09-20)",
@@ -682,6 +682,27 @@
       "classeModalidade": null,
       "status": "aprovado-z",
       "notas": "ENTRADA NOVA (Z): âncora de escopo que aparece em disclaimer, instruções e resultados; cadeia de contagem obrigatória na camada 1."
+    },
+    {
+      "termoPtBr": "INAEP (Instância Nacional de Ética em Pesquisa)",
+      "termoLocale": "INAEP (Instancia Nacional de Ética en Investigación)",
+      "variantes": ["Instancia Nacional de Ética en Investigación (INAEP, Brasil)"],
+      "consequenciaOperacional": "Instância nacional vinculada ao Ministério da Saúde, autora do Guia e da MARIAH; identidade institucional do instrumento. Sigla não se traduz.",
+      "status": "aprovado-z"
+    },
+    {
+      "termoPtBr": "SINEP (Sistema Nacional de Ética em Pesquisa com Seres Humanos)",
+      "termoLocale": "SINEP (Sistema Nacional de Ética en Investigación con Seres Humanos)",
+      "variantes": ["Sistema Nacional de Ética en Investigación con Seres Humanos (SINEP, Brasil)"],
+      "consequenciaOperacional": "Sistema brasileiro de ética em pesquisa instituído pela Lei n.º 14.874/2024, sucessor do Sistema CEP/CONEP; nome do sistema na identidade do instrumento (rodapés, relatório). Sigla não se traduz.",
+      "status": "aprovado-z"
+    },
+    {
+      "termoPtBr": "Guia de Uso Ético da Inteligência Artificial em Pesquisa com Seres Humanos (título oficial)",
+      "termoLocale": "Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos",
+      "variantes": [],
+      "consequenciaOperacional": "Título oficial do documento-mãe; citado em 10 chaves da leva institucional (results.validacaoDesc, pages.statusAviso e demais — Errata §7.3). Identidade do instrumento — a forma es é ato da Direção.",
+      "status": "aprovado-z"
     }
   ],
   "changelog": [
@@ -696,6 +717,18 @@
       "data": "2026-09-20",
       "autor": "Z (z.ai) — Auditor",
       "descricao": "Revisão A1 (memo de submissão): 58→64 entradas, todas aprovado-z. Correções classe B: (1) Cláusula de Prevalência Ética tinha consequência errada (descrevia a não-substituição; o real é a Salvaguarda Decisória que força Nível IV por P4.1/P4.2) e termo ajustado para 'Cláusula de Primacía Ética' (prevalencia = ambiguidade epidemiológica em es); (2) CEP mantido — rejeitada 'CEI' no corpo (contradizia a própria consequência); (3) 'diligenciamiento'→'cumplimentación' no disclaimer (colisão com o termo normativo 'diligencia'); (4) LGPD qualificada ('de Brasil'). Entradas novas: Salvaguarda Decisória, Salvaguarda da Res. 738, Recomendação de Aprofundamento, Consolidação, Ministério da Saúde, tríade de escopo. Ajustes G/M: SaMD com a expansão inglesa da spec, eliminatória corrigida pelo teto 304/297 (notasDominio), citação req-738-III-2 completada, 'No se aplica', classes modais revistas, variantes TCLE/CONEP/LGPD, strings-âncora com CEP/exime de/de Brasil. Retroversões das âncoras verificadas (camada 2)."
+    },
+    {
+      "versao": "0.3.0",
+      "data": "2026-09-24",
+      "autor": "Engenharia (por decisão da Direção, LOG #47)",
+      "descricao": "3 entradas institucionais acrescentadas como 'proposto', nas minutas exatas do §5 do DOSSIÊ §4.2 (2026-09-24), com as formas extensas em 'Investigación' por ato da Direção (LOG #47): INAEP (Instancia Nacional de Ética en Investigación), SINEP (Sistema Nacional de Ética en Investigación con Seres Humanos), Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos. Nenhuma entrada existente alterada (CEP/CONEP/Ministério da Saúde/MARIAH verbatim; a assimetria deliberada com a entrada CEP 'aprovado-z' consta da decisão). As 3 entradas sobem para revisão formal do Z na auditoria de conformidade do ciclo i18n-es."
+    },
+    {
+      "versao": "0.3.0",
+      "data": "2026-09-24",
+      "autor": "Z (z.ai) — Auditor",
+      "descricao": "Carimbo de aprovação (LOG #55 / RESPOSTA_Z_pedido-auditoria_i18n-es_2026-09-24, Deliberação 1): as 3 entradas institucionais da v0.3.0 passam de 'proposto' para 'aprovado-z', APROVADAS COMO ESTÃO (3/3) — formas intactas, nem um caractere. O Z retira expressamente o precedente 'nunca Investigación' do #46 no que extrapolava o escopo CEP/CONEP e fixa a regra operante: entes nomeados em cláusula normativa conservam a forma registral (CEP 'en Pesquisa', intocada); identidade institucional descritiva (autoria, sistema, título de obra) usa espanhol pleno ('Investigación'). Siglas permanecem intraduzíveis; a assimetria CEP × SINEP/INAEP é deliberada e documentada (dossiê §5/§8, decisão #47). Carimbo material executado pela Engenharia em micro-commit de docs (C4a)."
     }
   ]
 }
