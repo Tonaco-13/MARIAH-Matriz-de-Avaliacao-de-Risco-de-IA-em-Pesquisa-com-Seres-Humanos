@@ -146,7 +146,9 @@
     "contextSubtitle": "Estas preguntas son descriptivas y obligatorias. No generan puntuación, pero contextualizan la evaluación.",
     "placeholderNumero": "Ej.: 1500",
     "selecione": "Seleccione…",
-    "respostaPlaceholder": "Su respuesta..."
+    "respostaPlaceholder": "Su respuesta...",
+    "descreverLabel": "Describa la forma de compartición *",
+    "descreverPlaceholder": "Describa aquí"
   },
   "restart": {
     "aria": "Iniciar nueva evaluación",

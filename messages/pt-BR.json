@@ -131,7 +131,9 @@
     "contextSubtitle": "Estas questões são descritivas e obrigatórias. Elas não geram pontuação, mas contextualizam a avaliação.",
     "placeholderNumero": "Ex: 1500",
     "selecione": "Selecione…",
-    "respostaPlaceholder": "Sua resposta..."
+    "respostaPlaceholder": "Sua resposta...",
+    "descreverLabel": "Descreva a forma de compartilhamento *",
+    "descreverPlaceholder": "Descreva aqui"
   },
   "restart": {
     "aria": "Iniciar nova avaliação",

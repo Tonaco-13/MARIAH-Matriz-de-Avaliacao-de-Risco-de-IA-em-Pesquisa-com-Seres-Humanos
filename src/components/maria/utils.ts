@@ -10,6 +10,8 @@ import {
   REQUIREMENTS,
   REQUIREMENTS_RES738,
   CONTEXT_QUESTIONS,
+  CONTEXT_DESC_SUFFIX,
+  isDescribableContextOption,
   MATRIX_VERSION,
   getThresholds,
   label,
@@ -63,6 +65,24 @@ export function isContextQuestionVisible(
   const ans = contextAnswers[refId];
   if (!ans) return false;
   return op === '=' ? ans === val : ans !== val;
+}
+
+/**
+ * Resposta de descritiva para exibição/relatório: anexa a descrição livre quando
+ * a opção escolhida é do tipo "(descrever)" (ex.: C.8 "sim, outra forma (descrever)").
+ */
+export function contextAnswerDisplay(
+  q: ContextQuestion,
+  contextAnswers: Record<string, string>,
+  fallback: string
+): string {
+  const ans = contextAnswers[q.id];
+  if (!ans || !ans.trim()) return fallback;
+  const desc = contextAnswers[`${q.id}${CONTEXT_DESC_SUFFIX}`];
+  if (isDescribableContextOption(ans) && desc && desc.trim()) {
+    return `${ans} — ${desc.trim()}`;
+  }
+  return ans;
 }
 
 // ----- Helpers: filter axes/blocks by database filter -----
@@ -873,9 +893,8 @@ export function generateReportHTML(
   let contextItemsHtml = '';
   for (const q of CONTEXT_QUESTIONS) {
     if (!isContextQuestionVisible(q, contextAnswers)) continue;
-    const ans = contextAnswers[q.id];
     contextItemsHtml += `
-    <p style="margin:0 0 8px;font-size:13px"><strong>${label(q, 'pergunta', locale)}</strong> ${ans && ans.trim() ? ans : t('naoInformado')}</p>`;
+    <p style="margin:0 0 8px;font-size:13px"><strong>${label(q, 'pergunta', locale)}</strong> ${contextAnswerDisplay(q, contextAnswers, t('naoInformado'))}</p>`;
   }
 
   // Questões marcadas como "Não se aplica" — rastro auditável da escolha 'na'.
@@ -1009,8 +1028,7 @@ export function generateReportText(
   // Todas as descritivas visíveis (C.1…C.8), respeitando exibição condicional.
   for (const q of CONTEXT_QUESTIONS) {
     if (!isContextQuestionVisible(q, contextAnswers)) continue;
-    const ans = contextAnswers[q.id];
-    lines.push(`${label(q, 'pergunta', locale)} ${ans && ans.trim() ? ans : t('naoInformado')}`);
+    lines.push(`${label(q, 'pergunta', locale)} ${contextAnswerDisplay(q, contextAnswers, t('naoInformado'))}`);
   }
   lines.push(`${t('utilizaBanco')} ${usesDatabase ? t('bancoSimLongoTxt') : t('nao')}`);
   lines.push('');

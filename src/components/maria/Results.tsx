@@ -29,6 +29,7 @@ import {
   getNaoSeAplicaItems,
   getEliminatoryInfo,
   isContextQuestionVisible,
+  contextAnswerDisplay,
   buildValidationExport,
   downloadValidationExport,
 } from './utils';
@@ -300,15 +301,12 @@ export default function Results({
           </CardHeader>
           <CardContent>
             <div className="space-y-3 text-sm">
-              {contextItems.map((q) => {
-                const ans = contextAnswers[q.id];
-                return (
-                  <div key={q.id}>
-                    <span className="font-medium text-muted-foreground">{label(q, 'pergunta', locale)}</span>
-                    <p className="mt-1">{ans && ans.trim() ? ans : t('results.naoInformado')}</p>
-                  </div>
-                );
-              })}
+              {contextItems.map((q) => (
+                <div key={q.id}>
+                  <span className="font-medium text-muted-foreground">{label(q, 'pergunta', locale)}</span>
+                  <p className="mt-1">{contextAnswerDisplay(q, contextAnswers, t('results.naoInformado'))}</p>
+                </div>
+              ))}
               <Separator />
               <div>
                 <span className="font-medium text-muted-foreground">{t('results.utilizaBanco')}</span>
