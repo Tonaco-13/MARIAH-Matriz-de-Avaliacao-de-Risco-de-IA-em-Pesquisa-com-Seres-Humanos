@@ -920,9 +920,17 @@ export function generateReportHTML(
     const quantSection = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, contextAnswers, locale, t('headingBlocoTriagem'));
     eliminatoryIdForReport = quantSection.eliminatoryQuestionId ?? qualSection.eliminatoryQuestionId;
 
+    // Espelho da tela: nível consolidado (mais alto entre A e B) com a cobertura
+    // da UNIÃO A+B — mesma informação do card principal e do badge "Consolidado".
+    const lvlCons = highestLevel(qualSection.level, quantSection.level);
+    const covCons = getCombinedCoverage(contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+    const lcCons = LEVEL_COLORS[lvlCons];
+
     resultSection = `
       <div style="margin:18px 0;padding:12px 14px;background:#f1f5f9;border-left:4px solid #475569;border-radius:4px;font-size:12px;color:#334155">
         <strong>${t('combinadoNotaA')}</strong> ${t('combinadoNotaB')}<strong>${t('combinadoNotaStrong')}</strong>${t('combinadoNotaC')}
+        <div style="margin-top:8px;font-size:13px"><strong>${t('consolidadoRotulo')}</strong> <span style="background:${lcCons.bg};color:${lcCons.text};border:1px solid ${lcCons.border};padding:1px 8px;border-radius:4px;font-weight:600">${t('nivelPalavra')} ${lvlCons}${parcialSuffix(covCons, t)} — ${label(RISK_LEVELS[lvlCons], 'label', locale)}</span></div>
+        <div style="margin-top:4px">${coverageLine(covCons, t)}</div>
       </div>
       <h3 style="margin:24px 0 6px;font-size:16px;color:#0C2C56;border-bottom:2px solid #0C2C56;padding-bottom:4px">${t('secaoVersaoA')}</h3>
       ${qualSection.html}
@@ -1223,6 +1231,15 @@ export function generateReportText(
     renderQuant();
     lines.push('');
     lines.push(t('notaConsolidadoTxt'));
+    // Espelho da tela: consolidado com a cobertura da união A+B.
+    {
+      const lvlA = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers).level;
+      const lvlB = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers).level;
+      const lvlCons = highestLevel(lvlA, lvlB);
+      const covCons = getCombinedCoverage(contextAnswers, qualitativeAnswers, quantitativeAnswers, usesDatabase);
+      lines.push(`${t('consolidadoRotulo')} ${t('nivelPalavra')} ${lvlCons} — ${label(RISK_LEVELS[lvlCons], 'label', locale)}${parcialSuffix(covCons, t)}`);
+      lines.push(coverageLine(covCons, t));
+    }
   } else if (version === 'A') {
     lines.push(t('resultadoFinalTxt'));
     renderQual();
@@ -1330,6 +1347,10 @@ export type CoberturaExport = { respondidas: number; total: number; parcial: boo
  *        (null quando a versão não foi aplicada); eixos[i]/blocos[i] ganham
  *        respondidas e questoesVisiveis (mesmo universo da auditoria). Mudança
  *        ADITIVA: nenhum campo de v2 mudou de nome, tipo ou significado.
+ *        Nota: o export passou a repassar contextAnswers aos cálculos; em caso-limite
+ *        (resposta obsoleta de eliminatória oculta por C.3/C.5 — 3.b.4.1/P6.b.4.1),
+ *        protocoloNaoAvaliavel/classificação agora coincidem com a tela, podendo
+ *        diferir do que a v2 teria exportado.
  *        Consumidores (planilha-modelo, cálculo de kappa) devem aceitar v2 e v3;
  *        um JSON v2 não traz cobertura e deve ser tratado como "cobertura
  *        desconhecida", não como completa.
@@ -1848,11 +1869,11 @@ export function buildMirrorCSV(rec: MirrorRecord): string {
   for (const c of rec.contexto) push('contexto', c.id, c.pergunta, c.resposta);
 
   push('resultado', '', `${t('nivelPalavra')} ${rec.resultado.nivelFinal}`, rec.resultado.nivelFinalRotulo);
-  push('resultado', '', t('colRespondidas'), rec.resultado.cobertura.texto);
+  push('resultado', '', t('coberturaRotulo'), rec.resultado.cobertura.texto);
   if (rec.resultado.versaoA) {
     const a = rec.resultado.versaoA;
     push('resultado-a', '', `${t('nivelPalavra')} ${a.nivel}`, a.nivelRotulo);
-    push('resultado-a', '', t('colRespondidas'), a.cobertura.texto);
+    push('resultado-a', '', t('coberturaRotulo'), a.cobertura.texto);
     for (const e of a.eixos) {
       push('resultado-a', e.id, e.nome, t('respostasRiscoTxt', { respondidas: String(e.respondidas), total: String(e.questoesVisiveis), count: String(e.respostasRisco), level: e.nivel, label: e.nivelRotulo }));
     }
@@ -1860,7 +1881,7 @@ export function buildMirrorCSV(rec: MirrorRecord): string {
   if (rec.resultado.versaoB) {
     const b0 = rec.resultado.versaoB;
     push('resultado-b', '', t('pontuacaoTotalTxt', { score: String(b0.pontuacaoTotal), max: String(b0.pontuacaoMaxima) }), `${t('nivelPalavra')} ${b0.nivel} — ${b0.nivelRotulo}`);
-    push('resultado-b', '', t('colRespondidas'), b0.cobertura.texto);
+    push('resultado-b', '', t('coberturaRotulo'), b0.cobertura.texto);
     if (b0.clausulaPrevalencia) push('resultado-b', '', t('clausulaTitulo'), t('clausulaTexto'));
     for (const b of b0.blocos) {
       push('resultado-b', b.id, b.nome, `${b.pontuacao} / ${b.maxPontos} ${t('pts')} · ${t('respondidasTxt', { respondidas: String(b.respondidas), total: String(b.questoesVisiveis) })}`);
