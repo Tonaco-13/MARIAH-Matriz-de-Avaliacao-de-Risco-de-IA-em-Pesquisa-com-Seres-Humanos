@@ -46,6 +46,11 @@
       "versionBadgeAriaB": "Usted está en la Versión B — Cuantitativa"
     }
   },
+  "idioma": {
+    "nav": "Idioma",
+    "siglaPt": "PT",
+    "siglaEs": "ES"
+  },
   "footer": {
     "developedBy": "Desarrollado por el <ms>Ministerio de Salud de Brasil</ms> para el Sistema Nacional de Ética en Investigación con Seres Humanos (SINEP)",
     "license": "Licenciado bajo la Licença Pública Geral do Software Público Brasileiro (LPG-SPB)",
