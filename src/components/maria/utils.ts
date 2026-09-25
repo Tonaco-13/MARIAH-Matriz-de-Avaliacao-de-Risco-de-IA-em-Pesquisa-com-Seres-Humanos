@@ -630,11 +630,12 @@ const LEVEL_COLORS: Record<RiskLevel, { bg: string; text: string; border: string
 function buildQualitativeSectionHTML(
   qualitativeAnswers: QualitativeAnswer,
   usesDatabase: boolean,
+  contextAnswers: Record<string, string>,
   locale: string,
   heading: string
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
   const t = reportTranslator(locale);
-  const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, locale);
+  const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale);
   const lc = LEVEL_COLORS[result.level];
 
   let axisRows = '';
@@ -681,11 +682,12 @@ function buildQualitativeSectionHTML(
 function buildQuantitativeSectionHTML(
   quantitativeAnswers: QuantitativeAnswer,
   usesDatabase: boolean,
+  contextAnswers: Record<string, string>,
   locale: string,
   heading: string
 ): { html: string; level: RiskLevel; eliminatoryQuestionId: string | null } {
   const t = reportTranslator(locale);
-  const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, locale);
+  const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale);
   const lc = LEVEL_COLORS[result.level];
 
   let blockRows = '';
@@ -775,8 +777,8 @@ export function generateReportHTML(
   let eliminatoryIdForReport: string | null = null;
 
   if (isCombinedReport) {
-    const qualSection = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, locale, t('headingEixoTriagem'));
-    const quantSection = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, locale, t('headingBlocoTriagem'));
+    const qualSection = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, contextAnswers, locale, t('headingEixoTriagem'));
+    const quantSection = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, contextAnswers, locale, t('headingBlocoTriagem'));
     eliminatoryIdForReport = quantSection.eliminatoryQuestionId ?? qualSection.eliminatoryQuestionId;
 
     resultSection = `
@@ -788,11 +790,11 @@ export function generateReportHTML(
       <h3 style="margin:32px 0 6px;font-size:16px;color:#334155;border-bottom:2px solid #334155;padding-bottom:4px">${t('secaoVersaoB')}</h3>
       ${quantSection.html}`;
   } else if (version === 'A') {
-    const built = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, locale, t('headingEixo'));
+    const built = buildQualitativeSectionHTML(qualitativeAnswers, usesDatabase, contextAnswers, locale, t('headingEixo'));
     resultSection = built.html;
     eliminatoryIdForReport = built.eliminatoryQuestionId;
   } else {
-    const built = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, locale, t('headingBloco'));
+    const built = buildQuantitativeSectionHTML(quantitativeAnswers, usesDatabase, contextAnswers, locale, t('headingBloco'));
     resultSection = built.html;
     eliminatoryIdForReport = built.eliminatoryQuestionId;
   }
@@ -1034,7 +1036,7 @@ export function generateReportText(
   lines.push('');
 
   const renderQual = () => {
-    const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, locale);
+    const result = getQualitativeFinalLevel(qualitativeAnswers, usesDatabase, contextAnswers, locale);
     lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
     if (result.protocoloNaoAvaliavel) {
       lines.push('');
@@ -1051,7 +1053,7 @@ export function generateReportText(
   };
 
   const renderQuant = () => {
-    const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, locale);
+    const result = getQuantitativeFinalResult(quantitativeAnswers, usesDatabase, contextAnswers, locale);
     lines.push(`${t('nivelPalavra')} ${result.level} — ${label(result.levelInfo, 'label', locale)}`);
     lines.push(t('pontuacaoTotalTxt', { score: String(result.totalScore), max: String(result.maxScore) }));
     if (result.clausulaPrevalencia) {
