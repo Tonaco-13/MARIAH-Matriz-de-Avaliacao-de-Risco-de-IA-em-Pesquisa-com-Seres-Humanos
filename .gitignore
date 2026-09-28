@@ -65,3 +65,14 @@ MARA_prompt_*.md
 .#*
 # Guia (DOCX) usado só para extrair enunciados — nao versionar (draft do lado guia)
 gate/*.docx
+
+# Governança, minutas e contexto de agentes: vivem no repositório PRIVADO da equipe
+# (MARIAH-governanca). Nunca versionar aqui — este repositório é público (LOG #76).
+_guia_decisao/
+agent-ctx/
+upload/
+email_apresentacao_MARA.docx
+*.png.local
+# Artefatos locais de sessão
+tmp/
+.zcodeignore
