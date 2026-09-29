@@ -1,0 +1,89 @@
+cff-version: 1.2.0
+message: >-
+  Se você usar a MARIAH em pesquisa, avaliação ética ou capacitação, cite-a
+  conforme abaixo. A MARIAH integra o conjunto "Guia de Uso Ético de
+  Inteligência Artificial em Pesquisa com Seres Humanos", aprovado pela
+  Instância Nacional de Ética em Pesquisa (INAEP) em 16/09/2026.
+type: software
+title: >-
+  MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa
+  com Seres Humanos
+abstract: >-
+  Ferramenta eletrônica de acesso livre que apoia pesquisadores e Comitês de
+  Ética em Pesquisa (CEP) na identificação, análise e classificação
+  proporcional dos riscos éticos de pesquisas com seres humanos que utilizam
+  inteligência artificial, em versões qualitativa (A) e quantitativa (B).
+  Instrumento de caráter auxiliar: não aprova nem reprova protocolos e não
+  substitui a deliberação do CEP.
+version: Beta 1 (2.2.0)
+date-released: 2026-09-25
+url: https://mariah-inaep.vercel.app
+repository-code: https://github.com/Tonaco-13/MARIAH-Matriz-de-Avaliacao-de-Risco-de-IA-em-Pesquisa-com-Seres-Humanos
+license-url: https://github.com/Tonaco-13/MARIAH-Matriz-de-Avaliacao-de-Risco-de-IA-em-Pesquisa-com-Seres-Humanos/blob/main/LICENSE
+keywords:
+  - ética em pesquisa
+  - inteligência artificial
+  - comitês de ética em pesquisa
+  - avaliação de risco
+  - SINEP
+  - software público
+authors:
+  - name: >-
+      Ministério da Saúde (MS). Departamento de Ciência e Tecnologia
+      (Decit/SCTIE). Instância Nacional de Ética em Pesquisa (INAEP)
+  - given-names: Fabiano Tonaco
+    family-names: Borges
+    affiliation: Decit/SCTIE/MS — coordenação do Grupo de Trabalho
+  - given-names: Alexandre Dias Porto
+    family-names: Chiavegatto Filho
+    affiliation: Grupo de Trabalho INAEP
+  - given-names: Fábio de Oliveira
+    family-names: Aquino
+    affiliation: Grupo de Trabalho INAEP
+  - given-names: Felipe de Oliveira
+    family-names: Franco
+    affiliation: Grupo de Trabalho INAEP
+  - given-names: Luiz
+    family-names: Vianna Sobrinho
+    affiliation: Grupo de Trabalho INAEP
+  - given-names: Maíra Araújo de
+    family-names: Santana
+    affiliation: Grupo de Trabalho INAEP
+  - given-names: Wellington Pinheiro dos
+    family-names: Santos
+    affiliation: Grupo de Trabalho INAEP
+  - given-names: Roseli Mieko Yamamoto
+    family-names: Nomura
+    affiliation: Grupo de Trabalho INAEP
+references:
+  - type: report
+    title: Guia de uso ético de inteligência artificial em pesquisa com seres humanos
+    authors:
+      - name: Ministério da Saúde. Instância Nacional de Ética em Pesquisa (INAEP)
+    year: 2026
+    url: https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/guia-de-uso-etico-de-inteligencia-artificial-em-pesquisa-com-seres-humanos.pdf/view
+  - type: report
+    title: >-
+      Caderno referencial: fundamentos éticos, científicos, normativos e
+      metodológicos
+    authors:
+      - name: Ministério da Saúde. Instância Nacional de Ética em Pesquisa (INAEP)
+    year: 2026
+    url: https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/caderno-referencial.pdf/view
+  - type: report
+    title: >-
+      Guia de uso da Matriz de Avaliação de Risco em Inteligência Artificial
+      em Pesquisa com Seres Humanos (MARIAH)
+    authors:
+      - name: Ministério da Saúde. Instância Nacional de Ética em Pesquisa (INAEP)
+    year: 2026
+    url: https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/guia-de-uso-da-matriz-de-avaliacao-de-risco-em-inteligencia-artificial-em-pesquisa-com-seres-humanos-mariah.pdf/view
+  - type: generic
+    title: >-
+      Voto nº 25/2026-INAEP/DECIT/SCTIE/MS — 13ª Reunião Ordinária da INAEP
+      (aprovação do Guia de Uso Ético de Inteligência Artificial em Pesquisa com
+      Seres Humanos, do Caderno Referencial e da MARIAH)
+    authors:
+      - name: Ministério da Saúde. Instância Nacional de Ética em Pesquisa (INAEP)
+    date-published: 2026-09-16
+    url: https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/reunioes/votos/voto-no-25-2026-13a-reuniao-ordinaria.pdf/view
