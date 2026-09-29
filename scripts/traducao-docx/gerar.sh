@@ -10,8 +10,8 @@ MERGE="$1"
 TMP="$(mktemp -d)"
 declare -A ANCORA=(
   [guia-validacao-local-mariah]="Guia de Validação Local da MARIAH pelos Comitês de Ética em Pesquisa"
-  [nota-tecnica-premissas-mariah]="MARIAH Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos · Versão preliminar · Junho de 2026"
-  [suplemento-salvaguardas-mariah]="MARIAH Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos · Versão preliminar · Julho de 2026"
+  [nota-tecnica-premissas-mariah]="MARIAH Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos · Versão preliminar · Junho de 2026"
+  [suplemento-salvaguardas-mariah]="MARIAH Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos · Versão preliminar · Julho de 2026"
 )
 for nome in "${!ANCORA[@]}"; do
   mkdir -p "$TMP/$nome" && (cd "$TMP/$nome" && unzip -q "$OLDPWD/public/$nome.docx")
