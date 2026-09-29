@@ -23,6 +23,8 @@ Caderno Referencial
 Guia de uso da MARIAH (versão 1.0)
 [a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/reunioes/votos/voto-no-25-2026-13a-reuniao-ordinaria.pdf/view]
 Voto nº 25/2026 — aprovação pela INAEP
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/ia-em-pesquisas-com-seres-humanos]
+Página da INAEP: IA em pesquisas com seres humanos (inclui perguntas frequentes)
 Por que explicitar as premissas
 A MARIAH produz uma classificação de risco a partir de regras que foram adotadas na elaboração da matriz, com base no referencial normativo e na literatura sistematizada no próprio Guia. Tornar essas regras explícitas é condição para que possam ser auditadas e criticadas. A documentação distingue, deliberadamente, o que decorre da norma, o que foi decidido na construção do instrumento e o que ainda depende de evidência empírica.
 A MARIAH não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada.

@@ -23,6 +23,8 @@ Caderno Referencial
 Guia de uso da MARIAH (versão 1.0)
 [a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/reunioes/votos/voto-no-25-2026-13a-reuniao-ordinaria.pdf/view]
 Voto nº 25/2026 — aprovação pela INAEP
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/ia-em-pesquisas-com-seres-humanos]
+Página da INAEP: IA em pesquisas com seres humanos (inclui perguntas frequentes)
 Por que validar localmente
 A MARIAH é instrumento de apoio à deliberação do CEP — não norma vinculante. A adoção da matriz é escolha institucional de cada CEP, e a validação local segue o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar decisão central para fazê-lo. Quando o colegiado entender que vale a pena verificar como a matriz se comporta nos protocolos que lhe são submetidos, o protocolo da Validação Local (documento MARIAH) oferece um roteiro prático.
 Há três razões para um CEP querer validar localmente:
