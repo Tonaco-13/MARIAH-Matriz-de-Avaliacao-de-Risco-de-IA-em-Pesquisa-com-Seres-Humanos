@@ -53,6 +53,7 @@
     "intro": "Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na avaliação ética, transparente e explicável, de pesquisas de intervenção em seres humanos que utilizam inteligência artificial.",
     "inaepAlt": "Inaep — Instância Nacional de Ética em Pesquisa",
     "chooseTitle": "Escolha a versão da matriz",
+    "privacidadeTitulo": "Suas respostas não saem deste navegador",
     "chooseSubtitle": "Selecione a versão mais adequada ao perfil do seu CEP e à complexidade do protocolo.",
     "versionA": {
       "title": "Versão A",
@@ -402,7 +403,8 @@
       "guia": "Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos",
       "caderno": "Caderno Referencial",
       "guiaMariah": "Guia de uso da MARIAH (versão 1.0)",
-      "voto": "Voto nº 25/2026 — aprovação pela INAEP"
+      "voto": "Voto nº 25/2026 — aprovação pela INAEP",
+      "paginaInaep": "Página da INAEP: IA em pesquisas com seres humanos (inclui perguntas frequentes)"
     },
     "tipoDocumentos": "documentos",
     "tipoArquivos": "arquivos",
