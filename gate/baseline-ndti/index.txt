@@ -1,11 +1,11 @@
-TITLE: MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+TITLE: MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos
 META-DESC: Ferramenta de apoio à avaliação ética de pesquisas com inteligência artificial, desenvolvida pela Instância Nacional de Ética em Pesquisa (INAEP) para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP).
 --
 [a href=#conteudo-principal]
 Pular para o conteúdo
 MARIAH
 Versão preliminar
-Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos
 Ferramenta de apoio ao pesquisador e ao Comitê de Ética em Pesquisa (CEP) na avaliação ética, transparente e explicável, de pesquisas de intervenção em seres humanos que utilizam inteligência artificial.
 1
 Seleção da Versão
@@ -67,7 +67,7 @@ Não aplicável
 Elevação automática a Nível IV (Bloco 4)
 A MARIAH torna transparente e explicável a avaliação ética de pesquisas de intervenção em seres humanos que utilizam inteligência artificial. Aplica-se aos sistemas que automatizam decisões, geram conteúdo ou intervêm na condução do estudo. Seu preenchimento é facultativo e serve tanto ao pesquisador, na preparação e autoavaliação do protocolo, quanto ao CEP, na análise. Não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada. Versão preliminar: ainda não submetida a validação empírica em casuística real e aguardando validação institucional pelo Ministério da Saúde.
 Esta é a versão Beta da matriz. Avaliações iniciadas em versões anteriores não são recuperadas automaticamente — as respostas ficam apenas no seu navegador e não migram entre versões da matriz.
-MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA
+MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA
 Desenvolvido pelo
 Ministério da Saúde
 para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)
@@ -84,4 +84,4 @@ Transparência metodológica
 ·
 [a href=/instrucoes]
 Instruções de preenchimento
-(revisão editorial)
+(em uso e teste)

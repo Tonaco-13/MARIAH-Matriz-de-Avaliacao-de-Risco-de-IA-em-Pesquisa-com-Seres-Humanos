@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { downloadLinkProps, isDownloadInPt } from '@/lib/downloads';
+import DocumentosOficiais from './DocumentosOficiais';
 import { useTranslations, useLocale } from 'next-intl';
 import { RISK_LEVELS, REQUIREMENTS, REQUIREMENTS_RES738, CONTEXT_QUESTIONS, MATRIX_VERSION_LABEL, label } from './data';
 import type { RiskLevel } from './data';
@@ -1025,9 +1026,17 @@ export default function Results({
                     </Link>
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground mt-3">
-                  {t('results.arquivosAtualizados')}
-                </p>
+                <DocumentosOficiais
+                  compacto
+                  titulo={t('results.arquivosAtualizados')}
+                  rotulos={{
+                    guia: t('pages.oficiais.guia'),
+                    caderno: t('pages.oficiais.caderno'),
+                    guiaMariah: t('pages.oficiais.guiaMariah'),
+                    voto: t('pages.oficiais.voto'),
+                  }}
+                  emPt={locale !== 'pt-BR' ? t('idioma.arquivoEmPt') : undefined}
+                />
               </div>
             </div>
           </CardContent>

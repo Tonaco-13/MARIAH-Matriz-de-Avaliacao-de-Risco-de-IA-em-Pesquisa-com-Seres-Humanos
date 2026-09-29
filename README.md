@@ -1,4 +1,4 @@
-# MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+# MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos
 
 **Desenvolvido pelo Ministério da Saúde** (Decit/SCTIE) para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP).
 

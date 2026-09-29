@@ -1,8 +1,8 @@
 {
   "app": {
     "title": "MARIAH",
-    "subtitle": "Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
-    "footerShort": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+    "subtitle": "Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos",
+    "footerShort": "MARIAH — Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos",
     "badgePreliminar": "Versión preliminar",
     "versionLabelA": "Versión A — Cualitativa",
     "versionLabelB": "Versión B — Cuantitativa"
@@ -60,7 +60,7 @@
     "linkValidacao": "Validación Local por los CEPs",
     "linkTransparencia": "Transparencia metodológica",
     "linkApendice": "Instrucciones de cumplimentación",
-    "emRevisao": " (revisión editorial)",
+    "emRevisao": " (en uso y prueba)",
     "linkEs": "Versión en español — traducción de cortesía",
     "linkPt": "Versão em português — versão normativa"
   },
@@ -117,7 +117,7 @@
       "prevalenciaB": "Elevación automática a Nivel IV (Bloque 4)"
     },
     "disclaimerVersao": "Esta es la versión Beta de la matriz. Las evaluaciones iniciadas en versiones anteriores no se recuperan automáticamente — las respuestas permanecen solo en su navegador y no migran entre versiones de la matriz.",
-    "footerLong": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos • Apoyo a la evaluación ética de estudios de intervención con IA"
+    "footerLong": "MARIAH — Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos • Apoyo a la evaluación ética de estudios de intervención con IA"
   },
   "entryFilter": {
     "notApplicableTitle": "La MARIAH no se aplica",
@@ -283,13 +283,13 @@
     "nenhumItem": "Todas las preguntas aplicables y los campos de contexto fueron completados. Ningún ítem quedó pendiente.",
     "auditoriaDesc": "A efectos de auditoría, listamos a continuación cada pregunta presentada que quedó sin respuesta. El cálculo del nivel de riesgo trata la <b>ausencia de respuesta como «no riesgo» por defecto</b>; se recomienda que el CEP justifique cada ítem o solicite diligencia al investigador antes de deliberar.",
     "avisoImportante": "Aviso importante",
-    "emRevisaoBadge": "revisión editorial",
+    "emRevisaoBadge": "en uso y prueba",
     "validacaoDesc": "El Grupo de Trabajo del Ministerio de Salud de Brasil desarrolló un protocolo opcional de validación local, descrito en el documento MARIAH (Sección de Validación Local), complementario a la <em>Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos</em>. Su CEP puede aplicarlo desde ya: descargue la planilla-modelo y el guion, y exporte los datos de esta evaluación en formato compatible.",
     "planilhaModelo": "Planilla-modelo (.xlsx)",
     "roteiroCompleto": "Guion completo (.docx)",
     "exportarJson": "Exportar los datos de esta evaluación (.json)",
     "saibaMais": "Saber más",
-    "arquivosAtualizados": "Los archivos se actualizarán cuando los documentos se publiquen oficialmente.",
+    "arquivosAtualizados": "Documentos oficiales publicados por la INAEP:",
     "imprimir": "Imprimir / Guardar PDF",
     "registroTxt": "Registro completo (.txt)",
     "registroCsv": "Registro completo (.csv)",
@@ -298,7 +298,7 @@
     "registroDesc": "Guarde el informe o descargue el registro completo. Los archivos reproducen el mismo contenido de esta pantalla y del informe impreso — identificación, contexto, resultado con la cobertura, requisitos y auditoría.",
     "novaAvaliacaoLembrete": "Los datos permanecen solo en este navegador y no se envían a ningún servidor: si necesita conservarlos, guarde el informe o descargue el registro antes de continuar.",
     "novaAvaliacao": "Nueva Evaluación",
-    "footer": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos • {versao}",
+    "footer": "MARIAH — Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos • {versao}",
     "identTitulo": "Identificación del Protocolo",
     "identTituloProjeto": "Título del Proyecto",
     "identInstituicao": "Institución",
@@ -313,8 +313,8 @@
   "report": {
     "docTitle": "MARIAH — Informe de Evaluación de Riesgo en IA",
     "badgePreliminar": "Versión preliminar",
-    "subtitle": "Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
-    "txtHeaderTitulo": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+    "subtitle": "Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos",
+    "txtHeaderTitulo": "MARIAH — Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos",
     "txtHeaderPreliminar": "[Versión preliminar]",
     "versaoRotulo": "Versión:",
     "dataRotulo": "Fecha:",
@@ -403,14 +403,22 @@
     "coberturaRotulo": "Cobertura",
     "pontuacaoTotalTxt": "Puntuación total: {score}/{max}",
     "respostasRiscoTxt": "Respondidas: {respondidas}/{total} · Respuestas de riesgo: {count} → Nivel {level} ({label})",
-    "footerGerado": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos • Generado el {date}",
+    "footerGerado": "MARIAH — Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos • Generado el {date}",
     "footerDev": "Desarrollado por el Ministerio de Salud de Brasil para el Sistema Nacional de Ética en Investigación con Seres Humanos (SINEP)",
     "footerLicenca": "Licenciado bajo la Licença Pública Geral do Software Público Brasileiro (LPG-SPB)"
   },
   "pages": {
     "voltar": "Volver a la MARIAH",
-    "emRevisao": "revisión editorial",
-    "statusAviso": "<b>Estado:</b> la <em>Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos</em>, el Caderno Referencial y la MARIAH fueron aprobados por la Instancia Nacional de Ética en Investigación (INAEP) el 16/09/2026 y están en revisión editorial para su publicación. Los {tipo} a continuación corresponden a la versión aprobada y se actualizarán cuando los documentos se publiquen oficialmente.",
+    "emRevisao": "en uso y prueba",
+    "statusAviso": "<b>Estado:</b> la <em>Guía de Uso Ético de la Inteligencia Artificial en Investigación con Seres Humanos</em>, el Caderno Referencial y la MARIAH fueron aprobados por la INAEP el 16/09/2026 (Voto n.º 25/2026) y publicados el 25/09/2026. La MARIAH está en período de uso y prueba por los CEPs durante seis meses, con consulta a la sociedad; las contribuciones servirán de base para la versión 2.0.",
+    "oficiais": {
+      "titulo": "Documentos oficiales",
+      "desc": "Publicados por la INAEP el 25/09/2026, en portugués. Los archivos de esta página complementan esos documentos.",
+      "guia": "Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos",
+      "caderno": "Caderno Referencial",
+      "guiaMariah": "Guia de uso da MARIAH (versão 1.0)",
+      "voto": "Voto nº 25/2026 — aprovação pela INAEP"
+    },
     "tipoDocumentos": "documentos",
     "tipoArquivos": "archivos",
     "docsTitulo": "Documentos para descarga",
@@ -524,7 +532,7 @@
     }
   },
   "meta": {
-    "siteTitle": "MARIAH — Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+    "siteTitle": "MARIAH — Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos",
     "siteDesc": "Herramienta de apoyo a la evaluación ética de investigaciones con inteligencia artificial, desarrollada por la Instancia Nacional de Ética en Investigación (INAEP) para el Sistema Nacional de Ética en Investigación con Seres Humanos (SINEP).",
     "siteKeywords": "MARIAH, riesgo en IA, inteligencia artificial, ética en investigación, CEP, SINEP, INAEP",
     "siteAuthor": "Instancia Nacional de Ética en Investigación (INAEP) — Ministerio de Salud de Brasil"

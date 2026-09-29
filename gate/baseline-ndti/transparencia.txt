@@ -6,13 +6,23 @@ Pular para o conteúdo
 [a href=/]
 Voltar à MARIAH
 Transparência metodológica
-revisão editorial
+em uso e teste
 Premissas e salvaguardas da classificação de risco
 Documentos técnicos que explicitam as premissas sobre as quais a MARIAH classifica o risco — para que estatísticos, metodologistas, integrantes de CEP e pesquisadores possam auditar, criticar e compreender as decisões do instrumento.
 Status:
 o
 Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
-, o Caderno Referencial e a MARIAH foram aprovados pela Instância Nacional de Ética em Pesquisa (INAEP) em 16/09/2026 e estão em revisão editorial para publicação. Os documentos abaixo correspondem à versão aprovada e serão atualizados quando os documentos forem publicados oficialmente.
+, o Caderno Referencial e a MARIAH foram aprovados pela INAEP em 16/09/2026 (Voto nº 25/2026) e publicados em 25/09/2026. A MARIAH está em período de uso e teste pelos CEPs por seis meses, com consulta à sociedade; as contribuições subsidiarão a versão 2.0.
+Documentos oficiais
+Publicados pela INAEP em 25/09/2026. Os arquivos desta página complementam esses documentos.
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/guia-de-uso-etico-de-inteligencia-artificial-em-pesquisa-com-seres-humanos.pdf/view]
+Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/caderno-referencial.pdf/view]
+Caderno Referencial
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/guia-de-uso-da-matriz-de-avaliacao-de-risco-em-inteligencia-artificial-em-pesquisa-com-seres-humanos-mariah.pdf/view]
+Guia de uso da MARIAH (versão 1.0)
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/reunioes/votos/voto-no-25-2026-13a-reuniao-ordinaria.pdf/view]
+Voto nº 25/2026 — aprovação pela INAEP
 Por que explicitar as premissas
 A MARIAH produz uma classificação de risco a partir de regras que foram adotadas na elaboração da matriz, com base no referencial normativo e na literatura sistematizada no próprio Guia. Tornar essas regras explícitas é condição para que possam ser auditadas e criticadas. A documentação distingue, deliberadamente, o que decorre da norma, o que foi decidido na construção do instrumento e o que ainda depende de evidência empírica.
 A MARIAH não aprova nem reprova protocolos, não substitui o julgamento do CEP nem dispensa a deliberação colegiada.
@@ -81,4 +91,4 @@ Transparência metodológica
 ·
 [a href=/instrucoes]
 Instruções de preenchimento
-(revisão editorial)
+(em uso e teste)

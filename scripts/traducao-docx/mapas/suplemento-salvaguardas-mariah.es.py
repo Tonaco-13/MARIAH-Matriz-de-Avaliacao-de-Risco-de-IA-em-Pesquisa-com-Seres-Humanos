@@ -1,8 +1,8 @@
 T = {
 "Suplemento à Nota Técnica de Premissas": "Suplemento a la Nota Técnica de Premisas",
 "Mecanismos de salvaguarda automática na MARIAH ": "Mecanismos de salvaguarda automática en la MARIAH ",
-"MARIAH Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos · Versão preliminar · Julho de 2026":
-"MARIAH Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos · Versión preliminar · Julio de 2026",
+"MARIAH Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos · Versão preliminar · Julho de 2026":
+"MARIAH Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos · Versión preliminar · Julio de 2026",
 "Este suplemento explica os quatro mecanismos de salvaguarda automática da MARIAH, que ignoram a lógica de gradiente do instrumento e forçam a elevação ou recusa da classificação com base em uma condição categórica. O texto é técnico dirigido às e aos integrantes do Grupo de Trabalho, e pode ser lido isoladamente ou inserido como seção da Nota Técnica de Premissas. Ele amplia a versão anterior, que cobria apenas o gatilho do Eixo 3.b.":
 "Este suplemento explica los cuatro mecanismos de salvaguarda automática de la MARIAH, que ignoran la lógica de gradiente del instrumento y obligan a elevar o a rechazar la clasificación con base en una condición categórica. El texto es técnico, dirigido a las y los integrantes del Grupo de Trabajo, y puede leerse de forma aislada o insertarse como sección de la Nota Técnica de Premisas. Amplía la versión anterior, que cubría solo el disparador del Eje 3.b.",
 "1. Por que a MARIAH adota salvaguardas": "1. Por qué la MARIAH adopta salvaguardas",

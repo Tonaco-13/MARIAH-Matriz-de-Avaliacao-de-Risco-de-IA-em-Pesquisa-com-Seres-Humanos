@@ -6,13 +6,23 @@ Pular para o conteúdo
 [a href=/]
 Voltar à MARIAH
 Validação Local pelos CEPs
-revisão editorial
+em uso e teste
 Documento MARIAH, complementar ao Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
 Protocolo opcional para que cada CEP verifique como a MARIAH se comporta na casuística de protocolos de pesquisa com inteligência artificial que efetivamente lhe são submetidos.
 Status:
 o
 Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
-, o Caderno Referencial e a MARIAH foram aprovados pela Instância Nacional de Ética em Pesquisa (INAEP) em 16/09/2026 e estão em revisão editorial para publicação. Os arquivos abaixo correspondem à versão aprovada e serão atualizados quando os documentos forem publicados oficialmente.
+, o Caderno Referencial e a MARIAH foram aprovados pela INAEP em 16/09/2026 (Voto nº 25/2026) e publicados em 25/09/2026. A MARIAH está em período de uso e teste pelos CEPs por seis meses, com consulta à sociedade; as contribuições subsidiarão a versão 2.0.
+Documentos oficiais
+Publicados pela INAEP em 25/09/2026. Os arquivos desta página complementam esses documentos.
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/guia-de-uso-etico-de-inteligencia-artificial-em-pesquisa-com-seres-humanos.pdf/view]
+Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/caderno-referencial.pdf/view]
+Caderno Referencial
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/publicacoes/guia-de-uso-da-matriz-de-avaliacao-de-risco-em-inteligencia-artificial-em-pesquisa-com-seres-humanos-mariah.pdf/view]
+Guia de uso da MARIAH (versão 1.0)
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/reunioes/votos/voto-no-25-2026-13a-reuniao-ordinaria.pdf/view]
+Voto nº 25/2026 — aprovação pela INAEP
 Por que validar localmente
 A MARIAH é instrumento de apoio à deliberação do CEP — não norma vinculante. A adoção da matriz é escolha institucional de cada CEP, e a validação local segue o mesmo espírito: nenhum CEP é obrigado a validá-la, e nenhum CEP precisa esperar decisão central para fazê-lo. Quando o colegiado entender que vale a pena verificar como a matriz se comporta nos protocolos que lhe são submetidos, o protocolo da Validação Local (documento MARIAH) oferece um roteiro prático.
 Há três razões para um CEP querer validar localmente:
@@ -84,4 +94,4 @@ Transparência metodológica
 ·
 [a href=/instrucoes]
 Instruções de preenchimento
-(revisão editorial)
+(em uso e teste)

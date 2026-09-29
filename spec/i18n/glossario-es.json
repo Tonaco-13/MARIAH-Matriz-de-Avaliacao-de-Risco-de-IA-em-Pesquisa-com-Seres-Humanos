@@ -1,10 +1,10 @@
 {
   "artefato": "glossario-es",
-  "versao": "0.6.0",
-  "data": "2026-09-25",
+  "versao": "0.7.0",
+  "data": "2026-09-29",
   "fonte": "pt-BR (spec/mariah-spec.json 2.1.0, src/components/maria/, disclaimer.ts)",
   "localeAlvo": "es",
-  "statusGeral": "aprovado-z (81/81 entradas — ver changelog 0.2.0 a 0.6.0; 0.5.0: PARECER_Z_nomenclatura_2026-09-25; 0.6.0: PARECER_Z_baixaveis-es_2026-09-25)",
+  "statusGeral": "aprovado-z (81/81 entradas — ver changelog 0.2.0 a 0.7.0; 0.7.0: PARECER_Z_documentos-oficiais_2026-09-29)",
   "regras": [
     "consequenciaOperacional fica SEMPRE em pt-BR — é o gabarito invariante de auditoria; não se traduz.",
     "Termo muda só por nova entrada versionada (ver changelog ao final); status aprovado-z é pré-condição da branch do idioma.",
@@ -29,8 +29,8 @@
       "notas": "Sigla mantida; o nome expandido tem entrada própria."
     },
     {
-      "termoPtBr": "Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
-      "termoLocale": "Matriz de Evaluación de Riesgo de Inteligencia Artificial en Investigación con Seres Humanos",
+      "termoPtBr": "Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos",
+      "termoLocale": "Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos",
       "variantes": [],
       "consequenciaOperacional": "Nome expandido do instrumento; aparece em apresentações, página de transparência e cabeçalhos de exports. Define o escopo do instrumento (avaliação de risco de IA em pesquisa com seres humanos).",
       "referenciaNormativa": "package.json description; Caderno 2",
@@ -887,6 +887,12 @@
       "data": "2026-09-25",
       "autor": "Z (z.ai) — Auditor; carimbo material pela Engenharia",
       "descricao": "PARECER_Z_baixaveis-es_2026-09-25 (LOG #72/#73): 9 entradas novas, todas aprovado-z — \"frente\" (masculino; decisão 2, com ajuste es-only de pages.validacao.s2Title/s2intro/fluxo4) e os 8 termos da decisão 3 (solo descuento, disparador, planilla-modelo, pestaña, techo teórico/evaluable, línea de base, umbrales, Diligencia (devolución) — esta com nota de blindagem contra o sentido de preenchimento). Nenhuma entrada existente alterada. No mesmo parecer: tradução es dos 6 baixáveis e da orientação do JSON aprovada; JSON com valores de schema pt mantidos (decisão 1); ativação autorizada após a cadeia."
+    },
+    {
+      "versao": "0.7.0",
+      "data": "2026-09-29",
+      "autor": "Z (z.ai) — Auditor; carimbo material pela Engenharia",
+      "descricao": "PARECER_Z_documentos-oficiais_2026-09-29 (LOG #78/#79): entrada do nome por extenso da Matriz alinhada ao ato oficial (Voto nº 25/2026) — termoPtBr «Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos» e termoLocale espelhado «Matriz de Evaluación de Riesgo en Inteligencia Artificial en Investigación con Seres Humanos» (decisão 1: designação fixada por ato; o es sempre espelhou a preposição do pt; o «de la» do título do Guia permanece). Regra estendida (decisão 4): designações de documentos oficiais da INAEP não se traduzem — no bloco «Documentos oficiales», títulos pt exatos + «(en portugués)» + hrefLang. Nenhuma entrada nova."
     }
   ]
 }

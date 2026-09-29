@@ -27,6 +27,7 @@ import {
 import type { QualitativeAnswer, QuantitativeAnswer } from '../src/components/maria/utils';
 import { existsSync } from 'node:fs';
 import { MATRIX_VERSION, MATRIX_VERSION_LABEL } from '../src/components/maria/data';
+import { DOCUMENTOS_OFICIAIS } from '../src/lib/documentos-oficiais';
 import { DOWNLOADS, downloadHref, downloadLinkProps, isDownloadInPt } from '../src/lib/downloads';
 import type { DownloadId } from '../src/lib/downloads';
 
@@ -285,6 +286,15 @@ console.log('\n=== 17. Carimbo "Beta 1 (2.2.0)" para pessoas; número técnico p
   assert('relatório HTML e TXT (pt/es) e registro CSV mostram o rótulo', [h.includes(MATRIX_VERSION_LABEL), t.includes(MATRIX_VERSION_LABEL), buildMirrorCSV(m).includes(MATRIX_VERSION_LABEL)], [true, true, true]);
   const v = buildValidationExport({ version: 'A', useAAsTriagem: false, usesDatabase: false, contextAnswers: CTX, qualitativeAnswers: fill(idsA, 5), quantitativeAnswers: {} });
   assert('JSON: versaoMatriz segue o número técnico (validação e espelho)', [v.software.versaoMatriz, m.software.versaoMatriz, m.cabecalho.versaoMatriz], [MATRIX_VERSION, MATRIX_VERSION, MATRIX_VERSION]);
+}
+
+console.log('\n=== 18. Documentos oficiais e status pós-publicação (LOG #78) ===');
+{
+  assert('4 documentos oficiais, todos em https://www.gov.br/saude/…/inaep/', DOCUMENTOS_OFICIAIS.every((d) => d.href.startsWith('https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/')) && DOCUMENTOS_OFICIAIS.length === 4, true);
+  const ptMsgs = JSON.stringify(require('../messages/pt-BR.json'));
+  const esMsgs2 = JSON.stringify(require('../messages/es.json'));
+  assert('pt/es: nenhum texto do site diz "revisão editorial" (documentos publicados em 25/09/2026)', [ptMsgs.includes('revisão editorial'), esMsgs2.includes('revisión editorial')], [false, false]);
+  assert('pt: nome por extenso como nos atos oficiais ("em Inteligência Artificial")', [ptMsgs.includes('Risco de Inteligência Artificial'), ptMsgs.includes('Risco em Inteligência Artificial')], [false, true]);
 }
 
 console.log(`\n=== RESULT ===\n  Passed: ${passed}\n  Failed: ${failed}`);
