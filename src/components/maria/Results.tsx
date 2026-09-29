@@ -1036,6 +1036,7 @@ export default function Results({
                     voto: t('pages.oficiais.voto'),
                   }}
                   emPt={locale !== 'pt-BR' ? t('idioma.arquivoEmPt') : undefined}
+                  paginaInaep={t('pages.oficiais.paginaInaep')}
                 />
               </div>
             </div>

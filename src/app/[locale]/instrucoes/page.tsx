@@ -99,6 +99,7 @@ export default async function InstrucoesPage({ params }: PageProps) {
             voto: t('pages.oficiais.voto'),
           }}
           emPt={locale !== 'pt-BR' ? t('idioma.arquivoEmPt') : undefined}
+          paginaInaep={t('pages.oficiais.paginaInaep')}
         />
         {/* Seção 1: O que é */}
         <section className="space-y-3">

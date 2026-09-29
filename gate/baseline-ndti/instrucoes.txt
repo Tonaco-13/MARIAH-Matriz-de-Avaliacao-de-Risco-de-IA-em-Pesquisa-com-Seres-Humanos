@@ -23,6 +23,8 @@ Caderno Referencial
 Guia de uso da MARIAH (versão 1.0)
 [a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/reunioes/votos/voto-no-25-2026-13a-reuniao-ordinaria.pdf/view]
 Voto nº 25/2026 — aprovação pela INAEP
+[a href=https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/ia-em-pesquisas-com-seres-humanos]
+Página da INAEP: IA em pesquisas com seres humanos (inclui perguntas frequentes)
 O que são estas instruções
 As instruções orientam o preenchimento das duas versões da matriz, questão a questão. Para cada item, indicam qual resposta sinaliza risco, trazem a orientação de preenchimento e explicam como o resultado é construído — consolidação por contagem (Versão A) e pontuação por blocos (Versão B), além das salvaguardas automáticas e dos pontos de corte.
 Foram elaboradas em correspondência direta com o conjunto de perguntas atualmente em uso no aplicativo, de modo que o avaliador encontre, no documento, exatamente os itens que vê na tela.

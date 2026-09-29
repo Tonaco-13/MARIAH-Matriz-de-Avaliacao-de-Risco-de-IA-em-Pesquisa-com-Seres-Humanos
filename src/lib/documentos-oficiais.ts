@@ -24,3 +24,12 @@ export const DOCUMENTOS_OFICIAIS = [
 ] as const;
 
 export type DocumentoOficialId = (typeof DOCUMENTOS_OFICIAIS)[number]['id'];
+
+/**
+ * Página oficial da INAEP sobre IA em pesquisa com seres humanos: ponto de entrada
+ * estável (reúne os documentos e as perguntas frequentes). Exibida em linha própria,
+ * abaixo dos documentos, no mesmo bloco.
+ */
+export const PAGINA_INAEP_IA = {
+  href: 'https://www.gov.br/saude/pt-br/composicao/orgaos-colegiados/inaep/ia-em-pesquisas-com-seres-humanos',
+} as const;

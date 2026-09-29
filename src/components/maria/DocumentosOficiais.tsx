@@ -1,5 +1,5 @@
-import { ExternalLink, Landmark } from 'lucide-react';
-import { DOCUMENTOS_OFICIAIS, type DocumentoOficialId } from '@/lib/documentos-oficiais';
+import { ExternalLink, Globe, Landmark } from 'lucide-react';
+import { DOCUMENTOS_OFICIAIS, PAGINA_INAEP_IA, type DocumentoOficialId } from '@/lib/documentos-oficiais';
 
 /**
  * Bloco "Documentos oficiais" (LOG #78). Componente de apresentação: recebe os
@@ -12,6 +12,7 @@ export default function DocumentosOficiais({
   descricao,
   rotulos,
   emPt,
+  paginaInaep,
   compacto = false,
 }: {
   titulo: string;
@@ -19,6 +20,8 @@ export default function DocumentosOficiais({
   rotulos: Record<DocumentoOficialId, string>;
   /** Marcador exibido quando a página não está em pt-BR (ex.: "(en portugués)"); omitir em pt-BR. */
   emPt?: string;
+  /** Rótulo do link para a página da INAEP sobre IA em pesquisa (linha própria, abaixo dos documentos). */
+  paginaInaep?: string;
   compacto?: boolean;
 }) {
   const lista = (
@@ -43,11 +46,30 @@ export default function DocumentosOficiais({
     </ul>
   );
 
+  const pagina = paginaInaep && (
+    <p className={compacto ? 'mt-2' : 'mt-3 border-t border-teal-200 pt-3'}>
+      <a
+        href={PAGINA_INAEP_IA.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        hrefLang={emPt ? 'pt-BR' : undefined}
+        className="group inline-flex items-start gap-1.5 text-sm text-teal-800 hover:text-teal-900"
+      >
+        <Globe className="h-3.5 w-3.5 mt-0.5 shrink-0" aria-hidden="true" />
+        <span>
+          <span className="underline underline-offset-2">{paginaInaep}</span>
+          {emPt && <span className="ml-1 font-normal opacity-80">{emPt}</span>}
+        </span>
+      </a>
+    </p>
+  );
+
   if (compacto) {
     return (
       <div className="mt-3 text-xs text-muted-foreground">
         <p>{titulo}</p>
         {lista}
+        {pagina}
       </div>
     );
   }
@@ -60,6 +82,7 @@ export default function DocumentosOficiais({
       </h2>
       {descricao && <p className="mt-1 text-sm text-muted-foreground">{descricao}</p>}
       {lista}
+      {pagina}
     </section>
   );
 }

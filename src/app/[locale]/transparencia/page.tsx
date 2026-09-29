@@ -104,6 +104,7 @@ export default async function TransparenciaPage({ params }: PageProps) {
             voto: t('pages.oficiais.voto'),
           }}
           emPt={locale !== 'pt-BR' ? t('idioma.arquivoEmPt') : undefined}
+          paginaInaep={t('pages.oficiais.paginaInaep')}
         />
         {/* Seção 1: Por que explicitar */}
         <section className="space-y-3">

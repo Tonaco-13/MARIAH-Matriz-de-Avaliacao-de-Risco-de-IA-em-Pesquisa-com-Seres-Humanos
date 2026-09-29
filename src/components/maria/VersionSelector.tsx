@@ -12,7 +12,8 @@ import {
   FileText,
   Layers,
   CheckCircle2,
-  ArrowLeftRight
+  ArrowLeftRight,
+  Lock
 } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 import type { MarcaVersion } from './data';
@@ -64,6 +65,20 @@ export default function VersionSelector({ onSelect, onSelectTriagem }: VersionSe
         <div className="mb-8">
           <StepIndicator currentStep="version" />
         </div>
+
+        {/* Destaque de privacidade (LOG #80): mesmo texto aprovado do rodapé, antes de qualquer resposta */}
+        <section
+          aria-labelledby="privacidade-titulo"
+          className="mb-8 flex items-start gap-3 rounded-lg border border-teal-200 border-l-4 border-l-teal-700 bg-teal-50/60 p-4"
+        >
+          <Lock className="h-5 w-5 mt-0.5 shrink-0 text-teal-800" aria-hidden="true" />
+          <div>
+            <h2 id="privacidade-titulo" className="text-base font-semibold text-teal-900">
+              {t('home.privacidadeTitulo')}
+            </h2>
+            <p className="mt-1 text-sm text-foreground/80">{t('footer.privacy')}</p>
+          </div>
+        </section>
 
         <h2 className="text-xl font-semibold mb-2">{t('home.chooseTitle')}</h2>
         <p className="text-muted-foreground mb-8 text-sm">
