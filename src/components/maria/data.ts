@@ -1,5 +1,5 @@
 // ============================================================
-// MARIAH - Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos
+// MARIAH - Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos
 // Data definitions, types, and scoring rules
 // ============================================================
 

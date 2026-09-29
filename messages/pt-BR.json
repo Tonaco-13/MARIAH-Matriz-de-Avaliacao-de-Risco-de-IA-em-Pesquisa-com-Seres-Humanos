@@ -1,8 +1,8 @@
 {
   "app": {
     "title": "MARIAH",
-    "subtitle": "Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
-    "footerShort": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
+    "subtitle": "Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos",
+    "footerShort": "MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos",
     "badgePreliminar": "Versão preliminar",
     "versionLabelA": "Versão A — Qualitativa",
     "versionLabelB": "Versão B — Quantitativa"
@@ -45,7 +45,7 @@
     "linkValidacao": "Validação Local pelos CEPs",
     "linkTransparencia": "Transparência metodológica",
     "linkApendice": "Instruções de preenchimento",
-    "emRevisao": " (revisão editorial)",
+    "emRevisao": " (em uso e teste)",
     "linkEs": "Versión en español — traducción de cortesía",
     "linkPt": "Versão em português — versão normativa"
   },
@@ -102,7 +102,7 @@
       "prevalenciaB": "Elevação automática a Nível IV (Bloco 4)"
     },
     "disclaimerVersao": "Esta é a versão Beta da matriz. Avaliações iniciadas em versões anteriores não são recuperadas automaticamente — as respostas ficam apenas no seu navegador e não migram entre versões da matriz.",
-    "footerLong": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA"
+    "footerLong": "MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos • Apoio à avaliação ética de estudos de intervenção com IA"
   },
   "entryFilter": {
     "notApplicableTitle": "A MARIAH não se aplica",
@@ -268,13 +268,13 @@
     "nenhumItem": "Todas as perguntas aplicáveis e campos de contexto foram preenchidos. Nenhum item ficou em aberto.",
     "auditoriaDesc": "Para fins de auditoria, listamos abaixo cada pergunta apresentada que ficou sem resposta. O cálculo do nível de risco trata <b>ausência de resposta como “não risco” por padrão</b>; recomenda-se que o CEP justifique cada item ou solicite diligência ao pesquisador antes de deliberar.",
     "avisoImportante": "Aviso importante",
-    "emRevisaoBadge": "revisão editorial",
+    "emRevisaoBadge": "em uso e teste",
     "validacaoDesc": "O Grupo de Trabalho do Ministério da Saúde desenvolveu um protocolo opcional de validação local, descrito no documento MARIAH (Seção de Validação Local), complementar ao <em>Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos</em>. Seu CEP pode aplicá-lo desde já: baixe a planilha-modelo e o roteiro, e exporte os dados desta avaliação em formato compatível.",
     "planilhaModelo": "Planilha-modelo (.xlsx)",
     "roteiroCompleto": "Roteiro completo (.docx)",
     "exportarJson": "Exportar dados desta avaliação (.json)",
     "saibaMais": "Saiba mais",
-    "arquivosAtualizados": "Os arquivos serão atualizados quando os documentos forem publicados oficialmente.",
+    "arquivosAtualizados": "Documentos oficiais publicados pela INAEP:",
     "imprimir": "Imprimir / Salvar PDF",
     "registroTxt": "Registro completo (.txt)",
     "registroCsv": "Registro completo (.csv)",
@@ -283,7 +283,7 @@
     "registroDesc": "Salve o relatório ou baixe o registro completo. Os arquivos reproduzem o mesmo conteúdo desta tela e do relatório impresso — identificação, contexto, resultado com a cobertura, requisitos e auditoria.",
     "novaAvaliacaoLembrete": "Os dados ficam só neste navegador e não são enviados a nenhum servidor: se precisar guardá-los, salve o relatório ou baixe o registro antes de continuar.",
     "novaAvaliacao": "Nova Avaliação",
-    "footer": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • {versao}",
+    "footer": "MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos • {versao}",
     "identTitulo": "Identificação do Protocolo",
     "identTituloProjeto": "Título do Projeto",
     "identInstituicao": "Instituição",
@@ -298,8 +298,8 @@
   "report": {
     "docTitle": "MARIAH — Relatório de Avaliação de Risco em IA",
     "badgePreliminar": "Versão preliminar",
-    "subtitle": "Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
-    "txtHeaderTitulo": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
+    "subtitle": "Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos",
+    "txtHeaderTitulo": "MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos",
     "txtHeaderPreliminar": "[Versão preliminar]",
     "versaoRotulo": "Versão:",
     "dataRotulo": "Data:",
@@ -388,14 +388,22 @@
     "coberturaRotulo": "Cobertura",
     "pontuacaoTotalTxt": "Pontuação total: {score}/{max}",
     "respostasRiscoTxt": "Respondidas: {respondidas}/{total} · Respostas de risco: {count} → Nível {level} ({label})",
-    "footerGerado": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos • Gerado em {date}",
+    "footerGerado": "MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos • Gerado em {date}",
     "footerDev": "Desenvolvido pelo Ministério da Saúde para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP)",
     "footerLicenca": "Licenciado sob a Licença Pública Geral do Software Público Brasileiro (LPG-SPB)"
   },
   "pages": {
     "voltar": "Voltar à MARIAH",
-    "emRevisao": "revisão editorial",
-    "statusAviso": "<b>Status:</b> o <em>Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos</em>, o Caderno Referencial e a MARIAH foram aprovados pela Instância Nacional de Ética em Pesquisa (INAEP) em 16/09/2026 e estão em revisão editorial para publicação. Os {tipo} abaixo correspondem à versão aprovada e serão atualizados quando os documentos forem publicados oficialmente.",
+    "emRevisao": "em uso e teste",
+    "statusAviso": "<b>Status:</b> o <em>Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos</em>, o Caderno Referencial e a MARIAH foram aprovados pela INAEP em 16/09/2026 (Voto nº 25/2026) e publicados em 25/09/2026. A MARIAH está em período de uso e teste pelos CEPs por seis meses, com consulta à sociedade; as contribuições subsidiarão a versão 2.0.",
+    "oficiais": {
+      "titulo": "Documentos oficiais",
+      "desc": "Publicados pela INAEP em 25/09/2026. Os arquivos desta página complementam esses documentos.",
+      "guia": "Guia de Uso Ético de Inteligência Artificial em Pesquisa com Seres Humanos",
+      "caderno": "Caderno Referencial",
+      "guiaMariah": "Guia de uso da MARIAH (versão 1.0)",
+      "voto": "Voto nº 25/2026 — aprovação pela INAEP"
+    },
     "tipoDocumentos": "documentos",
     "tipoArquivos": "arquivos",
     "docsTitulo": "Documentos para download",
@@ -509,7 +517,7 @@
     }
   },
   "meta": {
-    "siteTitle": "MARIAH — Matriz de Avaliação de Risco de Inteligência Artificial em Pesquisa com Seres Humanos",
+    "siteTitle": "MARIAH — Matriz de Avaliação de Risco em Inteligência Artificial em Pesquisa com Seres Humanos",
     "siteDesc": "Ferramenta de apoio à avaliação ética de pesquisas com inteligência artificial, desenvolvida pela Instância Nacional de Ética em Pesquisa (INAEP) para o Sistema Nacional de Ética em Pesquisa com Seres Humanos (SINEP).",
     "siteKeywords": "MARIAH, risco em IA, inteligência artificial, ética em pesquisa, CEP, SINEP, INAEP",
     "siteAuthor": "Instância Nacional de Ética em Pesquisa (INAEP) — Ministério da Saúde"

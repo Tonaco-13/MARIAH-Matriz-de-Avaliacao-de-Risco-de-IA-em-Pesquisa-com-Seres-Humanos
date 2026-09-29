@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { downloadLinkProps, isDownloadInPt } from '@/lib/downloads';
+import DocumentosOficiais from '@/components/maria/DocumentosOficiais';
 import { setRequestLocale, getTranslations } from 'next-intl/server';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -73,7 +74,7 @@ export default async function InstrucoesPage({ params }: PageProps) {
         </div>
       </header>
 
-      {/* Aviso "em revisão" */}
+      {/* Aviso de status (aprovação e publicação) */}
       <div className="bg-amber-50 border-b border-amber-200">
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-start gap-2 text-sm text-amber-900">
           <Info className="h-4 w-4 mt-0.5 shrink-0" />
@@ -88,6 +89,17 @@ export default async function InstrucoesPage({ params }: PageProps) {
       </div>
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 space-y-8">
+        <DocumentosOficiais
+          titulo={t('pages.oficiais.titulo')}
+          descricao={t('pages.oficiais.desc')}
+          rotulos={{
+            guia: t('pages.oficiais.guia'),
+            caderno: t('pages.oficiais.caderno'),
+            guiaMariah: t('pages.oficiais.guiaMariah'),
+            voto: t('pages.oficiais.voto'),
+          }}
+          emPt={locale !== 'pt-BR' ? t('idioma.arquivoEmPt') : undefined}
+        />
         {/* Seção 1: O que é */}
         <section className="space-y-3">
           <h2 className="text-xl font-semibold">{t('pages.instrucoes.s1Title')}</h2>
